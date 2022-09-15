@@ -1,6 +1,6 @@
 # COMP 361 Project
 
- > See also my video instuctions in the screencasts section on MyCourses.
+ > See also [my video instuctions](https://www.cs.mcgill.ca/~mschie3/COMP361/Repository-Best-Practices.mp4) in the screencasts section on MyCourses.
 
 ## The Rules
 
