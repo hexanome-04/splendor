@@ -1,0 +1,46 @@
+body{   
+    margin: 0;
+    padding: 0;
+    font-family: montserrat;
+}
+
+.center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+}
+
+.center h1{
+    text-align: center;
+    font-size: 150px;
+}
+
+form .txt_field{
+    position: relative;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.txt_field label{
+    position: absolute;
+    top: -40%;
+    left: 25%;
+}
+
+.txt_field input{
+    width: 50%;
+    padding: 0 0;
+    height: 40px;
+    font-size: 16px
+}
+
+form .login_button {
+    position: relative;
+    text-align: center;
+}
+
+button{
+    width:30%;
+    font-size: 16px;
+}
