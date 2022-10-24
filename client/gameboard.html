@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* MODAL STUFF (POP UP SCREENS) */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The modal-close Button */
+.modal-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+/* NAVIGATION BAR */
+
+nav{
+  position: relative;
+	z-index: 2;
+	overflow: hidden;
+  box-shadow: 1px 2px 20px rgba(0, 0, 0, .1);
+  margin-bottom:20px;
+
+}
+
+.logo{
+	width: 78px; 
+	height: 40px;
+	margin: 2px;
+	padding: 5px;
+}
+
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #777;
+  top: 0;
+  width: 100%;
+  padding: 4px;
+}
+
+.menu {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin: 6px 0;
+  margin-left: 5px;
+  margin-top: 4px;
+}
+
+
+/* GAMEBOARD */
+
+.cards {
+  margin: auto;
+  width: 650px;
+  height: 310px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 80px;
+}
+
+.cards-basegame {
+  width: 400px;
+  float: left;
+}
+
+.cards-orient {
+  width: 250px;
+  float: right;
+}
+
+.card {
+    float: left;
+    width: 60px;
+    height: 90px;
+    margin: 6px;
+    background: #eee;
+    border-radius: 10px;
+}
+
+.card-deck-blue {
+  background: #cbdff7 !important;
+  margin-right: 25px;
+}
+
+.card-deck-yellow {
+  background: #F7F2CB !important;
+  margin-right: 25px;
+}
+
+.card-deck-green {
+  background: #CFEBD7 !important;
+  margin-right: 25px;
+}
+
+.card-orient {
+  background: #FFDCDC;
+  float: right;
+}
+
+.card-deck-orient {
+  background: #FFB2B2;
+  float: right;
+}
+
+.noble-div {
+    margin: auto;
+    width: 400px;
+    height: 80px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.noble {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+    background: #ddd;
+    border-radius: 8px;
+}
+
+.token-div {
+  margin: auto;
+  width: 360px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.token {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.token-text {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  padding-top: 11px;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav id="navbar">
+	<ul class="navbar">
+	<div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
+    <div class="menu"></div>
+    <div class="menu"></div>
+    <div class="menu"></div>
+  </li>
+	</ul>
+</nav>
+
+<div class="token-div">
+  <div style="background: #E83131;" class="token">
+    <p class="token-text">2</p>
+  </div>
+  <div style="background: #3A94E8;" class="token">
+    <p class="token-text">2</p></div>
+  <div style="background: #2EA356;" class="token">
+    <p class="token-text">2</p></div>
+  <div style="background: #F2F2F2;" class="token">
+    <p class="token-text">2</p></div>
+  <div style="background: #7d4838;" class="token">
+    <p class="token-text">2</p></div>
+  <div style="background: #F1B032;" class="token">
+    <p class="token-text">2</p></div>
+</div>
+
+<div class="noble-div">
+    <div class="noble"></div>
+    <div class="noble"></div>
+    <div class="noble"></div>
+    <div class="noble"></div>
+    <div class="noble"></div>
+</div>
+
+<div class="cards">
+  <div class="cards-basegame">
+    <div class="card card-deck-blue"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+
+    <div class="card card-deck-yellow"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+
+    <div class="card card-deck-green"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+  </div>
+
+  <div class="cards-orient">
+    <div class="card card-orient card-deck-orient"></div>
+    <div class="card card-orient"></div>
+    <div class="card card-orient"></div>
+
+    <div class="card card-orient card-deck-orient"></div>
+    <div class="card card-orient"></div>
+    <div class="card card-orient"></div>
+
+    <div class="card card-orient card-deck-orient"></div>
+    <div class="card card-orient"></div>
+    <div class="card card-orient"></div>
+  </div>
+</div>
+
+<br>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that modal-closes the modal
+var span = document.getElementsByClassName("modal-close")[0];
+
+// When the user clicks on <span> (x), modal-close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, modal-close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>
