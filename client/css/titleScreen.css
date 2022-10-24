@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: montserrat;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+}
+
+.center h1 {
+  text-align: center;
+  font-size: 150px;
+}
+
+.clickable {
+  margin: auto;
+}
+
+.login_button {
+  margin-left: 20%;
+  margin-right: 20%;
+  position: relative;
+  text-align: center;
+}
+
+.signup_button {
+  margin-right: 10%;
+  position: relative;
+  text-align: center;
+}
+
+button {
+  width: 20%;
+  font-size: 26px;
+}
