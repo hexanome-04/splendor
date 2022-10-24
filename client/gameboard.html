@@ -5,9 +5,11 @@
 <style>
 
 body {
+  overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 /* MODAL STUFF (POP UP SCREENS) */
@@ -189,11 +191,111 @@ nav{
   font-weight: bold;
 }
 
+.players {
+  float: right;
+  margin: auto;
+  background: #a4a7ab;
+  height: 100vh;
+  width: 20%;
+}
 
+.player-wrapper {
+  width: 100%;
+  height: 25%;
+  margin: 0 auto;
+}
+
+.player-self {
+  background: white;
+  border-style: solid;
+  border-radius: 10%;
+  border-color: black;
+  border-width: 5px;
+  height: 60%;
+  width: 0;
+  padding-right: 40%;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.player-other {
+  background: white;
+  border-radius: 10%;
+  border-color: black;
+  border-width: 5px;
+  width: 0;
+  height: 60%;
+  padding-right: 40%;
+  margin: 0 auto;
+  margin-bottom: 5%;
+}
+
+.player-text {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+
+.prestige-point {
+  background: #f0b82b;
+  width: 20%;
+  height: 0;
+  padding-bottom: 20%;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 50%;
+  z-index: 1;
+  float: right;
+  margin-right: 5%;
+}
+
+.prestige-text {
+  margin: auto;
+  width: 50%;
+  padding: 25% 0;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
 
 </style>
 </head>
 <body>
+
+<!-- Players Status Bar -->
+<div class="players">
+  <div class="player-wrapper">
+    <div class="prestige-point">
+      <p class="prestige-text">0</p>
+    </div>
+    <div class="player-self"></div>
+    <p class="player-text">PLAYER 1</p>
+  </div>
+  <div class="player-wrapper">
+    <div class="prestige-point">
+      <p class="prestige-text">0</p>
+    </div>
+    <div class="player-other"></div>
+    <p class="player-text">PLAYER 2</p>
+  </div>
+  <div class="player-wrapper">
+    <div class="prestige-point">
+      <p class="prestige-text">0</p>
+    </div>
+    <div class="player-other"></div>
+    <p class="player-text">PLAYER 3</p>
+  </div>
+  <div class="player-wrapper">
+    <div class="prestige-point">
+      <p class="prestige-text">0</p>
+    </div>
+    <div class="player-other"></div>
+    <p class="player-text">PLAYER 4</p>
+  </div>
+</div>
 
 <!-- Navigation Bar -->
 <nav id="navbar">
