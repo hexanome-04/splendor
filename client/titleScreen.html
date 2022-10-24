@@ -1,0 +1,22 @@
+<!DOCTYPE >
+<html lang="en" dir="ltr"></html>
+<head>
+  <link rel="stylesheet" href="css/titleScreen.css" />
+</head>
+<body>
+  <div class="center">
+    <h1>SPLENDOR</h1>
+    <div class="clickable">
+      <button class="login_button" id="login-button">LOGIN</button>
+      <button class="signup_button" id="signin-button">SIGN UP</button>
+    </div>
+  </div>
+</body>
+
+<script>
+  // when the user pressed login it will directly go to the login screen
+  const loginButton = document.getElementById("login-button");
+  loginButton.addEventListener("click", function () {
+    window.location.href = "login.html";
+  });
+</script>
