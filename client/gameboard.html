@@ -1,372 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-
-body {
-  overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-/* MODAL STUFF (POP UP SCREENS) */
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The modal-close Button */
-.modal-close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.modal-close:hover,
-.modal-close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-
-/* NAVIGATION BAR */
-
-nav{
-  position: relative;
-	z-index: 2;
-	overflow: hidden;
-  box-shadow: 1px 2px 20px rgba(0, 0, 0, .1);
-  margin-bottom:20px;
-
-}
-
-.logo{
-	width: 78px; 
-	height: 40px;
-	margin: 2px;
-	padding: 5px;
-}
-
-.navbar {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #777;
-  top: 0;
-  width: 100%;
-  padding: 4px;
-}
-
-.menu {
-  width: 30px;
-  height: 4px;
-  background-color: white;
-  margin: 6px 0;
-  margin-left: 5px;
-  margin-top: 4px;
-}
-
-
-/* GAMEBOARD */
-
-.cards {
-  margin: auto;
-  width: 650px;
-  height: 310px;
-  margin-top: 10px;
-  padding: 10px;
-  margin-bottom: 80px;
-}
-
-.cards-basegame {
-  width: 400px;
-  float: left;
-}
-
-.cards-orient {
-  width: 250px;
-  float: right;
-}
-
-.card {
-    float: left;
-    width: 60px;
-    height: 90px;
-    margin: 6px;
-    background: #eee;
-    border-radius: 10px;
-}
-
-.card-deck-blue {
-  background: #cbdff7 !important;
-  margin-right: 25px;
-}
-
-.card-deck-yellow {
-  background: #F7F2CB !important;
-  margin-right: 25px;
-}
-
-.card-deck-green {
-  background: #CFEBD7 !important;
-  margin-right: 25px;
-}
-
-.card-orient {
-  background: #FFDCDC;
-  float: right;
-}
-
-.card-deck-orient {
-  background: #FFB2B2;
-  float: right;
-}
-
-.noble-div {
-    margin: auto;
-    width: 400px;
-    height: 80px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-}
-
-.noble {
-    float: left;
-    width: 60px;
-    height: 60px;
-    margin: 10px;
-    background: #ddd;
-    border-radius: 8px;
-}
-
-.token-div {
-  margin: auto;
-  width: 360px;
-  height: 60px;
-  margin-bottom: 20px;
-}
-
-.token {
-  float: left;
-  width: 40px;
-  height: 40px;
-  margin: 10px;
-  border-radius: 20px;
-}
-
-.token-text {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-  padding-top: 11px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.players {
-  float: right;
-  margin: auto;
-  background: #a4a7ab;
-  height: 100vh;
-  width: 20%;
-}
-
-.player-wrapper {
-  width: 100%;
-  height: 25%;
-  margin: 0 auto;
-}
-
-.player-self {
-  background: white;
-  border-style: solid;
-  border-radius: 10%;
-  border-color: black;
-  border-width: 5px;
-  height: 60%;
-  width: 0;
-  padding-right: 40%;
-  margin: 0 auto;
-  margin-top: 5%;
-}
-
-.player-other {
-  background: white;
-  border-radius: 10%;
-  border-color: black;
-  border-width: 5px;
-  width: 0;
-  height: 60%;
-  padding-right: 40%;
-  margin: 0 auto;
-  margin-bottom: 5%;
-}
-
-.player-text {
-  margin: auto;
-  width: 50%;
-  text-align: center;
-  font-weight: bold;
-  color: white;
-}
-
-.prestige-point {
-  background: #f0b82b;
-  width: 20%;
-  height: 0;
-  padding-bottom: 20%;
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
-  border-radius: 50%;
-  z-index: 1;
-  float: right;
-  margin-right: 5%;
-}
-
-.prestige-text {
-  margin: auto;
-  width: 50%;
-  padding: 25% 0;
-  text-align: center;
-  font-weight: bold;
-  color: white;
-}
-
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="gameboard.css">
 </head>
 <body>
 
-<!-- Players Status Bar -->
-<div class="players">
-  <div class="player-wrapper">
-    <div class="prestige-point">
-      <p class="prestige-text">0</p>
-    </div>
-    <div class="player-self"></div>
-    <p class="player-text">PLAYER 1</p>
-  </div>
-  <div class="player-wrapper">
-    <div class="prestige-point">
-      <p class="prestige-text">0</p>
-    </div>
-    <div class="player-other"></div>
-    <p class="player-text">PLAYER 2</p>
-  </div>
-  <div class="player-wrapper">
-    <div class="prestige-point">
-      <p class="prestige-text">0</p>
-    </div>
-    <div class="player-other"></div>
-    <p class="player-text">PLAYER 3</p>
-  </div>
-  <div class="player-wrapper">
-    <div class="prestige-point">
-      <p class="prestige-text">0</p>
-    </div>
-    <div class="player-other"></div>
-    <p class="player-text">PLAYER 4</p>
-  </div>
-</div>
-
-<!-- Navigation Bar -->
-<nav id="navbar">
-	<ul class="navbar">
-	<div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
+ <!-- Navigation Bar -->
+ <ul class="navbar">
+  <div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
     <div class="menu"></div>
     <div class="menu"></div>
     <div class="menu"></div>
-  </li>
-	</ul>
-</nav>
+  </ul>
 
-<div class="token-div">
-  <div style="background: #E83131;" class="token">
-    <p class="token-text">2</p>
-  </div>
-  <div style="background: #3A94E8;" class="token">
-    <p class="token-text">2</p></div>
-  <div style="background: #2EA356;" class="token">
-    <p class="token-text">2</p></div>
-  <div style="background: #F2F2F2;" class="token">
-    <p class="token-text">2</p></div>
-  <div style="background: #7d4838;" class="token">
-    <p class="token-text">2</p></div>
-  <div style="background: #F1B032;" class="token">
-    <p class="token-text">2</p></div>
-</div>
+  <div class="board">
 
-<div class="noble-div">
-    <div class="noble"></div>
-    <div class="noble"></div>
-    <div class="noble"></div>
-    <div class="noble"></div>
-    <div class="noble"></div>
-</div>
-
-<div class="cards">
-  <div class="cards-basegame">
-    <div class="card card-deck-blue"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-
-    <div class="card card-deck-yellow"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-
-    <div class="card card-deck-green"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
+  <!-- Players Status Bar -->
+  <div class="players">
+    <div class="player-wrapper">
+      <div class="prestige-point">
+        <p class="prestige-text">0</p>
+      </div>
+      <div class="player-self"></div>
+      <p class="player-text">PLAYER 1</p>
+    </div>
+    <div class="player-wrapper">
+      <div class="prestige-point">
+        <p class="prestige-text">0</p>
+      </div>
+      <div class="player-other"></div>
+      <p class="player-text">PLAYER 2</p>
+    </div>
+    <div class="player-wrapper">
+      <div class="prestige-point">
+        <p class="prestige-text">0</p>
+      </div>
+      <div class="player-other"></div>
+      <p class="player-text">PLAYER 3</p>
+    </div>
+    <div class="player-wrapper">
+      <div class="prestige-point">
+        <p class="prestige-text">0</p>
+      </div>
+      <div class="player-other"></div>
+      <p class="player-text">PLAYER 4</p>
+    </div>
   </div>
 
-  <div class="cards-orient">
-    <div class="card card-orient card-deck-orient"></div>
-    <div class="card card-orient"></div>
-    <div class="card card-orient"></div>
+  <!-- Gameboard -->
 
-    <div class="card card-orient card-deck-orient"></div>
-    <div class="card card-orient"></div>
-    <div class="card card-orient"></div>
-
-    <div class="card card-orient card-deck-orient"></div>
-    <div class="card card-orient"></div>
-    <div class="card card-orient"></div>
+  <div class="token-div">
+    <div style="background: #E83131;" class="token">
+      <p class="token-text">2</p>
+    </div>
+    <div style="background: #3A94E8;" class="token">
+      <p class="token-text">2</p></div>
+    <div style="background: #2EA356;" class="token">
+      <p class="token-text">2</p></div>
+    <div style="background: #F2F2F2;" class="token">
+      <p class="token-text">2</p></div>
+    <div style="background: #7d4838;" class="token">
+      <p class="token-text">2</p></div>
+    <div style="background: #F1B032;" class="token">
+      <p class="token-text">2</p></div>
   </div>
+
+  <div class="noble-div">
+      <div class="noble"></div>
+      <div class="noble"></div>
+      <div class="noble"></div>
+      <div class="noble"></div>
+      <div class="noble"></div>
+  </div>
+
+  <div class="cards">
+      <div class="card card-deck-blue"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+
+      <div class="card card-orient"></div>
+      <div class="card card-orient"></div>
+      <div class="card card-orient card-deck-orient"></div>
+
+      <div class="card card-deck-yellow"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+
+      <div class="card card-orient"></div>
+      <div class="card card-orient"></div>
+      <div class="card card-orient card-deck-orient"></div>
+
+      <div class="card card-deck-green"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+
+      <div class="card card-orient"></div>
+      <div class="card card-orient"></div>
+      <div class="card card-orient card-deck-orient"></div>
+
+  </div>
+
 </div>
+
+
 
 <br>
 
