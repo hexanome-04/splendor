@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav {
+    position: sticky;
+    display: flex;
+    background: #D8D8D8;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.nav-left {
+    margin-right: auto;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.nav-middle {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.select-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-section > * {
+    background-color: #D8D8D8;
+}
+
+.select-section .selected {
+    background-color: #CDCDCD;
+}
+
+.select-sessions {
+
+}
+
+.select-loadgame {
+
+}
