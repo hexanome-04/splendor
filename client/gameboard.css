@@ -222,7 +222,7 @@ body {
   right: -22px;
   width: 40%;
   height: 40%;
-  background-color: #f0b82b;;
+  background-color: #f0b82b;
   color: white;
   border-style: solid;
   border-radius: 10%;
@@ -231,7 +231,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;;
+  border-radius: 50%;
 
   font-size: 22px;
   font-style: italic;
