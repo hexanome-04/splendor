@@ -79,4 +79,89 @@ main {
 .header {
     background: #D8D8D8;
     box-shadow: 0px 3px 2px -2px grey;
+    isolation: isolate;
+}
+
+table {
+    border: 0px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+
+    --border-radius: 3px;
+    --row-bg-color: #9E9E9E;
+    --text-color: white;
+    --padding-lr: 0.9em;
+}
+
+table tr {
+    height: 1px;
+}
+
+tbody > tr:first-child {
+    background: #D8D8D8;
+}
+
+tr > * {
+    text-align: left;
+    border-width: 0px;
+    border-style: none;
+}
+
+tr > td {
+    height: inherit;
+}
+
+tbody > tr:not(:first-child) > * {
+    padding-top: 0.5em;
+}
+
+tr > th {
+    padding: 0.5em var(--padding-lr);
+}
+
+tr > td > div {
+    color: var(--text-color);
+    padding: 0.7em var(--padding-lr);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+@-moz-document url-prefix() {
+    /* why firefox */
+    tr > td > div {
+        height: initial;
+    }
+}
+
+/* First col */
+.row-start {
+    background: var(--row-bg-color);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+/* Other cols */
+.row-cell {
+    background: var(--row-bg-color);
+}
+
+/* Last col */
+.row-end {
+    background: var(--row-bg-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.loadjoin-button {
+    background: #6DD28F;
+    justify-content: center;
+    margin: 0 0.5em 0 1em;
+    border-radius: var(--border-radius);
+}
+
+.delete-button {
+    background: #FF7E7E;
+    justify-content: center;
+    margin: 0 1em 0 0.5em;
+    border-radius: var(--border-radius);
 }
