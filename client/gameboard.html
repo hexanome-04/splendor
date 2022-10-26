@@ -1,155 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="gameboard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
+
 <body>
-
-  <div class="nav-container"> </div>
-
-<!--
- <ul class="navbar">
-  <div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
-    <div class="menu"></div>
-    <div class="menu"></div>
-    <div class="menu"></div>
+  <!-- NAVIGATION BAR -->
+  <ul class="navbar">
+    <div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
+      <div class="menu"></div>
+      <div class="menu"></div>
+      <div class="menu"></div>
+    </div>
   </ul>
--->
 
 
-  <!-- Players Status Bar -->
+  <!-- PLAYER STATUS BAR -->
   <div class="players">
-    <div class="player-wrapper">
-      <div class="prestige-point">
-        <p class="prestige-text">0</p>
+
+    <!-- PLAYER 1 -->
+    <div class="player-container">
+      <div class="player-self">
+        <span class="material-symbols-outlined">person</span>
+        <span class="player-prestige">0</span>
       </div>
-      <div class="player-self"></div>
-      <p class="player-text">PLAYER 1</p>
+
+      <p class="player-self-text">PLAYER 1</p>
     </div>
-    <div class="player-wrapper">
-      <div class="prestige-point">
-        <p class="prestige-text">0</p>
+
+    <!-- PLAYER 2 -->
+    <div class="player-container">
+      <div class="player-other">
+        <span class="material-symbols-outlined">person</span>
+        <span class="player-prestige">0</span>
       </div>
-      <div class="player-other"></div>
-      <p class="player-text">PLAYER 2</p>
+
+      <p class="player-other-text">PLAYER 2</p>
     </div>
-    <div class="player-wrapper">
-      <div class="prestige-point">
-        <p class="prestige-text">0</p>
+    
+    <!-- PLAYER 3 -->
+    <div class="player-container">
+      <div class="player-other">
+        <span class="material-symbols-outlined">person</span>
+        <span class="player-prestige">0</span>
       </div>
-      <div class="player-other"></div>
-      <p class="player-text">PLAYER 3</p>
+
+      <p class="player-other-text">PLAYER 3</p>
     </div>
-    <div class="player-wrapper">
-      <div class="prestige-point">
-        <p class="prestige-text">0</p>
+
+    <!-- PLAYER 4 -->
+    <div class="player-container">
+      <div class="player-other">
+        <span class="material-symbols-outlined">person</span>
+        <span class="player-prestige">0</span>
       </div>
-      <div class="player-other"></div>
-      <p class="player-text">PLAYER 4</p>
+
+      <p class="player-other-text">PLAYER 4</p>
     </div>
+
   </div>
 
+  
+  <!-- GAMEBOARD -->
   <div class="board">
 
-  <!--INVENTORY-->
-  <div class="player-inventory">
-
-    <!--Tokens-->
-    <div class="inventory-tokens">
-      <div style="background: #E83131;" class="inv-token">
-        <p class="inv-token-text">2</p>
+    <!-- TOKENS -->
+    <div class="token-div">
+      <div style="background: #E83131;" class="token">
+        <p class="token-text">2</p>
       </div>
-      <div style="background: #3A94E8;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #2EA356;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
+      <div style="background: #3A94E8;" class="token">
+        <p class="token-text">2</p></div>
+      <div style="background: #2EA356;" class="token">
+        <p class="token-text">2</p></div>
+      <div style="background: #F2F2F2;" class="token">
+        <p class="token-text">2</p></div>
+      <div style="background: #7d4838;" class="token">
+        <p class="token-text">2</p></div>
+      <div style="background: #F1B032;" class="token">
+        <p class="token-text">2</p></div>
+    </div>
 
-      <div style="background: #F2F2F2;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #7d4838;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F1B032;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
+    <!-- NOBLES -->
+    <div class="noble-div">
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
     </div>
-  
-    <!--Player Hand-->
-    <div class="inventory-hand">
-      <p class="hand-text">HAND</p>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+        <!-- ROW 1 -->
+        <div class="card card-deck-blue"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+
+        <div class="card card-orient"></div>
+        <div class="card card-orient"></div>
+        <div class="card card-orient card-deck-orient"></div>
+
+        <!-- ROW 2 -->
+        <div class="card card-deck-yellow"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+
+        <div class="card card-orient"></div>
+        <div class="card card-orient"></div>
+        <div class="card card-orient card-deck-orient"></div>
+
+        <!-- ROW 3 -->
+        <div class="card card-deck-green"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+
+        <div class="card card-orient"></div>
+        <div class="card card-orient"></div>
+        <div class="card card-orient card-deck-orient"></div>
     </div>
-  
-    <!--Reserved Cards-->
-    <div class="inventory-reserved-cards">
-      <div class="reserved-card"></div>
-      <div class="reserved-card"></div>
-      <div class="reserved-card"></div>
-    </div>
-  
+
   </div>
 
-    
 
-  <!-- Gameboard -->
+<!-- PLAYER INVENTORY -->
+<div class="player-inventory">
 
-  <div class="token-div">
-    <div style="background: #E83131;" class="token">
-      <p class="token-text">2</p>
+  <!-- PLAYER TOKENS -->
+  <div class="inventory-tokens">
+    <div style="background: #E83131;" class="inv-token">
+      <p class="inv-token-text">2</p>
     </div>
-    <div style="background: #3A94E8;" class="token">
-      <p class="token-text">2</p></div>
-    <div style="background: #2EA356;" class="token">
-      <p class="token-text">2</p></div>
-    <div style="background: #F2F2F2;" class="token">
-      <p class="token-text">2</p></div>
-    <div style="background: #7d4838;" class="token">
-      <p class="token-text">2</p></div>
-    <div style="background: #F1B032;" class="token">
-      <p class="token-text">2</p></div>
+    <div style="background: #3A94E8;" class="inv-token">
+      <p class="inv-token-text">2</p></div>
+    <div style="background: #2EA356;" class="inv-token">
+      <p class="inv-token-text">2</p></div>
+    <div style="background: #F2F2F2;" class="inv-token">
+      <p class="inv-token-text">2</p></div>
+    <div style="background: #7d4838;" class="inv-token">
+      <p class="inv-token-text">2</p></div>
+    <div style="background: #F1B032;" class="inv-token">
+      <p class="inv-token-text">2</p></div>
   </div>
 
-  <div class="noble-div">
-      <div class="noble"></div>
-      <div class="noble"></div>
-      <div class="noble"></div>
-      <div class="noble"></div>
-      <div class="noble"></div>
+  <!-- PLAYER HAND -->
+  <div class="inventory-hand">
+    <p class="hand-text">HAND</p>
   </div>
 
-  <div class="cards">
-      <div class="card card-deck-blue"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-
-      <div class="card card-orient"></div>
-      <div class="card card-orient"></div>
-      <div class="card card-orient card-deck-orient"></div>
-
-      <div class="card card-deck-yellow"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-
-      <div class="card card-orient"></div>
-      <div class="card card-orient"></div>
-      <div class="card card-orient card-deck-orient"></div>
-
-      <div class="card card-deck-green"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-
-      <div class="card card-orient"></div>
-      <div class="card card-orient"></div>
-      <div class="card card-orient card-deck-orient"></div>
-
+  <!-- RESERVED CARDS -->
+  <div class="inventory-reserved-cards">
+    <div class="reserved-card"></div>
+    <div class="reserved-card"></div>
+    <div class="reserved-card"></div>
   </div>
 
 </div>
-
 
 
 <br>
@@ -166,23 +181,23 @@
 </div>
 
 <script>
-// Get the modal
-var modal = document.getElementById("myModal");
+  // Get the modal
+  var modal = document.getElementById("myModal");
 
-// Get the <span> element that modal-closes the modal
-var span = document.getElementsByClassName("modal-close")[0];
+  // Get the <span> element that modal-closes the modal
+  var span = document.getElementsByClassName("modal-close")[0];
 
-// When the user clicks on <span> (x), modal-close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, modal-close it
-window.onclick = function(event) {
-  if (event.target == modal) {
+  // When the user clicks on <span> (x), modal-close the modal
+  span.onclick = function() {
     modal.style.display = "none";
   }
-}
+
+  // When the user clicks anywhere outside of the modal, modal-close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 </script>
 
 </body>
