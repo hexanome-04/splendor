@@ -7,8 +7,10 @@ body {
 
   box-sizing: border-box;
   resize: horizontal;
-  /*max-width: 100%;
-  max-height: calc(100vh);*/
+  /*
+  max-width: 100%;
+  max-height: calc(100vh);
+  */
 }
 
 .board {
@@ -17,10 +19,12 @@ body {
   width: 100%;
   margin: 0px;
   object-fit: cover;
+  z-index: 1;
   
   max-height: 100vh;
   max-width: 177.7777vh;
   aspect-ratio: 16/9;
+  
 }
 
 /* MODAL STUFF (POP UP SCREENS) */
@@ -68,20 +72,32 @@ body {
 
 /* NAVIGATION BAR */
 
+.nav-container {
+  background-color: #777;
+  width: 80%;
+  height: 50px;
+
+}
+
+
+/* TO BE FIXED */
+/*
+
 .navbar {
+  /*
   list-style-type: none;
   margin: 0px;
   padding: 0;
   overflow: hidden;
   background-color: #777;
   top: 0;
-  width: 100%;
+  width: 80%;
   padding: 4px;
 
   position: relative;
-	z-index: 2;
+  z-index: 2;
   box-shadow: 1px 2px 20px rgba(0, 0, 0, .1);
-  margin-bottom: 0px;
+  
 }
 
 .menu {
@@ -91,7 +107,11 @@ body {
   margin: 6px;
   margin-left: 5px;
   margin-top: 4px;
+  
+  
 }
+
+*/
 
 
 /* GAMEBOARD */
@@ -145,16 +165,16 @@ body {
 }
 
 .noble-div {
-    margin: auto;
-    width: 30.5%;
-    height: 11%;
-    margin-bottom: 0.5%;
-    padding-top: 0.5%;
-    padding-bottom: 0.5%;
+  margin: auto;
+  width: 30.5%;
+  height: 11%;
+  margin-bottom: 0.5%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .noble {
@@ -183,20 +203,18 @@ body {
   width: 11%;
   height: 65%;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: table;
 }
 
 .token-text {
-  margin: auto;
-  width: 50%;
-  padding-top: 25%;
-  text-align: center;
+  font-size: 100%;
   font-weight: bold;
-  font-size: 95%;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
 
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
 }
 
 
@@ -206,15 +224,17 @@ body {
   float: right;
   margin: auto;
   background: #a4a7ab;
-  height: 95vh;
+  height: 100vh;
   width: 20%;
+
 }
 
 .player-wrapper {
-  width: 100%;
+  width: 95%;
   height: 25%;
   margin: 0 auto;
   float: right;
+
 }
 
 .player-self {
@@ -258,7 +278,7 @@ body {
   border-color: black;
   border-width: 2px;
   border-radius: 50%;
-  z-index: 1;
+  /*z-index: 1;*/
   float: right;
   margin-right: 5%;
 }
@@ -271,3 +291,95 @@ body {
   font-weight: bold;
   color: white;
 }
+
+/* INVENTORY */
+  
+.player-inventory {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 80%;
+  height: 20vh;
+  background-color: #aaaaaa;
+}
+
+
+
+.inventory-tokens {
+  width: 20%;
+  height: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.inv-token {
+  float: left;
+  width: 20%;
+  height: 32%;
+  border-radius: 50%;
+  margin-left: 5%;
+  margin-right: 5%;
+  justify-content: center;
+  align-items: center;
+  display: table;
+
+}
+
+.inv-token-text {
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.inventory-hand {
+  background-color: grey;
+  width: 12%;
+  height: 70%;
+  border-radius: 10%;
+  justify-content: center;
+  align-items: center;
+  display: table;
+
+}
+
+.hand-text {
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.inventory-reserved-cards {
+  width: 25%;
+  height: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.reserved-card {
+  float: right;
+  width: 25%;
+  height: 70%;
+  margin-left: 2%;
+  margin-right: 2%;
+
+
+  background: lavender;
+  border-radius: 10%;
+
+}
+
+
