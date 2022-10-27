@@ -19,19 +19,60 @@ nav {
     display: flex;
     background: #D8D8D8;
     box-shadow: 0px 3px 2px -2px grey;
+
+    --btn-font-size: 0.8em;
+    --btn-margin: 1em;
 }
 
 .nav-left {
+    flex: 0 1 40%;
     margin-right: auto;
+    display: flex;
+    align-items: center;
 }
 
 .nav-right {
+    flex: 0 1 40%;
     margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .nav-middle {
+    flex: 1 20%;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gametitle {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0.8rem;
+}
+
+.admin-btn {
+    background: #FF7E7E;
+    color: white;
+    font-size: var(--btn-font-size);
+    margin-left: var(--btn-margin);
+    border-radius: 10px;
+    padding: 0.8em 1.2em;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #82BBFF;
+    color: white;
+    font-size: var(--btn-font-size);
+    margin-right: var(--btn-margin);
+    border-radius: 10px;
+    padding: 0.8em 1.2em;
+    cursor: pointer;
 }
 
 .hidden {
