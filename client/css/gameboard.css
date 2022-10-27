@@ -313,6 +313,7 @@ body {
   height: 55%;
   background-color: white;
   border-radius: 15%;
+  cursor: pointer;
 }
 
 .player-prestige {
@@ -358,6 +359,113 @@ body {
   letter-spacing: 1px;
   margin-bottom: 0;
   margin-top: 20;
+}
+
+
+/* Player Status Popup */
+.player-status-modal {
+  display: none; 
+  position: fixed; 
+  padding-top: 17%;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+}
+
+.player-status-modal-content {
+  display: flex;
+  flex-direction: row;
+  background-color: #D9D9D9;
+  margin: auto;
+  border-radius: 20px;
+  width: 60%;
+  height: 20vh;
+  z-index: 1;
+}
+
+.player-2 {
+  margin-top: -40px;
+}
+
+.player-3 {
+  margin-top: 140px;
+}
+
+.player-4 {
+  margin-top: 300px;
+}
+
+.status-reserved-cards {
+  height: inherit;
+  width: 33%;
+  margin: auto;
+  float: left;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-reserved-card {
+  width: 25%;
+  height: 70%;
+  margin-left: 2%;
+  margin-right: 2%;
+  background: lavender;
+  border-radius: 10%;
+}
+
+.status-all-discounts {
+  margin: auto;
+  width: 33%;
+  height: inherit;
+  float: middle;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-discount {
+  width: 20%;
+  height: 0;
+  padding-bottom: 20%;
+  margin: 5%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  background: #F1F1F1;
+  border-radius: 20%;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-discount-color {
+  width: 10px;
+  height: 10px;
+  float: right;
+  margin-top: 10%;
+  margin-right: 10%;
+  padding: 0px;
+  border-radius: 50%;
+  align-self: center;
+}
+
+.status-tokens {
+  margin: auto;
+  width: 33%;
+  height: inherit;
+  float: right;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 
