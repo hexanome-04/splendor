@@ -40,6 +40,10 @@ body {
 
 .board {
   height: 100%;
+  
+  min-width: 550px;
+  min-height: 400px;
+  min-block-size: 40%;
 
   padding-bottom: 75%;
   width: 82%;
@@ -55,8 +59,8 @@ body {
 
 .cards {
   margin: auto;
-  width: 49%;
-  height: 43%;
+  width: 55%;
+  height: 47%;
   margin-top: 0.7%;
   padding: 0.5%;
 
@@ -141,7 +145,9 @@ body {
 .token {
   float: left;
   width: 11%;
-  height: 65%;
+  height: 65%;  
+  min-width: 20px;
+  min-height: 20px;
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -155,6 +161,99 @@ body {
   vertical-align: middle;
   display: table-cell;
 }
+
+
+
+/* INVENTORY */
+  
+.player-inventory {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 82%;
+  height: 20vh;
+  background-color: #aaaaaa;
+}
+
+.inventory-tokens {
+  width: 20%;
+  min-width: 180px;
+  height: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.inv-token {
+  float: left;
+  width: 20%;
+  height: 32%;
+  min-width: 32px;
+  min-height: 32px;
+  max-width: 47px;
+  max-height: 47px;
+
+  border-radius: 50%;
+  margin-left: 5%;
+  margin-right: 5%;
+  justify-content: center;
+  align-items: center;
+  display: table;
+}
+
+.inv-token-text {
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.inventory-hand {
+  background-color: #eee;
+  width: 18%;
+  height: 70%;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  display: table;
+
+}
+
+.hand-text {
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.inventory-reserved-cards {
+  width: 25%;
+  height: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.reserved-card {
+  float: right;
+  width: 25%;
+  height: 70%;
+  margin-left: 2%;
+  margin-right: 2%;
+  background: lavender;
+  border-radius: 10%;
+}
+
 
 
 /* PLAYER STATUS */
@@ -178,7 +277,7 @@ body {
 
 /* Player Icon */
 .material-symbols-outlined {
-  scale: 400%;
+  scale: 300%;
 }
 
 .player-container {
@@ -222,11 +321,14 @@ body {
   right: -22px;
   width: 40%;
   height: 40%;
+  max-width: 35px;
+  max-height: 35px;
+
   background-color: #f0b82b;
   color: white;
   border-style: solid;
   border-radius: 10%;
-  border-color: #7d4838;
+  border-color: black;
   border-width: 5px;
   display: flex;
   justify-content: center;
@@ -239,7 +341,7 @@ body {
 }
 
 .player-self-text {
-  font-size: 20px;
+  font-size: 1.6vw;
   font-weight: bold;
   line-height: 0px;
   letter-spacing: 1px;
@@ -249,6 +351,7 @@ body {
 }
 
 .player-other-text {
+  font-size: 1.2vw;
   font-weight: bold;
   color: white;
   line-height: 0px;
@@ -258,107 +361,21 @@ body {
 }
 
 
-/* INVENTORY */
-  
-.player-inventory {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-  width: 82%;
-  height: 20vh;
-  background-color: #aaaaaa;
-}
-
-.inventory-tokens {
-  width: 20%;
-  height: inherit;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.inv-token {
-  float: left;
-  width: 20%;
-  height: 32%;
-  border-radius: 50%;
-  margin-left: 5%;
-  margin-right: 5%;
-  justify-content: center;
-  align-items: center;
-  display: table;
-
-}
-
-.inv-token-text {
-  font-size: 100%;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  display: table-cell;
-}
-
-.inventory-hand {
-  background-color: grey;
-  width: 12%;
-  height: 70%;
-  border-radius: 10%;
-  justify-content: center;
-  align-items: center;
-  display: table;
-
-}
-
-.hand-text {
-  font-size: 100%;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  display: table-cell;
-}
-
-.inventory-reserved-cards {
-  width: 25%;
-  height: inherit;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.reserved-card {
-  float: right;
-  width: 25%;
-  height: 70%;
-  margin-left: 2%;
-  margin-right: 2%;
-  background: lavender;
-  border-radius: 10%;
-}
-
-
 /* MODAL STUFF (POP UP SCREENS) */
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  width: 100%; 
+  height: 100%; 
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgba(50,50,50,0.45); /* Black w/ opacity */
   z-index: 4;
 }
 
@@ -367,8 +384,8 @@ body {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 20px;
+  width: 70%;
 }
 
 /* The modal-close Button */
@@ -383,5 +400,152 @@ body {
 .modal-close:focus {
   color: #000;
   text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-button {
+  background: #ccc;
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 1.5%;
+  width: 30%;
+  height: 7%;
+  font-size: 1.3vw;
+}
+
+.modal-button:hover {
+  background: #bbb;
+  cursor: pointer;
+}
+
+h1 {
+  font-family: montserrat;
+  font-weight: bold;
+}
+
+h3 {
+  font-style: italic;
+}
+
+
+/* SELECT TOKENS */
+
+.select-token-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 17px;
+}
+
+.select-tokens {
+  width: 75%;
+  height: 70px;
+  float: center;
+  margin-top: 20%;
+  margin-bottom: 9vh;
+  margin: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-token {
+  width: 50%;
+  height: 80%;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 50px;
+  max-height: 50px;
+  margin: 1%;
+  border-radius: 50%;
+  
+  justify-content: center;
+  align-items: center;
+  display: table;
+}
+
+.select-token-text {
+  font-size: 100%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.you-chose-text {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+  margin-top: 11%;
+}
+
+.plus-minus-all {
+  float: center;
+  margin: auto;
+  width: 70%;
+  height: 20%;
+  margin-bottom: 5%;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-minus {
+  margin: 1.2%;
+  padding: 0;
+  width: 25%;
+  height: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }
+
+.plus-minus-token {
+  width: 48%;
+  height: 4.5vh;
+  min-width: 30px;
+  max-width: 46px;
+  margin: 5%;
+  border-radius: 60%;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.plus-minus-button {
+  width: 20px;
+  height: 20px;
+  margin: 6%;
+  background: #aaa;
+  color: black;
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-minus-button:hover {
+  background: #888;
   cursor: pointer;
 }

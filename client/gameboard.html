@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="gameboard.css">
+  <link rel="stylesheet" href="css/gameboard.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 
 <body>
   <!-- NAVIGATION BAR -->
   <ul class="navbar">
-    <div onclick="modal.style.display='block';" style="float: left; margin-top: 2px;">
+    <div onclick="openModal('gameMenuModal')" style="float: left; margin-top: 2px;">
       <div class="menu"></div>
       <div class="menu"></div>
       <div class="menu"></div>
@@ -157,6 +157,11 @@
     <p class="hand-text">HAND</p>
   </div>
 
+  <!-- FOR TESTING PURPOSES -->
+  <div class="inventory-hand">
+    <p style="cursor: pointer;" onclick="openModal('actionModal')" class="hand-text">SELECT ACTION MODAL TESTING</p>
+  </div>
+
   <!-- RESERVED CARDS -->
   <div class="inventory-reserved-cards">
     <div class="reserved-card"></div>
@@ -168,6 +173,102 @@
 
 
 <br>
+
+<!-- Game Menu Modal -->
+<div id="gameMenuModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('gameMenuModal');">&times;</span>
+    <p>[Game menu goes here]</p>
+  </div>
+</div>
+
+<!-- Select Action Modal -->
+<div id="actionModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('actionModal');">&times;</span>
+    <h1 class="modal-text">YOUR TURN!</h1>
+    <h3 class="modal-text">(Choose an action)</h3>
+    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('selectTokenModal')"><h2>GET TOKENS</h2></div>
+    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('purchaseCardModal')"><h2>PURCHASE CARD</h2></div>
+    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('reserveCardModal')"><h2>RESERVE CARD</h2></div>
+  </div>
+
+</div>
+
+<!-- Select Tokens Modal -->
+<div id="selectTokenModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('selectTokenModal');">&times;</span>
+    <div class="select-token-modal">
+      <div class="select-tokens">
+        <div style="background: #E83131;" class="select-token">
+          <p class="select-token-text">2</p></div>
+        <div style="background: #3A94E8;" class="select-token">
+          <p class="select-token-text">2</p></div>
+        <div style="background: #2EA356;" class="select-token">
+          <p class="select-token-text">2</p></div>
+        <div style="background: #F2F2F2;" class="select-token">
+          <p class="select-token-text">2</p></div>
+        <div style="background: #7d4838;" class="select-token">
+          <p class="select-token-text">2</p></div>
+        <div style="background: #F1B032;" class="select-token">
+          <p class="select-token-text">2</p></div>
+      </div>
+      <h2 class="you-chose-text">YOU CHOSE:</h2>
+      <div class="plus-minus-all">
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #E83131;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #3A94E8;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #2EA356;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #F2F2F2;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #7d4838;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #F1B032;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
+          <div class="plus-minus-button">-</div>
+        </div>
+      </div>
+      <div class="modal-button modal-text" onclick="closeModal('selectTokenModal')"><h2>CONFIRM</h2></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Purchase Card Modal -->
+<div id="purchaseCardModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('purchaseCardModal');">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+</div>
+
+<!-- Reserve Card Modal -->
+<div id="reserveCardModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('reserveCardModal');">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+</div>
+
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -182,14 +283,18 @@
 
 <script>
   // Get the modal
-  var modal = document.getElementById("myModal");
+  var myModal = document.getElementById("myModal");
 
   // Get the <span> element that modal-closes the modal
   var span = document.getElementsByClassName("modal-close")[0];
 
   // When the user clicks on <span> (x), modal-close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
+  var closeModal = function(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  var openModal = function(id) {
+    document.getElementById(id).style.display='block';
   }
 
   // When the user clicks anywhere outside of the modal, modal-close it
