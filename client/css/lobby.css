@@ -8,6 +8,9 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    --btn-font-size: 0.8em;
+    --btn-margin: 1em;
 }
 
 .gametitle {
@@ -20,9 +23,6 @@ nav {
     background: #D8D8D8;
     box-shadow: 0px 2px 2px rgb(0 0 0 / 25%);
     z-index: 1;
-
-    --btn-font-size: 0.8em;
-    --btn-margin: 1em;
 }
 
 .nav-left {
@@ -139,6 +139,9 @@ main[selected="loadgame"] #section-sessions {
     font-weight: bold;
     font-size: 1.5em;
     padding: 0.4em 0.5em;
+
+    display: flex;
+    align-items: center;
 }
 
 table {
@@ -231,4 +234,54 @@ tr > td > div {
     background: #F22626;
     border-radius: 50%;
     filter: blur(1px);
+}
+
+
+/* Availabe Sessions stuff */
+.createSession-btn {
+    margin-left: auto;
+    background-color: #82BBFF;
+    margin-right: var(--right-margin);
+    border-radius: 5px;
+    color: white;
+    font-size: 0.7em;
+
+    padding: 0.6em 1em;
+}
+
+.currentSessionsTable {
+    
+    --even-bg-color: #F3F3F3;
+    --odd-bg-color: #E9E9E9;
+    --right-margin: 1rem;
+}
+
+.currentSessionsTable tr > td > div {
+    color: black;
+}
+
+.currentSessionsTable tbody > tr:not(:first-child) > * {
+    padding-top: 0;
+}
+
+.currentSessionsTable tr:nth-child(odd) td {
+    background: var(--odd-bg-color);
+}
+
+.currentSessionsTable tr:nth-child(even) td {
+    background: var(--even-bg-color);
+}
+
+.currentSessionsTable tr td.joinTd-btn {
+    padding: 0.6em 0;
+}
+
+.join-btn {
+    float: right;
+    background: #82BBFF;
+    color: white;
+    border-radius: 6px;
+    padding: 0.6em 1.5em;
+    cursor: pointer;
+    margin-right: var(--right-margin);
 }
