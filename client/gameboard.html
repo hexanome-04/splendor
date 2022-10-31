@@ -8,13 +8,12 @@
 
 <body>
   <!-- NAVIGATION BAR -->
-  <ul class="navbar">
-    <div onclick="openModal('gameMenuModal')" style="float: left; margin-top: 2px;">
-      <div class="menu"></div>
-      <div class="menu"></div>
-      <div class="menu"></div>
-    </div>
-  </ul>
+<nav id="navbar">
+	<ul class="navbar">
+    <button id="menuButton" style="background-color:#4b4b4b;">
+    </button>
+	</ul>
+</nav>
 
 
   <!-- PLAYER STATUS BAR -->
@@ -458,24 +457,119 @@
   </div>
 </div>
 
-
 <!-- The Modal -->
-<div id="myModal" class="modal">
+<div id="menuPop" class="myMenu">
+  <!-- <h1 id="sidebar">MENU</h1> -->
+  <a onclick="closeMenu()">RESUME</a>
+  <a onclick="handleSave()">SAVE</a>
+  <a onclick="handleRestart()">RESTART</a>
+  <a href="login.html">QUIT</a>
+</div>
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <p>Some text in the Modal..</p>
+<div id="saveGamePop" class="saveGame">
+  <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
+  <form autocomplete="off">
+    <input type="text" id="saveText">
+    <input type="button" class="saveOption" id="saveSubmit" value="SAVE" onclick="saved()"/>
+    <input type="button" class="saveOption" id="saveBack" value="BACK" onclick="closeSavePop()"/>
+  </form>
+</div>
+
+<div id="gameSaved" class="savedPop">
+  <h1 id="savedHeader">GAME SAVED!</h1>
+  <header style="background-color:#000;color:#fff;">
+    <span onclick="document.getElementById('gameSaved').style.display='none'" class="close-button topright">&times;</span>
+  </header>
   </div>
 
-</div>
+  <div id="restartGamePop" class="restartGame">
+    <h1 id="restartGameHeader">RESTART GAME?</h1>
+    <h2 id="playerRestartCount">1/4</h2>
+    <input type="button" class="restartOption" id="restartYes" value="YES" onclick="getRestartCount()"/>
+    <input type="button" class="restartOption" id="restartNo" value="NO"/>
+  </div>
+
 
 <script>
   // Get the modal
-  var myModal = document.getElementById("myModal");
+// Get the modal
+const menuButton = document.getElementById("menuButton");
+const menuPop = document.getElementById("menuPop");
+const resumeButton = document.getElementById("resumeGame");
+const menuWholeButton = document.getElementById("menuHolder");
+const saveName = document.getElementById("saveText");
 
-  // Get the <span> element that modal-closes the modal
-  var span = document.getElementsByClassName("modal-close")[0];
+//save
+const savePop = document.getElementById("saveGamePop");
+const backButton = document.getElementById("saveBack");
+const savedPop = document.getElementById("gameSaved");
+let menuStatus=false;
+
+//restart
+const restartGamePop = document.getElementById("restartGamePop");
+const restartCount = document.getElementById("playerRestartCount");
+
+const openMenu = (e)=>{
+    menuPop.style.width = "250px";
+    menuStatus = true;
+}
+const closeMenu = (e)=>{
+    menuPop.style.width = "0px";
+    menuStatus = false;
+}
+
+const handleMenu = (e)=>{
+  if(menuStatus){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+}
+
+const handleSave = (e)=>{
+    savePop.style.display ="block";
+}
+
+const handleQuit = (e) => {
+  closeMenu();
+}
+
+const handleRestart =(e)=>{
+  closeMenu();
+  restartGamePop.style.display = "block";
+  
+}
+
+const saved =(e)=>{
+  savePop.style.display = "none";
+  saveName.value = "";
+  savedPop.style.display ="block";
+  savedPopStatus = true;
+}
+
+const closeSavePop = (e) =>{
+  saveName.value = "";
+  savePop.style.display ="none";
+}
+
+const getRestartCount = (e) =>{
+  const tmp = restartCount.innerHTML;
+  if(tmp == "1/4"){
+    restartCount.innerHTML = "2/4";
+  }else if(tmp == "2/4"){
+    restartCount.innerHTML = "3/4";
+  }else if(tmp == "3/4"){
+    restartCount.innerHTML = "4/4";
+  }
+}
+
+window.addEventListener("click", function(e){
+    if(!menuStatus&& e.target === menuButton){
+      openMenu();
+    }else if(menuStatus&& e.target !== menuPop){
+      closeMenu();
+    }
+  })
 
   // When the user clicks on <span> (x), modal-close the modal
   var closeModal = function(id) {
