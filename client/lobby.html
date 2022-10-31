@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+    <title>Lobby</title>
+    <link rel="stylesheet" href="css/lobby.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-left"><div class="admin-btn">ADMIN ZONE</div></div>
+        <div class="nav-middle"><div class="gametitle">Splendor</div></div>
+        <div class="nav-right"><a>Settings</a><div class="logout-btn">LOG OUT</div></div>
+    </nav>
+    <main selected="sessions">
+        <div class="select-section">
+            <div id="select-sessions" class="selected">Sessions</div>
+            <div id="select-loadgame"><span>Load a Game</span><span class="notification-icon"></span></div>
+        </div>
+        <section id="section-sessions" class="content">
+            <div class="savedGames">
+                <div class="header">My Saved Games</div>
+                <table class="savedGamesTable">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Creator</th>
+                            <th>Timestamp</th>
+                            <th>Players</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><div class="row-start">My Saved Game</div></td>
+                            <td><div class="row-cell">Player 1</div></td>
+                            <td><div class="row-cell">9/15/2022  14:30:45</div></td>
+                            <td><div class="row-end">Player 1, Player 2, Player 3, Player 4</div></td>
+                            <td><div class="loadjoin-btn">LOAD GAME</div></td>
+                            <td><div class="delete-btn">DEL</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="activePastGames">
+                <div class="header">Active Past Games</div>
+                <table class="activePastGamesTable">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Creator</th>
+                            <th>Timestamp</th>
+                            <th>Players</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><div class="row-start">Player 2's Game</div></td>
+                            <td><div class="row-cell">Player 2</div></td>
+                            <td><div class="row-cell">9/15/2022  14:30:45</div></td>
+                            <td><div class="row-end">Player 1, Player 2, Player 5, Player 6</div></td>
+                            <td><div class="loadjoin-btn">JOIN</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="section-loadgame" class="content">
+            <div class="currentSessions">
+                <div class="header">
+                    <span>Available Sessions</span>
+                    <span class="createSession-btn">Create Session</span>
+                </div>
+                <table class="currentSessionsTable">
+                    <tbody>
+                        <tr>
+                            <th>Game</th>
+                            <th>Creator</th>
+                            <th>Players</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><div>Splendor</div></td>
+                            <td><div>Player 2</div></td>
+                            <td><div>[2/4]: Player 2, Player 3</div></td>
+                            <td class="joinTd-btn"><span class="join-btn">Join</span></td>
+                        </tr>
+                        <tr>
+                            <td><div>Splendor</div></td>
+                            <td><div>Player 3</div></td>
+                            <td><div>[1/4]: Player 3</div></td>
+                            <td class="joinTd-btn"><span class="join-btn">Join</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+<script>
+    var sessionTabBtn = document.querySelector("#select-sessions");
+    var loadgameTabBtn = document.querySelector("#select-loadgame");
+    var mainElm = document.querySelector("main");
+
+    function changeTab(selectedElm, otherElm) {
+        if(otherElm.classList.contains("selected")) {
+            otherElm.classList.remove("selected");
+        }
+
+        if(!selectedElm.classList.contains("selected")) {
+            selectedElm.classList.add("selected");
+        }
+    }
+
+    sessionTabBtn.onclick = () => {
+        changeTab(sessionTabBtn, loadgameTabBtn);
+        mainElm.setAttribute("selected", "sessions");
+    };
+
+    loadgameTabBtn.onclick = () => {
+        changeTab(loadgameTabBtn, sessionTabBtn);
+        mainElm.setAttribute("selected", "loadgame");
+    };
+
+</script>
+</html>
