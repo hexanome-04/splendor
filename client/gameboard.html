@@ -154,7 +154,7 @@
 
   <!-- PLAYER HAND -->
   <div class="inventory-hand">
-    <p class="hand-text">HAND</p>
+    <p style="cursor: pointer;" onmouseover="openModal('playerHandModal')" onmouseout="closeModal('playerHandModal');" class="hand-text">HAND</p>
   </div>
 
   <!-- FOR TESTING PURPOSES -->
@@ -179,6 +179,38 @@
   <div class="modal-content">
     <span class="modal-close" onclick="closeModal('gameMenuModal');">&times;</span>
     <p>[Game menu goes here]</p>
+  </div>
+</div>
+
+<!-- Player Hand Modal-->
+<div id="playerHandModal" class="player-hand-modal">
+  <div class="player-hand-modal-content">
+    <div class="status-all-discounts-hand">
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: #E83131;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: #3A94E8;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: #2EA356;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: white;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: #7D4838;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+      <div class="status-discount-hand">
+        <div class="status-discount-color" style="background-color: #F1B032;"></div>
+        <p style="text-align: center">2</p>
+      </div>
+    </div>
   </div>
 </div>
 
