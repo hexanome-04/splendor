@@ -88,6 +88,15 @@ main {
     gap: 1.5em;
 }
 
+/* Hide and show the sessions/load game */
+main[selected="sessions"] #section-loadgame {
+    display: none;
+}
+
+main[selected="loadgame"] #section-sessions {
+    display: none;
+}
+
 .select-section {
     display: flex;
     flex-direction: row;

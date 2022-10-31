@@ -12,12 +12,12 @@
         <div class="nav-middle"><div class="gametitle">Splendor</div></div>
         <div class="nav-right"><a>Settings</a><div class="logout-btn">LOG OUT</div></div>
     </nav>
-    <main>
+    <main selected="sessions">
         <div class="select-section">
             <div id="select-sessions" class="selected">Sessions</div>
             <div id="select-loadgame"><span>Load a Game</span><span class="notification-icon"></span></div>
         </div>
-        <section class="content">
+        <section id="section-sessions" class="content">
             <div class="savedGames">
                 <div class="header">My Saved Games</div>
                 <table class="savedGamesTable">
@@ -63,9 +63,35 @@
                 </table>
             </div>
         </section>
-        <section class="content hidden">
+        <section id="section-loadgame" class="content">
             <div>other things here</div>
         </section>
     </main>
 </body>
+<script>
+    var sessionTabBtn = document.querySelector("#select-sessions");
+    var loadgameTabBtn = document.querySelector("#select-loadgame");
+    var mainElm = document.querySelector("main");
+
+    function changeTab(selectedElm, otherElm) {
+        if(otherElm.classList.contains("selected")) {
+            otherElm.classList.remove("selected");
+        }
+
+        if(!selectedElm.classList.contains("selected")) {
+            selectedElm.classList.add("selected");
+        }
+    }
+
+    sessionTabBtn.onclick = () => {
+        changeTab(sessionTabBtn, loadgameTabBtn);
+        mainElm.setAttribute("selected", "sessions");
+    };
+
+    loadgameTabBtn.onclick = () => {
+        changeTab(loadgameTabBtn, sessionTabBtn);
+        mainElm.setAttribute("selected", "loadgame");
+    };
+
+</script>
 </html>
