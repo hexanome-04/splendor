@@ -688,3 +688,138 @@ h3 {
   background: #888;
   cursor: pointer;
 }
+
+/* menu section */
+.myMenu{
+    height: 100%;
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left:0;
+    background-color: #4B4B4B;
+    overflow-x: hidden;
+    padding-top:5%;
+    transition: 0.5s;
+}
+
+.myMenu a {
+    /* position: relative; */
+    cursor: pointer;
+    padding:8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: .3s;
+}
+
+.myMenu a:hover{
+    color: #f1f1f1; 
+}
+
+.menu{
+    cursor: pointer;
+}
+
+#menuButton{
+    cursor: pointer;
+    height: 23px;
+    width: 30px;
+    background-color: #777;
+}
+
+.saveGame, .restartGame{
+    display: none;
+    text-align: center;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    margin-left: 30%; 
+    margin-right: 20%; 
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-top: 15%;
+
+    width: 20%; /* Full width */
+    height: 30%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #4B4B4B; /* Fallback color */
+    border-radius: 20px;
+}
+.saveOption, .restartOption{
+    width: 100px;
+    height: 50px;
+    font-size: larger;
+}
+
+#savingGameHeader, #restartGameHeader{
+    box-sizing: border-box;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#FFFFFF;
+}
+
+
+
+#saveText{
+    height: 30px;
+    width:300px;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.savedPop{
+    display: none;
+    text-align: center;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    margin-left: 40%; 
+    margin-right: 20%; 
+    padding-left: auto;
+    padding-right: auto;
+    margin-top: 20%;
+    padding-top: auto;
+
+    width: 20%; /* Full width */
+    height: 10%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+
+    background-color: #4B4B4B;
+    border-radius: 20px;
+}
+
+#savedHeader, #playerRestartCount{
+    box-sizing: border-box;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+}
+#playerRestartCount{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.close-button {
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    /* background-color: inherit; */
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 50%;
+}
+  
+  .topright {
+    position: absolute;
+    right: 0;
+    top: 0
+  }
