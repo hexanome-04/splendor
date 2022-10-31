@@ -215,3 +215,11 @@ tr > td > div {
     margin: 0 1em 0 0.5em;
     border-radius: var(--border-radius);
 }
+
+.notification-icon {
+    height: 0.7em;
+    width: 0.7em;
+    background: #F22626;
+    border-radius: 50%;
+    filter: blur(1px);
+}
