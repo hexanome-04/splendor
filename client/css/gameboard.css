@@ -144,10 +144,8 @@ body {
 
 .token {
   float: left;
-  width: 11%;
-  height: 65%;  
-  min-width: 20px;
-  min-height: 20px;
+  aspect-ratio: 1;
+  height: 65%;
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -179,8 +177,6 @@ body {
 }
 
 .inventory-tokens {
-  width: 20%;
-  min-width: 180px;
   height: inherit;
   display: flex;
   flex-wrap: wrap;
@@ -191,13 +187,8 @@ body {
 }
 
 .inv-token {
-  float: left;
-  width: 20%;
   height: 32%;
-  min-width: 32px;
-  min-height: 32px;
-  max-width: 47px;
-  max-height: 47px;
+  aspect-ratio: 1;
 
   border-radius: 50%;
   margin-left: 5%;
@@ -295,8 +286,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 65%;
   height: 60%;
+  aspect-ratio: 1;
   background-color: white;
   border-style: solid;
   border-width: 6px;
@@ -309,8 +300,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60%;
   height: 55%;
+  aspect-ratio: 1;
   background-color: white;
   border-radius: 15%;
   cursor: pointer;
@@ -320,10 +311,8 @@ body {
   position: absolute;
   top: -22px;
   right: -22px;
-  width: 40%;
-  height: 40%;
-  max-width: 35px;
-  max-height: 35px;
+  width: 2rem;
+  height: 2rem;
 
   background-color: #f0b82b;
   color: white;
@@ -610,12 +599,8 @@ h3 {
 }
 
 .select-token {
-  width: 50%;
-  height: 80%;
-  min-width: 40px;
-  min-height: 40px;
-  max-width: 50px;
-  max-height: 50px;
+  width: 3rem;
+  height: 3rem;
   margin: 1%;
   border-radius: 50%;
   
@@ -666,10 +651,8 @@ h3 {
   }
 
 .plus-minus-token {
-  width: 48%;
-  height: 4.5vh;
-  min-width: 30px;
-  max-width: 46px;
+  width: 2rem;
+  height: 2rem;
   margin: 5%;
   border-radius: 60%;
   
