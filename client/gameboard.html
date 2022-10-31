@@ -1,99 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/gameboard.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-</head>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/gameboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+  </head>
 
-<body>
-  <!-- NAVIGATION BAR -->
-<nav id="navbar">
-	<ul class="navbar">
-    <button id="menuButton" style="background-color:#4b4b4b;">
-    </button>
-	</ul>
-</nav>
+  <body>
+    <!-- NAVIGATION BAR -->
+    <nav id="navbar">
+      <ul class="navbar">
+        <button id="menuButton" style="background-color: #4b4b4b">MENU</button>
+      </ul>
+    </nav>
 
-
-  <!-- PLAYER STATUS BAR -->
-  <div class="players">
-
-    <!-- PLAYER 1 -->
-    <div class="player-container">
-      <div class="player-self">
-        <span class="material-symbols-outlined">person</span>
-        <span class="player-prestige">0</span>
-      </div>
-
-      <p class="player-self-text">PLAYER 1</p>
-    </div>
-
-    <!-- PLAYER 2 -->
-    <div class="player-container">
-      <div class="player-other" onmouseover="openModal('playerStatusModal2');" onmouseleave="closeModal('playerStatusModal2');">
-        <div class="material-symbols-outlined">person</div>
-        <div class="player-prestige">0</div>
-      </div>
-
-      <p class="player-other-text">PLAYER 2</p>
-    </div>
-    
-    <!-- PLAYER 3 -->
-    <div class="player-container">
-      <div class="player-other" onmouseover="openModal('playerStatusModal3');" onmouseleave="closeModal('playerStatusModal3');">
-        <span class="material-symbols-outlined">person</span>
-        <span class="player-prestige">0</span>
+    <!-- PLAYER STATUS BAR -->
+    <div class="players">
+      <!-- PLAYER 1 -->
+      <div class="player-container">
+        <div class="player-self">
+          <span class="material-symbols-outlined">person</span>
+          <span class="player-prestige">0</span>
         </div>
 
-      <p class="player-other-text">PLAYER 3</p>
-    </div>
-
-    <!-- PLAYER 4 -->
-    <div class="player-container">
-      <div class="player-other" onmouseover="openModal('playerStatusModal4');" onmouseleave="closeModal('playerStatusModal4');">
-        <span class="material-symbols-outlined">person</span>
-        <span class="player-prestige">0</span>
+        <p class="player-self-text">PLAYER 1</p>
       </div>
 
-      <p class="player-other-text">PLAYER 4</p>
-    </div>
+      <!-- PLAYER 2 -->
+      <div class="player-container">
+        <div
+          class="player-other"
+          onmouseover="openModal('playerStatusModal2');"
+          onmouseleave="closeModal('playerStatusModal2');"
+        >
+          <div class="material-symbols-outlined">person</div>
+          <div class="player-prestige">0</div>
+        </div>
 
-  </div>
-
-  
-  <!-- GAMEBOARD -->
-  <div class="board">
-
-    <!-- TOKENS -->
-    <div class="token-div">
-      <div style="background: #E83131;" class="token">
-        <p class="token-text">2</p>
+        <p class="player-other-text">PLAYER 2</p>
       </div>
-      <div style="background: #3A94E8;" class="token">
-        <p class="token-text">2</p></div>
-      <div style="background: #2EA356;" class="token">
-        <p class="token-text">2</p></div>
-      <div style="background: #F2F2F2;" class="token">
-        <p class="token-text">2</p></div>
-      <div style="background: #7d4838;" class="token">
-        <p class="token-text">2</p></div>
-      <div style="background: #F1B032;" class="token">
-        <p class="token-text">2</p></div>
+
+      <!-- PLAYER 3 -->
+      <div class="player-container">
+        <div
+          class="player-other"
+          onmouseover="openModal('playerStatusModal3');"
+          onmouseleave="closeModal('playerStatusModal3');"
+        >
+          <span class="material-symbols-outlined">person</span>
+          <span class="player-prestige">0</span>
+        </div>
+
+        <p class="player-other-text">PLAYER 3</p>
+      </div>
+
+      <!-- PLAYER 4 -->
+      <div class="player-container">
+        <div
+          class="player-other"
+          onmouseover="openModal('playerStatusModal4');"
+          onmouseleave="closeModal('playerStatusModal4');"
+        >
+          <span class="material-symbols-outlined">person</span>
+          <span class="player-prestige">0</span>
+        </div>
+
+        <p class="player-other-text">PLAYER 4</p>
+      </div>
     </div>
 
-    <!-- NOBLES -->
-    <div class="noble-div">
-        <div class="noble"></div>
-        <div class="noble"></div>
-        <div class="noble"></div>
-        <div class="noble"></div>
-        <div class="noble"></div>
-    </div>
+    <!-- GAMEBOARD -->
+    <div class="board">
+      <!-- TOKENS -->
+      <div class="token-div">
+        <div style="background: #e83131" class="token">
+          <p class="token-text">2</p>
+        </div>
+        <div style="background: #3a94e8" class="token">
+          <p class="token-text">2</p>
+        </div>
+        <div style="background: #2ea356" class="token">
+          <p class="token-text">2</p>
+        </div>
+        <div style="background: #f2f2f2" class="token">
+          <p class="token-text">2</p>
+        </div>
+        <div style="background: #7d4838" class="token">
+          <p class="token-text">2</p>
+        </div>
+        <div style="background: #f1b032" class="token">
+          <p class="token-text">2</p>
+        </div>
+      </div>
 
-    <!-- CARDS -->
-    <div class="cards">
+      <!-- NOBLES -->
+      <div class="noble-div">
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
+        <div class="noble"></div>
+      </div>
 
+      <!-- CARDS -->
+      <div class="cards">
         <!-- ROW 1 -->
         <div class="card card-deck-blue"></div>
         <div class="card"></div>
@@ -126,467 +139,622 @@
         <div class="card card-orient"></div>
         <div class="card card-orient"></div>
         <div class="card card-orient card-deck-orient"></div>
+      </div>
     </div>
 
-  </div>
+    <!-- PLAYER INVENTORY -->
+    <div class="player-inventory">
+      <!-- PLAYER TOKENS -->
+      <div class="inventory-tokens">
+        <div style="background: #e83131" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+        <div style="background: #3a94e8" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+        <div style="background: #2ea356" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+        <div style="background: #f2f2f2" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+        <div style="background: #7d4838" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+        <div style="background: #f1b032" class="inv-token">
+          <p class="inv-token-text">2</p>
+        </div>
+      </div>
 
+      <!-- PLAYER HAND -->
+      <div class="inventory-hand">
+        <!-- Player Hand Modal-->
+        <div id="playerHandModal" class="player-hand-modal">
+          <div class="player-hand-modal-content">
+            <div class="status-all-discounts-hand">
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: #e83131"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: #3a94e8"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: #2ea356"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: white"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: #7d4838"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+              <div class="status-discount-hand">
+                <div
+                  class="status-discount-color"
+                  style="background-color: #f1b032"
+                ></div>
+                <p style="text-align: center">2</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<!-- PLAYER INVENTORY -->
-<div class="player-inventory">
+        <p style="cursor: pointer" class="hand-text">HAND</p>
+      </div>
 
-  <!-- PLAYER TOKENS -->
-  <div class="inventory-tokens">
-    <div style="background: #E83131;" class="inv-token">
-      <p class="inv-token-text">2</p>
+      <!-- FOR TESTING PURPOSES -->
+      <div class="inventory-hand">
+        <p
+          style="cursor: pointer"
+          onclick="openModal('actionModal')"
+          class="hand-text"
+        >
+          SELECT ACTION MODAL TESTING
+        </p>
+      </div>
+
+      <!-- RESERVED CARDS -->
+      <div class="inventory-reserved-cards">
+        <div class="reserved-card"></div>
+        <div class="reserved-card"></div>
+        <div class="reserved-card"></div>
+      </div>
     </div>
-    <div style="background: #3A94E8;" class="inv-token">
-      <p class="inv-token-text">2</p></div>
-    <div style="background: #2EA356;" class="inv-token">
-      <p class="inv-token-text">2</p></div>
-    <div style="background: #F2F2F2;" class="inv-token">
-      <p class="inv-token-text">2</p></div>
-    <div style="background: #7d4838;" class="inv-token">
-      <p class="inv-token-text">2</p></div>
-    <div style="background: #F1B032;" class="inv-token">
-      <p class="inv-token-text">2</p></div>
-  </div>
 
-  <!-- PLAYER HAND -->
-  <div class="inventory-hand">
-    <!-- Player Hand Modal-->
-    <div id="playerHandModal" class="player-hand-modal">
-      <div class="player-hand-modal-content">
-        <div class="status-all-discounts-hand">
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: #E83131;"></div>
+    <br />
+
+    <!-- Game Menu Modal -->
+    <div id="gameMenuModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('gameMenuModal');"
+          >&times;</span
+        >
+        <p>[Game menu goes here]</p>
+      </div>
+    </div>
+
+    <!-- Select Action Modal -->
+    <div id="actionModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('actionModal');"
+          >&times;</span
+        >
+        <h1 class="modal-text">YOUR TURN!</h1>
+        <h3 class="modal-text">(Choose an action)</h3>
+        <div
+          class="modal-button modal-text"
+          onclick="closeModal('actionModal'); openModal('selectTokenModal')"
+        >
+          <h2>GET TOKENS</h2>
+        </div>
+        <div
+          class="modal-button modal-text"
+          onclick="closeModal('actionModal'); openModal('purchaseCardModal')"
+        >
+          <h2>PURCHASE CARD</h2>
+        </div>
+        <div
+          class="modal-button modal-text"
+          onclick="closeModal('actionModal'); openModal('reserveCardModal')"
+        >
+          <h2>RESERVE CARD</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Select Tokens Modal -->
+    <div id="selectTokenModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('selectTokenModal');"
+          >&times;</span
+        >
+        <div class="select-token-modal">
+          <div class="select-tokens">
+            <div style="background: #e83131" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+            <div style="background: #3a94e8" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+            <div style="background: #2ea356" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+            <div style="background: #f2f2f2" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+            <div style="background: #7d4838" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+            <div style="background: #f1b032" class="select-token">
+              <p class="select-token-text">2</p>
+            </div>
+          </div>
+          <h2 class="you-chose-text">YOU CHOSE:</h2>
+          <div class="plus-minus-all">
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #e83131" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #3a94e8" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #2ea356" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #f2f2f2" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #7d4838" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+            <div class="plus-minus">
+              <div class="plus-minus-button">+</div>
+              <div style="background: #f1b032" class="plus-minus-token">
+                <p class=".select-token-text">0</p>
+              </div>
+              <div class="plus-minus-button">-</div>
+            </div>
+          </div>
+          <div
+            class="modal-button modal-text"
+            onclick="closeModal('selectTokenModal')"
+          >
+            <h2>CONFIRM</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase Card Modal -->
+    <div id="purchaseCardModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('purchaseCardModal');"
+          >&times;</span
+        >
+        <p>Some text in the Modal..</p>
+      </div>
+    </div>
+
+    <!-- Reserve Card Modal -->
+    <div id="reserveCardModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('reserveCardModal');"
+          >&times;</span
+        >
+        <p>Some text in the Modal..</p>
+      </div>
+    </div>
+
+    <!-- Player Status Modal -->
+    <div id="playerStatusModal2" class="player-status-modal">
+      <div class="player-status-modal-content player-2">
+        <div class="status-reserved-cards">
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
+        </div>
+        <div class="status-all-discounts">
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #e83131"
+            ></div>
             <p style="text-align: center">2</p>
           </div>
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: #3A94E8;"></div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #3a94e8"
+            ></div>
             <p style="text-align: center">2</p>
           </div>
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: #2EA356;"></div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #2ea356"
+            ></div>
             <p style="text-align: center">2</p>
           </div>
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: white;"></div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: white"
+            ></div>
             <p style="text-align: center">2</p>
           </div>
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: #7D4838;"></div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #7d4838"
+            ></div>
             <p style="text-align: center">2</p>
           </div>
-          <div class="status-discount-hand">
-            <div class="status-discount-color" style="background-color: #F1B032;"></div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #f1b032"
+            ></div>
             <p style="text-align: center">2</p>
+          </div>
+        </div>
+        <div class="status-tokens">
+          <div style="background: #e83131" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #3a94e8" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #2ea356" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f2f2f2" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #7d4838" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f1b032" class="inv-token">
+            <p class="inv-token-text">2</p>
           </div>
         </div>
       </div>
     </div>
 
-    <p style="cursor: pointer;" class="hand-text">HAND</p>
-  </div>
-
-  <!-- FOR TESTING PURPOSES -->
-  <div class="inventory-hand">
-    <p style="cursor: pointer;" onclick="openModal('actionModal')" class="hand-text">SELECT ACTION MODAL TESTING</p>
-  </div>
-
-  <!-- RESERVED CARDS -->
-  <div class="inventory-reserved-cards">
-    <div class="reserved-card"></div>
-    <div class="reserved-card"></div>
-    <div class="reserved-card"></div>
-  </div>
-
-</div>
-
-
-<br>
-
-<!-- Game Menu Modal -->
-<div id="gameMenuModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('gameMenuModal');">&times;</span>
-    <p>[Game menu goes here]</p>
-  </div>
-</div>
-
-<!-- Select Action Modal -->
-<div id="actionModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('actionModal');">&times;</span>
-    <h1 class="modal-text">YOUR TURN!</h1>
-    <h3 class="modal-text">(Choose an action)</h3>
-    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('selectTokenModal')"><h2>GET TOKENS</h2></div>
-    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('purchaseCardModal')"><h2>PURCHASE CARD</h2></div>
-    <div class="modal-button modal-text" onclick="closeModal('actionModal'); openModal('reserveCardModal')"><h2>RESERVE CARD</h2></div>
-  </div>
-
-</div>
-
-<!-- Select Tokens Modal -->
-<div id="selectTokenModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('selectTokenModal');">&times;</span>
-    <div class="select-token-modal">
-      <div class="select-tokens">
-        <div style="background: #E83131;" class="select-token">
-          <p class="select-token-text">2</p></div>
-        <div style="background: #3A94E8;" class="select-token">
-          <p class="select-token-text">2</p></div>
-        <div style="background: #2EA356;" class="select-token">
-          <p class="select-token-text">2</p></div>
-        <div style="background: #F2F2F2;" class="select-token">
-          <p class="select-token-text">2</p></div>
-        <div style="background: #7d4838;" class="select-token">
-          <p class="select-token-text">2</p></div>
-        <div style="background: #F1B032;" class="select-token">
-          <p class="select-token-text">2</p></div>
-      </div>
-      <h2 class="you-chose-text">YOU CHOSE:</h2>
-      <div class="plus-minus-all">
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #E83131;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
+    <div id="playerStatusModal3" class="player-status-modal">
+      <div class="player-status-modal-content player-3">
+        <div class="status-reserved-cards">
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
         </div>
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #3A94E8;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
+        <div class="status-all-discounts">
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #e83131"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #3a94e8"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #2ea356"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: white"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #7d4838"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #f1b032"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
         </div>
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #2EA356;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
-        </div>
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #F2F2F2;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
-        </div>
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #7d4838;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
-        </div>
-        <div class="plus-minus">
-          <div class="plus-minus-button">+</div>
-          <div style="background: #F1B032;" class="plus-minus-token"><p class=".select-token-text">0</p></div>
-          <div class="plus-minus-button">-</div>
+        <div class="status-tokens">
+          <div style="background: #e83131" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #3a94e8" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #2ea356" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f2f2f2" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #7d4838" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f1b032" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
         </div>
       </div>
-      <div class="modal-button modal-text" onclick="closeModal('selectTokenModal')"><h2>CONFIRM</h2></div>
     </div>
-  </div>
 
-</div>
-
-<!-- Purchase Card Modal -->
-<div id="purchaseCardModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('purchaseCardModal');">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-</div>
-
-<!-- Reserve Card Modal -->
-<div id="reserveCardModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal('reserveCardModal');">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-</div>
-
-<!-- Player Status Modal -->
-<div id="playerStatusModal2" class="player-status-modal">
-  <div class="player-status-modal-content player-2">
-    <div class="status-reserved-cards">
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-    </div>
-    <div class="status-all-discounts">
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #E83131;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #3A94E8;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #2EA356;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: white;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #7D4838;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #F1B032;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-    </div>
-    <div class="status-tokens">
-      <div style="background: #E83131;" class="inv-token">
-        <p class="inv-token-text">2</p>
-      </div>
-      <div style="background: #3A94E8;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #2EA356;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F2F2F2;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #7d4838;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F1B032;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-    </div>
-    
-  </div>
-</div>
-
-<div id="playerStatusModal3" class="player-status-modal">
-  <div class="player-status-modal-content player-3">
-    <div class="status-reserved-cards">
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-    </div>
-    <div class="status-all-discounts">
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #E83131;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #3A94E8;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #2EA356;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: white;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #7D4838;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #F1B032;"></div>
-        <p style="text-align: center">2</p>
+    <div id="playerStatusModal4" class="player-status-modal">
+      <div class="player-status-modal-content player-4">
+        <div class="status-reserved-cards">
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
+          <div class="status-reserved-card"></div>
+        </div>
+        <div class="status-all-discounts">
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #e83131"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #3a94e8"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #2ea356"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: white"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #7d4838"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+          <div class="status-discount">
+            <div
+              class="status-discount-color"
+              style="background-color: #f1b032"
+            ></div>
+            <p style="text-align: center">2</p>
+          </div>
+        </div>
+        <div class="status-tokens">
+          <div style="background: #e83131" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #3a94e8" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #2ea356" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f2f2f2" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #7d4838" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+          <div style="background: #f1b032" class="inv-token">
+            <p class="inv-token-text">2</p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="status-tokens">
-      <div style="background: #E83131;" class="inv-token">
-        <p class="inv-token-text">2</p>
-      </div>
-      <div style="background: #3A94E8;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #2EA356;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F2F2F2;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #7d4838;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F1B032;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
+
+    <!-- The Modal -->
+    <div id="menuPop" class="myMenu">
+      <!-- <h1 id="sidebar">MENU</h1> -->
+      <a onclick="closeMenu()">RESUME</a>
+      <a onclick="handleSave()">SAVE</a>
+      <a onclick="handleRestart()">RESTART</a>
+      <a href="login.html">QUIT</a>
     </div>
-    
-  </div>
-</div>
 
-<div id="playerStatusModal4" class="player-status-modal">
-  <div class="player-status-modal-content player-4">
-    <div class="status-reserved-cards">
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
+    <div id="saveGamePop" class="saveGame">
+      <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
+      <form autocomplete="off">
+        <input type="text" id="saveText" />
+        <input
+          type="button"
+          class="saveOption"
+          id="saveSubmit"
+          value="SAVE"
+          onclick="saved()"
+        />
+        <input
+          type="button"
+          class="saveOption"
+          id="saveBack"
+          value="BACK"
+          onclick="closeSavePop()"
+        />
+      </form>
     </div>
-    <div class="status-all-discounts">
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #E83131;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #3A94E8;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #2EA356;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: white;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #7D4838;"></div>
-        <p style="text-align: center">2</p>
-      </div>
-      <div class="status-discount">
-        <div class="status-discount-color" style="background-color: #F1B032;"></div>
-        <p style="text-align: center">2</p>
-      </div>
+
+    <div id="gameSaved" class="savedPop">
+      <h1 id="savedHeader">GAME SAVED!</h1>
+      <header style="background-color: #000; color: #fff">
+        <span
+          onclick="document.getElementById('gameSaved').style.display='none'"
+          class="close-button topright"
+          >&times;</span
+        >
+      </header>
     </div>
-    <div class="status-tokens">
-      <div style="background: #E83131;" class="inv-token">
-        <p class="inv-token-text">2</p>
-      </div>
-      <div style="background: #3A94E8;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #2EA356;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F2F2F2;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #7d4838;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
-      <div style="background: #F1B032;" class="inv-token">
-        <p class="inv-token-text">2</p></div>
+
+    <div id="restartGamePop" class="restartGame">
+      <h1 id="restartGameHeader">RESTART GAME?</h1>
+      <h2 id="playerRestartCount">1/4</h2>
+      <input
+        type="button"
+        class="restartOption"
+        id="restartYes"
+        value="YES"
+        onclick="getRestartCount()"
+      />
+      <input type="button" class="restartOption" id="restartNo" value="NO" />
     </div>
-    
-  </div>
-</div>
 
-<!-- The Modal -->
-<div id="menuPop" class="myMenu">
-  <!-- <h1 id="sidebar">MENU</h1> -->
-  <a onclick="closeMenu()">RESUME</a>
-  <a onclick="handleSave()">SAVE</a>
-  <a onclick="handleRestart()">RESTART</a>
-  <a href="login.html">QUIT</a>
-</div>
+    <script>
+      // Get the modal
+      // Get the modal
+      const menuButton = document.getElementById("menuButton");
+      const menuPop = document.getElementById("menuPop");
+      const resumeButton = document.getElementById("resumeGame");
+      const menuWholeButton = document.getElementById("menuHolder");
+      const saveName = document.getElementById("saveText");
 
-<div id="saveGamePop" class="saveGame">
-  <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
-  <form autocomplete="off">
-    <input type="text" id="saveText">
-    <input type="button" class="saveOption" id="saveSubmit" value="SAVE" onclick="saved()"/>
-    <input type="button" class="saveOption" id="saveBack" value="BACK" onclick="closeSavePop()"/>
-  </form>
-</div>
+      //save
+      const savePop = document.getElementById("saveGamePop");
+      const backButton = document.getElementById("saveBack");
+      const savedPop = document.getElementById("gameSaved");
+      let menuStatus = false;
 
-<div id="gameSaved" class="savedPop">
-  <h1 id="savedHeader">GAME SAVED!</h1>
-  <header style="background-color:#000;color:#fff;">
-    <span onclick="document.getElementById('gameSaved').style.display='none'" class="close-button topright">&times;</span>
-  </header>
-  </div>
+      //restart
+      const restartGamePop = document.getElementById("restartGamePop");
+      const restartCount = document.getElementById("playerRestartCount");
 
-  <div id="restartGamePop" class="restartGame">
-    <h1 id="restartGameHeader">RESTART GAME?</h1>
-    <h2 id="playerRestartCount">1/4</h2>
-    <input type="button" class="restartOption" id="restartYes" value="YES" onclick="getRestartCount()"/>
-    <input type="button" class="restartOption" id="restartNo" value="NO"/>
-  </div>
+      const openMenu = (e) => {
+        menuPop.style.width = "250px";
+        menuStatus = true;
+      };
+      const closeMenu = (e) => {
+        menuPop.style.width = "0px";
+        menuStatus = false;
+      };
 
+      const handleMenu = (e) => {
+        if (menuStatus) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      };
 
-<script>
-  // Get the modal
-// Get the modal
-const menuButton = document.getElementById("menuButton");
-const menuPop = document.getElementById("menuPop");
-const resumeButton = document.getElementById("resumeGame");
-const menuWholeButton = document.getElementById("menuHolder");
-const saveName = document.getElementById("saveText");
+      const handleSave = (e) => {
+        savePop.style.display = "block";
+      };
 
-//save
-const savePop = document.getElementById("saveGamePop");
-const backButton = document.getElementById("saveBack");
-const savedPop = document.getElementById("gameSaved");
-let menuStatus=false;
+      const handleQuit = (e) => {
+        closeMenu();
+      };
 
-//restart
-const restartGamePop = document.getElementById("restartGamePop");
-const restartCount = document.getElementById("playerRestartCount");
+      const handleRestart = (e) => {
+        closeMenu();
+        restartGamePop.style.display = "block";
+      };
 
-const openMenu = (e)=>{
-    menuPop.style.width = "250px";
-    menuStatus = true;
-}
-const closeMenu = (e)=>{
-    menuPop.style.width = "0px";
-    menuStatus = false;
-}
+      const saved = (e) => {
+        savePop.style.display = "none";
+        saveName.value = "";
+        savedPop.style.display = "block";
+        savedPopStatus = true;
+      };
 
-const handleMenu = (e)=>{
-  if(menuStatus){
-    closeMenu();
-  }else{
-    openMenu();
-  }
-}
+      const closeSavePop = (e) => {
+        saveName.value = "";
+        savePop.style.display = "none";
+      };
 
-const handleSave = (e)=>{
-    savePop.style.display ="block";
-}
+      const getRestartCount = (e) => {
+        const tmp = restartCount.innerHTML;
+        if (tmp == "1/4") {
+          restartCount.innerHTML = "2/4";
+        } else if (tmp == "2/4") {
+          restartCount.innerHTML = "3/4";
+        } else if (tmp == "3/4") {
+          restartCount.innerHTML = "4/4";
+        }
+      };
 
-const handleQuit = (e) => {
-  closeMenu();
-}
+      window.addEventListener("click", function (e) {
+        if (!menuStatus && e.target === menuButton) {
+          openMenu();
+        } else if (menuStatus && e.target !== menuPop) {
+          closeMenu();
+        }
+      });
 
-const handleRestart =(e)=>{
-  closeMenu();
-  restartGamePop.style.display = "block";
-  
-}
+      // When the user clicks on <span> (x), modal-close the modal
+      var closeModal = function (id) {
+        document.getElementById(id).style.display = "none";
+      };
 
-const saved =(e)=>{
-  savePop.style.display = "none";
-  saveName.value = "";
-  savedPop.style.display ="block";
-  savedPopStatus = true;
-}
+      var openModal = function (id) {
+        document.getElementById(id).style.display = "block";
+      };
 
-const closeSavePop = (e) =>{
-  saveName.value = "";
-  savePop.style.display ="none";
-}
-
-const getRestartCount = (e) =>{
-  const tmp = restartCount.innerHTML;
-  if(tmp == "1/4"){
-    restartCount.innerHTML = "2/4";
-  }else if(tmp == "2/4"){
-    restartCount.innerHTML = "3/4";
-  }else if(tmp == "3/4"){
-    restartCount.innerHTML = "4/4";
-  }
-}
-
-window.addEventListener("click", function(e){
-    if(!menuStatus&& e.target === menuButton){
-      openMenu();
-    }else if(menuStatus&& e.target !== menuPop){
-      closeMenu();
-    }
-  })
-
-  // When the user clicks on <span> (x), modal-close the modal
-  var closeModal = function(id) {
-    document.getElementById(id).style.display = "none";
-  }
-
-  var openModal = function(id) {
-    document.getElementById(id).style.display='block';
-  }
-
-  // When the user clicks anywhere outside of the modal, modal-close it
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-</script>
-
-</body>
+      // When the user clicks anywhere outside of the modal, modal-close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </body>
 </html>
