@@ -705,14 +705,14 @@ h3 {
 .purchase-card-modal-content {
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   border-radius: 20px;
   height: 80%;
   width: 40%;
 }
 
 .purchase-cards {
-  margin: auto;
+  
   width: 100%;
   height: 65%;
 
@@ -755,6 +755,23 @@ h3 {
   margin-top: 0%;
   background: #eee;
   border-radius: 10%;
+}
+
+.reserve-modal-button {
+  background: #ccc;
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 1.5%;
+  width: 30%;
+  height: 10%;
+  font-size: 1.3vw;
+  text-align: center;
+  line-height: 260%;
+}
+
+.reserve-modal-button:hover {
+  background: #bbb;
+  cursor: pointer;
 }
 
 .card-orient {
