@@ -243,14 +243,7 @@
     <br />
 
     <!-- Game Menu Modal -->
-    <div id="gameMenuModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="closeModal('gameMenuModal');"
-          >&times;</span
-        >
-        <p>[Game menu goes here]</p>
-      </div>
-    </div>
+
 
     <!-- Select Action Modal -->
     <div id="actionModal" class="modal">
@@ -616,66 +609,51 @@
     </div>
 
     <div id="saveGamePop" class="saveGame">
-      <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
-      <header style="background-color: #000; color: #fff">
-        <span
-          onclick="document.getElementById('saveGamePop').style.display='none'"
-          class="close-button topright"
-          >&times;</span
-        >
-      </header>
-      <form autocomplete="off">
-        <input type="text" id="saveText" />
-        <input
-          type="button"
-          class="saveOption"
-          id="saveSubmit"
-          value="SAVE"
-          onclick="saved()"
-        />
-        <input
-          type="button"
-          class="saveOption"
-          id="saveBack"
-          value="BACK"
-          onclick="closeSavePop()"
-        />
-      </form>
+      <div class="saveGame-content">
+        <span class="modal-close" onclick="closeModal('saveGamePop');"
+        >&times;</span>
+        <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
+        <form autocomplete="off">
+          <input type="text" id="saveText" />
+        </form>
+        <div
+            class="menu-save-restart-button"
+            id="saveSubmit"
+            onclick="saved()"
+          >SAVE</div>
+          <div
+            class="menu-save-restart-button"
+            id="saveBack"
+            onclick="closeSavePop()"
+          >BACK</div>
+      </div>
     </div>
 
     <div id="gameSaved" class="savedPop">
-      <h1 id="savedHeader">GAME SAVED!</h1>
-      <header style="background-color: #000; color: #fff">
-        <span
-          onclick="document.getElementById('gameSaved').style.display='none'"
-          class="close-button topright"
-          >&times;</span
-        >
-      </header>
+      <div class="saved-content">
+        <span class="modal-close" onclick="closeModal('gameSaved');"
+          >&times;</span>
+        <h1 id="savedHeader">GAME SAVED!</h1>
+      </div>
     </div>
 
     <div id="restartGamePop" class="restartGame">
-      <h1 id="restartGameHeader">RESTART GAME?</h1>
-      <h2 id="playerRestartCount">1/4</h2>
-      <input
-        type="button"
-        class="restartOption"
-        id="restartYes"
-        value="YES"
-        onclick="getRestartCount()"
-      />
-      <input type="button" class="restartOption" id="restartNo" value="NO" />
-      <header style="background-color: #000; color: #fff">
-        <span
-          onclick="document.getElementById('restartGamePop').style.display='none'"
-          class="close-button topright"
-          >&times;</span
-        >
-      </header>
+      <div class="restartGame-content">
+        <span class="modal-close" onclick="closeModal('restartGamePop');"
+        >&times;</span>
+        <h1 id="restartGameHeader">RESTART GAME?</h1>
+        <h2 id="playerRestartCount">1/4</h2>
+        <div
+          class="menu-save-restart-button"
+          id="restartYes"
+          onclick="getRestartCount()"
+        >YES</div>
+        <div class="menu-save-restart-button" id="restartNo">NO
+        </div>
+      </div>
     </div>
 
     <script>
-      // Get the modal
       // Get the modal
       const menuButton = document.getElementById("menuButton");
       const menuPop = document.getElementById("menuPop");
@@ -712,10 +690,6 @@
 
       const handleSave = (e) => {
         savePop.style.display = "block";
-      };
-
-      const handleQuit = (e) => {
-        closeMenu();
       };
 
       const handleRestart = (e) => {

@@ -714,112 +714,75 @@ h3 {
 #menuButton {
   border: none;
   cursor: pointer;
-  height: 50px;
-  width: 10%;
+  height: 100%;
+  width: 15%;
   background-color: #777;
-  font-size: xx-large;
   color: #ffffff;
+  font-size: 100%;
 }
 
 .saveGame,
-.restartGame {
+.restartGame, .savedPop{
   display: none;
-  text-align: center;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 10%;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px; /* Location of the box */
+  margin-left: 10%;
+  margin-top: 5%;
+  left: 0;
   top: 0;
-  margin-left: 20%;
-  margin-right: 20%;
-  padding-left: 10%;
-  padding-right: 10%;
-  margin-top: 15%;
-  width: 20%; /* Full width */
-  /* overflow: auto; Enable scroll if needed */
-  background-color: #4b4b4b; /* Fallback color */
+  width: 80%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  z-index: 4;
+
+}
+.saveGame-content, .restartGame-content, .saved-content{
+  background-color: #4b4b4b;
+  margin: auto;
+  padding: 20px;
   border-radius: 20px;
-}
+  width: 70%;
+} 
 
-.saveGame{
-  height: 30%; /* Full height */
+.menu-save-restart-button{
+  text-align: center;
+  background: #ccc;
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 1.5%;
+  width: 20%;
+  height: 30%;
+  font-size: 1.5vw;
 }
-.restartGame{
-  height: 38%; /* Full height */
-
-}
-.saveOption,
-.restartOption {
-  width: 100px;
-  height: 50px;
-  font-size: xx-large;
+.menu-save-restart-button:hover{
+  background: #bbb;
+  cursor: pointer;
 }
 
 #savingGameHeader,
-#restartGameHeader {
-  box-sizing: border-box;
-  font-style: italic;
-  font-family: Arial, Helvetica, sans-serif;
+#restartGameHeader, #savedHeader {
+  text-align: center;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #saveText {
-  height: 30px;
-  width: 300px;
-  margin-bottom: 20px;
-  font-size: 30px;
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 2%;
+  margin-bottom: 10%;
 }
 
-.savedPop {
-  display: none;
-  text-align: center;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  margin-left: 40%;
-  margin-right: 20%;
-  padding-left: auto;
-  padding-right: auto;
-  margin-top: 20%;
-  padding-top: auto;
-
-  width: 20%; /* Full width */
-  height: 20%; /* Full height */
-
-  background-color: #4b4b4b;
-  border-radius: 20px;
-}
-
-#savedHeader,
-#playerRestartCount {
-  font-size: 300%;
-  box-sizing: border-box;
-  font-style: italic;
-  font-family: Arial, Helvetica, sans-serif;
+#playerRestartCount, #playerRestartCount{
   color: #ffffff;
-}
-#playerRestartCount {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.close-button {
-  border: none;
-  display: inline-block;
-  padding: 8px 16px;
-  vertical-align: middle;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  /* background-color: inherit; */
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  border-radius: 50%;
-}
-
-.topright {
-  position: absolute;
-  right: 0;
-  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
