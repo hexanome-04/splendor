@@ -727,19 +727,25 @@ h3 {
   text-align: center;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  left: 0;
+  left: 10%;
   top: 0;
-  margin-left: 30%;
+  margin-left: 20%;
   margin-right: 20%;
   padding-left: 10%;
   padding-right: 10%;
   margin-top: 15%;
-
-  width: 15%; /* Full width */
-  height: 25%; /* Full height */
+  width: 20%; /* Full width */
   /* overflow: auto; Enable scroll if needed */
   background-color: #4b4b4b; /* Fallback color */
   border-radius: 20px;
+}
+
+.saveGame{
+  height: 30%; /* Full height */
+}
+.restartGame{
+  height: 38%; /* Full height */
+
 }
 .saveOption,
 .restartOption {
@@ -778,7 +784,7 @@ h3 {
   padding-top: auto;
 
   width: 20%; /* Full width */
-  height: 10%; /* Full height */
+  height: 20%; /* Full height */
 
   background-color: #4b4b4b;
   border-radius: 20px;
