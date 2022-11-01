@@ -617,6 +617,13 @@
 
     <div id="saveGamePop" class="saveGame">
       <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
+      <header style="background-color: #000; color: #fff">
+        <span
+          onclick="document.getElementById('saveGamePop').style.display='none'"
+          class="close-button topright"
+          >&times;</span
+        >
+      </header>
       <form autocomplete="off">
         <input type="text" id="saveText" />
         <input
@@ -658,6 +665,13 @@
         onclick="getRestartCount()"
       />
       <input type="button" class="restartOption" id="restartNo" value="NO" />
+      <header style="background-color: #000; color: #fff">
+        <span
+          onclick="document.getElementById('restartGamePop').style.display='none'"
+          class="close-button topright"
+          >&times;</span
+        >
+      </header>
     </div>
 
     <script>
