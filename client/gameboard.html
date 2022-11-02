@@ -736,6 +736,28 @@
     </div>
 
     <script>
+      // Reserve cards selection
+      function setupSelectionCards(selector) {
+        document.querySelectorAll(selector).forEach((elm) => {
+          elm.onclick = () => {
+            // get the current selected card (should have .selected-card as a class)
+            const selectedCard = document.querySelector(`${selector}.selected-card`);
+            // remove the selection
+            if(selectedCard) selectedCard.classList.remove("selected-card");
+
+            // only add to clicked element if the old selected was not the clicked element
+            if(selectedCard !== elm) {
+              elm.classList.add("selected-card");
+            }
+          };
+        });
+      }
+
+      setupSelectionCards("#purchaseCardModal .purchase-cards .reserve-card");
+      setupSelectionCards("#reserveCardModal .reserve-cards .reserve-card");
+
+
+
       // Get the modal
       const menuButton = document.getElementById("menuButton");
       const menuLines = document.getElementById("menu")
