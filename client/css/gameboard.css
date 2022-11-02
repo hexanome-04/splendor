@@ -127,7 +127,7 @@ img {
   height: 75%;
   margin: 2%;
   background: #ddd;
-  border-radius: 20%;
+  border-radius: 10%;
 }
 
 .token-div {
@@ -360,6 +360,7 @@ img {
   width: 100%;
   height: 100%;
   overflow: auto;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
 }
 
 .player-status-modal-content {
@@ -375,7 +376,7 @@ img {
 
 .player-hand-modal {
   --inv-hand-modal-height: 100%;
-  --inv-width-additional: 75%;
+  --inv-width-additional: 95%;
 
   display: none;
   position: absolute;
@@ -393,6 +394,8 @@ img {
   margin: 0;
   border-radius: 20px;
   width: 100%;
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 .player-2 {
@@ -689,14 +692,14 @@ h3 {
   margin: auto;
   padding: 10px;
   border-radius: 20px;
-  height: 80%;
+  height: 70%;
   width: 40%;
 }
 
 .purchase-cards {
   
   width: 100%;
-  height: 65%;
+  height: 70%;
 
   display: flex;
   flex-wrap: wrap;
@@ -717,13 +720,15 @@ h3 {
 }
 
 .reserve-cards {
-  margin: auto;
   width: 100%;
-  height: 75%;
+  height: 70%;
 
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
   
 .reserve-card {
   float: left;

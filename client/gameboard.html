@@ -13,7 +13,7 @@
     <!-- NAVIGATION BAR -->
     <nav id="navbar">
       <ul class="navbar">
-        <button id="menuButton" style="background-color: #4b4b4b">MENU</button>
+        <img id="menuButton" src="./images/MenuGraphic.png" style="width: 35px;">
       </ul>
     </nav>
 
@@ -98,26 +98,13 @@
 
       <!-- NOBLES -->
       <div class="noble-div">
-        <div class="noble">
-          <img src="./images/noble-B-B-W.jpg">
-        </div>
-        <div class="noble">
-          <img src="./images/noble-B-R-G.jpg">
-
-        </div>
-        <div class="noble">
-          <img src="./images/noble-B-R-W.jpg">
-
-        </div>
-        <div class="noble">
-          <img src="./images/noble-G-B-R.jpg">
-
-        </div>
-        <div class="noble">
-          <img src="./images/noble-G-B-W.jpg">
-
-        </div>
+        <img class="noble" src="./images/noble-B-B-W.jpg">
+        <img class="noble" src="./images/noble-B-R-G.jpg">
+        <img class="noble" src="./images/noble-B-R-W.jpg">
+        <img class="noble" src="./images/noble-G-B-R.jpg">
+        <img class="noble" src="./images/noble-G-B-W.jpg">
       </div>
+      
       <!-- CARDS -->
       <div class="cards">
         <!-- ROW 1 -->
@@ -253,9 +240,8 @@
         <p
           style="cursor: pointer"
           onclick="openModal('actionModal')"
-          class="hand-text"
-        >
-          SELECT ACTION MODAL TESTING
+          class="hand-text">
+          TAKE TURN
         </p>
       </div>
 
@@ -267,42 +253,33 @@
       </div>
     </div>
 
-    <br />
+  <!-- Game Menu Modal -->
 
-    <!-- Game Menu Modal -->
+    
 
 
-    <!-- Select Action Modal -->
-    <div id="actionModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="closeModal('actionModal');"
-          >&times;</span
-        >
-        <h1 class="modal-text">YOUR TURN!</h1>
-        <h3 class="modal-text">(Choose an action)</h3>
-        <div
-          class="modal-button modal-text"
-          onclick="closeModal('actionModal'); openModal('selectTokenModal')"
-        >
-          <h2>GET TOKENS</h2>
-        </div>
-        <div
-          class="modal-button modal-text"
-          onclick="closeModal('actionModal'); openModal('purchaseCardModal')"
-        >
-          <h2>PURCHASE CARD</h2>
-        </div>
-        <div
-          class="modal-button modal-text"
-          onclick="closeModal('actionModal'); openModal('reserveCardModal')"
-        >
-          <h2>RESERVE CARD</h2>
-        </div>
-      </div>
-      <div class="modal-button modal-text" onclick="closeModal('selectTokenModal')"><h2>CONFIRM</h2></div>
+<!-- Select Action Modal -->
+<div id="actionModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('actionModal');">&times;</span>
+    <h1 class="modal-text">YOUR TURN!</h1>
+    <h3 class="modal-text">(Choose an action)</h3>
+    <div
+      class="modal-button modal-text"
+      onclick="closeModal('actionModal'); openModal('selectTokenModal')">
+      <h2>GET TOKENS</h2>
+    </div>
+    <div
+      class="modal-button modal-text"
+      onclick="closeModal('actionModal'); openModal('purchaseCardModal')">
+      <h2>PURCHASE CARD</h2>
+    </div>
+    <div
+      class="modal-button modal-text"
+      onclick="closeModal('actionModal'); openModal('reserveCardModal')">
+      <h2>RESERVE CARD</h2>
     </div>
   </div>
-
 </div>
 
 <!-- Purchase Card Modal -->
@@ -331,18 +308,24 @@
       <div class="reserve-card card-orient"></div>
 
       <!-- ROW 3 -->
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
+      <div class="reserve-card">
+        <img src="./images/G-G-0-3-1-1-0-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-1-1-0-1-2-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-1-2-0-1-1-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-2-1-0-0-2-0.png">
+      </div>
 
       <div class="reserve-card card-orient"></div>
       <div class="reserve-card card-orient"></div>
-      
     </div>
 
-    <div class="reserve-modal-button" onclick="closeModal('purchaseCardModal')"><h2>CONFIRM</h2></div>
-
+    <div class="reserve-modal-button" onclick="closeModal('purchaseCardModal')"><h4>CONFIRM</h4></div>
   </div>
 </div>
 
@@ -372,132 +355,108 @@
       <div class="reserve-card card-orient"></div>
 
       <!-- ROW 3 -->
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
-      <div class="reserve-card"></div>
+      <div class="reserve-card">
+        <img src="./images/G-G-0-3-1-1-0-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-1-1-0-1-2-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-1-2-0-1-1-0.png">
+      </div>
+      <div class="reserve-card">
+        <img src="./images/G-G-2-1-0-0-2-0.png">
+      </div>
 
       <div class="reserve-card card-orient"></div>
       <div class="reserve-card card-orient"></div>
-      
     </div>
 
-    <div class="reserve-modal-button" onclick="closeModal('reserveCardModal')"><h2>CONFIRM</h2></div>
-
-
+    <div class="reserve-modal-button" onclick="closeModal('reserveCardModal')"><h4>CONFIRM</h4></div>
   </div>
 </div>
 
-<!-- Player Status Modal -->
-<div id="playerStatusModal2" class="player-status-modal">
-  <div class="player-status-modal-content player-2">
-    <div class="status-reserved-cards">
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-      <div class="status-reserved-card"></div>
-    </div>
-
-    <!-- Select Tokens Modal -->
-    <div id="selectTokenModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="closeModal('selectTokenModal');"
-          >&times;</span
-        >
-        <div class="select-token-modal">
-          <div class="select-tokens">
-            <div style="background: #e83131" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-            <div style="background: #3a94e8" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-            <div style="background: #2ea356" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-            <div style="background: #f2f2f2" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-            <div style="background: #7d4838" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-            <div style="background: #f1b032" class="select-token">
-              <p class="select-token-text">2</p>
-            </div>
-          </div>
-          <h2 class="you-chose-text">YOU CHOSE:</h2>
-          <div class="plus-minus-all">
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #e83131" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #3a94e8" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #2ea356" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #f2f2f2" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #7d4838" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-            <div class="plus-minus">
-              <div class="plus-minus-button">+</div>
-              <div style="background: #f1b032" class="plus-minus-token">
-                <p class=".select-token-text">0</p>
-              </div>
-              <div class="plus-minus-button">-</div>
-            </div>
-          </div>
-          <div
-            class="modal-button modal-text"
-            onclick="closeModal('selectTokenModal')"
-          >
-            <h2>CONFIRM</h2>
-          </div>
+<!-- Select Tokens Modal -->
+<div id="selectTokenModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('selectTokenModal');"
+      >&times;</span>
+    <div class="select-token-modal">
+      <div class="select-tokens">
+        <div style="background: #e83131" class="select-token">
+          <p class="select-token-text">2</p>
+        </div>
+        <div style="background: #3a94e8" class="select-token">
+          <p class="select-token-text">2</p>
+        </div>
+        <div style="background: #2ea356" class="select-token">
+          <p class="select-token-text">2</p>
+        </div>
+        <div style="background: #f2f2f2" class="select-token">
+          <p class="select-token-text">2</p>
+        </div>
+        <div style="background: #7d4838" class="select-token">
+          <p class="select-token-text">2</p>
+        </div>
+        <div style="background: #f1b032" class="select-token">
+          <p class="select-token-text">2</p>
         </div>
       </div>
-    </div>
-
-    <!-- Purchase Card Modal -->
-    <div id="purchaseCardModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="closeModal('purchaseCardModal');"
-          >&times;</span
-        >
-        <p>Some text in the Modal..</p>
+      <h2 class="you-chose-text">YOU CHOSE:</h2>
+      <div class="plus-minus-all">
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #e83131" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #3a94e8" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #2ea356" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #f2f2f2" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #7d4838" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+        <div class="plus-minus">
+          <div class="plus-minus-button">+</div>
+          <div style="background: #f1b032" class="plus-minus-token">
+            <p class=".select-token-text">0</p>
+          </div>
+          <div class="plus-minus-button">-</div>
+        </div>
+      </div>
+      <div
+        class="modal-button modal-text"
+        onclick="closeModal('selectTokenModal')">
+        <h2>CONFIRM</h2>
       </div>
     </div>
+  </div>
+</div>
+  
 
-    <!-- Reserve Card Modal -->
-    <div id="reserveCardModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="closeModal('reserveCardModal');"
-          >&times;</span
-        >
-        <p>Some text in the Modal..</p>
-      </div>
-    </div>
 
     <!-- Player Status Modal -->
     <div id="playerStatusModal2" class="player-status-modal">
@@ -779,6 +738,7 @@
     <script>
       // Get the modal
       const menuButton = document.getElementById("menuButton");
+      const menuLines = document.getElementById("menu")
       const menuPop = document.getElementById("menuPop");
       const resumeButton = document.getElementById("resumeGame");
       const menuWholeButton = document.getElementById("menuHolder");
@@ -844,7 +804,7 @@
       };
 
       window.addEventListener("click", function (e) {
-        if (!menuStatus && e.target === menuButton) {
+        if (!menuStatus && (e.target === menuButton || e.target === menuLines)) {
           openMenu();
         } else if (menuStatus && e.target !== menuPop) {
           closeMenu();
