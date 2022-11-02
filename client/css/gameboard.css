@@ -517,6 +517,8 @@ img {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(50, 50, 50, 0.45); /* Black w/ opacity */
   z-index: 4;
+  top: 0;
+  left: 0;
 }
 
 /* Modal Content */
