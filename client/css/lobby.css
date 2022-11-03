@@ -221,6 +221,10 @@ tr > td > div {
     border-radius: var(--border-radius);
 }
 
+.loadjoin-btn:hover{
+    cursor: pointer;
+}
+
 .delete-btn {
     background: #FF7E7E;
     justify-content: center;

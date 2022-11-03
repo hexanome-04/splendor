@@ -99,6 +99,7 @@
     var sessionTabBtn = document.querySelector("#select-sessions");
     var loadgameTabBtn = document.querySelector("#select-loadgame");
     var mainElm = document.querySelector("main");
+    var loadGameBtn = document.querySelector(".loadjoin-btn");
 
     function changeTab(selectedElm, otherElm) {
         if(otherElm.classList.contains("selected")) {
@@ -118,6 +119,10 @@
     loadgameTabBtn.onclick = () => {
         changeTab(loadgameTabBtn, sessionTabBtn);
         mainElm.setAttribute("selected", "loadgame");
+    };
+
+    loadGameBtn.onclick = () => {
+        window.location.href = "gameboard.html";
     };
 
 </script>
