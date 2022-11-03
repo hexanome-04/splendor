@@ -694,11 +694,12 @@
       <div class="saveGame-content">
         <span class="modal-close" onclick="closeModal('saveGamePop');"
         >&times;</span>
-        <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
-        <form autocomplete="off">
-          <input type="text" id="saveText" />
-        </form>
-        <div
+        <span id="savingGameHeader">PLEASE NAME YOUR GAME FILE</span>
+        <span class="textInputContainer">
+          <input type="text" id="saveText" class="emptyTextInput" placeholder="Name"/>
+        </span>
+        <span class="saveGameBtns">
+          <div
             class="menu-save-restart-button"
             id="saveSubmit"
             onclick="openModal('gameSaved');closeModal('saveGamePop')"
@@ -708,6 +709,8 @@
             id="saveBack"
             onclick="closeSavePop()"
           >BACK</div>
+        </span>
+
       </div>
     </div>
 
