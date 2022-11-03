@@ -508,21 +508,22 @@ img {
 /* The Modal (background) */
 .modal {
   display: none;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  z-index: 1;
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
+  /* padding-top: 100px; */
   width: 100%;
   height: 100%;
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(50, 50, 50, 0.45); /* Black w/ opacity */
   z-index: 4;
+  top: 0;
+  left: 0;
 }
 
 /* Modal Content */
 .modal-content {
+  position: relative;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
@@ -536,6 +537,9 @@ img {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  right: 0.7rem;
+  top: 0;
+  position: absolute;
 }
 
 .modal-close:hover,
@@ -688,10 +692,6 @@ h3 {
 /* PURCHASE CARD */
 
 .purchase-card-modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 10px;
-  border-radius: 20px;
   height: 70%;
   width: 40%;
 }
@@ -711,10 +711,6 @@ h3 {
 /* RESERVE CARD */
 
 .reserve-card-modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border-radius: 20px;
   height: 70%;
   width: 40%;
 }
@@ -810,39 +806,35 @@ h3 {
   font-size: 100%;
 }
 
-.saveGame,
-.restartGame, .savedPop{
-  display: none;
-  position: fixed;
-  z-index: 1;
-  padding-top: 100px; /* Location of the box */
-  margin-left: 10%;
-  margin-top: 5%;
-  left: 0;
-  top: 0;
-  width: 80%;
-  height: 100%;
-  overflow: auto; /* Enable scroll if needed */
-  z-index: 4;
-
-}
 .saveGame-content, .restartGame-content, .saved-content{
+  position: relative;
   background-color: #4b4b4b;
   margin: auto;
-  padding: 20px;
+  padding: 2.1rem;
   border-radius: 20px;
-  width: 70%;
-} 
+  box-shadow: 0px 4px 115px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.restartGame-content > * {
+  margin: 0;
+  padding: 0;
+}
 
 .menu-save-restart-button{
   text-align: center;
   background: #ccc;
   border-radius: 10px;
-  margin: auto;
-  margin-bottom: 1.5%;
   width: 20%;
   height: 30%;
-  font-size: 1.5vw;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0.7rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .menu-save-restart-button:hover{
   background: #bbb;
@@ -851,6 +843,9 @@ h3 {
 
 #savingGameHeader,
 #restartGameHeader, #savedHeader {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
   text-align: center;
   color: #ffffff;
   display: flex;
@@ -860,13 +855,40 @@ h3 {
   align-items: center;
 }
 
+.modalBtns {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
 #saveText {
   display: inline;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 2%;
-  margin-bottom: 10%;
+  text-decoration: none;
+}
+
+.emptyTextInput {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  flex: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.textInputContainer {
+  display: flex;
+  background: #D9D9D9;
+  padding: 1rem 1.5rem;
+  width: 80%;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
 }
 
 #playerRestartCount, #playerRestartCount{

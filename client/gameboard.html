@@ -284,7 +284,7 @@
 
 <!-- Purchase Card Modal -->
 <div id="purchaseCardModal" class="modal">
-  <div class="purchase-card-modal-content">
+  <div class="purchase-card-modal-content modal-content">
     <span class="modal-close" onclick="closeModal('purchaseCardModal');">&times;</span>
 
     <!-- CARDS -->
@@ -331,7 +331,7 @@
 
 <!-- Reserve Card Modal -->
 <div id="reserveCardModal" class="modal">
-  <div class="reserve-card-modal-content">
+  <div class="reserve-card-modal-content modal-content">
     <span class="modal-close" onclick="closeModal('reserveCardModal');">&times;</span>
 
     <!-- CARDS -->
@@ -685,33 +685,36 @@
     <div id="menuPop" class="myMenu">
       <!-- <h1 id="sidebar">MENU</h1> -->
       <a onclick="closeMenu()">RESUME</a>
-      <a onclick="handleSave()">SAVE</a>
-      <a onclick="handleRestart()">RESTART</a>
+      <a onclick="openModal('saveGamePop')">SAVE</a>
+      <a onclick="openModal('restartGamePop')">RESTART</a>
       <a href="login.html">QUIT</a>
     </div>
 
-    <div id="saveGamePop" class="saveGame">
+    <div id="saveGamePop" class="modal">
       <div class="saveGame-content">
         <span class="modal-close" onclick="closeModal('saveGamePop');"
         >&times;</span>
-        <h1 id="savingGameHeader">PLEASE NAME YOUR GAME FILE</h1>
-        <form autocomplete="off">
-          <input type="text" id="saveText" />
-        </form>
-        <div
+        <span id="savingGameHeader">PLEASE NAME YOUR GAME FILE</span>
+        <span class="textInputContainer">
+          <input type="text" id="saveText" class="emptyTextInput" placeholder="Name"/>
+        </span>
+        <span class="modalBtns">
+          <div
             class="menu-save-restart-button"
             id="saveSubmit"
-            onclick="saved()"
+            onclick="openModal('gameSaved');closeModal('saveGamePop')"
           >SAVE</div>
           <div
             class="menu-save-restart-button"
             id="saveBack"
             onclick="closeSavePop()"
           >BACK</div>
+        </span>
+
       </div>
     </div>
 
-    <div id="gameSaved" class="savedPop">
+    <div id="gameSaved" class="modal">
       <div class="saved-content">
         <span class="modal-close" onclick="closeModal('gameSaved');"
           >&times;</span>
@@ -719,19 +722,21 @@
       </div>
     </div>
 
-    <div id="restartGamePop" class="restartGame">
+    <div id="restartGamePop" class="modal">
       <div class="restartGame-content">
         <span class="modal-close" onclick="closeModal('restartGamePop');"
         >&times;</span>
         <h1 id="restartGameHeader">RESTART GAME?</h1>
         <h2 id="playerRestartCount">1/4</h2>
-        <div
-          class="menu-save-restart-button"
-          id="restartYes"
-          onclick="getRestartCount()"
-        >YES</div>
-        <div class="menu-save-restart-button" id="restartNo">NO
-        </div>
+        <span class="modalBtns">
+          <div
+            class="menu-save-restart-button"
+            id="restartYes"
+            onclick="getRestartCount()"
+          >YES</div>
+          <div class="menu-save-restart-button" id="restartNo">NO</div>
+        </span>
+
       </div>
     </div>
 
@@ -793,25 +798,9 @@
         }
       };
 
-      const handleSave = (e) => {
-        savePop.style.display = "block";
-      };
-
-      const handleRestart = (e) => {
-        closeMenu();
-        restartGamePop.style.display = "block";
-      };
-
-      const saved = (e) => {
-        savePop.style.display = "none";
-        saveName.value = "";
-        savedPop.style.display = "block";
-        savedPopStatus = true;
-      };
-
       const closeSavePop = (e) => {
         saveName.value = "";
-        savePop.style.display = "none";
+        closeModal("saveGamePop");
       };
 
       const getRestartCount = (e) => {
@@ -839,7 +828,7 @@
       };
 
       var openModal = function (id) {
-        document.getElementById(id).style.display = "block";
+        document.getElementById(id).style.display = "flex";
       };
 
       // When the user clicks anywhere outside of the modal, modal-close it
