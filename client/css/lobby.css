@@ -230,11 +230,9 @@ tr > td > div {
     justify-content: center;
     margin: 0 1em 0 0.5em;
     border-radius: var(--border-radius);
-}
-
-.delete-btn:hover {
     cursor: pointer;
 }
+
 
 .notification-icon {
     height: 0.7em;
@@ -255,11 +253,9 @@ tr > td > div {
     font-size: 0.7em;
     font-weight: normal;
     padding: 0.6em 1em;
-}
-
-.createSession-btn:hover {
     cursor: pointer;
 }
+
 
 .currentSessionsTable {
     
