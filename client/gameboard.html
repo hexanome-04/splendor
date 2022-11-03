@@ -698,7 +698,7 @@
         <span class="textInputContainer">
           <input type="text" id="saveText" class="emptyTextInput" placeholder="Name"/>
         </span>
-        <span class="saveGameBtns">
+        <span class="modalBtns">
           <div
             class="menu-save-restart-button"
             id="saveSubmit"
@@ -728,13 +728,15 @@
         >&times;</span>
         <h1 id="restartGameHeader">RESTART GAME?</h1>
         <h2 id="playerRestartCount">1/4</h2>
-        <div
-          class="menu-save-restart-button"
-          id="restartYes"
-          onclick="getRestartCount()"
-        >YES</div>
-        <div class="menu-save-restart-button" id="restartNo">NO
-        </div>
+        <span class="modalBtns">
+          <div
+            class="menu-save-restart-button"
+            id="restartYes"
+            onclick="getRestartCount()"
+          >YES</div>
+          <div class="menu-save-restart-button" id="restartNo">NO</div>
+        </span>
+
       </div>
     </div>
 

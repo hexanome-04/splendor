@@ -825,7 +825,12 @@ h3 {
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
-} 
+}
+
+.restartGame-content > * {
+  margin: 0;
+  padding: 0;
+}
 
 .menu-save-restart-button{
   text-align: center;
@@ -857,7 +862,7 @@ h3 {
   align-items: center;
 }
 
-.saveGameBtns {
+.modalBtns {
   width: 100%;
   display: flex;
   align-items: center;
