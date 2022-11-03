@@ -523,6 +523,7 @@ img {
 
 /* Modal Content */
 .modal-content {
+  position: relative;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
@@ -691,10 +692,6 @@ h3 {
 /* PURCHASE CARD */
 
 .purchase-card-modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 10px;
-  border-radius: 20px;
   height: 70%;
   width: 40%;
 }
@@ -714,10 +711,6 @@ h3 {
 /* RESERVE CARD */
 
 .reserve-card-modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border-radius: 20px;
   height: 70%;
   width: 40%;
 }
