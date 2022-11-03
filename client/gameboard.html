@@ -685,12 +685,12 @@
     <div id="menuPop" class="myMenu">
       <!-- <h1 id="sidebar">MENU</h1> -->
       <a onclick="closeMenu()">RESUME</a>
-      <a onclick="handleSave()">SAVE</a>
-      <a onclick="handleRestart()">RESTART</a>
+      <a onclick="openModal('saveGamePop')">SAVE</a>
+      <a onclick="openModal('restartGamePop')">RESTART</a>
       <a href="login.html">QUIT</a>
     </div>
 
-    <div id="saveGamePop" class="saveGame">
+    <div id="saveGamePop" class="modal">
       <div class="saveGame-content">
         <span class="modal-close" onclick="closeModal('saveGamePop');"
         >&times;</span>
@@ -701,7 +701,7 @@
         <div
             class="menu-save-restart-button"
             id="saveSubmit"
-            onclick="saved()"
+            onclick="openModal('gameSaved');closeModal('saveGamePop')"
           >SAVE</div>
           <div
             class="menu-save-restart-button"
@@ -711,7 +711,7 @@
       </div>
     </div>
 
-    <div id="gameSaved" class="savedPop">
+    <div id="gameSaved" class="modal">
       <div class="saved-content">
         <span class="modal-close" onclick="closeModal('gameSaved');"
           >&times;</span>
@@ -719,7 +719,7 @@
       </div>
     </div>
 
-    <div id="restartGamePop" class="restartGame">
+    <div id="restartGamePop" class="modal">
       <div class="restartGame-content">
         <span class="modal-close" onclick="closeModal('restartGamePop');"
         >&times;</span>
@@ -793,25 +793,9 @@
         }
       };
 
-      const handleSave = (e) => {
-        savePop.style.display = "block";
-      };
-
-      const handleRestart = (e) => {
-        closeMenu();
-        restartGamePop.style.display = "block";
-      };
-
-      const saved = (e) => {
-        savePop.style.display = "none";
-        saveName.value = "";
-        savedPop.style.display = "block";
-        savedPopStatus = true;
-      };
-
       const closeSavePop = (e) => {
         saveName.value = "";
-        savePop.style.display = "none";
+        closeModal("saveGamePop");
       };
 
       const getRestartCount = (e) => {

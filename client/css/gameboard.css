@@ -810,22 +810,6 @@ h3 {
   font-size: 100%;
 }
 
-.saveGame,
-.restartGame, .savedPop{
-  display: none;
-  position: fixed;
-  z-index: 1;
-  padding-top: 100px; /* Location of the box */
-  margin-left: 10%;
-  margin-top: 5%;
-  left: 0;
-  top: 0;
-  width: 80%;
-  height: 100%;
-  overflow: auto; /* Enable scroll if needed */
-  z-index: 4;
-
-}
 .saveGame-content, .restartGame-content, .saved-content{
   background-color: #4b4b4b;
   margin: auto;
