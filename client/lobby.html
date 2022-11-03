@@ -36,7 +36,7 @@
                             <td><div class="row-cell">9/15/2022  14:30:45</div></td>
                             <td><div class="row-end">Player 1, Player 2, Player 3, Player 4</div></td>
                             <td><div class="loadjoin-btn">LOAD GAME</div></td>
-                            <td><div class="delete-btn">DEL</div></td>
+                            <td><div class="delete-btn">DELETE</div></td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,6 +100,7 @@
     var loadgameTabBtn = document.querySelector("#select-loadgame");
     var mainElm = document.querySelector("main");
     var loadGameBtn = document.querySelector(".loadjoin-btn");
+    var logOutBtn = document.querySelector(".logout-btn");
 
     function changeTab(selectedElm, otherElm) {
         if(otherElm.classList.contains("selected")) {
@@ -124,6 +125,10 @@
     loadGameBtn.onclick = () => {
         window.location.href = "gameboard.html";
     };
+
+    logOutBtn.onclick = () => {
+        window.location.href = "titleScreen.html"
+    }
 
 </script>
 </html>
