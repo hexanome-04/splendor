@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "linthtml": "npx htmlhint --config ../linters/.htmlhintrc \"*.html\"",
+    "lintcss": "npx stylelint --config ../linters/.stylelintrc.json \"./css/*.css\"",
+    "lintjs": "npx eslint -c ../linters/.eslintrc.yml ./js",
+    "lint": "npx htmlhint \"*.html\" && npx stylelint --config ../linters/.stylelintrc.json \"./css/*.css\" && npx eslint -c ../linters/.eslintrc.yml ./js"
+  },
+  "devDependencies": {
+    "eslint": "^8.27.0",
+    "htmlhint": "^1.1.4",
+    "stylelint": "^14.14.1",
+    "stylelint-config-standard": "^29.0.0"
+  }
+}

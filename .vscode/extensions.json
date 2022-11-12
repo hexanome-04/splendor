@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "stylelint.vscode-stylelint",
+        "HTMLHint.vscode-htmlhint"
+    ]
+}

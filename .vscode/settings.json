@@ -1,0 +1,10 @@
+{
+    "stylelint.configFile": "./linters/.stylelintrc.json",
+    "stylelint.validate": ["css", "scss"],
+    "stylelint.configBasedir": "./client",
+    "stylelint.enable": true,
+    "css.validate": false,
+    "scss.validate": false,
+    "htmlhint.enable": true,
+    "htmlhint.configFile": "./linters/.htmlhintrc",
+}
