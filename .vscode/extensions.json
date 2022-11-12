@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "stylelint.vscode-stylelint",
-        "HTMLHint.vscode-htmlhint"
+        "htmlhint.vscode-htmlhint",
+        "dbaeumer.vscode-eslint"
     ]
 }

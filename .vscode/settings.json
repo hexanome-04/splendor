@@ -5,6 +5,13 @@
     "stylelint.enable": true,
     "css.validate": false,
     "scss.validate": false,
+
     "htmlhint.enable": true,
     "htmlhint.configFile": "./linters/.htmlhintrc",
+
+    "eslint.enable": true,
+    "eslint.nodePath": "./client/node_modules",
+    "eslint.options": {
+        "overrideConfigFile": "./linters/.eslintrc.yml"
+    }
 }
