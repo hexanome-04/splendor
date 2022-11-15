@@ -1,0 +1,114 @@
+/* Other players styles */
+.other-players {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2%;
+  font-size: 2.5vmin;
+
+  --other-player-preview-size: 6em;
+  --other-player-card-size: 5em;
+  --other-player-token-size: 1em;
+  --other-player-container-padding: 1em;
+  --other-player-container-border-radius: 1em;
+}
+
+.other-player {
+  width: var(--other-player-preview-size);
+  min-height: calc(var(--other-player-card-size) + var(--other-player-container-padding) * 2);
+  position: relative;
+}
+
+.other-player-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(calc(100% - var(--other-player-preview-size)));
+  margin-right: 0;
+  background: #161513e6;
+  border-bottom-left-radius: var(--other-player-container-border-radius);
+  border-top-left-radius: var(--other-player-container-border-radius);
+  padding: var(--other-player-container-padding) 0;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+  transition: 0.3s;
+}
+
+.other-player-container > *:last-child {
+  margin-right: 1em;
+}
+
+.other-player:hover .other-player-container {
+  transform: translateX(0);
+}
+
+.other-player-profile {
+  --other-player-profile-padding: 0.6em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  min-width: var(--other-player-preview-size);
+}
+
+.other-player-profile img {
+  width: calc(var(--other-player-preview-size) / 2);
+  aspect-ratio: 1 / 1;
+}
+
+.other-player-inventory {
+  display: flex;
+  gap: 1em;
+  max-height: var(--other-player-card-size);
+}
+
+.other-inventory-cards {
+  display: flex;
+  gap: 0.2em;
+  min-width: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
+}
+
+.other-inventory-card {
+  position: relative;
+  margin-left: calc(-1 * var(--other-player-card-size) * var(--dev-card-aspect-ratio) + 0.7em);
+  z-index: inherit;
+  min-width: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
+  min-height: var(--other-player-card-size);
+}
+
+.other-inventory-card:hover {
+  z-index: 7;
+}
+
+.other-inventory-card:first-child {
+  margin-left: 0;
+}
+
+.other-inventory-card > img {
+  position: absolute;
+  aspect-ratio: var(--dev-card-aspect-ratio);
+  height: var(--other-player-card-size);
+  border-radius: var(--card-border-radius);
+  transition: 0.1s;
+  top: 0;
+  left: 0;
+  box-shadow: rgba(0 0 0 / 24%) 0 3px 8px;
+}
+
+.other-inventory-card:hover > img {
+  top: -10%;
+}
+
+.other-player-tokens {
+  --gap-size: 0.3em;
+
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3em;
+}

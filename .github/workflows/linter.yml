@@ -55,6 +55,8 @@ jobs:
           VALIDATE_CSS: true
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_HTML: true
+          VALIDATE_GITLEAKS: false
+          VALIDATE_JSCPD: false
           FILTER_REGEX_INCLUDE: .*client/.*
           # Change to 'master' if your main branch differs
           DEFAULT_BRANCH: master
