@@ -70,8 +70,7 @@ body {
 
 .player-inventory-card > *,
 .player-inventory-card-placeholder > * {
-  /* stylelint-disable-next-line color-function-notation */
-  box-shadow: rgba(0, 0, 0, 10%) 0 4px 12px;
+  box-shadow: rgba(0 0 0 10%) 0 4px 12px;
   border-radius: var(--card-border-radius);
   height: 6em;
   aspect-ratio: var(--dev-card-aspect-ratio);
@@ -227,7 +226,7 @@ body {
 .board-cards-dev-deck-orient > span,
 .board-card-dev > span {
   height: 6em;
-  aspect-ratio: 6 / 9;
+  aspect-ratio: var(--dev-card-aspect-ratio);
 }
 
 .board-card-dev,
