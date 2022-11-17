@@ -1,13 +1,18 @@
 body {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6), 
-   rgba(0, 0, 0, 0.6)), url("../images/titleImage.jpg");
+  background-image:
+    linear-gradient(
+      0deg,
+      rgba(0 0 0 \ 0.6),
+      rgba(0 0 0 \ 0.6)
+    ),
+    url("../images/titleImage.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-.title-screen{
+.title-screen {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -20,36 +25,31 @@ body {
 .title {
   text-align: center;
   color: #f2d675;
-  font-family: Judson;
+  font-family: Judson, serif;
   font-weight: bold;
   font-size: 15rem;
   margin: 0;
   padding: 0;
-  text-shadow: -1px 0 rgb(82, 55, 24), 0 4px rgb(82, 55, 24), 4px 0 rgb(82, 55, 24), 0 -1px rgb(82, 55, 24);
+  text-shadow: -1px 0 rgb(82 55 24), 0 4px rgb(82 55 24), 4px 0 rgb(82 55 24), 0 -1px rgb(82 55 24);
 }
 
-.login_button {
+.login-button {
   margin: 0 auto;
   flex: 0 1 auto;
   background-color: #f2d675;
   border-color: #f2d675;
   border-radius: 15%;
-  padding-left: 2.2rem;
-  padding-right: 2.2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
+  padding: 1rem, 2.2rem;
   font-size: 2rem;
-  color: #4f3e00;;
+  color: #4f3e00;
   text-align: center;
-  font-family: Judson;
+  font-family: Judson, serif;
   font-weight: bold;
   letter-spacing: 0.1rem;
 }
 
-
-.login_button:hover{
-  background-color:#4f3e00;
+.login-button:hover {
+  background-color: #4f3e00;
   color: #f2d675;
-  cursor:pointer;
+  cursor: pointer;
 }
