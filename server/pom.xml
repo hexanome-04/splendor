@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ca.hexanome-04</groupId>
+    <artifactId>splendorgame</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <name>Splendor</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <build.name>splendorGame</build.name>
+    </properties>
+
+    <!-- Main Developers -->
+    <developers>
+        <!-- Alex Lai -->
+        <developer>
+            <name>Alex Lai</name>
+            <email>alex.lai@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/sandpipes</organizationUrl>
+        </developer>
+        <!-- Alexa Vasilakos -->
+        <developer>
+            <name>Alexa Vasilakos</name>
+            <email>alexa.vasilakos@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/itsAlexa</organizationUrl>
+        </developer>
+        <!-- Chen Jun Chi -->
+        <developer>
+            <name>Chen Jun Chi</name>
+            <email>chen.j.chi@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/MosinLover</organizationUrl>
+        </developer>
+        <!-- Jia Lin Sun -->
+        <developer>
+            <name>Jia Lin Sun</name>
+            <email>jia.l.sun@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/LoboJL</organizationUrl>
+        </developer>
+        <!-- Richard Rassokhine -->
+        <developer>
+            <name>Richard Rassokhine</name>
+            <email>richard.rassokhine@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/richardrxn</organizationUrl>
+        </developer>
+        <!-- Sarah Youinou -->
+        <developer>
+            <name>Sarah Youinou</name>
+            <email>sarah.youinou@mail.mcgill.ca</email>
+            <organization>hexanome-04.ca</organization>
+            <organizationUrl>https://github.com/syouinou</organizationUrl>
+        </developer>
+    </developers>
+
+    <!-- legal -->
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Override default name of generated artifacts -->
+        <finalName>${build.name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <violationSeverity>warning</violationSeverity>
+                    <failOnViolation>true</failOnViolation>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <source>8</source>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                    <reportOutputDirectory>${project.reporting.outputDirectory}/docs
+                    </reportOutputDirectory>
+                    <destDir>docs</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <failOnWarnings>true</failOnWarnings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <!-- PMD static code analysis -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <rulesets>
+                        <!-- full list: bestpractices, codestyle, design, documentation, errorprone, multithreading, performance-->
+                        <ruleset>/category/java/bestpractices.xml</ruleset>
+                        <ruleset>/category/java/codestyle.xml</ruleset>
+                        <ruleset>/category/java/design.xml</ruleset>
+                        <ruleset>/category/java/documentation.xml</ruleset>
+                        <ruleset>/category/java/errorprone.xml</ruleset>
+                        <ruleset>/category/java/multithreading.xml</ruleset>
+                        <ruleset>/category/java/performance.xml</ruleset>
+                    </rulesets>
+                    <!-- failOnViolation is actually true by default, but can be disabled -->
+                    <failOnViolation>true</failOnViolation>
+                    <!-- printFailingErrors is pretty useful -->
+                    <printFailingErrors>true</printFailingErrors>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <!-- Enforce the pmd:check goal is auto-executed during package phase-->
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
