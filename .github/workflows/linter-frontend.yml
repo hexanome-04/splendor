@@ -4,7 +4,7 @@
 ## Super Linter GitHub Actions ##
 #################################
 #################################
-name: Lint Code Base
+name: Frontend Linter
 
 #
 # Documentation:
@@ -16,10 +16,20 @@ name: Lint Code Base
 #############################
 on:
   push:
-    # branches-ignore: [master, main]
-    # Remove the line above to run when pushing to master
+    branches: [master, main]
+    # Comment out paths to run only when frontend stuff changes
+    paths:
+      - 'server/**'
+      - 'client/**'
+      - 'linters/**'
+      - '.github/**'
   pull_request:
     branches: [master, main]
+    paths:
+      - 'server/**'
+      - 'client/**'
+      - 'linters/**'
+      - '.github/**'
 
 ###############
 # Set the Job #
@@ -27,7 +37,7 @@ on:
 jobs:
   build:
     # Name the Job
-    name: Lint Code Base
+    name: Lint Frontend Code Base
     # Set the agent to run on
     runs-on: ubuntu-latest
 
@@ -48,7 +58,7 @@ jobs:
       ################################
       # Run Linter against code base #
       ################################
-      - name: Lint Code Base
+      - name: Lint Frontend Code Base
         uses: github/super-linter/slim@v4
         env:
           VALIDATE_ALL_CODEBASE: true

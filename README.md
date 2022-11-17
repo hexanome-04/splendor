@@ -1,6 +1,7 @@
 # COMP 361 Project
 
-[![GitHub Super-Linter](https://github.com/COMP361/f2022-hexanome-04/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![GitHub Super-Linter Frontend](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/linter-frontend.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![GitHub Super-Linter Backend](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/linter-backend.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
  > See also [my video instuctions](https://www.cs.mcgill.ca/~mschie3/COMP361/Repository-Best-Practices.mp4) in the screencasts section on MyCourses.
 
