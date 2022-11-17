@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/lobby.css">
 </head>
 <body>
+    <script src="js/lobby.js"></script>
     <nav>
         <div class="nav-left"><div class="admin-btn">ADMIN ZONE</div></div>
         <div class="nav-middle"><div class="gametitle">Splendor</div></div>
@@ -18,12 +19,12 @@
             <div id="select-loadgame"><span>Load a Game</span><span class="notification-icon"></span></div>
         </div>
         <section id="section-sessions" class="content">
-            <div class="currentSessions">
+            <div class="current-sessions">
                 <div class="header">
                     <span>Available Sessions</span>
-                    <span class="createSession-btn">Create Session</span>
+                    <span class="create-session-btn">Create Session</span>
                 </div>
-                <table class="currentSessionsTable">
+                <table class="current-sessions-table">
                     <tbody>
                         <tr>
                             <th>Game</th>
@@ -35,22 +36,22 @@
                             <td><div>Splendor</div></td>
                             <td><div>Player 2</div></td>
                             <td><div>[2/4]: Player 2, Player 3</div></td>
-                            <td class="joinTd-btn"><span class="join-btn">Join</span></td>
+                            <td class="join-td-btn"><span class="join-btn">Join</span></td>
                         </tr>
                         <tr>
                             <td><div>Splendor</div></td>
                             <td><div>Player 3</div></td>
                             <td><div>[1/4]: Player 3</div></td>
-                            <td class="joinTd-btn"><span class="join-btn">Join</span></td>
+                            <td class="join-td-btn"><span class="join-btn">Join</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
         <section id="section-loadgame" class="content">
-            <div class="savedGames">
+            <div class="saved-games">
                 <div class="header">My Saved Games</div>
-                <table class="savedGamesTable">
+                <table class="saved-games-table">
                     <tbody>
                         <tr>
                             <th>Name</th>
@@ -71,9 +72,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="activePastGames">
+            <div class="active-past-games">
                 <div class="header">Active Past Games</div>
-                <table class="activePastGamesTable">
+                <table class="active-past-games-table">
                     <tbody>
                         <tr>
                             <th>Name</th>
@@ -95,40 +96,4 @@
         </section>
     </main>
 </body>
-<script>
-    var sessionTabBtn = document.querySelector("#select-sessions");
-    var loadgameTabBtn = document.querySelector("#select-loadgame");
-    var mainElm = document.querySelector("main");
-    var loadGameBtn = document.querySelector(".loadjoin-btn");
-    var logOutBtn = document.querySelector(".logout-btn");
-
-    function changeTab(selectedElm, otherElm) {
-        if(otherElm.classList.contains("selected")) {
-            otherElm.classList.remove("selected");
-        }
-
-        if(!selectedElm.classList.contains("selected")) {
-            selectedElm.classList.add("selected");
-        }
-    }
-
-    sessionTabBtn.onclick = () => {
-        changeTab(sessionTabBtn, loadgameTabBtn);
-        mainElm.setAttribute("selected", "sessions");
-    };
-
-    loadgameTabBtn.onclick = () => {
-        changeTab(loadgameTabBtn, sessionTabBtn);
-        mainElm.setAttribute("selected", "loadgame");
-    };
-
-    loadGameBtn.onclick = () => {
-        window.location.href = "gameboard.html";
-    };
-
-    logOutBtn.onclick = () => {
-        window.location.href = "titleScreen.html"
-    }
-
-</script>
 </html>

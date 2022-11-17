@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<link rel="stylesheet" href="css/loginstyle.css">
-<title>Login</title>
-
+<head>
+    <link rel="stylesheet" href="css/loginstyle.css">
+    <title>Login</title>
+</head>
 <body>
 
-<form action="" method="post">
+    <form action="" method="post">
     
-    <div class="center">
+        <div class="center">
 
-        <h1>Splendor</h1>
+            <h1>Splendor</h1>
 
-        <div class="txt_field">
-            <input type="text" placeholder="Enter Username" name="uname" required>
-            <label for="uname"><b>Username</b></label>
+            <div class="txt-field">
+                <input type="text" placeholder="Enter Username" name="uname" required>
+                <label for="uname"><b>Username</b></label>
+            </div>
+            
+            <div class="txt-field">          
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label for="psw"><b>Password</b></label>
+            </div>
+
+            <div class="login-button">
+                <button type="submit">Login</button>
+            </div>
+
         </div>
-        
-        <div class="txt_field">          
-            <input type="password" placeholder="Enter Password" name="psw" required>
-            <label for="psw"><b>Password</b></label>
-        </div>
-
-        <div class="login_button">
-        <button type="submit" onclick="location.href='lobby.html'">Login</button>
-        </div>
-
-    </div>
 
     </form>
+    <script src="js/login.js"></script>
 
 </body>
 
