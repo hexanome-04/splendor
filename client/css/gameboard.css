@@ -43,6 +43,8 @@ body {
   border-bottom-right-radius: 1em;
   border-left: none;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+
+  --player-inv-card-height: 6em;
 }
 
 .player-inventory-tokens {
@@ -55,29 +57,40 @@ body {
 
 .player-inventory-cards {
   display: flex;
+  position: relative;
 
   /* align-items: center; */
   --offset-stack: 0.3rem;
 }
 
+.player-inventory-card,
 .player-inventory-card-placeholder {
   position: relative;
-}
-
-.player-inventory-card {
-  /* ff */
+  height: var(--player-inv-card-height);
+  aspect-ratio: var(--dev-card-aspect-ratio);
 }
 
 .player-inventory-card > *,
 .player-inventory-card-placeholder > * {
-  box-shadow: rgba(0 0 0 10%) 0 4px 12px;
+  box-shadow: rgba(0 0 0 / 10%) 0 4px 12px;
   border-radius: var(--card-border-radius);
-  height: 6em;
+  height: var(--player-inv-card-height);
   aspect-ratio: var(--dev-card-aspect-ratio);
+  transition: top 0.3s;
+  top: 0;
+  position: absolute;
+}
+
+.player-inventory-card-placeholder > * {
+  position: static;
 }
 
 .player-inventory-card-placeholder > *:not(div) {
   visibility: hidden;
+}
+
+.player-inventory-card-drawer .player-inventory-card:hover > * {
+  top: calc(-1 * var(--player-inv-card-height) / 3);
 }
 
 .player-inventory-card-drawer {
@@ -98,19 +111,46 @@ body {
   transition: 0.5s;
 }
 
-.player-inventory-reservedcards .player-inventory-card,
-.player-inventory-reservedcards .player-inventory-card-placeholder {
-  rotate: 90deg;
-}
-
 .player-inventory-card-drawer:hover .player-inventory-card:not(:nth-child(1)) {
-  margin-left: 0;
+  margin-left: -70%;
   transition: 0.5s;
   padding-left: 0.2rem;
 }
 
+/* Reserved cards in current player's inventory */
 .player-inventory-reservedcards {
   position: relative;
+  display: flex;
+  max-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  min-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  aspect-ratio: calc(1 / (var(--dev-card-aspect-ratio)));
+}
+
+.player-inventory-reservedcards .player-inventory-card-reserved {
+  /* position: absolute; */
+  max-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  min-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  aspect-ratio: calc(1 / (var(--dev-card-aspect-ratio)));
+  transition: margin-left 0.3s;
+}
+
+.player-inventory-reservedcards .player-inventory-card-reserved:not(:first-child) {
+  margin-left: -100%;
+}
+
+.player-inventory-reservedcards:hover .player-inventory-card-reserved:not(:first-child) {
+  margin-left: 0;
+  padding-left: 0.2em;
+}
+
+.player-inventory-reservedcards .player-inventory-card-reserved > img {
+  position: absolute;
+  height: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  aspect-ratio: calc((var(--dev-card-aspect-ratio)));
+  border-radius: var(--card-border-radius);
+  rotate: 90deg;
+  box-shadow: rgba(0 0 0 / 10%) 0 4px 12px;
+  transform-origin: calc((var(--player-inv-card-height) * var(--dev-card-aspect-ratio)) / 2);
 }
 
 .board {
@@ -184,7 +224,7 @@ body {
   padding: 0 0.7em;
 }
 
-.board-noble-card img {
+.board-nobles .board-noble-card img {
   height: 4em;
   aspect-ratio: 1/1;
   border-radius: 10%;
@@ -219,9 +259,9 @@ body {
   align-items: center;
 }
 
-.board-cards-dev-deck > img,
-.board-cards-dev-deck-orient > img,
-.board-card-dev > img,
+.board-cards .board-cards-dev-deck > img,
+.board-cards .board-cards-dev-deck-orient > img,
+.board-cards .board-card-dev > img,
 .board-cards-dev-deck > span,
 .board-cards-dev-deck-orient > span,
 .board-card-dev > span {
