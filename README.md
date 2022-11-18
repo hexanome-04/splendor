@@ -1,7 +1,7 @@
-# COMP 361 Project
-
 [![GitHub Super-Linter Frontend](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/linter-frontend.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
-[![GitHub Super-Linter Backend](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/linter-backend.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![Build with Maven](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/build-backend.yml/badge.svg)
+
+# COMP 361 Project
 
  > See also [my video instuctions](https://www.cs.mcgill.ca/~mschie3/COMP361/Repository-Best-Practices.mp4) in the screencasts section on MyCourses.
 
