@@ -150,7 +150,7 @@
                         <ruleset>/category/java/performance.xml</ruleset>
                     </rulesets>
                     <!-- failOnViolation is actually true by default, but can be disabled -->
-                    <failOnViolation>true</failOnViolation>
+                    <failOnViolation>false</failOnViolation>
                     <!-- printFailingErrors is pretty useful -->
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>
