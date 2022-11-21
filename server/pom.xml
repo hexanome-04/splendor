@@ -88,7 +88,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <configLocation>google_checks.xml</configLocation>
+                    <configLocation>c_checkstyles.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <violationSeverity>warning</violationSeverity>
                     <failOnViolation>true</failOnViolation>
@@ -151,6 +151,7 @@
                     </rulesets>
                     <!-- failOnViolation is actually true by default, but can be disabled -->
                     <failOnViolation>false</failOnViolation>
+                    <!-- To be enabled in the future when it stops complaining about our incomplete code (lots of unused stuff) -->
                     <!-- printFailingErrors is pretty useful -->
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>
