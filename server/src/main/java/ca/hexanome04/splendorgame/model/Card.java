@@ -1,6 +1,8 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class representing a Card object.
@@ -30,5 +32,41 @@ public class Card {
         this.costType = costType;
         this.cardType = cardType;
         this.tokenCost = tokenCost;
+    }
+
+    /**
+     * Return the prestige point associated with the card instance.
+     *
+     * @return prestige point of the card
+     */
+    public int getPrestigePoints() {
+        return prestigePoints;
+    }
+
+    /**
+     * Return the cost type of the card instance.
+     *
+     * @return cost type of the card
+     */
+    public CostType getCostType() {
+        return costType;
+    }
+
+    /**
+     * Return the type of the card instance.
+     *
+     * @return the card type
+     */
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    /**
+     * Return the cost of the card instance.
+     *
+     * @return cost of the card
+     */
+    public List<Token> getCost() {
+        return Collections.unmodifiableList(tokenCost);
     }
 }
