@@ -1,3 +1,4 @@
+
 package ca.hexanome04.splendorgame.model;
 
 /**
