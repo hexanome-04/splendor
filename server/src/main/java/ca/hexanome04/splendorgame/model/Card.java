@@ -1,19 +1,16 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Class representing a Card object.
  */
-public class Card {
+public abstract class Card {
 
-    private final Integer prestigePoints;
+    private final int prestigePoints;
     private final CostType costType;
     private final CardType cardType;
-    private final ArrayList<Token> tokenCost;
-
+    private final ArrayList<TokenType> tokenCost;
 
     // maybe attribute for the actual image of the card to be added?
     // add an attribute for a list of tokens representing the token/bonus cost for this card
@@ -26,8 +23,8 @@ public class Card {
      * @param cardType       Card type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public Card(Integer prestigePoints, CostType costType, CardType cardType,
-                ArrayList<Token> tokenCost) {
+    public Card(int prestigePoints, CostType costType, CardType cardType,
+                ArrayList<TokenType> tokenCost) {
         this.prestigePoints = prestigePoints;
         this.costType = costType;
         this.cardType = cardType;
@@ -35,25 +32,24 @@ public class Card {
     }
 
     /**
-     * Return the prestige point associated with the card instance.
+     * Get the cost type of this card (tokens or bonuses).
      *
-     * @return prestige point of the card
-     */
-    public int getPrestigePoints() {
-        return prestigePoints;
-    }
-
-    /**
-     * Return the cost type of the card instance.
-     *
-     * @return cost type of the card
+     * @return The cost type of the card.
      */
     public CostType getCostType() {
         return costType;
     }
 
     /**
-     * Return the type of the card instance.
+     * Get the number of prestige points associated to this card.
+     *
+     * @return The number of prestige points.
+     */
+    public int getPrestigePoints() {
+        return prestigePoints;
+    }
+    
+    /** Return the type of the card instance.
      *
      * @return the card type
      */
@@ -62,11 +58,12 @@ public class Card {
     }
 
     /**
-     * Return the cost of the card instance.
+     * Returns the cost (in tokens) of the Card.
      *
-     * @return cost of the card
+     * @return Returns new list of TokenTypes.
      */
-    public List<Token> getCost() {
-        return Collections.unmodifiableList(tokenCost);
+    public ArrayList<TokenType> getTokenCost() {
+        return new ArrayList<>(tokenCost);
     }
+
 }

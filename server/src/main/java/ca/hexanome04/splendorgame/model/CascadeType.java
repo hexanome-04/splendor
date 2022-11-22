@@ -13,5 +13,10 @@ public enum CascadeType {
     /**
      * Tier 2 cascade.
      */
-    Tier2
+    Tier2,
+
+    /**
+     * No cascade.
+     */
+    None
 }
