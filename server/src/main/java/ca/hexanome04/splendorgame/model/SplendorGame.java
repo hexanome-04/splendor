@@ -13,11 +13,11 @@ public class SplendorGame {
     private int turnId;
 
     /**
-    * Creates a Splendor Game with the given board state, the number of prestige points to win and the ordered list of the players.
-    * 
-    * @param boardState The state of the gameboard.
+    * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
+     
+    * @param boardState          The state of the gameboard.
     * @param prestigePointsToWin The amount of prestige points needed to win the game.
-    * @param players The player order in the game.
+    * @param players             The player order in the game.
     */
     public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnId) {
         this.boardState = boardState;
@@ -27,8 +27,8 @@ public class SplendorGame {
     }
 
     /**
-     * Get the player who is playing next
-     * 
+     * Get the player who is playing next.
+     
      * @return the next player who is going to play. 
      */
 
