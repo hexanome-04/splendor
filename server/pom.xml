@@ -8,11 +8,19 @@
     <name>Splendor</name>
     <url>http://maven.apache.org</url>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.5</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <build.name>splendorGame</build.name>
+
+        <springboot.version>2.7.5</springboot.version>
     </properties>
 
     <!-- Main Developers -->
@@ -72,9 +80,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${springboot.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -163,6 +181,22 @@
                         </goals>
                         <!-- Enforce the pmd:check goal is auto-executed during package phase-->
                         <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+                <configuration>
+                    <fork>true</fork>
+                    <mainClass>ca.hexanome04.splendorgame.SplendorGameApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
