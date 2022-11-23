@@ -19,7 +19,7 @@ public class SplendorGame {
     * @param prestigePointsToWin The amount of prestige points needed to win the game.
     * @param players The player order in the game.
     */
-    public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnId){
+    public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnId) {
         this.boardState = boardState;
         this.prestigePointsToWin = prestigePointsToWin;
         this.players.addAll(players);        
@@ -27,16 +27,17 @@ public class SplendorGame {
     }
 
     /**
+     * Get the player who is playing next
      * 
      * @return the next player who is going to play. 
      */
 
-    public Player getNextPlayer(){
-        if(turnId == 3){
+    public Player getNextPlayer() {
+        if (turnId == 3) {
             Player nextPlayer = players.get(turnId);
             turnId = 0;
             return nextPlayer;
-        }else{
+        } else {
             Player nextPlayer = players.get(turnId);
             turnId++;
             return nextPlayer;
