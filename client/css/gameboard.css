@@ -11,16 +11,103 @@
 
 html {
   height: 100%;
-  background-color: #faf9f6;
+  background-image:
+    linear-gradient(0deg, rgba(0 0 0 / 20%), rgba(0 0 0 / 20%)),
+    url("../images/bluebackground.jpg");
 }
 
-body {
-  min-height: 100%;
+.game-elements {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
+  padding-top: 3.5%;
+  padding-bottom: 3.5%;
 }
+
+/* Top Menu Bar */
+.top-menu-bar {
+  background:
+    linear-gradient(
+      to left top,
+      rgba(3 3 3 / 0%),
+      rgba(156 163 177 / 20%)
+    );
+  margin-bottom: 0;
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 100%;
+  box-shadow: 1rem 1rem 5rem black;
+}
+
+.bar {
+  background-color: #f2d675;
+  width: 2.4rem;
+  height: 0.35rem;
+  border: solid;
+  border-width: 0.03rem;
+  border-color: rgb(82 55 24);
+  border-radius: 2rem;
+  margin: 6px 0;
+}
+
+.menu-icon {
+  justify-content: left;
+  align-items: flex-start;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.navigation {
+  left: -25vw;
+  position: fixed;
+  width: 25vw;
+  height: 100vh;
+  background-color: rgb(14 16 28);
+  transition: 0.5s;
+  z-index: 1000;
+}
+
+.navigation ul li {
+  color: #f2d675;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24);
+  text-align: center;
+  list-style-type: none;
+  font-size: 2em;
+  font-weight: 800;
+  font-family: Judson, serif;
+  letter-spacing: 0.1rem;
+  padding: 20%;
+  cursor: pointer;
+}
+
+.navigation ul li:hover {
+  color: white !important;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24) !important;
+  background-color: rgba(50 69 91 / 62%);
+  transition: all 0.3s ease-in-out;
+}
+
+.navigation.active {
+  left: 0;
+  box-shadow: 10px 0 10px -3px rgba(0 0 0 / 42%);
+}
+
+.top-menu-title {
+  color: #f2d675;
+  font-size: 2.3rem;
+  font-family: Judson, serif;
+  font-weight: 800;
+  margin: 0 auto;
+  letter-spacing: 0.1rem;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24);
+}
+
+/* PLAYER INVENTORY */
 
 /* Player inventory left */
 .player-inventory {
@@ -37,7 +124,7 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 1em;
-  background: #7cc5d6;
+  background: rgba(104 105 119 / 25%);
   padding: 3em 0.7em;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
@@ -165,27 +252,81 @@ body {
 
 /* Token colors */
 .ruby {
-  background: #e83131;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(255 93 93 / 30%),
+      rgba(39 2 2 / 30%)
+    ),
+    url(
+      "../images/tokens/RubyToken.png"
+    );
+  background-size: contain;
 }
 
 .sapphire {
-  background: #3a94e8;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(231 233 255 / 30%),
+      rgba(2 2 41 / 30%)
+    ),
+    url(
+      "../images/tokens/SapphireToken.png"
+    );
+  background-size: contain;
 }
 
 .emerald {
-  background: #2ea356;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(222 255 224 / 30%),
+      rgba(3 34 1 / 30%)
+    ),
+    url(
+      "../images/tokens/EmeraldToken.png"
+    );
+  background-size: contain;
 }
 
 .diamond {
-  background: #f2f2f2;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(255 255 255 / 30%),
+      rgba(37 37 37 / 30%)
+    ),
+    url(
+      "../images/tokens/DiamondToken.png"
+    );
+  background-size: contain;
 }
 
 .onyx {
-  background: #7d4838;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(243 216 189 / 30%),
+      rgba(49 29 7 / 30%)
+    ),
+    url(
+      "../images/tokens/OnyxToken.png"
+    );
+  background-size: contain;
 }
 
 .joker {
-  background: #f1b032;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(255 246 220 / 30%),
+      rgba(53 44 3 / 30%)
+    ),
+    url(
+      "../images/tokens/GoldToken.png"
+    );
+  background-size: contain;
 }
 
 /* Board tokens */
@@ -199,7 +340,7 @@ body {
 
 .board-token {
   border-radius: 50%;
-  height: 2em;
+  height: 2.2em;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
@@ -209,8 +350,11 @@ body {
 
 /* Text for token */
 .board-token span {
-  font-weight: bold;
-  font-size: 1em;
+  font-family: Lobster, cursive;
+  font-size: 1.3em;
+  color: white;
+  -webkit-text-stroke: 0.08rem black;
+  text-shadow: 1px 3px 5px black;
 }
 
 /* Board nobles */
@@ -267,6 +411,7 @@ body {
 .board-card-dev > span {
   height: 6em;
   aspect-ratio: var(--dev-card-aspect-ratio);
+  border-radius: var(--card-border-radius);
 }
 
 .board-card-dev,
@@ -278,8 +423,7 @@ body {
   background: #eee;
 }
 
-.board-card-dev-orient,
-.board-cards-dev-deck-orient {
+.board-card-dev-orient {
   background: #ffdcdc;
 }
 
