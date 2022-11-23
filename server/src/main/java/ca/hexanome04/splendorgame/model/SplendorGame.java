@@ -18,6 +18,7 @@ public class SplendorGame {
     * @param boardState          The state of the gameboard.
     * @param prestigePointsToWin The amount of prestige points needed to win the game.
     * @param players             The player order in the game.
+    * @param turnId              The turn id associated with the player
     */
     public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnId) {
         this.boardState = boardState;
