@@ -2,6 +2,8 @@ package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that represents a player.
@@ -98,6 +100,24 @@ public class Player {
      */
     private void addTokens(ArrayList<Token> tokens) {
         this.tokens.addAll(tokens);
+    }
+
+    /**
+     * Get a player's held tokens.
+     *
+     * @return list of tokens that the player has
+     */
+    public List<Token> getTokens() {
+        return new ArrayList<>(this.tokens);
+    }
+
+    /**
+     * Get a player's bonuses (obtained from their owned development cards).
+     *
+     * @return map of player's bonuses
+     */
+    public Map<TokenType, Integer> getBonuses() {
+        return new HashMap<>(this.bonuses);
     }
 
     /**
@@ -212,6 +232,32 @@ public class Player {
         // TODO: prompt user to select card at appropriate tier (once controllers implemented?)
         // OrientDevelopmentCard cascadeCard = ;
         // cards.add(cascadeCard);
+    }
+
+    /**
+     * Check if player has the tokens specified in the given list.
+     *
+     * @param checkTokens tokens to be checked
+     * @return true if player has the specified tokens
+     */
+    public boolean hasTokens(List<Token> checkTokens) {
+
+        // copy the lists to ensure we don't fuck up something else outside
+        ArrayList<Token> playerInv = new ArrayList<>(this.tokens);
+        ArrayList<Token> check = new ArrayList<>(checkTokens);
+
+        // loop until we checked all the tokens in the given list
+        while(!check.isEmpty()) {
+            Token token = check.remove(0);
+
+            if (playerInv.contains(token)) {
+                playerInv.remove(token);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override

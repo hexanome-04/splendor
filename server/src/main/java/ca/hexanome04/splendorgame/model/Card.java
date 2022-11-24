@@ -1,6 +1,8 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class representing a Card object.
@@ -22,28 +24,11 @@ public abstract class Card {
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, int cardNumber) {
+    public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
         this.prestigePoints = prestigePoints;
         this.costType = costType;
         this.tokenCost = tokenCost;
-        this.ID = generateID(cardNumber);
-    }
-
-    private String generateID(int cardNumber) {
-        String s = "";
-        // Should look like: (is orient, [0,1]) (tier, [1,3]) (card number, [1,30])
-
-
-        // Check if orient
-        if(this instanceof OrientDevelopmentCard) {
-            s += "1";
-        } else {
-            s += "0";
-        }
-
-
-
-        return s;
+        this.ID = id;
     }
 
     /**
@@ -80,6 +65,62 @@ public abstract class Card {
      */
     public String getID() {
         return this.ID;
+    }
+
+    /**
+     * Check if this card can be purchased by the player.
+     *
+     * @param player player that wants to purchase this card
+     * @param tokensToUse tokens requested to use
+     * @return true if player has the funds (and/or bonuses)
+     */
+    public boolean isPurchasable(Player player, List<Token> tokensToUse) {
+
+        boolean purchasable = true;
+        List<Token> tokens = player.getTokens();
+        Map<TokenType, Integer> bonuses = player.getBonuses();
+
+        // ensure player has the tokens to use
+        if (!player.hasTokens(tokensToUse)) {
+            return false;
+        }
+
+        if (this.costType == CostType.Token) {
+            Map<TokenType, Integer> cost = this.tokenCost;
+
+            // Subtract the bonuses a player has
+            for (Map.Entry<TokenType, Integer> bonus : bonuses.entrySet()) {
+                TokenType tokenType = bonus.getKey();
+                if (cost.containsKey(tokenType)) {
+                    int costAmt = cost.get(tokenType);
+                    int bonusAmt = bonus.getValue();
+                    cost.put(tokenType, costAmt - bonusAmt);
+                }
+            }
+
+            // Subtract the tokens provided
+            for (Token t : tokens) {
+                TokenType tokenType = t.getType();
+                if (cost.containsKey(t.getType())) {
+                    int costAmt = cost.get(tokenType);
+                    cost.put(tokenType, costAmt - 1);
+                }
+            }
+
+            // final check to ensure that we fulfilled the cost for the card
+            for (Map.Entry<TokenType, Integer> entry : cost.entrySet()) {
+                if (entry.getValue() > 0) {
+                    purchasable = false;
+                    break;
+                }
+            }
+
+        } else if (this.costType == CostType.Bonus) {
+            // TODO : does this mean the card is only purchasable with bonuses?
+
+        }
+
+        return purchasable;
     }
 
 }

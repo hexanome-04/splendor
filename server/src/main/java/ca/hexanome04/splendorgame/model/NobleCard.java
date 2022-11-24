@@ -14,8 +14,8 @@ public class NobleCard extends Card {
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public NobleCard(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, int cardNumber) {
-        super(prestigePoints, costType, tokenCost, cardNumber);
+    public NobleCard(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
+        super(prestigePoints, costType, tokenCost, id);
     }
 }
 

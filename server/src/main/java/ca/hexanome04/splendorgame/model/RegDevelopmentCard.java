@@ -17,8 +17,8 @@ public class RegDevelopmentCard extends DevelopmentCard {
      * @param tokenCost      Token cost associated to this card.
      */
     public RegDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, int prestigePoints, CostType costType,
-                              HashMap<TokenType, Integer> tokenCost, int cardNumber) {
-        super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, cardNumber);
+                              HashMap<TokenType, Integer> tokenCost, String id) {
+        super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, id);
     }
 
 }

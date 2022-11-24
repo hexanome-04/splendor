@@ -59,9 +59,7 @@ public class Deck<T extends Card> {
         this.visibleCards.remove(i);
 
         // also replenish the taken card (if there's enough in the cards stack)
-        if(!this.cards.isEmpty()) {
-            this.visibleCards.add(this.cards.pop());
-        }
+        drawCards(1);
 
         // return the card taken
         return takenCard;
@@ -72,6 +70,14 @@ public class Deck<T extends Card> {
      */
     public void shuffle() {
         Collections.shuffle(cards);
+    }
+
+    public void drawCards(int count) {
+        for(int i = 0; i < count; i++) {
+            if(!this.cards.isEmpty()) {
+                this.visibleCards.add(this.cards.pop());
+            }
+        }
     }
 
 }

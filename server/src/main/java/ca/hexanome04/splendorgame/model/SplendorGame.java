@@ -71,6 +71,24 @@ public class SplendorGame {
         return turnCounter;
     }
 
+    /**
+     * Retrieve player instance from player id.
+     *
+     * @param playerID player id
+     * @return player (null if not found)
+     */
+    public Player getPlayerFromID(int playerID) {
+        Player player = null;
+
+        for(Player p : this.players) {
+            if (p.getID() == playerID) {
+                player = p;
+                break;
+            }
+        }
+
+        return player;
+    }
 
     /**
      *

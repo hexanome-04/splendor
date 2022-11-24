@@ -20,8 +20,8 @@ public abstract class DevelopmentCard extends Card {
      * @param tokenCost      Token cost associated to this card.
      */
     public DevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, int prestigePoints, CostType costType,
-                           HashMap<TokenType, Integer> tokenCost, int cardNumber) {
-        super(prestigePoints, costType, tokenCost, cardNumber);
+                           HashMap<TokenType, Integer> tokenCost, String id) {
+        super(prestigePoints, costType, tokenCost, id);
         this.tokenType = tokenType;
         this.bonus = bonus;
         this.cardTier = cardTier;

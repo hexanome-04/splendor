@@ -26,8 +26,8 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
                                  int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost, int cardNumber) {
-        super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, cardNumber);
+                                 HashMap<TokenType, Integer> burnBonusCost, String id) {
+        super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, id);
         this.reserveNoble = reserveNoble;
         this.cascadeType = cascadeType;
         this.burnBonusCost = burnBonusCost;
@@ -46,8 +46,8 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
                                  CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost, int cardNumber) {
-        this(cardTier, tokenType, bonus, CascadeType.None, reserveNoble, prestigePoints, costType, tokenCost, burnBonusCost, cardNumber);
+                                 HashMap<TokenType, Integer> burnBonusCost, String id) {
+        this(cardTier, tokenType, bonus, CascadeType.None, reserveNoble, prestigePoints, costType, tokenCost, burnBonusCost, id);
     }
 
     /**
