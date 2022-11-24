@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,8 +78,9 @@ public class Authentication {
 
         URI uri = UriComponentsBuilder.fromHttpUrl(lsUrl)
                 .path("/oauth/role")
-                .queryParam("access_token", token)
-                .build().toUri();
+                // Spring boot makes '+' disappear if you do not encode them.
+                .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
+                .build(true).toUri();
 
         ResponseEntity<?> response;
         try {
