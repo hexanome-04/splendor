@@ -12,7 +12,7 @@ public class Player {
     private String colour;
 
     private int prestigePoints;
-    private HashMap<TokenType, Integer> tokens;
+    private ArrayList<Token> tokens;
     private HashMap<TokenType, Integer> bonuses;
     private ArrayList<DevelopmentCard> cards;
     private ArrayList<DevelopmentCard> reservedCards;
@@ -28,7 +28,7 @@ public class Player {
         this.name = name;
         this.colour = colour;
         prestigePoints = 0;
-        tokens = new HashMap<>();
+        tokens = new ArrayList<>();
         bonuses = new HashMap<>();
         cards = new ArrayList<>();
         reservedCards = new ArrayList<>();
@@ -77,10 +77,7 @@ public class Player {
      * @param tokens Tokens to add to player inventory.
      */
     private void addTokens(ArrayList<Token> tokens) {
-        for (Token t : tokens) {
-            Integer currentValue = this.tokens.get(t.getType());
-            this.tokens.put(t.getType(), currentValue + 1);
-        }
+        this.tokens.addAll(tokens);
     }
 
     /**
@@ -88,12 +85,28 @@ public class Player {
      *
      * @param tokens Tokens to remove from player inventory.
      */
-    private void removeTokens(ArrayList<TokenType> tokens) {
+    private void removeTokens(HashMap<TokenType, Integer> tokens) {
+
+        tokens.forEach((key, value) -> {
+            switch (key) {
+                case White -> this.tokens.remove(new Token(TokenType.White));
+                case Blue -> this.tokens.remove(new Token(TokenType.Blue));
+                case Red -> this.tokens.remove(new Token(TokenType.Red));
+                case Brown -> this.tokens.remove(new Token(TokenType.Brown));
+                case Gold -> this.tokens.remove(new Token(TokenType.Gold));
+                default -> {
+                    return;
+                }
+            }
+        });
+
+        /*
         for (TokenType t : tokens) {
             // TODO: make this put tokens back in main deck instead of deleting them
             Integer currentValue = this.tokens.get(t);
             this.tokens.put(t, currentValue - 1);
         }
+        */
     }
 
     /**
@@ -101,11 +114,11 @@ public class Player {
      *
      * @param bonuses Bonuses to remove from player inventory
      */
-    private void removeBonuses(ArrayList<TokenType> bonuses) {
-        for (TokenType t : bonuses) {
-            Integer currentValue = this.bonuses.get(t);
-            this.bonuses.put(t, currentValue - 1);
-        }
+    private void removeBonuses(HashMap<TokenType, Integer> bonuses) {
+        bonuses.forEach((key, value) -> {
+            Integer currentValue = this.bonuses.get(key);
+            this.bonuses.put(key, currentValue - value);
+        });
     }
 
     /**
@@ -114,7 +127,7 @@ public class Player {
      * @param take    The tokens the player wishes to take during this turn.
      * @param putBack The tokens the player wishes to put back this turn.
      */
-    public void takeTokens(ArrayList<Token> take, ArrayList<TokenType> putBack) {
+    public void takeTokens(ArrayList<Token> take, HashMap<TokenType, Integer> putBack) {
         addTokens(take);
         removeTokens(putBack);
     }
@@ -157,11 +170,10 @@ public class Player {
      * @param card The development card the player would like to reserve.
      */
     public void reserveCard(DevelopmentCard card) {
-        // TODO: must handle attempt to reserve more than 3 cards
+        // TODO: must handle attempt to reserve more than 3 cards and removing gold token from bank
         reservedCards.add(card);
 
-        int currentValue = tokens.get(TokenType.Gold);
-        tokens.put(TokenType.Gold, currentValue + 1);
+        tokens.add(new Token(TokenType.Gold));
     }
 
     /**

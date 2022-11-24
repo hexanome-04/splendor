@@ -1,6 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class representing a regular development card (non-orient).
@@ -14,13 +15,11 @@ public class RegDevelopmentCard extends DevelopmentCard {
      * @param bonus The integer token bonus associated to this card.
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
-     * @param cardType       Card type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public RegDevelopmentCard(TokenType tokenType, int bonus, int prestigePoints,
-                              CostType costType, CardType cardType,
-                              ArrayList<TokenType> tokenCost) {
-        super(tokenType, bonus, prestigePoints, costType, cardType, tokenCost);
+    public RegDevelopmentCard(TokenType tokenType, int bonus, int prestigePoints, CostType costType,
+                              HashMap<TokenType, Integer> tokenCost) {
+        super(tokenType, bonus, prestigePoints, costType, tokenCost);
     }
 
 }

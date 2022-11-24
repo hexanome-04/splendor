@@ -1,6 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class representing the orient development cards.
@@ -9,7 +10,7 @@ public class OrientDevelopmentCard extends DevelopmentCard {
 
     private final boolean reserveNoble;
     private CascadeType cascadeType;
-    private final ArrayList<TokenType> burnBonusCost;
+    private final HashMap<TokenType, Integer> burnBonusCost;
 
 
     /**
@@ -21,14 +22,13 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param reserveNoble   Whether this development card allows you to reserve a noble.
      * @param prestigePoints The number of prestige points associated with this card.
      * @param costType       Whether this card has a cost of tokens or burning bonuses.
-     * @param cardType       The type of this card.
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
      */
     public OrientDevelopmentCard(TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
-                                 int prestigePoints, CostType costType, CardType cardType, ArrayList<TokenType> tokenCost,
-                                 ArrayList<TokenType> burnBonusCost) {
-        super(tokenType, bonus, prestigePoints, costType, cardType, tokenCost);
+                                 int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost,
+                                 HashMap<TokenType, Integer> burnBonusCost) {
+        super(tokenType, bonus, prestigePoints, costType, tokenCost);
         this.reserveNoble = reserveNoble;
         this.cascadeType = cascadeType;
         this.burnBonusCost = burnBonusCost;
@@ -42,14 +42,13 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param reserveNoble   Whether this development card allows you to reserve a noble.
      * @param prestigePoints The number of prestige points associated with this card.
      * @param costType       Whether this card has a cost of tokens or burning bonuses.
-     * @param cardType       The type of this card.
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
      */
     public OrientDevelopmentCard(TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
-                                 CostType costType, CardType cardType, ArrayList<TokenType> tokenCost,
-                                 ArrayList<TokenType> burnBonusCost) {
-        super(tokenType, bonus, prestigePoints, costType, cardType, tokenCost);
+                                 CostType costType, HashMap<TokenType, Integer> tokenCost,
+                                 HashMap<TokenType, Integer> burnBonusCost) {
+        super(tokenType, bonus, prestigePoints, costType, tokenCost);
         this.reserveNoble = reserveNoble;
         this.burnBonusCost = burnBonusCost;
     }
@@ -86,12 +85,8 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      *
      * @return The bonuses that must be burned.
      */
-    public ArrayList<TokenType> getBurnBonusCost() {
-        ArrayList<TokenType> newList = new ArrayList<>();
-        for (TokenType t : burnBonusCost) {
-            newList.add(t);
-        }
-        return newList;
+    public HashMap<TokenType, Integer> getBurnBonusCost() {
+        return new HashMap<TokenType, Integer>(burnBonusCost);
     }
 
 }

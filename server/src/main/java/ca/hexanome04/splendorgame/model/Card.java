@@ -1,6 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class representing a Card object.
@@ -9,8 +9,7 @@ public abstract class Card {
 
     private final int prestigePoints;
     private final CostType costType;
-    private final CardType cardType;
-    private final ArrayList<TokenType> tokenCost;
+    private final HashMap<TokenType, Integer> tokenCost;
 
     // maybe attribute for the actual image of the card to be added?
     // add an attribute for a list of tokens representing the token/bonus cost for this card
@@ -20,14 +19,11 @@ public abstract class Card {
      *
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
-     * @param cardType       Card type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public Card(int prestigePoints, CostType costType, CardType cardType,
-                ArrayList<TokenType> tokenCost) {
+    public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost) {
         this.prestigePoints = prestigePoints;
         this.costType = costType;
-        this.cardType = cardType;
         this.tokenCost = tokenCost;
     }
 
@@ -48,22 +44,14 @@ public abstract class Card {
     public int getPrestigePoints() {
         return prestigePoints;
     }
-    
-    /** Return the type of the card instance.
-     *
-     * @return the card type
-     */
-    public CardType getCardType() {
-        return cardType;
-    }
 
     /**
      * Returns the cost (in tokens) of the Card.
      *
      * @return Returns new list of TokenTypes.
      */
-    public ArrayList<TokenType> getTokenCost() {
-        return new ArrayList<>(tokenCost);
+    public HashMap<TokenType, Integer> getTokenCost() {
+        return new HashMap<TokenType, Integer>(tokenCost);
     }
 
 }

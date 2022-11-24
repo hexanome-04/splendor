@@ -1,6 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Abstract class that represents a development card.
@@ -16,12 +17,11 @@ public abstract class DevelopmentCard extends Card implements CardType {
      * @param bonus          The integer token bonus associated to this development card.
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
-     * @param cardType       Card type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public DevelopmentCard(TokenType tokenType, int bonus, int prestigePoints, CostType costType, CardType cardType,
-                           ArrayList<TokenType> tokenCost) {
-        super(prestigePoints, costType, cardType, tokenCost);
+    public DevelopmentCard(TokenType tokenType, int bonus, int prestigePoints, CostType costType,
+                           HashMap<TokenType, Integer> tokenCost) {
+        super(prestigePoints, costType, tokenCost);
         this.tokenType = tokenType;
         this.bonus = bonus;
     }
