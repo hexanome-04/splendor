@@ -10,6 +10,7 @@ public class Player {
 
     private String name;
     private String colour;
+    private int ID;
 
     private int prestigePoints;
     private ArrayList<Token> tokens;
@@ -27,6 +28,7 @@ public class Player {
     public Player(String name, String colour) {
         this.name = name;
         this.colour = colour;
+        this.ID = -1;
         prestigePoints = 0;
         tokens = new ArrayList<>();
         bonuses = new HashMap<>();
@@ -54,6 +56,15 @@ public class Player {
     }
 
     /**
+     * Get player ID for game.
+     *
+     * @return id of player
+     */
+    public int getID() {
+        return this.ID;
+    }
+
+    /**
      * Set player name.
      *
      * @param name The player's new name.
@@ -69,6 +80,15 @@ public class Player {
      */
     public void setColour(String colour) {
         this.colour = colour;
+    }
+
+    /**
+     * Set player ID for game.
+     *
+     * @param ID id of player
+     */
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     /**

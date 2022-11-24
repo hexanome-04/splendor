@@ -1,6 +1,5 @@
 package ca.hexanome04.splendorgame.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,10 +24,10 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
      */
-    public OrientDevelopmentCard(TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
+    public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
                                  int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost) {
-        super(tokenType, bonus, prestigePoints, costType, tokenCost);
+                                 HashMap<TokenType, Integer> burnBonusCost, int cardNumber) {
+        super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, cardNumber);
         this.reserveNoble = reserveNoble;
         this.cascadeType = cascadeType;
         this.burnBonusCost = burnBonusCost;
@@ -45,12 +44,10 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
      */
-    public OrientDevelopmentCard(TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
+    public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
                                  CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost) {
-        super(tokenType, bonus, prestigePoints, costType, tokenCost);
-        this.reserveNoble = reserveNoble;
-        this.burnBonusCost = burnBonusCost;
+                                 HashMap<TokenType, Integer> burnBonusCost, int cardNumber) {
+        this(cardTier, tokenType, bonus, CascadeType.None, reserveNoble, prestigePoints, costType, tokenCost, burnBonusCost, cardNumber);
     }
 
     /**

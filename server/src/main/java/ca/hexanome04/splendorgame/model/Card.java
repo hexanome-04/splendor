@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public abstract class Card {
 
+    private final String ID;
     private final int prestigePoints;
     private final CostType costType;
     private final HashMap<TokenType, Integer> tokenCost;
@@ -21,10 +22,28 @@ public abstract class Card {
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost) {
+    public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, int cardNumber) {
         this.prestigePoints = prestigePoints;
         this.costType = costType;
         this.tokenCost = tokenCost;
+        this.ID = generateID(cardNumber);
+    }
+
+    private String generateID(int cardNumber) {
+        String s = "";
+        // Should look like: (is orient, [0,1]) (tier, [1,3]) (card number, [1,30])
+
+
+        // Check if orient
+        if(this instanceof OrientDevelopmentCard) {
+            s += "1";
+        } else {
+            s += "0";
+        }
+
+
+
+        return s;
     }
 
     /**
@@ -52,6 +71,15 @@ public abstract class Card {
      */
     public HashMap<TokenType, Integer> getTokenCost() {
         return new HashMap<TokenType, Integer>(tokenCost);
+    }
+
+    /**
+     * Get ID of this card.
+     *
+     * @return id of card
+     */
+    public String getID() {
+        return this.ID;
     }
 
 }

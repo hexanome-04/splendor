@@ -1,14 +1,14 @@
 package ca.hexanome04.splendorgame.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Abstract class that represents a development card.
  */
-public abstract class DevelopmentCard extends Card implements CardType {
+public abstract class DevelopmentCard extends Card {
     private final TokenType tokenType;
     private final int bonus;
+    private final CardTier cardTier;
 
     /**
      * Creates a development card from the class in which this was called super from.
@@ -19,11 +19,12 @@ public abstract class DevelopmentCard extends Card implements CardType {
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
      */
-    public DevelopmentCard(TokenType tokenType, int bonus, int prestigePoints, CostType costType,
-                           HashMap<TokenType, Integer> tokenCost) {
-        super(prestigePoints, costType, tokenCost);
+    public DevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, int prestigePoints, CostType costType,
+                           HashMap<TokenType, Integer> tokenCost, int cardNumber) {
+        super(prestigePoints, costType, tokenCost, cardNumber);
         this.tokenType = tokenType;
         this.bonus = bonus;
+        this.cardTier = cardTier;
     }
 
     /**

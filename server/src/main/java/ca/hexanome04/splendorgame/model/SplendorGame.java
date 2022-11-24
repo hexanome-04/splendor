@@ -1,5 +1,8 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.action.Action;
+import ca.hexanome04.splendorgame.model.action.ActionResult;
+
 import java.util.ArrayList;
 
 /**
@@ -25,6 +28,11 @@ public class SplendorGame {
         this.prestigePointsToWin = prestigePointsToWin;
         this.players.addAll(players);        
         this.turnCounter = turnCounter;
+
+        // set player id for the game
+        for(int i = 0 ; i < players.size(); i++) {
+            players.get(i).setID(i);
+        }
     }
 
     /**
@@ -34,15 +42,13 @@ public class SplendorGame {
      */
 
     public Player incrementTurn() {
-        if (turnCounter == 3) {
-            Player nextPlayer = players.get(turnCounter);
+        if (turnCounter == this.players.size() - 1) {
             turnCounter = 0;
-            return nextPlayer;
         } else {
-            Player nextPlayer = players.get(turnCounter);
             turnCounter++;
-            return nextPlayer;
-        }  
+        }
+
+        return players.get(turnCounter);
     }
 
     /**
@@ -63,6 +69,34 @@ public class SplendorGame {
 
     public int getTurnCounter() {
         return turnCounter;
+    }
+
+
+    /**
+     *
+     *
+     * @param p
+     * @param action
+     * @return
+     */
+    public ActionResult takeAction(int playerID, Action action) {
+
+        if(playerID != this.turnCounter) {
+            return ActionResult.INVALID_PLAYER;
+        }
+
+        Player p = this.players.get(playerID);
+
+        ActionResult ar = action.executeAction(this, p);
+
+        // update gameboard?
+
+        if(ar == ActionResult.VALID_ACTION) {
+            // success and valid action
+            this.incrementTurn();
+        }
+
+        return ar;
     }
 
 

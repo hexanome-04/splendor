@@ -19,9 +19,14 @@ import java.util.Stack;
  * Class that represents the current state of the board.
  */
 public class SplendorBoard {
-    private final Stack<Card> greenDeck = new Stack<Card>();
-    private final Stack<Card> yellowDeck = new Stack<Card>();
-    private final Stack<Card> blueDeck = new Stack<Card>();
+
+    private final Deck<NobleCard> nobleDeck = new Deck<>();
+    // Maybe rename them to tier instead of the color?
+
+    private final Deck<RegDevelopmentCard> greenDeck = new Deck<>();
+    private final Deck<RegDevelopmentCard> yellowDeck = new Deck<>();
+    private final Deck<RegDevelopmentCard> blueDeck = new Deck<>();
+
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
@@ -65,9 +70,9 @@ public class SplendorBoard {
             System.out.println("Could not read file"); // Testing
         }
 
-        Collections.shuffle(greenDeck);
-        Collections.shuffle(yellowDeck);
-        Collections.shuffle(blueDeck);
+        greenDeck.shuffle();
+        yellowDeck.shuffle();
+        blueDeck.shuffle();
     }
 
 
