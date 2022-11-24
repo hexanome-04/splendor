@@ -44,4 +44,27 @@ public class SplendorGame {
             return nextPlayer;
         }  
     }
+
+    /**
+    * Get the board state of the game. 
+    *
+    * @return the board state.
+    */
+
+    public SplendorBoard getBoardState() {
+        return boardState;
+    }
+
+    /**
+     * Get the turn counter at the current state.
+     *
+     * @return the turn counter.
+     */
+
+    public int getTurnCounter() {
+        return turnCounter;
+    }
+
+
+
 }
