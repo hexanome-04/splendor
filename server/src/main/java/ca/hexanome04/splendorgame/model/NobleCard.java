@@ -13,6 +13,7 @@ public class NobleCard extends Card {
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
+     * @param id             Id associated to this card.
      */
     public NobleCard(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
         super(prestigePoints, costType, tokenCost, id);
