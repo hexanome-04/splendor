@@ -7,4 +7,6 @@ public abstract class Action {
 
     public abstract ActionResult executeAction(SplendorGame game, Player p);
 
+    // TODO: decodeAction(actionName)
+
 }

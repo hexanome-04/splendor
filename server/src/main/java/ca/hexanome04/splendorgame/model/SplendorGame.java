@@ -3,7 +3,6 @@ package ca.hexanome04.splendorgame.model;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -29,11 +28,6 @@ public class SplendorGame {
         this.prestigePointsToWin = prestigePointsToWin;
         this.players.addAll(players);        
         this.turnCounter = turnCounter;
-
-        // set player id for the game
-        for(int i = 0 ; i < players.size(); i++) {
-            players.get(i).setID(i);
-        }
     }
 
     /**
@@ -73,16 +67,16 @@ public class SplendorGame {
     }
 
     /**
-     * Retrieve player instance from player id.
+     * Retrieve player instance from player name.
      *
-     * @param playerID player id
+     * @param name player name
      * @return player (null if not found)
      */
-    public Player getPlayerFromID(int playerID) {
+    public Player getPlayerFromName(String name) {
         Player player = null;
 
         for(Player p : this.players) {
-            if (p.getID() == playerID) {
+            if (p.getName() == name) {
                 player = p;
                 break;
             }
@@ -98,17 +92,17 @@ public class SplendorGame {
     /**
      *
      *
-     * @param p
+     * @param playerName
      * @param action
      * @return
      */
-    public ActionResult takeAction(int playerID, Action action) {
+    public ActionResult takeAction(String playerName, Action action) {
 
-        if(playerID != this.turnCounter) {
+        if(players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
             return ActionResult.INVALID_PLAYER;
         }
 
-        Player p = this.players.get(playerID);
+        Player p = this.getPlayerFromName(playerName);
 
         ActionResult ar = action.executeAction(this, p);
 

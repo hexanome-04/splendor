@@ -53,7 +53,7 @@ public class SessionManager {
         }
 
         // TODO: get session ID, name, and creator username from somewhere
-        GameSession session = new GameSession();
+        GameSession session = new GameSession(sessionID, );
         String filename = "";
         File file = ResourceUtils.getFile("classpath:cards.csv");
         filename = file.getAbsolutePath();

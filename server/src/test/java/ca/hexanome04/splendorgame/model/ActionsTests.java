@@ -26,14 +26,14 @@ public class ActionsTests {
         SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (id = 0)
-        Player p1 = game.getPlayerFromID(0);
+        Player p1 = game.getPlayerFromName("0");
 
         List<Token> tokensToUse = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
             tokensToUse.add(new Token(TokenType.Red));
         }
 
-        ActionResult result = game.takeAction(p1.getID(), new BuyCardAction("01", tokensToUse));
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // should be no more tier 1 cards available to be purchased
         assertThat(result).isEqualTo(ActionResult.NOT_ENOUGH_TOKENS);
