@@ -1,7 +1,7 @@
 package ca.hexanome04.splendorgame.model.action;
 
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class ActionDecoder {
 
@@ -12,7 +12,7 @@ public class ActionDecoder {
      * @param gson data that the action contains
      * @return a new action (null if invalid name)
      */
-    public static Action createAction(String identifier, Gson gson) {
+    public static Action createAction(String identifier, JsonObject gson) {
         try {
             Actions actionType = Actions.valueOf(identifier);
 

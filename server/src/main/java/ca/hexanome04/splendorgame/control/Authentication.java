@@ -160,4 +160,36 @@ public class Authentication {
         logger.debug("Token '{}' has player-privileges.", token);
         return true;
     }
+
+    /**
+     * Retrieve the name associated with the token.
+     *
+     * @param token token to check
+     * @return name associated with token
+     */
+    public String getNameFromToken(String token) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
+                .path("/oauth/username")
+                // Spring boot makes '+' disappear if you do not encode them.
+                .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
+                .build(true).toUri();
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    null,
+                    String.class
+            );
+
+            return response.getBody();
+        } catch (HttpStatusCodeException e) {
+
+        }
+        // invalid token or something
+        return null;
+    }
 }

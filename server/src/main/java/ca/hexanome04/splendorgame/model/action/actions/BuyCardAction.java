@@ -5,6 +5,8 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class BuyCardAction extends Action {
     }
 
     @Override
-    public Action decodeAction(Gson gson) {
+    public Action decodeAction(JsonObject jobj) {
 
         // if missing data, throw exception
 

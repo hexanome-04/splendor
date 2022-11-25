@@ -2,7 +2,7 @@ package ca.hexanome04.splendorgame.model.action;
 
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.SplendorGame;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public abstract class Action {
 
@@ -14,6 +14,6 @@ public abstract class Action {
 
     public abstract ActionResult executeAction(SplendorGame game, Player p);
 
-    public abstract Action decodeAction(Gson gson);
+    public abstract Action decodeAction(JsonObject jobj);
 
 }
