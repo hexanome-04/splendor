@@ -27,8 +27,8 @@ public class Initializer {
 
     final Logger logger = LoggerFactory.getLogger(Initializer.class);
 
-    @Value("${LS.URL}")
-    private String lsUrl;
+    @Value("${LS.location}")
+    private String lsLocation;
     GameServiceInfo gameServiceInfo;
     Authentication auth;
 
@@ -68,7 +68,7 @@ public class Initializer {
 
             HttpEntity<String> httpEntity = new HttpEntity<>(body, headers);
 
-            URI uri = UriComponentsBuilder.fromHttpUrl(lsUrl)
+            URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                     .path("/api/gameservices/" + gameServiceInfo.name())
                     .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
                     .build(true).toUri();

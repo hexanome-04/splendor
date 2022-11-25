@@ -31,7 +31,7 @@ public class AuthenticationTest {
 
     final Logger logger = LoggerFactory.getLogger(AuthenticationTest.class);
 
-    @Value("${LS.URL}")
+    @Value("${LS.location}")
     String lsUrl;
     @Value("${LS.admin.username}")
     String adminUsername;

@@ -26,8 +26,8 @@ public class Authentication {
 
     final Logger logger = LoggerFactory.getLogger(Authentication.class);
 
-    @Value("${LS.URL}")
-    private String lsUrl;
+    @Value("${LS.location}")
+    private String lsLocation;
     @Value("${LS.server.username}")
     private String username;
     @Value("${LS.server.password}")
@@ -44,7 +44,7 @@ public class Authentication {
         headers.setBasicAuth("bgp-client-name", "bgp-client-pw");
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(lsUrl)
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                 .path("/oauth/token")
                 .queryParam("grant_type", "password")
                 .queryParam("username", username)
@@ -76,7 +76,7 @@ public class Authentication {
     private JsonObject getTokenRole(String token) {
         RestTemplate restTemplate = new RestTemplate();
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(lsUrl)
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                 .path("/oauth/role")
                 // Spring boot makes '+' disappear if you do not encode them.
                 .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))

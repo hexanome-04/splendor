@@ -209,4 +209,29 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- Different profiles (configs) depending on the context -->
+    <profiles>
+
+        <!-- Dev profile for development -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+                <packaging.type>jar</packaging.type>
+            </properties>
+        </profile>
+
+        <!-- Live configuration -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+                <packaging.type>jar</packaging.type>
+            </properties>
+        </profile>
+    </profiles>
 </project>
