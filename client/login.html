@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+    <title>Splendor | Login</title>
     <link rel="stylesheet" href="css/loginstyle.css">
-    <title>Login</title>
-    <script src="js/settings.js"></script>
-</head>
-<body>
-
-    <form action="" method="post">
+    <link rel="stylesheet" href="css/transitions.css" />
     
-        <div class="center">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
+    <script type="module" src="js/settings.js"></script>
+</head>
+
+<body>
+    <!-- Page Transition -->
+    <div class="transition transition1 is-active"></div>
+
+    <div class="login-form">
+        <form>
             <h1>Splendor</h1>
-
             <div class="txt-field">
-                <input type="text" placeholder="Enter Username" name="uname" required>
-                <label for="uname"><b>Username</b></label>
+                <input type="text" name="uname" required>
+                <span></span>
+                <label for="uname"> Username </label>
             </div>
             
             <div class="txt-field">          
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                <label for="psw"><b>Password</b></label>
+                <input type="password" name="psw" required>
+                <span></span>
+                <label for="psw"> Password </label>
             </div>
 
-            <div class="login-button">
-                <button type="submit">Login</button>
+            <div class="button-area">
+                <button class="login-button" input type="submit"> Login </button>
             </div>
-
-        </div>
-
-    </form>
-    <script src="js/login.js"></script>
+        </form>
+    </div>
+    
+    <script type="module" src="js/login.js"></script>
+    <script type="module" src="js/titleScreen.js"> </script>
 
 </body>
 

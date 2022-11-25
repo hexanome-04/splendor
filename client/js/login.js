@@ -1,13 +1,12 @@
+import { transition } from "./titleScreen.js";
 
 var inputs = document.querySelectorAll(".center input, .center button");
-var centerDiv = document.querySelector(".center");
 var enableInputs = () => inputs.forEach(e => e.disabled = false);
 var disableInputs = () => inputs.forEach(e => e.disabled = true);
 
-document.querySelector("body").onload = () => {
+document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("form").addEventListener("submit", (event) => {
         disableInputs();
-        centerDiv.classList.remove("invalid");
 
         const username = document.querySelector(".txt-field input[name='uname']").value;
         const password = document.querySelector(".txt-field input[name='psw']").value;
@@ -38,7 +37,6 @@ document.querySelector("body").onload = () => {
                 // console.log(data);
 
                 if("error" in data) {
-                    centerDiv.classList.add("invalid");
                     window.alert(data.error_description);
                     return;
                 }
@@ -46,9 +44,10 @@ document.querySelector("body").onload = () => {
                 window.SETTINGS.setAccessToken(data.access_token);
                 window.SETTINGS.setRefreshToken(data.refresh_token);
 
-                location.href = "lobby.html";
+                transition("lobby.html");
+                // location.href = "lobby.html";
             })
             .finally(() => enableInputs());
         event.preventDefault();
     });
-};
+});

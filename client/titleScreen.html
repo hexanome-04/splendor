@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr"></html>
+<html lang="en" dir="ltr">
 <head>
-    <link rel="stylesheet" href="css/titleScreen.css" />
     <title>Splendor</title>
+    <link rel="stylesheet" href="css/titleScreen.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <!-- Page Transition -->
+    <div class="transition transition1 is-active"></div>
+
     <div class="title-screen">
         <p class = "title"> Splendor </p>
-        <button class="login-button" id="login-button">LOGIN</button>
+        <button class="title-login-button" id="title-login-button">Login</button>
     </div>
 </body>
 
-<script>
-  // when the user pressed login it will directly go to the login screen
-  const loginButton = document.getElementById("login-button");
-  loginButton.addEventListener("click", function () {
-    window.location.href = "login.html";
-  });
-</script>
+<script type="module" src="js/titleScreen.js"> </script>
+
+</html>
