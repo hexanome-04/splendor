@@ -1,11 +1,10 @@
 // Define settings to be used, that are shared across the frontend
 
 /**
- * Define the settings onto the window, can't really define it as global.
- * Linter will complain.
+ * Define the settings.
  */
 
-window.SETTINGS = {
+export const SETTINGS = {
     /**
      * URL to access the Lobby Service
      */

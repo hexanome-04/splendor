@@ -1,3 +1,4 @@
+import { SETTINGS } from "./settings.js";
 import { transition } from "./titleScreen.js";
 
 var inputs = document.querySelectorAll(".center input, .center button");
@@ -18,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const headers = new Headers();
         headers.set("Authorization", `Basic ${btoa("bgp-client-name:bgp-client-pw")}`);
 
-        const url = new URL(`${window.SETTINGS.LS_API}/oauth/token`);
+        const url = new URL(`${SETTINGS.LS_API}/oauth/token`);
         url.search = new URLSearchParams(params).toString();
 
         fetch(url, {
@@ -41,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                window.SETTINGS.setAccessToken(data.access_token);
-                window.SETTINGS.setRefreshToken(data.refresh_token);
+                SETTINGS.setAccessToken(data.access_token);
+                SETTINGS.setRefreshToken(data.refresh_token);
 
                 transition("lobby.html");
                 // location.href = "lobby.html";
