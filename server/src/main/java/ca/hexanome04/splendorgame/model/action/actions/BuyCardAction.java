@@ -3,16 +3,24 @@ package ca.hexanome04.splendorgame.model.action.actions;
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.action.Actions;
+import com.google.gson.Gson;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuyCardAction extends Action {
 
-    private final String buyCardID;
-    private final List<Token> selectedTokens;
+    private String buyCardID;
+    private List<Token> selectedTokens;
 
     public BuyCardAction(String buyCardID, List<Token> selectedTokens) {
+        super(Actions.BUY_CARD);
         this.buyCardID = buyCardID;
         this.selectedTokens = selectedTokens;
+    }
+
+    public BuyCardAction() {
+        this("", new ArrayList<>());
     }
 
 
@@ -34,6 +42,14 @@ public class BuyCardAction extends Action {
         player.buyCard(dc);
 
         return ActionResult.VALID_ACTION;
+    }
+
+    @Override
+    public Action decodeAction(Gson gson) {
+
+        // if missing data, throw exception
+
+        return this;
     }
 
 }

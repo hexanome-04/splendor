@@ -1,4 +1,4 @@
-package ca.hexanome04.splendorgame.control;
+package ca.hexanome04.splendorgame.control.templates;
 
 /**
  * Hold information about the game service.

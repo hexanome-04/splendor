@@ -1,10 +1,16 @@
 package ca.hexanome04.splendorgame.control;
 
-import ca.hexanome04.splendorgame.model.action.Action;
+import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
+import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
+import ca.hexanome04.splendorgame.model.Player;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 /***
  * Rest controller for all API endpoints of Splendor game.
@@ -12,40 +18,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SplendorRestController {
 
+    @Value("${gs.name}")
+    private String gameServiceName;
     private final SessionManager sessionManager;
     private final Authentication auth;
-    private final Initializer init;
 
-    public SplendorRestController(SessionManager sessionManager, Authentication auth, Initializer init) {
+    public SplendorRestController(@Autowired SessionManager sessionManager,
+                                  @Autowired Authentication auth) {
         this.sessionManager = sessionManager;
         this.auth = auth;
-        this.init = init;
     }
 
+    @PutMapping(value = "/api/sessions/{sessionID}", consumes = "application/json; charset=utf-8")
+    public ResponseEntity launchSession(@PathVariable String sessionID, @RequestBody LaunchSessionInfo launchSessionInfo) {
 
+        try {
+            if (launchSessionInfo == null || launchSessionInfo.gamename() == null)
+                throw new Exception("Lobby Service did not specify a matching Service name.");
+            if (!launchSessionInfo.gamename().equals(gameServiceName))
+                throw new Exception("Lobby Service did not specify a matching Service name.");
+            if (sessionManager.getGameSession(sessionID) != null)
+                throw new Exception("Game can not be launched. Id is already in use.");
 
-//
-//    @PutMapping(value = "/api/games/{gameId}", consumes = "application/json; charset=utf-8")
-//    public ResponseEntity launchGame(@PathVariable String gameId, @RequestBody LauncherInfo launcherInfo) {
-//
-//        try {
-//            if (launcherInfo == null || launcherInfo.getGameServer() == null)
-//                throw new Exception("LauncherInfo provided by Lobby Service did not specify a matching Service name.");
-//            if (!launcherInfo.getGameServer().equals(gameServiceName))
-//                throw new Exception("LauncherInfo provided by Lobby Service did not specify a matching Service name.");
-//            if (sessionManager.getGameSession(gameId) != null)
-//                throw new Exception("Game can not be launched. Id is already in use.");
-//
-//            // Looks good, lets create the game on model side, create a BCM for the board.
-//            sessionManager.addSession(gameId, launcherInfo.getPlayers().toArray(new Player[launcherInfo.getPlayers().size()]));
-//            broadcastContentManagers.put(gameId, new BroadcastContentManager<>(gameManager.getGameById(gameId).getBoard()));
-//            return ResponseEntity.status(HttpStatus.OK).build();
-//        } catch (Exception e) {
-//
-//            // Something went wrong. Send a http-400 and pass the exception message as body payload.
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
+            // Looks good, lets create the game
+            ArrayList<Player> playerList = new ArrayList<>();
+            for(PlayerInfo p : launchSessionInfo.players()) {
+                playerList.add(new Player(p.name(), p.colour()));
+            }
+            sessionManager.addSession(sessionID, playerList, launchSessionInfo.creator(), launchSessionInfo.sessionName());
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     @GetMapping(value = "/api/sessions/{sessionId}/game", produces = "application/json; charset=utf-8")
     public ResponseEntity getGameState(@PathVariable String sessionID) {

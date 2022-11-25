@@ -43,7 +43,7 @@ public class SessionManager {
         return this.gameSessions.get(sessionID);
     }
 
-    public GameSession addSession(String sessionID, ArrayList<Player> players) throws Exception {
+    public GameSession addSession(String sessionID, ArrayList<Player> players, String creatorName, String sessionName) throws Exception {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionID))
             throw new Exception("Game can not be created, the requested ID " + sessionID + "is already in use.");
@@ -53,7 +53,7 @@ public class SessionManager {
         }
 
         // TODO: get session ID, name, and creator username from somewhere
-        GameSession session = new GameSession(sessionID, );
+        GameSession session = new GameSession(sessionID, creatorName, sessionName);
         String filename = "";
         File file = ResourceUtils.getFile("classpath:cards.csv");
         filename = file.getAbsolutePath();
