@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,7 @@ public class SplendorGame {
     * @param boardState          The state of the gameboard.
     * @param prestigePointsToWin The amount of prestige points needed to win the game.
     * @param players             The player order in the game.
-    * @param turnCounter              The turn id associated with the player
+    * @param turnCounter         The turn id associated with the player
     */
     public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnCounter) {
         this.boardState = boardState;
@@ -88,6 +89,10 @@ public class SplendorGame {
         }
 
         return player;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(players);
     }
 
     /**

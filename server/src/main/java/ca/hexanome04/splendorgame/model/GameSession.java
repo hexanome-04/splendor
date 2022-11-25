@@ -41,6 +41,15 @@ public class GameSession {
     }
 
     /**
+     * Set the game associated with the session.
+     *
+     * @param game The game associated with the session.
+     */
+    public void setGame(SplendorGame game) {
+        this.game = game;
+    }
+
+    /**
      * Check if the game has launched yet.
      *
      * @return has game launched

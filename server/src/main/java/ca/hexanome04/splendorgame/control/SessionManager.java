@@ -1,10 +1,16 @@
 package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.model.GameSession;
+import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.model.SplendorBoard;
+import ca.hexanome04.splendorgame.model.SplendorGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +41,26 @@ public class SessionManager {
             return null;
         }
         return this.gameSessions.get(sessionID);
+    }
+
+    public GameSession addSession(String sessionID, ArrayList<Player> players) throws Exception {
+        // Refuse creation if session with this ID already exists
+        if (gameSessions.containsKey(sessionID))
+            throw new Exception("Game can not be created, the requested ID " + sessionID + "is already in use.");
+        // Refuse creation if incorrect number of players in session
+        if (players.size() >= 2 && players.size() <= 4) {
+            throw new Exception("Game can not be created, exactly two players are required to play Xox.");
+        }
+
+        // TODO: get session ID, name, and creator username from somewhere
+        GameSession session = new GameSession();
+        String filename = "";
+        File file = ResourceUtils.getFile("classpath:cards.csv");
+        filename = file.getAbsolutePath();
+
+        session.setGame(new SplendorGame(new SplendorBoard(filename),15, players, 0));
+        gameSessions.put(sessionID, session);
+        return session;
     }
 
 }
