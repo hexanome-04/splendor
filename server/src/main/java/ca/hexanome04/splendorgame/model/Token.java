@@ -1,5 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
+import java.util.Objects;
+
 /**
  * Class representing a Token.
  */
@@ -25,4 +27,15 @@ public class Token {
         return type;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Token token)) return false;
+        return type == token.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type);
+    }
 }

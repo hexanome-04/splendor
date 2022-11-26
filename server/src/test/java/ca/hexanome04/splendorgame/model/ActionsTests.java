@@ -36,7 +36,7 @@ public class ActionsTests {
         ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // should be no more tier 1 cards available to be purchased
-        assertThat(result).isEqualTo(ActionResult.NOT_ENOUGH_TOKENS);
+        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
     }
 
 }

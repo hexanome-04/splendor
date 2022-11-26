@@ -96,6 +96,8 @@ public class Initializer {
             logger.error("Failed to register game with lobby service.");
             throw new RuntimeException("Unable to register game with lobby service!");
         }
+
+        logger.info("Registered game on lobby service!");
     }
 
 }

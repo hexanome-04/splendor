@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,12 +73,12 @@ public abstract class Card {
      *
      * @param player player that wants to purchase this card
      * @param tokensToUse tokens requested to use
-     * @return true if player has the funds (and/or bonuses)
+     * @return true if player has the funds (and/or bonuses) and no excess tokens given
      */
     public boolean isPurchasable(Player player, List<Token> tokensToUse) {
 
         boolean purchasable = true;
-        List<Token> tokens = player.getTokens();
+        List<Token> tokens = new ArrayList<>(tokensToUse);
         Map<TokenType, Integer> bonuses = player.getBonuses();
 
         // ensure player has the tokens to use
@@ -86,7 +87,8 @@ public abstract class Card {
         }
 
         if (this.costType == CostType.Token) {
-            Map<TokenType, Integer> cost = this.tokenCost;
+            // clone so we don't modify the card's data
+            Map<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
 
             // Subtract the bonuses a player has
             for (Map.Entry<TokenType, Integer> bonus : bonuses.entrySet()) {
@@ -104,6 +106,9 @@ public abstract class Card {
                 if (cost.containsKey(t.getType())) {
                     int costAmt = cost.get(tokenType);
                     cost.put(tokenType, costAmt - 1);
+                } else {
+                    // Extra token not needed, invalid tokens list given to buy card
+                    return false;
                 }
             }
 

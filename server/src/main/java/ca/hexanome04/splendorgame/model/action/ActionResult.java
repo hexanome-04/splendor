@@ -4,5 +4,5 @@ public enum ActionResult {
     VALID_ACTION,
     INVALID_PLAYER,
 
-    NOT_ENOUGH_TOKENS,
+    INVALID_TOKENS_GIVEN,
 }

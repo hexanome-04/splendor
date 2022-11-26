@@ -78,7 +78,7 @@ public class Player {
      *
      * @param tokens Tokens to add to player inventory.
      */
-    private void addTokens(ArrayList<Token> tokens) {
+    public void addTokens(List<Token> tokens) {
         this.tokens.addAll(tokens);
     }
 
@@ -108,15 +108,18 @@ public class Player {
     private void removeTokens(HashMap<TokenType, Integer> tokens) {
 
         tokens.forEach((key, value) -> {
-            switch (key) {
-                case White -> this.tokens.remove(new Token(TokenType.White));
-                case Blue -> this.tokens.remove(new Token(TokenType.Blue));
-                case Red -> this.tokens.remove(new Token(TokenType.Red));
-                case Brown -> this.tokens.remove(new Token(TokenType.Brown));
-                case Gold -> this.tokens.remove(new Token(TokenType.Gold));
-                default -> {
-                    return;
-                }
+            Token t = switch (key) {
+                case White -> new Token(TokenType.White);
+                case Blue -> new Token(TokenType.Blue);
+                case Red -> new Token(TokenType.Red);
+                case Brown -> new Token(TokenType.Brown);
+                case Gold -> new Token(TokenType.Gold);
+                default -> null; // shouldn't happen though
+            };
+
+            // remove amount of tokens in the inventory
+            for(int i = 0; i < value; i++) {
+                this.tokens.remove(t);
             }
         });
 
@@ -147,7 +150,7 @@ public class Player {
      * @param take    The tokens the player wishes to take during this turn.
      * @param putBack The tokens the player wishes to put back this turn.
      */
-    public void takeTokens(ArrayList<Token> take, HashMap<TokenType, Integer> putBack) {
+    public void takeTokens(List<Token> take, HashMap<TokenType, Integer> putBack) {
         addTokens(take);
         removeTokens(putBack);
     }

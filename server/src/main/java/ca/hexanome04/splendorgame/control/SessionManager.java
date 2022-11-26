@@ -48,8 +48,8 @@ public class SessionManager {
         if (gameSessions.containsKey(sessionID))
             throw new Exception("Game can not be created, the requested ID " + sessionID + "is already in use.");
         // Refuse creation if incorrect number of players in session
-        if (players.size() >= 2 && players.size() <= 4) {
-            throw new Exception("Game can not be created, exactly two players are required to play Xox.");
+        if (players.size() < 2 || players.size() > 4) {
+            throw new Exception("Game can not be created, 2-4 players required");
         }
 
         // TODO: get session ID, name, and creator username from somewhere

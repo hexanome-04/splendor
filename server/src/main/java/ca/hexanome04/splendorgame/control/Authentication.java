@@ -190,6 +190,6 @@ public class Authentication {
 
         }
         // invalid token or something
-        return null;
+        return "";
     }
 }

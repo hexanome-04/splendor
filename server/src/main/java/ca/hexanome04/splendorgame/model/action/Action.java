@@ -12,7 +12,16 @@ public abstract class Action {
         this.actionType = actionType; // just to force every child to use one enum
     }
 
-    public abstract ActionResult executeAction(SplendorGame game, Player p);
+    public final ActionResult execute(SplendorGame game, Player p) {
+        // Check if player can execute this action.
+        if (!game.getTurnCurrentPlayer().getName().equals(p.getName())) {
+            return ActionResult.INVALID_PLAYER;
+        }
+
+        return this.run(game, p);
+    }
+
+    protected abstract ActionResult run(SplendorGame game, Player p);
 
     public abstract Action decodeAction(JsonObject jobj);
 

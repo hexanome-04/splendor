@@ -4,6 +4,7 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the current state of a game.
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class SplendorGame {
 
     private SplendorBoard boardState;
-    private ArrayList<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private final int prestigePointsToWin;
     private int turnCounter;
 
@@ -23,7 +24,7 @@ public class SplendorGame {
     * @param players             The player order in the game.
     * @param turnCounter         The turn id associated with the player
     */
-    public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, ArrayList<Player> players, int turnCounter) {
+    public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, List<Player> players, int turnCounter) {
         this.boardState = boardState;
         this.prestigePointsToWin = prestigePointsToWin;
         this.players.addAll(players);        
@@ -43,6 +44,15 @@ public class SplendorGame {
             turnCounter++;
         }
 
+        return players.get(turnCounter);
+    }
+
+    /**
+     * Get the player whose turn it is.
+     *
+     * @return player who has to play
+     */
+    public Player getTurnCurrentPlayer() {
         return players.get(turnCounter);
     }
 
@@ -76,7 +86,7 @@ public class SplendorGame {
         Player player = null;
 
         for(Player p : this.players) {
-            if (p.getName() == name) {
+            if (p.getName().equals(name)) {
                 player = p;
                 break;
             }
@@ -85,7 +95,7 @@ public class SplendorGame {
         return player;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
 
@@ -104,7 +114,7 @@ public class SplendorGame {
 
         Player p = this.getPlayerFromName(playerName);
 
-        ActionResult ar = action.executeAction(this, p);
+        ActionResult ar = action.execute(this, p);
 
         // update gameboard?
 
