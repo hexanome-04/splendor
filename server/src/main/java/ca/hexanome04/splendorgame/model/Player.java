@@ -118,7 +118,7 @@ public class Player {
             };
 
             // remove amount of tokens in the inventory
-            for(int i = 0; i < value; i++) {
+            for (int i = 0; i < value; i++) {
                 this.tokens.remove(t);
             }
         });
@@ -230,7 +230,7 @@ public class Player {
         ArrayList<Token> check = new ArrayList<>(checkTokens);
 
         // loop until we checked all the tokens in the given list
-        while(!check.isEmpty()) {
+        while (!check.isEmpty()) {
             Token token = check.remove(0);
 
             if (playerInv.contains(token)) {

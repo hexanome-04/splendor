@@ -5,16 +5,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Represents a deck of cards, with contains visible (face-up) and non-visible (face-down) cards.
+ *
+ * @param <T> must extend card
+ */
 public class Deck<T extends Card> {
 
     private final Stack<T> cards;
     private final List<T> visibleCards;
 
+    /**
+     * Construct a deck of cards with nothing inside.
+     */
     public Deck() {
         this.cards = new Stack<>();
         this.visibleCards = new ArrayList<>();
     }
 
+    /**
+     * Obtain all the visible (face-up) cards in this deck.
+     *
+     * @return list of all visible cards
+     */
     public List<T> getVisibleCards() {
         return new ArrayList<>(this.visibleCards);
     }
@@ -40,15 +53,15 @@ public class Deck<T extends Card> {
         // get the card from the visible cards list
         T takenCard = null;
         int i;
-        for(i = 0; i < this.visibleCards.size(); i++) {
+        for (i = 0; i < this.visibleCards.size(); i++) {
             T c = this.visibleCards.get(i);
-            if(c.getID().equals(card.getID())) {
+            if (c.getId().equals(card.getId())) {
                 takenCard = c;
                 break;
             }
         }
 
-        if(takenCard == null) {
+        if (takenCard == null) {
             // no card taken (invalid selection?)
             // not sure what to do in this card (maybe this shouldn't be possible in the first place)
 
@@ -72,9 +85,14 @@ public class Deck<T extends Card> {
         Collections.shuffle(cards);
     }
 
+    /**
+     * Take cards from non-visible (face-down) cards and put it in the visible (face-up) card list.
+     *
+     * @param count how many cards to make visible
+     */
     public void drawCards(int count) {
-        for(int i = 0; i < count; i++) {
-            if(!this.cards.isEmpty()) {
+        for (int i = 0; i < count; i++) {
+            if (!this.cards.isEmpty()) {
                 this.visibleCards.add(this.cards.pop());
             }
         }

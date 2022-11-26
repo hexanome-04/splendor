@@ -1,5 +1,8 @@
 package ca.hexanome04.splendorgame.model;
 
+/**
+ * Possible tiers of development cards.
+ */
 public enum CardTier {
 
     /**

@@ -3,6 +3,9 @@ package ca.hexanome04.splendorgame.model.action;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
 import com.google.gson.JsonObject;
 
+/**
+ * Decodes actions from a given identifier.
+ */
 public class ActionDecoder {
 
     /**
@@ -16,7 +19,7 @@ public class ActionDecoder {
         try {
             Actions actionType = Actions.valueOf(identifier);
 
-            return switch(actionType) {
+            return switch (actionType) {
                 case BUY_CARD -> new BuyCardAction().decodeAction(gson);
             };
         } catch (IllegalArgumentException e) {

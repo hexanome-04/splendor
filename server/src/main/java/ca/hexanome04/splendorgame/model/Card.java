@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class Card {
 
-    private final String ID;
+    private final String id;
     private final int prestigePoints;
     private final CostType costType;
     private final HashMap<TokenType, Integer> tokenCost;
@@ -29,7 +29,7 @@ public abstract class Card {
         this.prestigePoints = prestigePoints;
         this.costType = costType;
         this.tokenCost = tokenCost;
-        this.ID = id;
+        this.id = id;
     }
 
     /**
@@ -64,8 +64,8 @@ public abstract class Card {
      *
      * @return id of card
      */
-    public String getID() {
-        return this.ID;
+    public String getId() {
+        return this.id;
     }
 
     /**

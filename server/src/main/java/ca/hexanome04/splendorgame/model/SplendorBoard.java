@@ -1,8 +1,5 @@
 package ca.hexanome04.splendorgame.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static ca.hexanome04.splendorgame.model.TokenType.Blue;
 import static ca.hexanome04.splendorgame.model.TokenType.Brown;
 import static ca.hexanome04.splendorgame.model.TokenType.Green;
@@ -11,11 +8,10 @@ import static ca.hexanome04.splendorgame.model.TokenType.White;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.NotLinkException;
 import java.util.HashMap;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class that represents the current state of the board.
@@ -68,23 +64,23 @@ public class SplendorBoard {
                     tokenType = Enum.valueOf(TokenType.class, card[0]);
                 }
 
-                String cardID = card[6];
+                String cardId = card[6];
 
                 switch (card[5]) {
                     case "1" -> {
                         tier1Deck.add(new RegDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardID));
+                                prestigePoints, costType, tokenCost, cardId));
                     }
                     case "2" -> {
                         tier2Deck.add(new RegDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardID));
+                                prestigePoints, costType, tokenCost, cardId));
                     }
                     case "3" -> {
                         tier3Deck.add(new RegDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardID));
+                                prestigePoints, costType, tokenCost, cardId));
                     }
                     case "N" -> {
-                        nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardID));
+                        nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardId));
                     }
                     default -> throw new Exception("File not in proper format");
                 }
@@ -122,29 +118,29 @@ public class SplendorBoard {
      * @param id card id
      * @return card from the board (could be null, if doesn't exist)
      */
-    public Card getCardFromID(String id) {
+    public Card getCardFromId(String id) {
         // look through all the decks
         Card card = null;
         for (Card c : this.tier1Deck.getVisibleCards()) {
-            if (c.getID().equals(id)) {
+            if (c.getId().equals(id)) {
                 card = c;
             }
         }
 
         for (Card c : this.tier2Deck.getVisibleCards()) {
-            if (c.getID().equals(id)) {
+            if (c.getId().equals(id)) {
                 card = c;
             }
         }
 
         for (Card c : this.tier3Deck.getVisibleCards()) {
-            if (c.getID().equals(id)) {
+            if (c.getId().equals(id)) {
                 card = c;
             }
         }
 
         for (Card c : this.nobleDeck.getVisibleCards()) {
-            if (c.getID().equals(id)) {
+            if (c.getId().equals(id)) {
                 card = c;
             }
         }

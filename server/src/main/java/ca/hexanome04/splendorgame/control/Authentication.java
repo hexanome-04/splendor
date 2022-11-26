@@ -187,7 +187,7 @@ public class Authentication {
 
             return response.getBody();
         } catch (HttpStatusCodeException e) {
-
+            //
         }
         // invalid token or something
         return "";

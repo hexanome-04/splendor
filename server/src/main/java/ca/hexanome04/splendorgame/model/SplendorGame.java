@@ -2,7 +2,6 @@ package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class SplendorGame {
     public Player getPlayerFromName(String name) {
         Player player = null;
 
-        for(Player p : this.players) {
+        for (Player p : this.players) {
             if (p.getName().equals(name)) {
                 player = p;
                 break;
@@ -95,20 +94,25 @@ public class SplendorGame {
         return player;
     }
 
+    /**
+     * Retrieve all players in this game.
+     *
+     * @return list of all players in this game
+     */
     public List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
 
     /**
+     * Allows player to perform an action.
      *
-     *
-     * @param playerName
-     * @param action
-     * @return
+     * @param playerName player performing action
+     * @param action action being executed
+     * @return result of action execution
      */
     public ActionResult takeAction(String playerName, Action action) {
 
-        if(players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
+        if (players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
             return ActionResult.INVALID_PLAYER;
         }
 
@@ -118,7 +122,7 @@ public class SplendorGame {
 
         // update gameboard?
 
-        if(ar == ActionResult.VALID_ACTION) {
+        if (ar == ActionResult.VALID_ACTION) {
             // success and valid action
             this.incrementTurn();
         }

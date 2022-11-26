@@ -2,6 +2,9 @@ package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.control.templates.GameServiceInfo;
 import com.google.gson.Gson;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Initializer for the server.
@@ -33,6 +33,14 @@ public class Initializer {
     GameServiceInfo gameServiceInfo;
     Authentication auth;
 
+    /**
+     * Initializes server with lobby service.
+     *
+     * @param auth methods relating to token
+     * @param gsName game service name
+     * @param gsDisplayName game service display name
+     * @param gsLocation game service location
+     */
     public Initializer(@Autowired Authentication auth,
                        @Value("${gs.name}") String gsName,
                        @Value("${gs.displayName}") String gsDisplayName,
@@ -58,7 +66,7 @@ public class Initializer {
         boolean registered = false;
         int maxRetries = 5;
         int retries = 0;
-        while(retries < maxRetries && !registered) {
+        while (retries < maxRetries && !registered) {
             String token = auth.getToken();
 
             RestTemplate restTemplate = new RestTemplate();
@@ -92,7 +100,7 @@ public class Initializer {
             registered = true;
         }
 
-        if(!registered) {
+        if (!registered) {
             logger.error("Failed to register game with lobby service.");
             throw new RuntimeException("Unable to register game with lobby service!");
         }

@@ -2,8 +2,11 @@ package ca.hexanome04.splendorgame.model;
 
 import java.util.List;
 
+/**
+ * Represent a game session for a Splendor game.
+ */
 public class GameSession {
-    private final String sessionID;
+    private final String sessionId;
     private boolean launched;
     private SplendorGame game;
     private String creatorUsername;
@@ -12,11 +15,11 @@ public class GameSession {
     /**
      * Initialize a game session.
      *
-     * @param sessionID session id associate with this game session
+     * @param sessionId session id associate with this game session
      */
-    public GameSession(String sessionID, String creatorUsername, String sessionName) {
+    public GameSession(String sessionId, String creatorUsername, String sessionName) {
         this.launched = false;
-        this.sessionID = sessionID;
+        this.sessionId = sessionId;
         this.game = null;
         this.creatorUsername = creatorUsername;
         this.sessionName = sessionName;
@@ -63,8 +66,8 @@ public class GameSession {
      *
      * @return session id
      */
-    public String getSessionID() {
-        return this.sessionID;
+    public String getSessionId() {
+        return this.sessionId;
     }
 
 }
