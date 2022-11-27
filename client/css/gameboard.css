@@ -45,7 +45,16 @@ html {
 }
 
 .bar {
-  background-color: #f2d675;
+  background:
+    linear-gradient(
+      to top,
+      rgb(110 81 7),
+      rgb(218 165 32),
+      rgb(245 204 101)
+    );
+  -webkit-background-clip: border-box;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 10px black);
   width: 2.4rem;
   height: 0.35rem;
   border: solid;
@@ -63,7 +72,7 @@ html {
 }
 
 .navigation {
-  left: -25vw;
+  left: -50vw;
   position: fixed;
   width: 25vw;
   height: 100vh;
@@ -98,13 +107,22 @@ html {
 }
 
 .top-menu-title {
-  color: #f2d675;
   font-size: 2.3rem;
   font-family: Judson, serif;
   font-weight: 800;
   margin: 0 auto;
   letter-spacing: 0.1rem;
   -webkit-text-stroke: 0.03rem rgb(82 55 24);
+  background:
+    linear-gradient(
+      to top,
+      rgb(110 81 7),
+      rgb(218 165 32),
+      rgb(245 204 101)
+    );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 10px black);
 }
 
 /* PLAYER INVENTORY */

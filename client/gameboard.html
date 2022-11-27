@@ -268,6 +268,210 @@
             </div>
         </div>
     </div>
+
+    <!-- ALL MODALS -->
+    <!-- Open The Modal -->
+    <button id="my-btn">Open Modal</button>
+
+    <!-- YOUR TURN -->
+    <div id="your-turn-modal" class="modal">
+        <div class="modal-content">
+            <h1>YOUR TURN</h1>
+            <p>Choose an action.</p>
+
+            <div class="turn-button-container">
+                <button class="get-tokens-btn" id="get-tokens-btn">GET TOKENS</button>
+                <button class="purchase-btn" id="purchase-btn">PURCHASE</button>
+                <button class="reserve-btn" id="reserve-btn">RESERVE</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BUY CARD MODAL -->
+    <div id="buy-card-modal" class="modal">
+        <div class="modal-content">
+            <h1>PURCHASE</h1>
+            <p>Please select the card you wish to purchase.</p>
+
+            <div id="buy-card-board" class="buy-card-board">
+                <div class="modal-board-cards">
+                    <div class="board-cards-row board-cards-level3">
+                        <div class="board-cards-dev-selectable">
+                            <div class="board-card-dev">
+                                <!-- Replace with <img> when ready -->
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cards-row">
+                        <div class="board-cards-dev-selectable">
+                            <div class="board-card-dev">
+                                <!-- Replace with <img> when ready -->
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cards-row">
+                        <div class="board-cards-dev-selectable">
+                            <div class="board-card-dev">
+                                <!-- Replace with <img> when ready -->
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                            <div class="board-card-dev board-card-dev-orient">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="buy-card-back-btn" id="buy-card-back-btn">BACK</button>
+                <button class="buy-card-confirm-btn" id="buy-card-confirm-btn">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dev-card-payment-modal" class="modal">
+        <div class="modal-content">
+            <h1>CONFIRM PURCHASE</h1>
+            <p>Select the number of tokens you wish to purchase the card with.</p>
+            <!-- selected card here -->
+
+            <div class="token-count-outer-container">
+
+                <!-- Ruby Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-ruby" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token ruby">
+                        <span id="ruby-count">0</span>
+                    </div>
+                    <div id="decrease-ruby" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+
+                <!-- Sapphire Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-sapphire" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token sapphire">
+                        <span id="sapphire-count">0</span>
+                    </div>
+                    <div id="decrease-sapphire" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+
+                <!-- Emerald Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-emerald" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token emerald">
+                        <span id="emerald-count">0</span>
+                    </div>
+                    <div id="decrease-emerald" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+
+                <!-- Diamond Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-diamond" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token diamond">
+                        <span id="diamond-count">0</span>
+                    </div>
+                    <div id="decrease-diamond" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+
+                <!-- Onyx Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-onyx" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token onyx">
+                        <span id="onyx-count">0</span>
+                    </div>
+                    <div id="decrease-onyx" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+
+                <!-- Joker Counter -->
+                <div class="token-count-inner-container">
+                    <div id="increase-joker" class="quantity-button">
+                        <span>+</span>
+                    </div>
+                    <div class="board-token joker">
+                        <span id="joker-count">0</span>
+                    </div>
+                    <div id="decrease-joker" class="quantity-button">
+                        <span>-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button class="buy-card-back-btn" id="purchase-confirm-back-btn"> BACK</button>
+                <button class="buy-card-confirm-btn" id="purchase-confirm-btn">CONFIRM</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
     <script src="js/modals.js"> </script>
+
 </body>
 </html>
