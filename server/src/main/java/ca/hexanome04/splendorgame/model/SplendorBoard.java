@@ -1,17 +1,14 @@
 package ca.hexanome04.splendorgame.model;
 
-import static ca.hexanome04.splendorgame.model.TokenType.Blue;
-import static ca.hexanome04.splendorgame.model.TokenType.Brown;
-import static ca.hexanome04.splendorgame.model.TokenType.Green;
-import static ca.hexanome04.splendorgame.model.TokenType.Red;
-import static ca.hexanome04.splendorgame.model.TokenType.White;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static ca.hexanome04.splendorgame.model.TokenType.*;
 
 /**
  * Class that represents the current state of the board.
@@ -19,14 +16,20 @@ import org.slf4j.LoggerFactory;
 public class SplendorBoard {
 
     final Logger logger = LoggerFactory.getLogger(SplendorBoard.class);
+    private int numPlayers;
 
     private final Deck<NobleCard> nobleDeck = new Deck<>();
-    // Maybe rename them to tier instead of the color?
 
     private final Deck<RegDevelopmentCard> tier1Deck = new Deck<>();
     private final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
     private final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
 
+    private final List<Token> tokensRed = new ArrayList<>();
+    private final List<Token> tokensGreen = new ArrayList<>();
+    private final List<Token> tokensBlue = new ArrayList<>();
+    private final List<Token> tokensBrown = new ArrayList<>();
+    private final List<Token> tokensWhite = new ArrayList<>();
+    private final List<Token> tokensGold = new ArrayList<>();
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
@@ -98,6 +101,35 @@ public class SplendorBoard {
         tier1Deck.drawCards(4);
         tier2Deck.drawCards(4);
         tier3Deck.drawCards(4);
+
+        nobleDeck.shuffle();
+        nobleDeck.drawCards(numPlayers + 1);
+
+        // Now initialize tokens
+        int numTokens;
+
+        switch (numPlayers) {
+            case 2 -> numTokens = 4;
+            case 3 -> numTokens = 5;
+            case 4 -> numTokens = 7;
+            default -> {
+                numTokens = 0;
+                logger.error("Invalid number of players."); // Testing
+            }
+        }
+
+        for (int i = 0; i < numTokens; i++) {
+            tokensRed.add(new Token(Red));
+            tokensGreen.add(new Token(Green));
+            tokensBlue.add(new Token(Blue));
+            tokensBrown.add(new Token(Brown));
+            tokensWhite.add(new Token(White));
+        }
+
+        for (int i = 0; i < 5; i++) {
+            tokensGold.add(new Token(Gold));
+        }
+
     }
 
     public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {
@@ -173,6 +205,15 @@ public class SplendorBoard {
         }
 
         return takenCard != null;
+    }
+
+    /**
+     * Set the number of players in the game associated to this board.
+     *
+     * @param numPlayers Number of players in the game.
+     */
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
     }
 
 }
