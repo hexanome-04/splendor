@@ -105,4 +105,11 @@ public class AuthenticationTest {
         assertThat(auth.isPlayerToken(token)).isTrue();
     }
 
+    @Test
+    @DisplayName("Verify that the token has a name")
+    void testGetNameFromToken() {
+        String token = getToken(adminUsername, adminPassword);
+        assertThat(auth.getNameFromToken(token)).isNotEqualTo("");
+    }
+
 }
