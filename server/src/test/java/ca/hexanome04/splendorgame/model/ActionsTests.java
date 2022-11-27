@@ -25,8 +25,8 @@ public class ActionsTests {
     void testPlayerBuyCardInsufficientTokens() throws FileNotFoundException {
         SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
 
-        // get first player (id = 0)
-        Player p1 = game.getPlayerFromName("0");
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
 
         List<Token> tokensToUse = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
@@ -37,6 +37,26 @@ public class ActionsTests {
 
         // should be no more tier 1 cards available to be purchased
         assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+    }
+
+    @DisplayName("Ensure players can buy a card when sufficient tokens provided.")
+    @Test
+    void testPlayerBuyCardSufficientTokens() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        List<Token> tokensToUse = new ArrayList<>();
+        for(int i = 0; i < 4; i++) {
+            tokensToUse.add(new Token(TokenType.Red));
+        }
+        p1.addTokens(tokensToUse);
+
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
     }
 
 }

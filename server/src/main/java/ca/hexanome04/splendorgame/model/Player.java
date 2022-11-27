@@ -83,12 +83,31 @@ public class Player {
     }
 
     /**
+     * Adds bonuses to player inventory.
+     *
+     * @param bonus to add to player inventory.
+     * @param numBonuses how many of this bonus to be added to player inventory.
+     */
+    public void addBonus(TokenType bonus, int numBonuses) {
+        this.bonuses.put(bonus, numBonuses);
+    }
+
+    /**
      * Get a player's held tokens.
      *
      * @return list of tokens that the player has
      */
     public List<Token> getTokens() {
         return new ArrayList<>(this.tokens);
+    }
+
+    /**
+     * Get a player's reserved cards.
+     *
+     * @return list of reserved cards that the player has
+     */
+    public List<DevelopmentCard> getReservedCards() {
+        return new ArrayList<>(this.reservedCards);
     }
 
     /**
