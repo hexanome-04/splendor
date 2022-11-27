@@ -43,5 +43,102 @@ export const SETTINGS = {
      */
     setRefreshToken: (token) => {
         localStorage.setItem("refreshToken", token);
-    }
+    },
+
+    /**
+     * Get the username stored in local storage
+     * @returns string | null
+     */
+    getUsername: () => {
+        return localStorage.getItem("username");
+    },
+    
+    /**
+     * Store the username in local storage
+     * @param {string} setUsername 
+     */
+    setUsername: (username) => {
+        localStorage.setItem("username", username);
+    },
+
+    /**
+     * Get the username of the currently stored token.
+     * @returns string | null
+     */
+    fetchUsername: async () => {
+        // build url
+        const url = new URL(`${SETTINGS.LS_API}/oauth/username`);
+        url.search = new URLSearchParams({ "access_token": SETTINGS.getAccessToken() }).toString();
+
+        const resp = await fetch(url, { method: "GET" });
+
+        if(!resp.ok) {
+            return null;
+        }
+
+        const rTest = await resp.text();
+
+        return rTest;
+    },
+
+    /**
+     * Attempt to refresh access token with refresh token.
+     * @returns string | null - returns access token
+     */
+    refreshAccessToken: async () => {
+        const rt = SETTINGS.getRefreshToken();
+
+        // nothing stored
+        if(!rt) {
+            return null;
+        }
+
+        const params = {
+            "grant_type": "refresh_token",
+            "refresh_token": rt
+        };
+        const url = new URL(`${SETTINGS.LS_API}/oauth/token`);
+        url.search = new URLSearchParams(params).toString();
+
+
+        var newAT = "";
+        try {
+            const resp = await fetch(url, { method: "POST" });
+            const data = await resp.json();
+
+            SETTINGS.setAccessToken(data.access_token);
+            SETTINGS.setRefreshToken(data.refresh_token);
+            newAT = data.access_token;
+
+        } catch(e) {
+            return null;
+        }
+
+        return newAT;
+    },
+
+    /**
+     * Force client to go to login screen.
+     */
+    goToLogin: () => {
+        window.location = "login.html";
+    },
+
+    /**
+     * Verify that the user is logged in.
+     * Will attempt to refresh token if available.
+     * Will boot user to login screen if not.
+     */
+    verifyCredentials: async () => {
+        // no token
+        var username = await SETTINGS.fetchUsername();
+        if(!username && !(await SETTINGS.refreshAccessToken())) {
+            SETTINGS.goToLogin();
+            return;
+        }
+
+        // now set username again
+        username = await SETTINGS.fetchUsername();
+        SETTINGS.setUsername(username);
+    },
 };

@@ -37,18 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((data) => {
                 // console.log(data);
 
-                if("error" in data) {
+                if(!("access_token" in data)) {
                     window.alert(data.error_description);
-                    return;
+                    return null;
                 }
 
                 SETTINGS.setAccessToken(data.access_token);
                 SETTINGS.setRefreshToken(data.refresh_token);
 
+                return SETTINGS.fetchUsername();
+            }).then((username) => {
+                if(!username) {
+                    return;
+                }
+
+                SETTINGS.setUsername(username);
+
                 transition("lobby.html");
-                // location.href = "lobby.html";
-            })
-            .finally(() => enableInputs());
+            }).finally(() => enableInputs());
         event.preventDefault();
     });
 });

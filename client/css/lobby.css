@@ -272,16 +272,62 @@ tr > th {
   background: var(--even-bg-color);
 }
 
-.current-sessions-table tr td.join-td-btn {
+.current-sessions-table tr td.session-btns {
   padding: 0.6em 0;
+  width: 1%; /* no idea why it works */
 }
 
-.join-btn {
+.current-sessions-table .session-btns > div {
+  gap: var(--right-margin);
+  justify-content: flex-end;
+}
+
+.current-sessions-table .ses-btn {
   float: right;
-  background: #82bbff;
   color: white;
   border-radius: 6px;
   padding: 0.6em 1.5em;
   cursor: pointer;
-  margin-right: var(--right-margin);
+  display: none;
+}
+
+.current-sessions-table .empty-btn {
+  display: block;
+  visibility: hidden;
+}
+
+.current-sessions-table .join-btn {
+  background: #82bbff;
+}
+
+/* Disable if cannot join */
+.current-sessions-table tr:not([full], [joined]) .join-btn {
+  display: block;
+}
+
+.current-sessions-table .launch-btn {
+  background: #50c878;
+}
+
+/* Disable if not enough players or not creator */
+.current-sessions-table tr:is([launchable][created]) .launch-btn {
+  display: block;
+}
+
+.current-sessions-table .leave-btn {
+  background: #fe4a49;
+}
+
+/* Disable if creator */
+.current-sessions-table tr:not([created]):is([joined]) .leave-btn {
+  display: block;
+}
+
+.current-sessions-table .del-btn {
+  background: #fe4a49;
+}
+
+/* Disable if creator */
+.current-sessions-table tr[created] .del-btn {
+  display: block;
 }
