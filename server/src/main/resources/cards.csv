@@ -1,4 +1,4 @@
-﻿tokenType (TokenType),bonus (Int),prestigePoints (int),costType (costType),"TokenCost(W,Bl,G,R,Br)",CARD,ID
+tokenType (TokenType),bonus (Int),prestigePoints (int),costType (costType),"TokenCost(W,Bl,G,R,Br)",CARD,ID
 White,1,1,Token,0;0;4;0;0,1,01
 Blue,1,1,Token,0;0;0;4;0,1,02
 Green,1,1,Token,0;0;0;0;4,1,03
@@ -90,7 +90,7 @@ Green,1,5,Token,0;7;3;0;0,3,088
 Red,1,5,Token,0;0;7;3;0,3,089
 Brown,1,5,Token,0;0;0;7;3,3,090
 ,0,3,Bonus,4;4;0;0;0,N,20001
-,0,3,Bonus,0;4;0;0;0,N,20002
+,0,3,Bonus,0;4;4;0;0,N,20002
 ,0,3,Bonus,0;0;4;4;0,N,20003
 ,0,3,Bonus,0;0;0;4;4,N,20004
 ,0,3,Bonus,4;0;0;0;4,N,20005
