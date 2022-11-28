@@ -4,6 +4,7 @@ import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -35,13 +36,13 @@ public class SplendorRestControllerTest {
         SplendorRestController splendorRestController = new SplendorRestController(dummySessionManager, auth);
         assertThat(
                 splendorRestController.launchSession(dummyID, null)
-        ).isInstanceOf(Exception.class);
+        ).isEqualTo(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing launch session info."));
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoNoGS)
-        ).isInstanceOf(Exception.class);
+        ).isEqualTo(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing service name in launch session info."));
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoBadGS)
-        ).isInstanceOf(Exception.class);
+        ).isEqualTo(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lobby Service did not specify a matching Service name."));
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoGood)
         ).isInstanceOf(ResponseEntity.class);

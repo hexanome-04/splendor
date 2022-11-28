@@ -99,7 +99,7 @@ public class SplendorBoard {
     /**
      * Initialize state of the board (cards, nobles, tokens).
      */
-    public void initBoard(){
+    public void initBoard() {
         tier1Deck.shuffle();
         tier2Deck.shuffle();
         tier3Deck.shuffle();

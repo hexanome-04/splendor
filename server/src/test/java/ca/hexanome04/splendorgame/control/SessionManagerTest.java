@@ -8,6 +8,7 @@ import ca.hexanome04.splendorgame.model.GameSession;
 import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Test for class SessionManager.
@@ -28,13 +29,14 @@ public class SessionManagerTest {
         GameSession game1 = dummySessionManager.addSession(dummyID, players, "creator", "sessionName");
         assertThat(game1).isInstanceOf(GameSession.class);
         // Wrong number of players
-        assertThat(
-                dummySessionManager.addSession(dummyID, null, "creator", "sessionName")
-        ).isInstanceOf(Exception.class);
+        assertThatThrownBy(() -> {
+            dummySessionManager.addSession(dummyID, null, "creator", "sessionName");
+        }).isInstanceOf(Exception.class);
+
         // Repeated sessionID
-        assertThat(
-                dummySessionManager.addSession(dummyID, players, "creator", "sessionName")
-        ).isInstanceOf(Exception.class);
+        assertThatThrownBy(() -> {
+            dummySessionManager.addSession(dummyID, players, "creator", "sessionName");
+        }).isInstanceOf(Exception.class);
     }
 
     @Test

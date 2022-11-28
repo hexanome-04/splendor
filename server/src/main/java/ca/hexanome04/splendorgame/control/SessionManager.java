@@ -56,7 +56,7 @@ public class SessionManager {
                                   String creatorName, String sessionName) throws Exception {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionId)) {
-            throw new Exception("Game can not be created, the requested ID " + sessionId + "is already in use.");
+            throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
         }
         // Refuse creation if incorrect number of players in session
         if (players.size() < 2 || players.size() > 4) {
