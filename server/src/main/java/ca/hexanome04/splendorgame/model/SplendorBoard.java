@@ -24,12 +24,7 @@ public class SplendorBoard {
     private final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
     private final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
 
-    private final List<Token> tokensRed = new ArrayList<>();
-    private final List<Token> tokensGreen = new ArrayList<>();
-    private final List<Token> tokensBlue = new ArrayList<>();
-    private final List<Token> tokensBrown = new ArrayList<>();
-    private final List<Token> tokensWhite = new ArrayList<>();
-    private final List<Token> tokensGold = new ArrayList<>();
+    private final List<Token> tokens = new ArrayList<>();
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
@@ -125,15 +120,15 @@ public class SplendorBoard {
         }
 
         for (int i = 0; i < numTokens; i++) {
-            tokensRed.add(new Token(Red));
-            tokensGreen.add(new Token(Green));
-            tokensBlue.add(new Token(Blue));
-            tokensBrown.add(new Token(Brown));
-            tokensWhite.add(new Token(White));
+            tokens.add(new Token(Red));
+            tokens.add(new Token(Green));
+            tokens.add(new Token(Blue));
+            tokens.add(new Token(Brown));
+            tokens.add(new Token(White));
         }
 
         for (int i = 0; i < 5; i++) {
-            tokensGold.add(new Token(Gold));
+            tokens.add(new Token(Gold));
         }
     }
 
