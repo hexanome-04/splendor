@@ -245,6 +245,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 trNode.removeAttribute("joined");
             }
 
+            if(ses.creator === username) {
+                if(sesPlayers.length > 1) {
+                    trNode.setAttribute("launchable", "true");
+                }
+            }
+
             const node = document.querySelector(`${tableSel} tr[session-id="${sesId}"] .session-players-info`);
             const newText = `[${curP}/${maxP}]: ${sesPlayers.join(", ")}`;
             if(node.textContent !== newText) {

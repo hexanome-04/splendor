@@ -5,8 +5,14 @@
  */
 
 export const SETTINGS = {
+
     /**
-     * URL to access the Lobby Service
+     * Location for access to the game service.
+     */
+    GS_API: "http://localhost:53402",
+
+    /**
+     * Location for access to the Lobby Service.
      */
     LS_API: "http://ls.hoshi.tv:54172",
 
@@ -100,10 +106,15 @@ export const SETTINGS = {
         const url = new URL(`${SETTINGS.LS_API}/oauth/token`);
         url.search = new URLSearchParams(params).toString();
 
+        const headers = new Headers();
+        headers.set("Authorization", `Basic ${btoa("bgp-client-name:bgp-client-pw")}`);
 
         var newAT = "";
         try {
-            const resp = await fetch(url, { method: "POST" });
+            const resp = await fetch(url, { method: "POST", headers: headers });
+
+            if(!resp.ok) throw new Error("not ok: " + resp.statusText);
+
             const data = await resp.json();
 
             SETTINGS.setAccessToken(data.access_token);

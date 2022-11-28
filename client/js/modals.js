@@ -20,17 +20,13 @@ const purchaseCardModal = document.getElementById("buy-card-modal");
 const confirmPurchaseModal = document.getElementById("dev-card-payment-modal");
 
 
-const btn = document.getElementById("my-btn");
 const purchaseBtn = document.getElementById("purchase-btn");
 const back1 = document.getElementById("buy-card-back-btn");
 const back2 = document.getElementById("purchase-confirm-back-btn");
 const confirm1 = document.getElementById("buy-card-confirm-btn");
 const confirm2 = document.getElementById("purchase-confirm-btn");
 
- 
-btn.onclick = function() {
-    yourTurnModal.style.display = "block";
-};
+
 
 purchaseBtn.onclick = function() {
     purchaseCardModal.style.display = "block";

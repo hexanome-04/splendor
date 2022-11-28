@@ -16,6 +16,12 @@ html {
     url("../images/bluebackground.jpg");
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .game-elements {
   display: flex;
   flex-direction: row;
@@ -40,7 +46,6 @@ html {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex: 1 0 100%;
   box-shadow: 1rem 1rem 5rem black;
 }
 
@@ -141,15 +146,37 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 1em;
   background: rgba(104 105 119 / 25%);
-  padding: 3em 0.7em;
+  padding: 1em 0.7em;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
   border-left: none;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
 
   --player-inv-card-height: 6em;
+}
+
+.player-prestige-points-container {
+  background-image: url("../images/bluebackground.jpg");
+  background-size: contain;
+  border: 0.2rem solid goldenrod;
+  border-radius: 50%;
+  height: 3em;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+}
+
+.player-prestige-points-container span {
+  font-family: Lobster, cursive;
+  font-size: 1.8em;
+  color: rgb(245 204 101);
+  -webkit-text-stroke: 0.08rem black;
+  text-shadow: 1px 3px 5px black;
 }
 
 .player-inventory-tokens {
@@ -443,6 +470,16 @@ html {
 
 .board-card-dev-orient {
   background: #ffdcdc;
+}
+
+.board-cards .board-cards-dev-deck[empty],
+.board-cards .board-cards-dev-deck-orient[empty],
+.board-cards .board-card-dev:has(> img:not([src])) {
+  visibility: hidden;
+}
+
+.board-nobles .board-noble-card img:not([src]) {
+  visibility: hidden;
 }
 
 .board-cards-dev-selectable {

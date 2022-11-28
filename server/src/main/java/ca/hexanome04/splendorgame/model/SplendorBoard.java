@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -216,4 +217,16 @@ public class SplendorBoard {
         this.numPlayers = numPlayers;
     }
 
+    /**
+     * Add tokens to the board.
+     *
+     * @param tokens tokens to be added
+     */
+    public void addTokens(Map<TokenType, Integer> tokens) {
+        for (Map.Entry<TokenType, Integer> entry : tokens.entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
+                this.tokens.add(new Token(entry.getKey()));
+            }
+        }
+    }
 }

@@ -37,6 +37,29 @@
   transition: 0.3s;
 }
 
+.other-prestige-point-container {
+  position: absolute;
+  background-image: url("../images/bluebackground.jpg");
+  background-size: contain;
+  border: 0.2rem solid goldenrod;
+  top: 0;
+  border-radius: 50%;
+  height: 2.2em;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+}
+
+.other-prestige-point-container span {
+  font-family: Lobster, cursive;
+  font-size: 1.3em;
+  color: rgb(245 204 101);
+  -webkit-text-stroke: 0.08rem black;
+  text-shadow: 1px 3px 5px black;
+}
+
 .other-player-container > *:last-child {
   margin-right: 1em;
 }
@@ -98,6 +121,10 @@
   top: 0;
   left: 0;
   box-shadow: rgba(0 0 0 / 24%) 0 3px 8px;
+}
+
+.other-player-profile img:not([src]) {
+  visibility: hidden;
 }
 
 .other-inventory-card:hover > img {

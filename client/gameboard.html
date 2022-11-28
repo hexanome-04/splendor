@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="css/gameboard-otherplayers.css" />
     <link rel="stylesheet" href="css/modals.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    
+
+    <script type="module" src="js/settings.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +37,9 @@
     <div id="game-elements" class="game-elements">
         <div id="player-inventory" class="player-inventory">
             <div class="player-inventory-container">
+                <div class="player-prestige-points-container">
+                    <span>0</span>
+                </div>
                 <div class="player-inventory-tokens">
                     <div class="board-token ruby">
                         <span>10</span>
@@ -58,33 +62,12 @@
                 </div>
                 <div class="player-inventory-cards">
                     <div class="player-inventory-card-placeholder">
-                        <img src="./images/G-G-2-1-0-0-2-0.png">
+                        <img>
                     </div>
                     <div class="player-inventory-card-drawer">
-                        <div class="player-inventory-card">
-                            <img src="./images/G-G-2-1-0-0-2-0.png">
-                        </div>
-                        <div class="player-inventory-card">
-                            <img src="./images/G-G-2-1-0-0-2-0.png">
-                        </div>
-                        <div class="player-inventory-card">
-                            <img src="./images/G-G-2-1-0-0-2-0.png">
-                        </div>
-                        <div class="player-inventory-card">
-                            <img src="./images/G-G-2-1-0-0-2-0.png">
-                        </div>
-                        <div class="player-inventory-card">
-                            <img src="./images/G-G-2-1-0-0-2-0.png">
-                        </div>
                     </div>
                 </div>
                 <div class="player-inventory-reservedcards">
-                    <div class="player-inventory-card-reserved">
-                        <img src="./images/G-G-2-1-0-0-2-0.png">
-                    </div>
-                    <div class="player-inventory-card-reserved">
-                        <img src="./images/G-G-2-1-0-0-2-0.png">
-                    </div>
                 </div>
             </div>
         </div>
@@ -92,39 +75,39 @@
         <div id="board" class="board">
             <div class="board-tokens">
                 <div class="board-token ruby">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
                 <div class="board-token sapphire">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
                 <div class="board-token emerald">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
                 <div class="board-token diamond">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
                 <div class="board-token onyx">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
                 <div class="board-token joker">
-                    <span>10</span>
+                    <span>0</span>
                 </div>
             </div>
             <div class="board-nobles">
                 <div class="board-noble-card">
-                    <img src="./images/noble-B-B-W.jpg">
+                    <img>
                 </div>
                 <div class="board-noble-card">
-                    <img src="./images/noble-B-R-G.jpg">
+                    <img>
                 </div>
                 <div class="board-noble-card">
-                    <img src="./images/noble-B-R-W.jpg">
+                    <img>
                 </div>
                 <div class="board-noble-card">
-                    <img src="./images/noble-G-B-R.jpg">
+                    <img>
                 </div>
                 <div class="board-noble-card">
-                    <img src="./images/noble-G-B-W.jpg">
+                    <img>
                 </div>
             </div>
             <div class="board-cards">
@@ -135,144 +118,93 @@
                     <div class="board-cards-dev-selectable">
                         <div class="board-card-dev">
                             <!-- Replace with <img> when ready -->
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                     </div>
-                    <div class="board-cards-dev-deck-orient">
+                    <div class="board-cards-dev-deck-orient" empty>
                         <img src="./images/RedCardThree.png">
                     </div>
                 </div>
-                <div class="board-cards-row">
+                <div class="board-cards-row board-cards-level2">
                     <div class="board-cards-dev-deck">
                         <img src="./images/YellowCard.png">
                     </div>
                     <div class="board-cards-dev-selectable">
                         <div class="board-card-dev">
                             <!-- Replace with <img> when ready -->
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                     </div>
-                    <div class="board-cards-dev-deck-orient">
+                    <div class="board-cards-dev-deck-orient" empty>
                         <img src="./images/RedCardTwo.png">
                     </div>
                 </div>
-                <div class="board-cards-row">
+                <div class="board-cards-row board-cards-level1">
                     <div class="board-cards-dev-deck">
                         <img src="./images/GreenCard.png">
                     </div>
                     <div class="board-cards-dev-selectable">
                         <div class="board-card-dev">
                             <!-- Replace with <img> when ready -->
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                         <div class="board-card-dev board-card-dev-orient">
-                            <span></span>
+                            <img>
                         </div>
                     </div>
-                    <div class="board-cards-dev-deck-orient">
+                    <div class="board-cards-dev-deck-orient" empty>
                         <img src="./images/RedCardOne.png">
                     </div>
                 </div>
             </div>
         </div>
         <div id="other-players" class="other-players">
-            <div class="other-player">
-                <div class="other-player-container">
-                    <div class="other-player-profile">
-                        <img>
-                        <p>NAME</p>
-                    </div>
-                    <div class="other-player-inventory">
-                        <div class="other-player-tokens">
-                            <div class="board-token ruby">
-                                <span>10</span>
-                            </div>
-                            <div class="board-token sapphire">
-                                <span>10</span>
-                            </div>
-                            <div class="board-token emerald">
-                                <span>10</span>
-                            </div>
-                            <div class="board-token diamond">
-                                <span>10</span>
-                            </div>
-                            <div class="board-token onyx">
-                                <span>10</span>
-                            </div>
-                            <div class="board-token joker">
-                                <span>10</span>
-                            </div>
-                        </div>
-                        <div class="other-inventory-cards">
-                            <!-- The following cards have to be put in reverse order -->
-                            <div class="other-inventory-card">
-                                <img src="./images/G-G-2-1-0-0-2-0.png">
-                            </div>
-                            <div class="other-inventory-card">
-                                <img src="./images/G-G-2-1-0-0-2-0.png">
-                            </div>
-                            <div class="other-inventory-card">
-                                <img src="./images/G-G-2-1-0-0-2-0.png">
-                            </div>
-                            <div class="other-inventory-card">
-                                <img src="./images/G-G-2-1-0-0-2-0.png">
-                            </div>
-                            <div class="other-inventory-card">
-                                <img src="./images/G-G-2-1-0-0-2-0.png">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- ALL MODALS -->
-    <!-- Open The Modal -->
-    <button id="my-btn">Open Modal</button>
-
     <!-- YOUR TURN -->
     <div id="your-turn-modal" class="modal">
         <div class="modal-content">
@@ -471,6 +403,69 @@
 
     </div>
 
+    <!-- Templates to be used throughout the game -->
+    <template id="development-card-template">
+        <div class="player-inventory-card" card-id cost>
+            <img src="./images/G-G-2-1-0-0-2-0.png">
+        </div>
+    </template>
+
+    <template id="player-inventory-reserved-card-template">
+        <div class="player-inventory-card-reserved">
+            <img src="./images/G-G-2-1-0-0-2-0.png">
+        </div>
+    </template>
+
+    <template id="dev-card-template">
+
+    </template>
+
+    <template id="other-player-tab-template">
+        <div class="other-player">
+            <div class="other-player-container">
+                <div class="other-prestige-point-container">
+                    <span>15</span>
+                </div>
+                <div class="other-player-profile">
+                    <img>
+                    <p class="other-player-name">NAME</p>
+                </div>
+                <div class="other-player-inventory">
+                    <div class="other-player-tokens">
+                        <div class="board-token ruby">
+                            <span>10</span>
+                        </div>
+                        <div class="board-token sapphire">
+                            <span>10</span>
+                        </div>
+                        <div class="board-token emerald">
+                            <span>10</span>
+                        </div>
+                        <div class="board-token diamond">
+                            <span>10</span>
+                        </div>
+                        <div class="board-token onyx">
+                            <span>10</span>
+                        </div>
+                        <div class="board-token joker">
+                            <span>10</span>
+                        </div>
+                    </div>
+                    <div class="other-inventory-cards">
+                        <!-- The following cards have to be put in reverse order -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="other-player-dev-card-template">
+        <div class="other-inventory-card">
+            <img src="./images/G-G-2-1-0-0-2-0.png">
+        </div>
+    </template>
+
+    <script type="module" src="js/game.js"></script>
     <script src="js/modals.js"> </script>
 
 </body>

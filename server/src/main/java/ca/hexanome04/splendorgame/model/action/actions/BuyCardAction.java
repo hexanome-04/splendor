@@ -64,7 +64,7 @@ public class BuyCardAction extends Action {
         player.buyCard(dc); // will remove tokens from inventory here too
 
         // TODO: Put tokens into board
-
+        board.addTokens(dc.getTokenCost());
 
         return ActionResult.VALID_ACTION;
     }
