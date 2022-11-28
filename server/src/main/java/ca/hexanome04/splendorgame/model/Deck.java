@@ -72,7 +72,7 @@ public class Deck<T extends Card> {
         this.visibleCards.remove(i);
 
         // also replenish the taken card (if there's enough in the cards stack, and if it's not a noble card)
-        if(!(card instanceof NobleCard)) {
+        if (!(card instanceof NobleCard)) {
             drawCards(1);
         }
 

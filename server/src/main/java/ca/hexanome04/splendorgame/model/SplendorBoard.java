@@ -1,5 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
+import static ca.hexanome04.splendorgame.model.TokenType.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -7,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static ca.hexanome04.splendorgame.model.TokenType.*;
 
 /**
  * Class that represents the current state of the board.
