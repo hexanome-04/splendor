@@ -43,6 +43,7 @@ public class SplendorRestControllerTest {
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoBadGS)
         ).isEqualTo(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lobby Service did not specify a matching Service name."));
+        // TODO: Not a good assertion, this method fails but the assertion passes
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoGood)
         ).isInstanceOf(ResponseEntity.class);
@@ -51,4 +52,5 @@ public class SplendorRestControllerTest {
     public void testGetGameState() {
 
     }
+
 }

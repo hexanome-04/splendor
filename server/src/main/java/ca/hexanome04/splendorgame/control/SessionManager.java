@@ -43,6 +43,15 @@ public class SessionManager {
     }
 
     /**
+     * Gets the number of sessions created in this session manager.
+     *
+     * @return The number of sessions
+     */
+    public int getNumSessions() {
+        return gameSessions.size();
+    }
+
+    /**
      * Add a session to the session manager.
      *
      * @param sessionId session id
