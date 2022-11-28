@@ -94,6 +94,12 @@ public class SplendorBoard {
             logger.error("Could not read file"); // Testing
         }
 
+    }
+
+    /**
+     * Initialize state of the board (cards, nobles, tokens).
+     */
+    public void initBoard(){
         tier1Deck.shuffle();
         tier2Deck.shuffle();
         tier3Deck.shuffle();
@@ -129,7 +135,6 @@ public class SplendorBoard {
         for (int i = 0; i < 5; i++) {
             tokensGold.add(new Token(Gold));
         }
-
     }
 
     public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {

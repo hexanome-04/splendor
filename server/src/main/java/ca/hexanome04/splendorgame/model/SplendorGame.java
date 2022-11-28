@@ -26,6 +26,7 @@ public class SplendorGame {
     public SplendorGame(SplendorBoard boardState, int prestigePointsToWin, List<Player> players, int turnCounter) {
         this.boardState = boardState;
         this.boardState.setNumPlayers(players.size());
+        this.boardState.initBoard();
         this.prestigePointsToWin = prestigePointsToWin;
         this.players.addAll(players);        
         this.turnCounter = turnCounter;
