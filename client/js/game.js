@@ -1,5 +1,5 @@
 import { SETTINGS } from "./settings.js";
-
+import { startTurn, verifyNoModals } from "./modals.js";
 
 /**
  * Convert our temporary token list to a proper dictionary.
@@ -211,14 +211,23 @@ const updateGameboard = async () => {
     updateTierRow(".board-cards-row.board-cards-level2", data.boardState.tier2Deck.visibleCards);
     updateTierRow(".board-cards-row.board-cards-level3", data.boardState.tier3Deck.visibleCards);
 
+    const curUsername = SETTINGS.getUsername();
+
     const playersData = data.players;
     playersData.forEach((pInfo) => {
-        if(pInfo.name === SETTINGS.getUsername()) {
+        if(pInfo.name === curUsername) {
             updateMainPlayerInfo(pInfo);
         } else {
             updateOtherPlayerInfo(pInfo);
         }
     });
+
+    // check if it's your turn
+    if(data.players[data.turnCounter].name === curUsername) {
+        startTurn();
+    } else {
+        verifyNoModals();
+    }
 
     setTimeout(updateGameboard, 5000); // refresh every 5 seconds
 };

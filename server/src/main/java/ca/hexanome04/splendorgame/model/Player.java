@@ -129,6 +129,7 @@ public class Player {
         tokens.forEach((key, value) -> {
             Token t = switch (key) {
                 case White -> new Token(TokenType.White);
+                case Green -> new Token(TokenType.Green);
                 case Blue -> new Token(TokenType.Blue);
                 case Red -> new Token(TokenType.Red);
                 case Brown -> new Token(TokenType.Brown);

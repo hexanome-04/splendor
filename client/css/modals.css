@@ -13,6 +13,10 @@
   background-color: rgba(0 0 0 / 40%);
 }
 
+.modal.show {
+  display: block;
+}
+
 /* Modal Content */
 .modal-content {
   display: flex;
@@ -28,7 +32,7 @@
     );
   margin: auto;
   width: 50%;
-  height: 60%;
+  min-height: 60%;
   border: 0.2rem solid goldenrod;
   border-radius: 1rem;
   box-shadow: 5px 5px 10px black;
@@ -175,6 +179,7 @@
   justify-content: center;
   align-items: center;
   padding: 5%;
+  padding-top: 1%;
 }
 
 .token-count-inner-container {
@@ -185,6 +190,11 @@
   padding: 4%;
   font-size: 1.5em;
   row-gap: 0.6em;
+}
+
+.purchase-show-card img {
+  width: 100%;
+  height: 100%;
 }
 
 /* Text for token */
@@ -198,4 +208,10 @@
 
 .selected-card {
   outline: 0.2rem solid goldenrod;
+}
+
+/* Unnecessary to show in modal */
+.board-cards-row .board-cards-dev-deck,
+.board-cards-row .board-cards-dev-deck-orient {
+  display: none;
 }

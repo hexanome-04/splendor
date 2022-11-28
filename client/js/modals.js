@@ -1,3 +1,4 @@
+import { SETTINGS } from "./settings.js";
 
 function show() {
     document.querySelector(".navigation").classList.add("active");
@@ -13,137 +14,33 @@ document.getElementById("menu-icon").addEventListener("click", show);
 
 document.querySelector(".resume").parentNode.addEventListener("click", close);
 
-
-// ------------- Temporary for Testing -----------------
-const yourTurnModal = document.getElementById("your-turn-modal");
-const purchaseCardModal = document.getElementById("buy-card-modal");
-const confirmPurchaseModal = document.getElementById("dev-card-payment-modal");
-
-
 const purchaseBtn = document.getElementById("purchase-btn");
-const back1 = document.getElementById("buy-card-back-btn");
-const back2 = document.getElementById("purchase-confirm-back-btn");
-const confirm1 = document.getElementById("buy-card-confirm-btn");
-const confirm2 = document.getElementById("purchase-confirm-btn");
 
-
-
-purchaseBtn.onclick = function() {
-    purchaseCardModal.style.display = "block";
-};
-
-back1.onclick = function() {
-    yourTurnModal.style.display = "block";
-};
-
-back2.onclick = function() {
-    purchaseCardModal.style.display = "block";
-};
-
-confirm1.onclick = function() {
-    purchaseCardModal.style.display = "block";
-};
-
-confirm2.onclick = function() {
-    confirmPurchaseModal.style.display = "block";
-};
 
 // --------------------------------------------------
 
 // PURCHASE DEVELOPMENT CARD - Token Count Functions
+document.querySelectorAll(".token-count-outer-container .token-count-inner-container").forEach(elm => {
+    // set buttons
+    elm.querySelector(".increase").onclick = () => {
+        const countElm = elm.querySelector(".count");
+        let count = parseInt(countElm.textContent);
+        if (count !== 10) {
+            count += 1;
+            countElm.innerHTML = count.toString();
+        }
+    };
 
-var countRuby, countSapphire, countEmerald, countDiamond, countOnyx, countJoker;
-countRuby = countSapphire = countEmerald = countDiamond = countOnyx = countJoker = 0;
+    elm.querySelector(".decrease").onclick = () => {
+        const countElm = elm.querySelector(".count");
+        let count = parseInt(countElm.textContent);
+        if (count !== 0) {
+            count -= 1;
+            countElm.innerHTML = count.toString();
+        }
+    };
+});
 
-// RUBY
-document.getElementById("increase-ruby").onclick = function() {
-    if (countRuby !== 10) {
-        countRuby += 1;
-        document.getElementById("ruby-count").innerHTML = countRuby;
-    }
-};
-
-document.getElementById("decrease-ruby").onclick = function() {
-    if (countRuby !== 0) {
-        countRuby -= 1;
-        document.getElementById("ruby-count").innerHTML = countRuby;
-    }
-};
-
-// SAPPHIRE
-document.getElementById("increase-sapphire").onclick = function() {
-    if (countSapphire !== 10) {
-        countSapphire += 1;
-        document.getElementById("sapphire-count").innerHTML = countSapphire;
-    }
-};
-
-document.getElementById("decrease-sapphire").onclick = function() {
-    if (countSapphire !== 0) {
-        countSapphire -= 1;
-        document.getElementById("sapphire-count").innerHTML = countSapphire;
-    }
-};
-
-// EMERALD
-document.getElementById("increase-emerald").onclick = function() {
-    if (countEmerald !== 10) {
-        countEmerald += 1;
-        document.getElementById("emerald-count").innerHTML = countEmerald;
-    }
-};
-
-document.getElementById("decrease-emerald").onclick = function() {
-    if (countEmerald !== 0) {
-        countEmerald -= 1;
-        document.getElementById("emerald-count").innerHTML = countEmerald;
-    }
-};
-
-// DIAMOND
-document.getElementById("increase-diamond").onclick = function() {
-    if (countDiamond !== 10) {
-        countDiamond += 1;
-        document.getElementById("diamond-count").innerHTML = countDiamond;
-    }
-};
-
-document.getElementById("decrease-diamond").onclick = function() {
-    if (countDiamond !== 0) {
-        countDiamond -= 1;
-        document.getElementById("diamond-count").innerHTML = countDiamond;
-    }
-};
-
-// ONYX
-document.getElementById("increase-onyx").onclick = function() {
-    if (countOnyx !== 10) {
-        countOnyx += 1;
-        document.getElementById("onyx-count").innerHTML = countOnyx;
-    }
-};
-
-document.getElementById("decrease-onyx").onclick = function() {
-    if (countOnyx !== 0) {
-        countOnyx -= 1;
-        document.getElementById("onyx-count").innerHTML = countOnyx;
-    }
-};
-
-// JOKER
-document.getElementById("increase-joker").onclick = function() {
-    if (countJoker !== 10) {
-        countJoker += 1;
-        document.getElementById("joker-count").innerHTML = countJoker;
-    }
-};
-
-document.getElementById("decrease-joker").onclick = function() {
-    if (countJoker !== 0) {
-        countJoker -= 1;
-        document.getElementById("joker-count").innerHTML = countJoker;
-    }
-};
 
 // Reserve cards selection
 function setupSelectionCards(selector) {
@@ -162,4 +59,163 @@ function setupSelectionCards(selector) {
     });
 }
 
-setupSelectionCards("#buy-card-modal .modal-board-cards .board-card-dev");
+/**
+ * Get the require list for token payment for purchasing a development card.
+ * @returns list[string]
+ */
+const getPaymentTokensList = () => {
+    const tokensCountNodes = document.querySelectorAll("#dev-card-payment-modal .token-count-outer-container .count");
+
+    const tokens = [];
+
+    tokensCountNodes.forEach(node => {
+        const tokenType = node.parentNode.getAttribute("jewel-color");
+        const count = parseInt(node.textContent);
+
+        for(let i = 0; i < count; i++) {
+            tokens.push(tokenType);
+        }
+    });
+
+    return tokens;
+};
+
+const showPayment = (cardNode) => {
+
+    const confirmBtn = document.querySelector("#dev-card-payment-modal .buy-card-confirm-btn");
+
+    // to be used to restrict selection of tokens in the FUTURE
+    // const cost = JSON.parse(cardNode.getAttribute("cost"));
+    const cardId = cardNode.getAttribute("card-id");
+
+    // show card in purchase window
+    const imgSrc = `images/development-cards/${cardId}.jpg`;
+    document.querySelector("#dev-card-payment-modal .purchase-show-card img").setAttribute("src", imgSrc);
+
+    // clear previous numbers
+    document.querySelectorAll(".token-count-outer-container .token-count-inner-container .count").forEach(elm => {
+        elm.textContent = "0";
+    });
+
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game/players/${SETTINGS.getUsername()}/BUY_CARD`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {
+                "cardId": cardId,
+                "tokens": getPaymentTokensList()
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+
+};
+
+const showPurchasableDevCards = () => {
+    // literally just duplicate them from the board
+
+    const cardRows = document.querySelectorAll("#board .board-cards .board-cards-row");
+
+    // clear if already has
+    const modalCardRows = document.querySelector("#buy-card-board .modal-board-cards");
+    modalCardRows.innerHTML = "";
+
+    cardRows.forEach((elm) => {
+        const cNode = elm.cloneNode(true);
+        modalCardRows.appendChild(cNode);
+    });
+
+    const cardsSelectionSelector = "#buy-card-modal .modal-board-cards .board-card-dev";
+
+    setupSelectionCards(cardsSelectionSelector);
+
+    document.querySelector("#buy-card-modal #buy-card-confirm-btn").onclick = () => {
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        if(!selectedCard) {
+            // no card has been selected, error
+            window.alert("You have not selected a card to purchase!");
+            return;
+        }
+
+        showPayment(selectedCard);
+        showNextModal("#dev-card-payment-modal");
+    };
+};
+
+
+const navContext = [];
+
+const showModal = (selector) => {
+    document.querySelector(selector).classList.add("show");
+};
+
+const closeModal = (selector) => {
+    document.querySelector(selector).classList.remove("show");
+};
+
+const showNextModal = (selector) => {
+    // close current
+    closeModal(navContext[navContext.length-1]);
+
+    // push new
+    navContext.push(selector);
+    showModal(navContext[navContext.length-1]);
+};
+
+purchaseBtn.onclick = () => {
+    // load the purchase items
+    showPurchasableDevCards();
+
+    showNextModal("#buy-card-modal");
+};
+
+
+const backButton = () => {
+    // pop top of stack (current modal), close it
+    closeModal(navContext.pop());
+
+    // open the previous one, if any
+    if(navContext.length > 0) {
+        showModal(navContext[navContext.length-1]);
+    }
+};
+
+document.querySelectorAll(".buy-card-back-btn").forEach(elm => elm.onclick = backButton);
+
+export function startTurn() {
+    // attempt to start the turn if no modals are open and it is still your turn.
+    if(navContext.length == 0) {
+        navContext.push("#your-turn-modal"); // push your turn modal
+        showModal(navContext[navContext.length-1]);
+    }
+}
+
+/**
+ * Verify no turn modals are open by accident.
+ */
+export function verifyNoModals() {
+    if(navContext.length != 0) {
+        while(navContext.length > 0) {
+            // ensure the modals get closed if they're open
+            closeModal(navContext.pop());
+        }
+    }
+}

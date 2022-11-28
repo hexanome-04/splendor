@@ -228,75 +228,6 @@
 
             <div id="buy-card-board" class="buy-card-board">
                 <div class="modal-board-cards">
-                    <div class="board-cards-row board-cards-level3">
-                        <div class="board-cards-dev-selectable">
-                            <div class="board-card-dev">
-                                <!-- Replace with <img> when ready -->
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="board-cards-row">
-                        <div class="board-cards-dev-selectable">
-                            <div class="board-card-dev">
-                                <!-- Replace with <img> when ready -->
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="board-cards-row">
-                        <div class="board-cards-dev-selectable">
-                            <div class="board-card-dev">
-                                <!-- Replace with <img> when ready -->
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                            <div class="board-card-dev board-card-dev-orient">
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="button-container">
@@ -311,83 +242,86 @@
             <h1>CONFIRM PURCHASE</h1>
             <p>Select the number of tokens you wish to purchase the card with.</p>
             <!-- selected card here -->
+            <div class="purchase-show-card board-card-dev">
+                <img>
+            </div>
 
             <div class="token-count-outer-container">
 
                 <!-- Ruby Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-ruby" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token ruby">
-                        <span id="ruby-count">0</span>
+                    <div class="board-token ruby" jewel-color="Red">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-ruby" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
 
                 <!-- Sapphire Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-sapphire" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token sapphire">
-                        <span id="sapphire-count">0</span>
+                    <div class="board-token sapphire" jewel-color="Blue">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-sapphire" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
 
                 <!-- Emerald Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-emerald" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token emerald">
-                        <span id="emerald-count">0</span>
+                    <div class="board-token emerald" jewel-color="Green">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-emerald" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
 
                 <!-- Diamond Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-diamond" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token diamond">
-                        <span id="diamond-count">0</span>
+                    <div class="board-token diamond" jewel-color="White">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-diamond" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
 
                 <!-- Onyx Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-onyx" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token onyx">
-                        <span id="onyx-count">0</span>
+                    <div class="board-token onyx" jewel-color="Brown">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-onyx" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
 
                 <!-- Joker Counter -->
                 <div class="token-count-inner-container">
-                    <div id="increase-joker" class="quantity-button">
+                    <div class="quantity-button increase">
                         <span>+</span>
                     </div>
-                    <div class="board-token joker">
-                        <span id="joker-count">0</span>
+                    <div class="board-token joker" jewel-color="Gold">
+                        <span class="count">0</span>
                     </div>
-                    <div id="decrease-joker" class="quantity-button">
+                    <div class="quantity-button decrease">
                         <span>-</span>
                     </div>
                 </div>
@@ -466,7 +400,7 @@
     </template>
 
     <script type="module" src="js/game.js"></script>
-    <script src="js/modals.js"> </script>
+    <script type="module" src="js/modals.js"> </script>
 
 </body>
 </html>

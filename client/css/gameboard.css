@@ -448,12 +448,13 @@ body {
   align-items: center;
 }
 
-.board-cards .board-cards-dev-deck > img,
-.board-cards .board-cards-dev-deck-orient > img,
-.board-cards .board-card-dev > img,
+.board-cards-row .board-cards-dev-deck > img,
+.board-cards-row .board-cards-dev-deck-orient > img,
+.board-cards-row .board-card-dev > img,
 .board-cards-dev-deck > span,
 .board-cards-dev-deck-orient > span,
-.board-card-dev > span {
+.board-card-dev > span,
+.board-card-dev.purchase-show-card {
   height: 6em;
   aspect-ratio: var(--dev-card-aspect-ratio);
   border-radius: var(--card-border-radius);
@@ -472,9 +473,9 @@ body {
   background: #ffdcdc;
 }
 
-.board-cards .board-cards-dev-deck[empty],
-.board-cards .board-cards-dev-deck-orient[empty],
-.board-cards .board-card-dev:has(> img:not([src])) {
+.board-cards-row .board-cards-dev-deck[empty],
+.board-cards-row .board-cards-dev-deck-orient[empty],
+.board-cards-row .board-card-dev:has(> img:not([src])) {
   visibility: hidden;
 }
 
