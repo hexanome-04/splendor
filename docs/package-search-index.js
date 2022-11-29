@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ca.hexanome04.splendorgame"},{"l":"ca.hexanome04.splendorgame.control"},{"l":"ca.hexanome04.splendorgame.control.templates"},{"l":"ca.hexanome04.splendorgame.model"},{"l":"ca.hexanome04.splendorgame.model.action"},{"l":"ca.hexanome04.splendorgame.model.action.actions"}];updateSearchResults();
