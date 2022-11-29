@@ -9,6 +9,13 @@ import com.google.gson.JsonObject;
 public class ActionDecoder {
 
     /**
+     * Construct an action decoder.
+     */
+    public ActionDecoder() {
+        // here
+    }
+
+    /**
      * Create an action from its enum constant name.
      *
      * @param identifier enum constant name

@@ -10,6 +10,13 @@ import org.springframework.web.servlet.config.annotation.*;
 public class WebConfiguration {
 
     /**
+     * Initializes configurations for the web.
+     */
+    public WebConfiguration() {
+        //
+    }
+
+    /**
      * Set CORS registry configuration.
      *
      * @return WebMvcConfigurer

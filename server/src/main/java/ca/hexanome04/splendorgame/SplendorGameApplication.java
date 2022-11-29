@@ -10,6 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SplendorGameApplication {
 
     /**
+     * Construct the splendor game application.
+     */
+    public SplendorGameApplication() {
+        //
+    }
+
+    /**
      * Start function for application.
      *
      * @param args start arguments

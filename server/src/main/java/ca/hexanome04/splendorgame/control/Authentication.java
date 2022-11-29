@@ -35,6 +35,13 @@ public class Authentication {
     RestTemplate restTemplate = new RestTemplate();
 
     /**
+     * Construct a component for using authentication methods.
+     */
+    public Authentication() {
+        //
+    }
+
+    /**
      * Obtain a token with administrative-privileges.
      *
      * @return token with administrative-privileges
