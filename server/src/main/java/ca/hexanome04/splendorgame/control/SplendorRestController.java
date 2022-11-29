@@ -48,6 +48,17 @@ public class SplendorRestController {
     }
 
     /**
+     * Check if server is online.
+     *
+     * @return Quick statement confirming whether server is online
+     */
+    @GetMapping(value = "/api/online", produces = "application/json; charset=utf-8")
+    public String online() {
+        return "The server currently has " + sessionManager.getNumSessions() + " sessions created.";
+
+    }
+
+    /**
      * Launch a session (only from lobby service).
      *
      * @param sessionId session id for new session
@@ -162,6 +173,37 @@ public class SplendorRestController {
     }
 
     /**
+     * Obtain the available actions for this turn.
+     *
+     * @param sessionId session id to get actions for
+     * @param playerName player whose action is being put
+     * @return JSON object of available actions
+     */
+    @GetMapping(value = "/api/sessions/{sessionId}/game/players/{playerName}/actions",
+                produces = "application/json; charset=utf-8")
+    public ResponseEntity getActions(@PathVariable String sessionId, @PathVariable String playerName) {
+        try {
+            // Check if session exists
+            if (sessionManager.getGameSession(sessionId) == null) {
+                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+            }
+            // Check if player exists
+            SplendorGame game = sessionManager.getGameSession(sessionId).getGame();
+            Player player = game.getPlayerFromName(playerName);
+            if (player == null) {
+                throw new Exception("There is no player in this session associated with this playerID: " + sessionId + ".");
+            }
+
+            // If so, serialize actions and place it as body in a ResponseEntity
+            String serializedActions = new Gson().toJson(Actions.class);
+            return ResponseEntity.status(HttpStatus.OK).body(serializedActions);
+        } catch (Exception e) {
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    /**
      * Perform an action to specified session for specified player.
      * Will perform checks to ensure correct player is performing the action
      * and that the player is able to perform the action.
@@ -173,11 +215,11 @@ public class SplendorRestController {
      * @param bodyData JSON string information of action
      * @return String (empty is OK)
      */
-    @PutMapping(value = "/api/sessions/{sessionId}/game/players/{playerName}/{actionIdentifier}",
-                consumes = "application/json; charset=utf-8")
+    @PutMapping(value = "/api/sessions/{sessionId}/game/players/{playerName}/actions/{actionIdentifier}",
+            consumes = "application/json; charset=utf-8")
     public ResponseEntity<String> putAction(@RequestParam("access_token") String token, @PathVariable String sessionId,
-                                    @PathVariable String playerName, @PathVariable Actions actionIdentifier,
-                                    @RequestBody String bodyData) {
+                                            @PathVariable String playerName, @PathVariable Actions actionIdentifier,
+                                            @RequestBody String bodyData) {
 
         try {
             if (sessionManager.getGameSession(sessionId) == null) {
