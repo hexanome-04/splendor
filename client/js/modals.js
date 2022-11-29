@@ -104,7 +104,7 @@ const showPayment = (cardNode) => {
             const windowParams = (new URL(document.location)).searchParams;
             const sessionId = windowParams.get("sessionId");
 
-            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game/players/${SETTINGS.getUsername()}/BUY_CARD`);
+            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game/players/${SETTINGS.getUsername()}/actions/BUY_CARD`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
 
