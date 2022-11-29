@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,6 +32,7 @@ public class Authentication {
     private String username;
     @Value("${LS.server.password}")
     private String password;
+    RestTemplate restTemplate = new RestTemplate();
 
     /**
      * Obtain a token with administrative-privileges.
@@ -39,7 +40,6 @@ public class Authentication {
      * @return token with administrative-privileges
      */
     public String getToken() {
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("bgp-client-name", "bgp-client-pw");
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
@@ -74,8 +74,6 @@ public class Authentication {
     }
 
     private JsonObject getTokenRole(String token) {
-        RestTemplate restTemplate = new RestTemplate();
-
         URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                 .path("/oauth/role")
                 // Spring boot makes '+' disappear if you do not encode them.
@@ -168,9 +166,6 @@ public class Authentication {
      * @return name associated with token
      */
     public String getNameFromToken(String token) {
-
-        RestTemplate restTemplate = new RestTemplate();
-
         URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                 .path("/oauth/username")
                 // Spring boot makes '+' disappear if you do not encode them.
