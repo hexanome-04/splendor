@@ -30,7 +30,6 @@ public class SplendorRestController {
 
     final Logger logger = LoggerFactory.getLogger(SplendorRestController.class);
 
-    @Value("${gs.name}")
     private String gameServiceName;
     private final SessionManager sessionManager;
     private final Authentication auth;
@@ -40,11 +39,15 @@ public class SplendorRestController {
      *
      * @param sessionManager session manager
      * @param auth methods relating to authentication with LS
+     * @param gameServiceName game service name
      */
+
     public SplendorRestController(@Autowired SessionManager sessionManager,
-                                  @Autowired Authentication auth) {
+                                  @Autowired Authentication auth,
+                                  @Value("${gs.name}") String gameServiceName) {
         this.sessionManager = sessionManager;
         this.auth = auth;
+        this.gameServiceName = gameServiceName;
     }
 
     /**
@@ -195,7 +198,8 @@ public class SplendorRestController {
             }
 
             // If so, serialize actions and place it as body in a ResponseEntity
-            String serializedActions = new Gson().toJson(Actions.class);
+            String[] actions = { Actions.BUY_CARD.toString() };
+            String serializedActions = new Gson().toJson(actions);
             return ResponseEntity.status(HttpStatus.OK).body(serializedActions);
         } catch (Exception e) {
             // Something went wrong. Send a http-400 and pass the exception message as body payload.
