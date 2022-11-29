@@ -133,6 +133,7 @@ public class Player {
                 case Red -> new Token(TokenType.Red);
                 case Brown -> new Token(TokenType.Brown);
                 case Gold -> new Token(TokenType.Gold);
+                case Green -> new Token(TokenType.Green);
                 default -> null; // shouldn't happen though
             };
 

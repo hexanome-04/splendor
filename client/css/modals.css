@@ -211,7 +211,7 @@
 }
 
 /* Unnecessary to show in modal */
-.board-cards-row .board-cards-dev-deck,
-.board-cards-row .board-cards-dev-deck-orient {
+#buy-card-modal .board-cards-row .board-cards-dev-deck,
+#buy-card-modal .board-cards-row .board-cards-dev-deck-orient {
   display: none;
 }
