@@ -4,7 +4,7 @@ import ca.hexanome04.splendorgame.model.GameSession;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.SplendorBoard;
 import ca.hexanome04.splendorgame.model.SplendorGame;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,11 +74,9 @@ public class SessionManager {
 
         // TODO: get session ID, name, and creator username from somewhere
         GameSession session = new GameSession(sessionId, creatorName, sessionName);
-        String filename = "";
-        File file = ResourceUtils.getFile("classpath:cards.csv");
-        filename = file.getAbsolutePath();
+        InputStream is = ResourceUtils.getURL("classpath:cards.csv").openStream();
 
-        session.setGame(new SplendorGame(new SplendorBoard(filename), 15, players, 0));
+        session.setGame(new SplendorGame(new SplendorBoard(is), 15, players, 0));
         gameSessions.put(sessionId, session);
         return session;
     }

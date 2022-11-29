@@ -2,8 +2,8 @@ package ca.hexanome04.splendorgame.model;
 
 import static ca.hexanome04.splendorgame.model.TokenType.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,12 +30,12 @@ public class SplendorBoard {
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
      *
-     * @param filename Name of the file being imported.
+     * @param inputStream input stream for cards csv
      */
-    public SplendorBoard(String filename) {
+    public SplendorBoard(InputStream inputStream) {
         String line = "";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             TokenType[] types = {White, Blue, Green, Red, Brown};
             int lines = 1;
             while ((line = br.readLine()) != null) {
@@ -89,7 +89,16 @@ public class SplendorBoard {
         } catch (Exception e) {
             logger.error("Could not read file"); // Testing
         }
+    }
 
+    /**
+     * Constructor for the splendorBoard, initializes all the decks with cards from a file.
+     *
+     * @param filename Name of the file being imported.
+     * @throws FileNotFoundException file not found
+     */
+    public SplendorBoard(String filename) throws FileNotFoundException {
+        this(new FileInputStream(new File(filename)));
     }
 
     /**
