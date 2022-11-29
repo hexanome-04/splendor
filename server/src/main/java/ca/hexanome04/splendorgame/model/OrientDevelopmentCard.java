@@ -23,6 +23,8 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param costType       Whether this card has a cost of tokens or burning bonuses.
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
+     * @param id             ID associated to this card.
+     * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
                                  int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost,
@@ -43,6 +45,8 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param costType       Whether this card has a cost of tokens or burning bonuses.
      * @param tokenCost      The token cost of this card (if applicable).
      * @param burnBonusCost  The bonus burning of this card (if applicable).
+     * @param id             ID associated to this card.
+     * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
                                  CostType costType, HashMap<TokenType, Integer> tokenCost,

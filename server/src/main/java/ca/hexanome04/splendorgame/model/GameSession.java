@@ -15,7 +15,9 @@ public class GameSession {
     /**
      * Initialize a game session.
      *
-     * @param sessionId session id associate with this game session
+     * @param sessionId         Session id associated with this game session
+     * @param creatorUsername   Username of creator associated with this game session
+     * @param sessionName       Name of this session
      */
     public GameSession(String sessionId, String creatorUsername, String sessionName) {
         this.launched = false;

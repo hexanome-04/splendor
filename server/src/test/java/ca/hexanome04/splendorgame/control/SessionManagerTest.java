@@ -20,6 +20,11 @@ public class SessionManagerTest {
     private final Player p1 = new Player("p1", "red");
     private final Player p2 = new Player("p2", "blue");
 
+    /**
+     * Verify add session.
+     *
+     * @throws Exception Throws exception if adding session fails
+     */
     @Test
     @DisplayName("Verify add session")
     public void testAddSession() throws Exception {
@@ -39,6 +44,11 @@ public class SessionManagerTest {
         }).isInstanceOf(Exception.class);
     }
 
+    /**
+     * Verify get session.
+     *
+     * @throws Exception Throws exception if adding session fails
+     */
     @Test
     @DisplayName("Verify get session")
     public void testGetGameSession() throws Exception {

@@ -18,6 +18,8 @@ public abstract class DevelopmentCard extends Card {
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
+     * @param id             ID associated to this card.
+     * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
      */
     public DevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, int prestigePoints, CostType costType,
                            HashMap<TokenType, Integer> tokenCost, String id) {

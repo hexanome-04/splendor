@@ -69,6 +69,9 @@ public class CardTest {
             "234"
     );
 
+    /**
+     * Test the getCOstType method.
+     */
     @DisplayName("Test the getCostType method.")
     @Test
     public void testGetCostType() {
@@ -76,6 +79,9 @@ public class CardTest {
         assertEquals(CostType.Bonus, costType);
     }
 
+    /**
+     * Test the getPrestigePoints method.
+     */
     @DisplayName("Test the getPrestigePoints method.")
     @Test
     public void testGetPrestigePoints() {
@@ -83,30 +89,47 @@ public class CardTest {
         assertEquals(3, prestige);
     }
 
-    @DisplayName("Test the getPrestigePoints method for OrientDevelopmentCard.")
+    /**
+     * Test the getReserveNoble method for OrientDevelopmentCard.
+     */
+    @DisplayName("Test the getReserveNoble method for OrientDevelopmentCard.")
     @Test
     public void testGetReserveNoble() {
         assertEquals(dummyOrient.getReserveNoble(), false);
     }
 
+    /**
+     * Test the isCascade method for OrientDevelopmentCard.
+     */
     @DisplayName("Test the isCascade method for OrientDevelopmentCard.")
     @Test
     public void testIsCascade() {
         assertEquals(dummyOrient.isCascade(), true);
     }
 
-    @DisplayName("Test the getPrestigePoints method for OrientDevelopmentCard.")
+    /**
+     * Test the getCascadeType method for OrientDevelopmentCard.
+     */
+    @DisplayName("Test the getCascadeType method for OrientDevelopmentCard.")
     @Test
     public void testGetCascadeType() {
         assertEquals(dummyOrient.getCascadeType(), CascadeType.Tier1);
     }
 
-    @DisplayName("Test the getPrestigePoints method for OrientDevelopmentCard.")
+    /**
+     * Test the getBurnBonuses method for OrientDevelopmentCard.
+     */
+    @DisplayName("Test the getBurnBonuses method for OrientDevelopmentCard.")
     @Test
     public void testGetBurnBonusCost() {
         assertEquals(dummyOrient.getBurnBonusCost(), new HashMap<>());
     }
 
+    /**
+     * Ensure isPurchasable correctly checks if player can purchase card.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card.")
     @Test
     public void testIsPurchasable() throws FileNotFoundException {

@@ -23,6 +23,9 @@ public class SplendorRestControllerTest {
     private final PlayerInfo p2 = new PlayerInfo("p2", "blue");
     Authentication auth;
 
+    /**
+     * Verify that the session launches
+     */
     @Test
     @DisplayName("Verify that the session launches")
     public void testLaunchSession() {
@@ -43,14 +46,12 @@ public class SplendorRestControllerTest {
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoBadGS)
         ).isEqualTo(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lobby Service did not specify a matching Service name."));
-        // TODO: Not a good assertion, this method fails but the assertion passes
         assertThat(
                 splendorRestController.launchSession(dummyID, launchSessionInfoGood)
         ).isInstanceOf(ResponseEntity.class);
     }
 
-    public void testGetGameState() {
-
-    }
-
+//    public void testGetGameState() {
+//
+//    }
 }

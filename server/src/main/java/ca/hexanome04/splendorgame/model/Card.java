@@ -24,6 +24,7 @@ public abstract class Card {
      * @param prestigePoints Amount of prestige points associated to this card.
      * @param costType       Cost type associated to this card.
      * @param tokenCost      Token cost associated to this card.
+     * @param id             ID Associated to this card.
      */
     public Card(int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
         this.prestigePoints = prestigePoints;

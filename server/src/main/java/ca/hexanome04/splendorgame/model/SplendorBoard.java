@@ -30,7 +30,7 @@ public class SplendorBoard {
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
      *
-     * @throws Exception Throws an exception if file cannot be read.
+     * @param filename Name of the file being imported.
      */
     public SplendorBoard(String filename) {
         String line = "";
@@ -133,14 +133,29 @@ public class SplendorBoard {
         }
     }
 
+    /**
+     * Get the current four visible tier 1 cards.
+     *
+     * @return list of visible tier 1 cards
+     */
     public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {
         return this.tier1Deck.getVisibleCards();
     }
 
+    /**
+     * Get the current four visible tier 2 cards.
+     *
+     * @return list of visible tier 2 cards
+     */
     public List<RegDevelopmentCard> getTier2PurchasableDevelopmentCards() {
         return this.tier2Deck.getVisibleCards();
     }
 
+    /**
+     * Get the current four visible tier 3 cards.
+     *
+     * @return list of visible tier 3 cards
+     */
     public List<RegDevelopmentCard> getTier3PurchasableDevelopmentCards() {
         return this.tier3Deck.getVisibleCards();
     }

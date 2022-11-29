@@ -12,9 +12,7 @@ import ca.hexanome04.splendorgame.model.action.Actions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +45,6 @@ public class SplendorRestController {
                                   @Autowired Authentication auth) {
         this.sessionManager = sessionManager;
         this.auth = auth;
-    }
-
-    /**
-     * Check if server is online.
-     *
-     * @return Quick statement confirming whether server is online
-     */
-    @GetMapping(value = "/api/online", produces = "application/json; charset=utf-8")
-    public String online() {
-        return "The server currently has " + sessionManager.getNumSessions() + " sessions created.";
-
     }
 
     /**
@@ -225,11 +212,5 @@ public class SplendorRestController {
         }
     }
 
-    // Mappings needed
-    // - launch game (ls to server)
-    // - update game state (/api/sessions/{sessionId}/
-    // - get gameBoard
-    // - select action (POST)
-    // -
 
 }

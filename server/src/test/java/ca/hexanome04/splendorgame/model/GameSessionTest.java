@@ -7,10 +7,18 @@ import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test class for GameSession.
+ */
 public class GameSessionTest {
 
 
-    @DisplayName("Test the getCostType method.")
+    /**
+     * Test the getGame method.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
+    @DisplayName("Test the getGame method.")
     @Test
     public void testGetGame() throws FileNotFoundException {
         SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
@@ -21,17 +29,23 @@ public class GameSessionTest {
         assertEquals(session.getGame(), game);
     }
 
-    @DisplayName("Test the getCostType method.")
+    /**
+     * Test the getSessionId method.
+     */
+    @DisplayName("Test the getSessionId method.")
     @Test
-    public void testGetSessionId() throws FileNotFoundException {
+    public void testGetSessionId() {
         GameSession session = new GameSession("12345", "Player1", "MyGame");
 
         assertEquals(session.getSessionId(), "12345");
     }
 
+    /**
+     * Test the getCostType method.
+     */
     @DisplayName("Test the getCostType method.")
     @Test
-    public void testHasSessionLaunched() throws FileNotFoundException {
+    public void testHasSessionLaunched() {
         GameSession session = new GameSession("12345", "Player1", "MyGame");
 
         assertEquals(session.hasGameLaunched(), false);

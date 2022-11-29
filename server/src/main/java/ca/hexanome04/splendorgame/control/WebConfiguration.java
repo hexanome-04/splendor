@@ -11,6 +11,8 @@ public class WebConfiguration {
 
     /**
      * Set CORS registry configuration.
+     *
+     * @return WebMvcConfigurer
      */
     @Bean
     public WebMvcConfigurer corsConfig() {
