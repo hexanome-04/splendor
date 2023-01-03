@@ -304,7 +304,7 @@ body {
       rgba(39 2 2 / 30%)
     ),
     url(
-      "../images/tokens/RubyToken.png"
+      "../images/tokens/RubyToken.jpg"
     );
   background-size: contain;
 }
@@ -317,7 +317,7 @@ body {
       rgba(2 2 41 / 30%)
     ),
     url(
-      "../images/tokens/SapphireToken.png"
+      "../images/tokens/SapphireToken.jpg"
     );
   background-size: contain;
 }
@@ -330,7 +330,7 @@ body {
       rgba(3 34 1 / 30%)
     ),
     url(
-      "../images/tokens/EmeraldToken.png"
+      "../images/tokens/EmeraldToken.jpg"
     );
   background-size: contain;
 }
@@ -343,7 +343,7 @@ body {
       rgba(37 37 37 / 30%)
     ),
     url(
-      "../images/tokens/DiamondToken.png"
+      "../images/tokens/DiamondToken.jpg"
     );
   background-size: contain;
 }
@@ -356,7 +356,7 @@ body {
       rgba(49 29 7 / 30%)
     ),
     url(
-      "../images/tokens/OnyxToken.png"
+      "../images/tokens/OnyxToken.jpg"
     );
   background-size: contain;
 }
@@ -369,7 +369,7 @@ body {
       rgba(53 44 3 / 30%)
     ),
     url(
-      "../images/tokens/GoldToken.png"
+      "../images/tokens/GoldToken.jpg"
     );
   background-size: contain;
 }
