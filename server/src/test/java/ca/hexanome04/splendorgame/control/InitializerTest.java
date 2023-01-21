@@ -37,13 +37,21 @@ public class InitializerTest {
         Mockito.when(auth.getToken())
                 .thenReturn("sometoken");
 
-        // mock request sent to LS
+        // mock registration request
         Mockito.when(restTemplate.exchange(
-                Mockito.any(URI.class),
+                Mockito.any(),
                 Mockito.eq(HttpMethod.PUT),
-                Mockito.any(HttpEntity.class),
+                Mockito.any(),
                 Mockito.eq(String.class)
         )).thenReturn(ResponseEntity.status(HttpStatus.OK).body(""));
+
+        // mock no registered game
+        Mockito.when(restTemplate.exchange(
+                Mockito.any(),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.any(),
+                Mockito.eq(String.class)
+        )).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(""));
 
         assertThatNoException().isThrownBy(() -> initializer.registerWithLobbyService());
     }
@@ -57,11 +65,19 @@ public class InitializerTest {
 
         // mock request sent to LS
         Mockito.when(restTemplate.exchange(
-                Mockito.any(URI.class),
+                Mockito.any(),
                 Mockito.eq(HttpMethod.PUT),
-                Mockito.any(HttpEntity.class),
+                Mockito.any(),
                 Mockito.eq(String.class)
         )).thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT)).thenReturn(ResponseEntity.status(HttpStatus.OK).body(""));
+
+        // mock no registered game
+        Mockito.when(restTemplate.exchange(
+                Mockito.any(),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.any(),
+                Mockito.eq(String.class)
+        )).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(""));
 
         assertThatNoException().isThrownBy(() -> initializer.registerWithLobbyService());
     }
@@ -75,13 +91,23 @@ public class InitializerTest {
 
         // mock request sent to LS
         Mockito.when(restTemplate.exchange(
-                Mockito.any(URI.class),
+                Mockito.any(),
                 Mockito.eq(HttpMethod.PUT),
-                Mockito.any(HttpEntity.class),
+                Mockito.any(),
                 Mockito.eq(String.class)
         )).thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT));
 
-        assertThatThrownBy(() -> initializer.registerWithLobbyService());
+        // mock no registered game
+        Mockito.when(restTemplate.exchange(
+                Mockito.any(),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.any(),
+                Mockito.eq(String.class)
+        )).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(""));
+
+        assertThatThrownBy(() -> initializer.registerWithLobbyService())
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Unable to register game service!");
     }
 
 }

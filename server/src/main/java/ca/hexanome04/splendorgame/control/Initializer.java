@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.control;
 
+import ca.hexanome04.splendorgame.SplendorGameApplication;
 import ca.hexanome04.splendorgame.control.templates.GameServiceInfo;
 import com.google.gson.Gson;
 import java.net.URI;
@@ -58,40 +59,31 @@ public class Initializer {
     @EventListener(ApplicationReadyEvent.class)
     @Profile("!test")
     public void init() {
+        this.restTemplate.setErrorHandler(new EmptyRestTemplateErrorHandler());
+
         // Avoid blocking main thread
         new Thread(this::registerWithLobbyService).start();
     }
 
     /**
      * Registers our game with the lobby service.
+     * Will delete a previously registered game service if exists.
      */
     public void registerWithLobbyService() {
         boolean registered = false;
         int maxRetries = 5;
         int retries = 0;
         while (retries < maxRetries && !registered) {
-            String token = auth.getToken();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Content-Type", "application/json");
-
-            String body = new Gson().toJson(gameServiceInfo);
-
-            HttpEntity<String> httpEntity = new HttpEntity<>(body, headers);
-
-            URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
-                    .path("/api/gameservices/" + gameServiceInfo.name())
-                    .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
-                    .build(true).toUri();
-
-            ResponseEntity<?> response = null;
             try {
-                response = restTemplate.exchange(
-                        uri,
-                        HttpMethod.PUT,
-                        httpEntity,
-                        String.class // Response type.
-                );
+                if (checkRegistered().getStatusCode().is2xxSuccessful()) {
+                    logger.info("Game service already registered.");
+                    unregister();
+                }
+
+                ResponseEntity regResp = attemptRegister();
+                if (!regResp.getStatusCode().is2xxSuccessful()) {
+                    throw new RestClientException(regResp.getBody().toString());
+                }
             } catch (RestClientException e) {
                 logger.debug(e.toString());
                 retries++;
@@ -104,10 +96,82 @@ public class Initializer {
 
         if (!registered) {
             logger.error("Failed to register game with lobby service.");
-            throw new RuntimeException("Unable to register game with lobby service!");
+            SplendorGameApplication.shutdown(1);
+            throw new RuntimeException("Unable to register game service!");
         }
 
         logger.info("Registered game on lobby service!");
+    }
+
+    /**
+     * Unregister our game service from the lobby service.
+     */
+    private void unregister() throws RestClientException {
+        String token = auth.getToken();
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
+                .path("/api/gameservices/" + gameServiceInfo.name())
+                .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
+                .build(true).toUri();
+
+        ResponseEntity<?> response = restTemplate.exchange(
+                uri,
+                HttpMethod.DELETE,
+                null,
+                String.class
+        );
+
+        logger.info("Unregistered game service.");
+    }
+
+    /**
+     * Check if our game service was already registered with the lobby service.
+     *
+     * @return response from server
+     */
+    private ResponseEntity checkRegistered() throws RestClientException {
+        logger.info("Checking if game service is already registered.");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
+                .path("/api/gameservices/" + gameServiceInfo.name())
+                .build(true).toUri();
+
+        return restTemplate.exchange(
+                uri,
+                HttpMethod.GET,
+                null,
+                String.class // Response type.
+        );
+    }
+
+    /**
+     * Attempt to register our game with the lobby service.
+     *
+     * @return response from server
+     */
+    private ResponseEntity attemptRegister() throws RestClientException {
+        logger.info("Attempting to register our game service.");
+
+        String token = auth.getToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        String body = new Gson().toJson(gameServiceInfo);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(body, headers);
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
+                .path("/api/gameservices/" + gameServiceInfo.name())
+                .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
+                .build(true).toUri();
+
+        return restTemplate.exchange(
+                    uri,
+                    HttpMethod.PUT,
+                    httpEntity,
+                    String.class // Response type.
+        );
     }
 
 }
