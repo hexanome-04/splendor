@@ -1,0 +1,10 @@
+FROM maven:3.8.7-eclipse-temurin-17 AS builder
+WORKDIR /server
+COPY ../server /server
+RUN mvn -f /server/pom.xml clean package -P prod
+
+FROM eclipse-temurin:17.0.5_8-jre
+WORKDIR /server
+COPY --from=builder /server/target/splendorGame.jar /server/splendorGame.jar
+EXPOSE 53402
+CMD ["java", "-jar", "splendorGame.jar", "--gs.location=http://server:53402", "--LS.location=http://lobby-service:54172"]

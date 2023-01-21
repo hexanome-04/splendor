@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  database:
+    build:
+      context: ../
+      dockerfile: Dockerfile.ls-db
+    ports:
+      - "3453:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 30
+      interval: 5s
+
+  lobby-service:
+    build:
+      context: ../
+      dockerfile: Dockerfile.ls
+    ports:
+      - "54172:54172"
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:54172/api/online || exit 1
+      timeout: 5s
+      retries: 20
+      interval: 5s
+
+  server:
+    build:
+      context: ../../
+      dockerfile: setup/Dockerfile.server
+    ports:
+      - "53402:53402"
+    depends_on:
+      lobby-service:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:53402/api/online || exit 1
+      timeout: 5s
+      retries: 20
+      interval: 5s
+
+  client:
+    volumes:
+      - ../../client:/usr/share/nginx/html/
+    image: nginx:1.23.3-alpine-slim
+    ports:
+      - "36104:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:80 || exit 1
+      timeout: 5s
+      retries: 20
+      interval: 5s

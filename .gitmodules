@@ -1,0 +1,3 @@
+[submodule "setup/LobbyService"]
+	path = setup/LobbyService
+	url = https://github.com/m5c/LobbyService
