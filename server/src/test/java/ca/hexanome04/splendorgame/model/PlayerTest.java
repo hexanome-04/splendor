@@ -30,13 +30,14 @@ public class PlayerTest {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        List<Token> tokensToUse = new ArrayList<>();
-        tokensToUse.add(new Token(TokenType.Red));
-        tokensToUse.add(new Token(TokenType.White));
-        tokensToUse.add(new Token(TokenType.Blue));
-        tokensToUse.add(new Token(TokenType.Brown));
-        tokensToUse.add(new Token(TokenType.Green));
-        tokensToUse.add(new Token(TokenType.Gold));
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 1);
+        tokensToUse.put(TokenType.White, 1);
+        tokensToUse.put(TokenType.Blue, 1);
+        tokensToUse.put(TokenType.Brown, 1);
+        tokensToUse.put(TokenType.Green, 1);
+        tokensToUse.put(TokenType.Gold, 1);
+        tokensToUse.put(TokenType.Satchel, 0);
         p1.addTokens(tokensToUse);
 
         // Make sure tokens added to player are successfully retrieved by getter
@@ -105,32 +106,29 @@ public class PlayerTest {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        Token token1 = new Token(TokenType.Blue);
-        Token token2 = new Token(TokenType.Brown);
-        Token token3 = new Token(TokenType.Red);
-        Token token4 = new Token(TokenType.White);
-        Token token5 = new Token(TokenType.Green);
-
-        List<Token> currentTokens = new ArrayList<>();
-        currentTokens.add(token1);
-        currentTokens.add(token2);
+        HashMap<TokenType, Integer> currentTokens = new HashMap<>();
+        currentTokens.put(TokenType.Blue, 1);
+        currentTokens.put(TokenType.Brown, 1);
         p1.addTokens(currentTokens);
 
-        List<Token> tokensToUse = new ArrayList<>();
-        tokensToUse.add(token3);
-        tokensToUse.add(token4);
-        tokensToUse.add(token5);
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 1);
+        tokensToUse.put(TokenType.White, 1);
+        tokensToUse.put(TokenType.Green, 1);
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
         tokensToPutBack.put(TokenType.Blue, 1);
 
         p1.takeTokens(tokensToUse, tokensToPutBack);
 
-        List<Token> tokensExpected = new ArrayList<>();
-        tokensExpected.add(token2);
-        tokensExpected.add(token3);
-        tokensExpected.add(token4);
-        tokensExpected.add(token5);
+        HashMap<TokenType, Integer> tokensExpected = new HashMap<>();
+        tokensExpected.put(TokenType.Brown, 1);
+        tokensExpected.put(TokenType.Red, 1);
+        tokensExpected.put(TokenType.White, 1);
+        tokensExpected.put(TokenType.Green, 1);
+        tokensExpected.put(TokenType.Blue, 0);
+        tokensExpected.put(TokenType.Satchel, 0);
+        tokensExpected.put(TokenType.Gold, 0);
 
         // Make sure tokens added to player are successfully retrieved by getter
         assertThat(p1.getTokens()).isEqualTo(tokensExpected);

@@ -139,8 +139,8 @@ public class CardTest {
         Player p1 = game.getPlayerFromName("Player1");
         p1.addBonus(TokenType.Red, 3);
 
-        List<Token> tokens = new ArrayList<>();
-        tokens.add(new Token(TokenType.Red));
+        HashMap<TokenType, Integer> tokens = new HashMap<>();
+        tokens.put(TokenType.Red, 1);
         p1.addTokens(tokens);
 
         // Make sure tokens added to player are successfully retrieved by getter

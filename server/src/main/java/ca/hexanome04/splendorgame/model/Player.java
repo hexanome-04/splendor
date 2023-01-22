@@ -14,7 +14,7 @@ public class Player {
     private String colour;
 
     private int prestigePoints;
-    private ArrayList<Token> tokens;
+    private HashMap<TokenType, Integer> tokens;
     private HashMap<TokenType, Integer> bonuses;
     private ArrayList<DevelopmentCard> cards;
     private ArrayList<DevelopmentCard> reservedCards;
@@ -30,11 +30,16 @@ public class Player {
         this.name = name;
         this.colour = colour;
         prestigePoints = 0;
-        tokens = new ArrayList<>();
+        tokens = new HashMap<>();
         bonuses = new HashMap<>();
         cards = new ArrayList<>();
         reservedCards = new ArrayList<>();
         reservedNobles = new ArrayList<>();
+
+        for (TokenType tokenType : TokenType.values()) {
+            tokens.put(tokenType, 0);
+            bonuses.put(tokenType, 0);
+        }
     }
 
     /**
@@ -78,8 +83,8 @@ public class Player {
      *
      * @param tokens Tokens to add to player inventory.
      */
-    public void addTokens(List<Token> tokens) {
-        this.tokens.addAll(tokens);
+    public void addTokens(HashMap<TokenType, Integer> tokens) {
+        tokens.forEach((key, value) -> this.tokens.put(key, this.tokens.get(key) + value));
     }
 
     /**
@@ -89,7 +94,7 @@ public class Player {
      * @param numBonuses how many of this bonus to be added to player inventory.
      */
     public void addBonus(TokenType bonus, int numBonuses) {
-        this.bonuses.put(bonus, numBonuses);
+        this.bonuses.put(bonus, bonuses.get(bonus) + numBonuses);
     }
 
     /**
@@ -97,8 +102,8 @@ public class Player {
      *
      * @return list of tokens that the player has
      */
-    public List<Token> getTokens() {
-        return new ArrayList<>(this.tokens);
+    public HashMap<TokenType, Integer> getTokens() {
+        return new HashMap<>(this.tokens);
     }
 
     /**
@@ -126,22 +131,7 @@ public class Player {
      */
     private void removeTokens(HashMap<TokenType, Integer> tokens) {
 
-        tokens.forEach((key, value) -> {
-            Token t = switch (key) {
-                case White -> new Token(TokenType.White);
-                case Blue -> new Token(TokenType.Blue);
-                case Red -> new Token(TokenType.Red);
-                case Brown -> new Token(TokenType.Brown);
-                case Gold -> new Token(TokenType.Gold);
-                case Green -> new Token(TokenType.Green);
-                default -> null; // shouldn't happen though
-            };
-
-            // remove amount of tokens in the inventory
-            for (int i = 0; i < value; i++) {
-                this.tokens.remove(t);
-            }
-        });
+        tokens.forEach((key, value) -> this.tokens.put(key, this.tokens.get(key) - value));
 
         /*
         for (TokenType t : tokens) {
@@ -170,7 +160,7 @@ public class Player {
      * @param take    The tokens the player wishes to take during this turn.
      * @param putBack The tokens the player wishes to put back this turn.
      */
-    public void takeTokens(List<Token> take, HashMap<TokenType, Integer> putBack) {
+    public void takeTokens(HashMap<TokenType, Integer> take, HashMap<TokenType, Integer> putBack) {
         addTokens(take);
         removeTokens(putBack);
     }
@@ -182,7 +172,7 @@ public class Player {
      */
     public void buyCard(DevelopmentCard card) {
         cards.add(card);
-        bonuses.put(card.getTokenType(), card.getBonus());
+        bonuses.put(card.getTokenType(), bonuses.get(card.getTokenType()) + card.getBonus());
         prestigePoints += card.getPrestigePoints();
 
         // remove card cost (token or bonus burn) from player
@@ -216,7 +206,8 @@ public class Player {
         // TODO: must handle attempt to reserve more than 3 cards and removing gold token from bank
         reservedCards.add(card);
 
-        tokens.add(new Token(TokenType.Gold));
+        this.tokens.put(TokenType.Gold, this.tokens.get(TokenType.Gold) + 1);
+
     }
 
     /**
@@ -243,8 +234,19 @@ public class Player {
      * @param checkTokens tokens to be checked
      * @return true if player has the specified tokens
      */
-    public boolean hasTokens(List<Token> checkTokens) {
+    public boolean hasTokens(HashMap<TokenType, Integer> checkTokens) {
 
+        for (TokenType key : checkTokens.keySet()) {
+
+            if ((this.tokens.get(key) - checkTokens.get(key)) < 0) {
+                return false;
+            }
+
+        }
+        return true;
+
+
+        /* Token list way of doing things
         // copy the lists to ensure we don't fuck up something else outside
         ArrayList<Token> playerInv = new ArrayList<>(this.tokens);
         ArrayList<Token> check = new ArrayList<>(checkTokens);
@@ -261,6 +263,8 @@ public class Player {
         }
 
         return true;
+
+         */
     }
 
     @Override

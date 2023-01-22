@@ -76,10 +76,10 @@ public abstract class Card {
      * @param tokensToUse tokens requested to use
      * @return true if player has the funds (and/or bonuses) and no excess tokens given
      */
-    public boolean isPurchasable(Player player, List<Token> tokensToUse) {
+    public boolean isPurchasable(Player player, HashMap<TokenType, Integer> tokensToUse) {
 
         boolean purchasable = true;
-        List<Token> tokens = new ArrayList<>(tokensToUse);
+        HashMap<TokenType, Integer> tokens = new HashMap<>(tokensToUse);
         Map<TokenType, Integer> bonuses = player.getBonuses();
 
         // ensure player has the tokens to use
@@ -89,32 +89,32 @@ public abstract class Card {
 
         if (this.costType == CostType.Token) {
             // clone so we don't modify the card's data
-            Map<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
+            HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
 
+            // Subtract the bonuses a player
+            // Easier way than the method below this forEach block
+            cost.forEach((key, value) -> {
+                cost.put(key, value - bonuses.get(key));
+            });
+
+            /*
             // Subtract the bonuses a player has
-            for (Map.Entry<TokenType, Integer> bonus : bonuses.entrySet()) {
+            for (HashMap.Entry<TokenType, Integer> bonus : bonuses.entrySet()) {
                 TokenType tokenType = bonus.getKey();
-                if (cost.containsKey(tokenType)) {
-                    int costAmt = cost.get(tokenType);
-                    int bonusAmt = bonus.getValue();
-                    cost.put(tokenType, costAmt - bonusAmt);
-                }
+                int costAmt = cost.get(tokenType);
+                int bonusAmt = bonus.getValue();
+                cost.put(tokenType, costAmt - bonusAmt);
             }
+            */
 
             // Subtract the tokens provided
-            for (Token t : tokens) {
-                TokenType tokenType = t.getType();
-                if (cost.containsKey(t.getType())) {
-                    int costAmt = cost.get(tokenType);
-                    cost.put(tokenType, costAmt - 1);
-                } else {
-                    // Extra token not needed, invalid tokens list given to buy card
-                    return false;
-                }
+            for (TokenType t : tokens.keySet()) {
+                int costAmt = cost.get(t);
+                cost.put(t, costAmt - tokens.get(t));
             }
 
             // final check to ensure that we fulfilled the cost for the card
-            for (Map.Entry<TokenType, Integer> entry : cost.entrySet()) {
+            for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
                 if (entry.getValue() > 0) {
                     purchasable = false;
                     break;

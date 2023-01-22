@@ -4,7 +4,6 @@ import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.RegDevelopmentCard;
 import ca.hexanome04.splendorgame.model.SplendorBoard;
 import ca.hexanome04.splendorgame.model.SplendorGame;
-import ca.hexanome04.splendorgame.model.Token;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
@@ -12,8 +11,7 @@ import ca.hexanome04.splendorgame.model.action.Actions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Perform the buy card action.
@@ -21,7 +19,7 @@ import java.util.List;
 public class BuyCardAction extends Action {
 
     private String buyCardId;
-    private List<Token> selectedTokens;
+    private HashMap<TokenType, Integer> selectedTokens;
 
     /**
      * Construct a buy card action.
@@ -29,7 +27,7 @@ public class BuyCardAction extends Action {
      * @param buyCardId card id to be bought from game
      * @param selectedTokens tokens that are used to buy the card
      */
-    public BuyCardAction(String buyCardId, List<Token> selectedTokens) {
+    public BuyCardAction(String buyCardId, HashMap<TokenType, Integer> selectedTokens) {
         super(Actions.BUY_CARD);
         this.buyCardId = buyCardId;
         this.selectedTokens = selectedTokens;
@@ -39,7 +37,7 @@ public class BuyCardAction extends Action {
      * Construct a buy card action (to be filled with info from decoder).
      */
     public BuyCardAction() {
-        this("", new ArrayList<>());
+        this("", new HashMap<>());
     }
 
 
@@ -77,7 +75,9 @@ public class BuyCardAction extends Action {
 
         JsonArray arr = jobj.get("tokens").getAsJsonArray();
         for (JsonElement e : arr) {
-            this.selectedTokens.add(new Token(TokenType.valueOf(e.getAsString())));
+            TokenType type = TokenType.valueOf(e.getAsString());
+            selectedTokens.put(type, selectedTokens.get(type) + 1);
+            //this.selectedTokens.add(new Token(TokenType.valueOf(e.getAsString())));
         }
 
         return this;

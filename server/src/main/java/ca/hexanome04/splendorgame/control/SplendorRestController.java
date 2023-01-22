@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,16 +89,15 @@ public class SplendorRestController {
             // Looks good, lets create the game
             ArrayList<Player> playerList = new ArrayList<>();
             for (PlayerInfo p : launchSessionInfo.players()) {
-                Player newPlayer = new Player(p.name(), p.colour());
-                ArrayList<Token> defaultTokens = new ArrayList<>();
+                HashMap<TokenType, Integer> defaultTokens = new HashMap<>();
 
-                for (int i = 0; i < 3; i++) {
-                    defaultTokens.add(new Token(TokenType.Green));
-                    defaultTokens.add(new Token(TokenType.White));
-                    defaultTokens.add(new Token(TokenType.Blue));
-                    defaultTokens.add(new Token(TokenType.Brown));
-                    defaultTokens.add(new Token(TokenType.Red));
-                }
+                defaultTokens.put(TokenType.Green, 3);
+                defaultTokens.put(TokenType.White, 3);
+                defaultTokens.put(TokenType.Blue, 3);
+                defaultTokens.put(TokenType.Brown, 3);
+                defaultTokens.put(TokenType.Red, 3);
+
+                Player newPlayer = new Player(p.name(), p.colour());
 
                 newPlayer.addTokens(defaultTokens);
                 playerList.add(newPlayer);

@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -28,10 +29,8 @@ public class ActionsTests {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        List<Token> tokensToUse = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            tokensToUse.add(new Token(TokenType.Red));
-        }
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 3);
 
         ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
@@ -47,10 +46,9 @@ public class ActionsTests {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        List<Token> tokensToUse = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            tokensToUse.add(new Token(TokenType.Red));
-        }
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 4);
+
         p1.addTokens(tokensToUse);
 
         ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
