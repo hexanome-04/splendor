@@ -14,7 +14,7 @@ export const SETTINGS = {
     /**
      * Location for access to the Lobby Service.
      */
-    LS_API: "http://ls.hoshi.tv:54172",
+    LS_API: "http://localhost:54172",
 
     /**
      * Get the access token stored in local storage
