@@ -9,12 +9,12 @@ export const SETTINGS = {
     /**
      * Location for access to the game service.
      */
-    GS_API: "http://localhost:53402",
+    GS_API: "http://localhost:33402",
 
     /**
      * Location for access to the Lobby Service.
      */
-    LS_API: "http://localhost:54172",
+    LS_API: "http://localhost:34172",
 
     /**
      * Get the access token stored in local storage

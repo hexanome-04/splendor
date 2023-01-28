@@ -17,12 +17,12 @@ services:
       context: ../
       dockerfile: Dockerfile.ls
     ports:
-      - "54172:54172"
+      - "34172:34172"
     depends_on:
       database:
         condition: service_healthy
     healthcheck:
-      test: curl --fail http://localhost:54172/api/online || exit 1
+      test: curl --fail http://localhost:34172/api/online || exit 1
       timeout: 5s
       retries: 20
       interval: 5s
@@ -32,20 +32,22 @@ services:
       context: ../../
       dockerfile: setup/Dockerfile.server
     ports:
-      - "53402:53402"
+      - "33402:33402"
     depends_on:
       lobby-service:
         condition: service_healthy
     healthcheck:
-      test: curl --fail http://localhost:53402/api/online || exit 1
+      test: curl --fail http://localhost:33402/api/online || exit 1
       timeout: 5s
       retries: 20
       interval: 5s
 
   client:
+    build:
+      context: ../
+      dockerfile: Dockerfile.client
     volumes:
       - ../../client:/usr/share/nginx/html/
-    image: nginx:1.23.3-alpine-slim
     ports:
       - "36104:80"
     depends_on:
