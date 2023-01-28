@@ -25,7 +25,7 @@ public class SplendorBoard {
     private final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
     private final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
 
-    private final List<Token> tokens = new ArrayList<>();
+    private final HashMap<TokenType, Integer> tokens = new HashMap<>();
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
@@ -129,17 +129,14 @@ public class SplendorBoard {
             }
         }
 
-        for (int i = 0; i < numTokens; i++) {
-            tokens.add(new Token(Red));
-            tokens.add(new Token(Green));
-            tokens.add(new Token(Blue));
-            tokens.add(new Token(Brown));
-            tokens.add(new Token(White));
+        for (TokenType tokenType : TokenType.values()) {
+            if (tokenType == Satchel) {
+                continue;
+            }
+            tokens.put(tokenType, numTokens);
         }
 
-        for (int i = 0; i < 5; i++) {
-            tokens.add(new Token(Gold));
-        }
+        tokens.put(Gold, 5);
     }
 
     /**
@@ -248,9 +245,7 @@ public class SplendorBoard {
      */
     public void addTokens(Map<TokenType, Integer> tokens) {
         for (Map.Entry<TokenType, Integer> entry : tokens.entrySet()) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                this.tokens.add(new Token(entry.getKey()));
-            }
+            this.tokens.put(entry.getKey(), tokens.get(entry.getKey()) + entry.getValue());
         }
     }
 }

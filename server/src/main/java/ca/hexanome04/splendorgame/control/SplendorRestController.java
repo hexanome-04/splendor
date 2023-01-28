@@ -4,7 +4,6 @@ import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.SplendorGame;
-import ca.hexanome04.splendorgame.model.Token;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
