@@ -51,3 +51,12 @@ Regardless if you run with/without the server, a web server will have been creat
 In `f2022-hexanome-04/client/js/settings.js`, check that the `GS_API` and `LS_API` is `http://localhost:53402` and `http://localhost:54172` respectively.
 
 Then clear your browser's cache or open the debugging tools, go into network, disable the cache and reload the page.
+
+## Updates to the code
+
+If you happen to change branches, update the code for the server, you must rebuild the docker image.
+An easy way to do that is to add `--build` to the docker compose command.
+
+```bash
+docker compose up --build
+```
