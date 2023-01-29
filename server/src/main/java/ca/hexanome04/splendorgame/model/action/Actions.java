@@ -9,4 +9,9 @@ public enum Actions {
      * Buy card action.
      */
     BUY_CARD,
+
+    /**
+     * Choose noble action.
+     */
+    CHOOSE_NOBLE,
 }

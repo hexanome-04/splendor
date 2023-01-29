@@ -17,6 +17,7 @@ public class Player {
     private HashMap<TokenType, Integer> tokens;
     private HashMap<TokenType, Integer> bonuses;
     private ArrayList<DevelopmentCard> cards;
+    private ArrayList<NobleCard> nobleCards;
     private ArrayList<DevelopmentCard> reservedCards;
     private ArrayList<NobleCard> reservedNobles;
 
@@ -95,6 +96,16 @@ public class Player {
      */
     public void addBonus(TokenType bonus, int numBonuses) {
         this.bonuses.put(bonus, bonuses.get(bonus) + numBonuses);
+    }
+
+    /**
+     * Adds noble card to player inventory.
+     *
+     * @param nobleCard Noble to add to player inventory
+     */
+    public void addNoble(NobleCard nobleCard) {
+        this.nobleCards.add(nobleCard);
+        this.prestigePoints += 3;
     }
 
     /**

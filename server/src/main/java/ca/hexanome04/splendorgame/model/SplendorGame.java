@@ -122,7 +122,18 @@ public class SplendorGame {
 
         ActionResult ar = action.execute(this, p);
 
-        // update gameboard?
+        // Check if player qualifies for noble card at end of turn
+        ArrayList<NobleCard> nobleCards = boardState.qualifiesForNoble(p);
+        if (nobleCards.size() != 0) {
+            if (nobleCards.size() == 1) {
+                NobleCard noble = nobleCards.get(0);
+                boardState.takeCard(noble);
+                p.addNoble(noble);
+            } else {
+                // don't increment turn if player must choose noble
+                ar = ActionResult.FURTHER_ACTION_REQUIRED;
+            }
+        }
 
         if (ar == ActionResult.VALID_ACTION) {
             // success and valid action
@@ -131,7 +142,6 @@ public class SplendorGame {
 
         return ar;
     }
-
 
 
 }

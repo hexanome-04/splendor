@@ -40,7 +40,6 @@ public class BuyCardAction extends Action {
         this("", new HashMap<>());
     }
 
-
     @Override
     protected ActionResult run(SplendorGame game, Player player) {
 
@@ -61,7 +60,6 @@ public class BuyCardAction extends Action {
         board.takeCard(dc);
         player.buyCard(dc); // will remove tokens from inventory here too
 
-        // TODO: Put tokens into board
         board.addTokens(dc.getTokenCost());
 
         return ActionResult.VALID_ACTION;

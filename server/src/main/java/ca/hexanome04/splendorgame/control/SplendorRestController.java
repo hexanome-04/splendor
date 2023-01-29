@@ -241,15 +241,11 @@ public class SplendorRestController {
 
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
 
-            // TODO: make player complete action, figure out how to get info from message body
-
-            ActionResult actionResult = ActionDecoder.createAction(actionIdentifier.toString(), jobj).execute(game, player);
-            if (actionResult != ActionResult.VALID_ACTION) {
+            ActionResult actionResult =
+                    game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
+            if (actionResult != ActionResult.VALID_ACTION && actionResult != ActionResult.FURTHER_ACTION_REQUIRED) {
                 throw new RuntimeException("Invalid action performed: " + actionResult.toString());
             }
-
-            // update game state
-            game.incrementTurn();
 
             return ResponseEntity.status(HttpStatus.OK).body("");
         } catch (Exception e) {

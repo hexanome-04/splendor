@@ -248,4 +248,34 @@ public class SplendorBoard {
             this.tokens.put(entry.getKey(), tokens.get(entry.getKey()) + entry.getValue());
         }
     }
+
+    /**
+     * Check if player has the right bonuses to qualify for any nobles.
+     *
+     * @param player Player to check
+     * @return List of nobles player qualifies for
+     */
+    public ArrayList<NobleCard> qualifiesForNoble(Player player) {
+        ArrayList<NobleCard> noblesQualifiedFor = new ArrayList<>();
+
+        for (NobleCard noble : nobleDeck.getVisibleCards()) {
+            int notEnoughBonusesCounter = 0;
+
+            for (TokenType tokenType : noble.getTokenCost().keySet()) {
+                // subtract player's bonuses of this TokenType from noble card cost
+                int bonusRemaining = noble.getTokenCost().get(tokenType) - player.getBonuses().get(tokenType);
+                if (bonusRemaining > 0) {
+                    notEnoughBonusesCounter++;
+                }
+            }
+
+            if (notEnoughBonusesCounter == 0) {
+                noblesQualifiedFor.add(noble);
+            }
+        }
+
+        return noblesQualifiedFor;
+    }
+
+
 }

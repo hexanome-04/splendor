@@ -19,4 +19,9 @@ public enum ActionResult {
      * Invalid number of tokens given.
      */
     INVALID_TOKENS_GIVEN,
+
+    /**
+     * Further action required.
+     */
+    FURTHER_ACTION_REQUIRED,
 }
