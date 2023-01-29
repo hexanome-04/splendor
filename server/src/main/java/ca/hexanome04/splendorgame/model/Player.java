@@ -214,11 +214,7 @@ public class Player {
      * @param card The development card the player would like to reserve.
      */
     public void reserveCard(DevelopmentCard card) {
-        // TODO: must handle attempt to reserve more than 3 cards and removing gold token from bank
         reservedCards.add(card);
-
-        this.tokens.put(TokenType.Gold, this.tokens.get(TokenType.Gold) + 1);
-
     }
 
     /**
@@ -256,26 +252,6 @@ public class Player {
         }
         return true;
 
-
-        /* Token list way of doing things
-        // copy the lists to ensure we don't fuck up something else outside
-        ArrayList<Token> playerInv = new ArrayList<>(this.tokens);
-        ArrayList<Token> check = new ArrayList<>(checkTokens);
-
-        // loop until we checked all the tokens in the given list
-        while (!check.isEmpty()) {
-            Token token = check.remove(0);
-
-            if (playerInv.contains(token)) {
-                playerInv.remove(token);
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-
-         */
     }
 
     @Override

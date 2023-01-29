@@ -24,4 +24,14 @@ public enum ActionResult {
      * Further action required.
      */
     FURTHER_ACTION_REQUIRED,
+
+    /**
+     * Maximum number of cards reserved.
+     */
+    MAXIMUM_CARDS_RESERVED,
+
+    /**
+     * Not enough tokens left on the board to select.
+     */
+    NOT_ENOUGH_TOKENS_ON_BOARD,
 }

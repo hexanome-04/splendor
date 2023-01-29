@@ -250,6 +250,34 @@ public class SplendorBoard {
     }
 
     /**
+     * Remove tokens from the board.
+     *
+     * @param tokensToRemove tokens to be removed
+     * @return if tokens were successfully removed (e.g. if enough tokens on board to take)
+     */
+    public boolean removeTokens(Map<TokenType, Integer> tokensToRemove) {
+        for (Map.Entry<TokenType, Integer> entry : tokensToRemove.entrySet()) {
+            int tokensLeft = tokens.get(entry.getKey()) - entry.getValue();
+
+            // check for taking too many tokens
+            if (tokensLeft < 0) {
+                return false;
+            }
+            this.tokens.put(entry.getKey(), tokensLeft);
+        }
+        return true;
+    }
+
+    /**
+     * Gets the board's tokens.
+     *
+     * @return hashmap of tokens that the board has
+     */
+    public HashMap<TokenType, Integer> getTokens() {
+        return new HashMap<>(this.tokens);
+    }
+
+    /**
      * Check if player has the right bonuses to qualify for any nobles.
      *
      * @param player Player to check

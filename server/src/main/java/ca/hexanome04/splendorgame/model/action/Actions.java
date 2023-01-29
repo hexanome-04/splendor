@@ -11,6 +11,11 @@ public enum Actions {
     BUY_CARD,
 
     /**
+     * Reserve card action.
+     */
+    RESERVE_CARD,
+
+    /**
      * Choose noble action.
      */
     CHOOSE_NOBLE,
