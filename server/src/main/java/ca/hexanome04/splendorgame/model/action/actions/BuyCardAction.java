@@ -11,7 +11,7 @@ import ca.hexanome04.splendorgame.model.action.Actions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Perform the buy card action.
@@ -71,11 +71,12 @@ public class BuyCardAction extends Action {
         // if missing data, throw exception
         this.buyCardId = jobj.get("cardId").getAsString();
 
-        JsonArray arr = jobj.get("tokens").getAsJsonArray();
-        for (JsonElement e : arr) {
-            TokenType type = TokenType.valueOf(e.getAsString());
-            selectedTokens.put(type, selectedTokens.get(type) + 1);
-            //this.selectedTokens.add(new Token(TokenType.valueOf(e.getAsString())));
+        JsonObject tokens = jobj.get("tokens").getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : tokens.entrySet()) {
+            TokenType type = TokenType.valueOf(entry.getKey());
+            int amount = entry.getValue().getAsInt();
+
+            selectedTokens.put(type, amount);
         }
 
         return this;

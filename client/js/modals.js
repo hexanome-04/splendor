@@ -61,20 +61,18 @@ function setupSelectionCards(selector) {
 
 /**
  * Get the require list for token payment for purchasing a development card.
- * @returns list[string]
+ * @returns [{ token: count }]
  */
 const getPaymentTokensList = () => {
     const tokensCountNodes = document.querySelectorAll("#dev-card-payment-modal .token-count-outer-container .count");
 
-    const tokens = [];
+    const tokens = {};
 
     tokensCountNodes.forEach(node => {
         const tokenType = node.parentNode.getAttribute("jewel-color");
         const count = parseInt(node.textContent);
 
-        for(let i = 0; i < count; i++) {
-            tokens.push(tokenType);
-        }
+        tokens[tokenType] = count;
     });
 
     return tokens;

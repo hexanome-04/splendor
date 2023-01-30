@@ -48,6 +48,9 @@ public class SplendorBoard {
                 String[] card = line.split(",");
                 String[] cost = card[4].split(";");
                 HashMap<TokenType, Integer> tokenCost = new HashMap<>();
+                for (TokenType tokenType : TokenType.values()) {
+                    tokenCost.put(tokenType, 0);
+                }
 
                 for (int i = 0; i <= 4; i++) {
                     if (!cost[i].equals("0")) {
@@ -130,12 +133,10 @@ public class SplendorBoard {
         }
 
         for (TokenType tokenType : TokenType.values()) {
-            if (tokenType == Satchel) {
-                continue;
-            }
             tokens.put(tokenType, numTokens);
         }
 
+        tokens.put(Satchel, 0);
         tokens.put(Gold, 5);
     }
 
@@ -241,11 +242,16 @@ public class SplendorBoard {
     /**
      * Add tokens to the board.
      *
-     * @param tokens tokens to be added
+     * @param tokensInput tokens to be added
      */
-    public void addTokens(Map<TokenType, Integer> tokens) {
-        for (Map.Entry<TokenType, Integer> entry : tokens.entrySet()) {
-            this.tokens.put(entry.getKey(), tokens.get(entry.getKey()) + entry.getValue());
+    public void addTokens(Map<TokenType, Integer> tokensInput) {
+        for (Map.Entry<TokenType, Integer> entry : tokensInput.entrySet()) {
+            TokenType tokenType = entry.getKey();
+            int amount = entry.getValue();
+
+            if (this.tokens.containsKey(tokenType) && amount > 0) {
+                this.tokens.put(tokenType, this.tokens.get(tokenType) + amount);
+            }
         }
     }
 
