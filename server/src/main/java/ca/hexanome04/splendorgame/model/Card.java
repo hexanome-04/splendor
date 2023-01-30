@@ -113,11 +113,21 @@ public abstract class Card {
                 cost.put(t, costAmt - tokens.get(t));
             }
 
-            // final check to ensure that we fulfilled the cost for the card
+            int missingTokenCount = 0;
+            // final check to ensure that we fulfilled the cost for the card accounting for gold tokens
             for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
                 if (entry.getValue() > 0) {
+                    missingTokenCount += entry.getValue();
+                }
+            }
+
+            if (tokens.get(TokenType.Gold) == null) {
+                if (missingTokenCount > 0) {
                     purchasable = false;
-                    break;
+                }
+            } else {
+                if (missingTokenCount > tokens.get(TokenType.Gold)) {
+                    purchasable = false;
                 }
             }
 
