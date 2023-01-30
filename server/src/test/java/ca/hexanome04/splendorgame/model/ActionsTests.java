@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
+import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
 import ca.hexanome04.splendorgame.model.action.actions.TakeTokenAction;
 import ca.hexanome04.splendorgame.model.action.actions.ReserveCardAction;
 import org.junit.jupiter.api.DisplayName;
@@ -270,6 +271,68 @@ public class ActionsTests {
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
         assertThat(result).isEqualTo(ActionResult.MAXIMUM_CARDS_RESERVED);
+    }
+
+    @DisplayName("Ensure ChooseNoble action is triggered when player qualifies for 2+ nobles.")
+    @Test
+    void testPlayerChooseNoble_QualifiesForTwo() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        p1.addBonus(TokenType.Blue, 1);
+        p1.addBonus(TokenType.Green, 2);
+        p1.addBonus(TokenType.Red, 2);
+        p1.addBonus(TokenType.Brown, 1);
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Blue, 1);
+        tokensToAdd.put(TokenType.Red, 2);
+        tokensToAdd.put(TokenType.Brown, 1);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> tokensToTake = new HashMap<>();
+        tokensToTake.put(TokenType.Brown, 1);
+
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToTake));
+
+        // make sure action is valid since player can afford it
+        assertThat(result).isEqualTo(ActionResult.MUST_CHOOSE_NOBLE);
+    }
+
+    @DisplayName("Ensure players can choose noble when prompted.")
+    @Test
+    void testPlayerChooseNoble_ValidChooseCard() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        p1.addBonus(TokenType.Blue, 1);
+        p1.addBonus(TokenType.Green, 2);
+        p1.addBonus(TokenType.Red, 2);
+        p1.addBonus(TokenType.Brown, 1);
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Blue, 1);
+        tokensToAdd.put(TokenType.Red, 2);
+        tokensToAdd.put(TokenType.Brown, 1);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> tokensToTake = new HashMap<>();
+        tokensToTake.put(TokenType.Brown, 1);
+
+        SplendorBoard board = game.getBoardState();
+        NobleCard c1 = (NobleCard) board.getCardFromId("98");
+        ArrayList<NobleCard> nobleCards = new ArrayList<>();
+        nobleCards.add(c1);
+
+        ActionResult result = game.takeAction(p1.getName(), new ChooseNobleAction("98"));
+
+        // make sure action is valid since player can afford it
+        assertThat(p1.getNobles()).isEqualTo(nobleCards);
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
     }
 
 }

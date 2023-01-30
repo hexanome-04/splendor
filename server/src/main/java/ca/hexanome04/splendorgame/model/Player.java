@@ -36,6 +36,7 @@ public class Player {
         cards = new ArrayList<>();
         reservedCards = new ArrayList<>();
         reservedNobles = new ArrayList<>();
+        nobleCards = new ArrayList<>();
 
         for (TokenType tokenType : TokenType.values()) {
             tokens.put(tokenType, 0);
@@ -115,6 +116,15 @@ public class Player {
      */
     public HashMap<TokenType, Integer> getTokens() {
         return new HashMap<>(this.tokens);
+    }
+
+    /**
+     * Get a player's owned nobles.
+     *
+     * @return list of nobles that the player has
+     */
+    public ArrayList<NobleCard> getNobles() {
+        return new ArrayList<>(this.nobleCards);
     }
 
     /**

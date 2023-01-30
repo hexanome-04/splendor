@@ -131,7 +131,7 @@ public class SplendorGame {
                 p.addNoble(noble);
             } else {
                 // don't increment turn if player must choose noble
-                ar = ActionResult.FURTHER_ACTION_REQUIRED;
+                ar = ActionResult.MUST_CHOOSE_NOBLE;
             }
         }
 

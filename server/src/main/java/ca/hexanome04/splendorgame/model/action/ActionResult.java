@@ -36,6 +36,11 @@ public enum ActionResult {
     NOT_ENOUGH_TOKENS_ON_BOARD,
 
     /**
+     * Player has qualified for 2+ nobles and must choose noble.
+     */
+    MUST_CHOOSE_NOBLE,
+
+    /**
      * Player has hit maximum token threshold in inventory.
      */
     MAXIMUM_TOKENS_IN_INVENTORY,
