@@ -1,61 +1,14 @@
 import { SETTINGS } from "./settings.js";
 import { startTurn, verifyNoModals } from "./modals.js";
 
-/**
- * Convert our temporary token list to a proper dictionary.
- * @param {*} list - list with Red, White, etc...
- */
-const convertTokenList = (list) => {
-    // why
-    let rubyCount, sapphireCount, emeraldCount, diamondCount, onyxCount, jokerCount;
-    rubyCount = sapphireCount = emeraldCount = diamondCount = onyxCount = jokerCount = 0;
-
-    list.forEach((tokenName) => {
-        // why are the names diferent
-        switch(tokenName) {
-        case "Red":
-            rubyCount++;
-            break;
-        case "Blue":
-            sapphireCount++;
-            break;
-        case "Green":
-            emeraldCount++;
-            break;
-        case "White":
-            diamondCount++;
-            break;
-        case "Brown":
-            onyxCount++;
-            break;
-        case "Gold":
-            jokerCount++;
-            break;
-
-        default:
-            console.log("Unknown token type: " + tokenName);
-        }
-    });
-
-    const map = {
-        "ruby": rubyCount,
-        "sapphire": sapphireCount,
-        "emerald": emeraldCount,
-        "diamond": diamondCount,
-        "onyx": onyxCount,
-        "joker": jokerCount
-    };
-    return map;
-};
-
 const updateTokensCount = (parentSelector, tokenInfo) => {
     const parentNode = document.querySelector(parentSelector);
-    parentNode.querySelector(".ruby > span").textContent = tokenInfo.ruby;
-    parentNode.querySelector(".sapphire > span").textContent = tokenInfo.sapphire;
-    parentNode.querySelector(".emerald > span").textContent = tokenInfo.emerald;
-    parentNode.querySelector(".diamond > span").textContent = tokenInfo.diamond;
-    parentNode.querySelector(".onyx > span").textContent = tokenInfo.onyx;
-    parentNode.querySelector(".joker > span").textContent = tokenInfo.joker;
+    parentNode.querySelector(".ruby > span").textContent = tokenInfo.Red;
+    parentNode.querySelector(".sapphire > span").textContent = tokenInfo.Blue;
+    parentNode.querySelector(".emerald > span").textContent = tokenInfo.Green;
+    parentNode.querySelector(".diamond > span").textContent = tokenInfo.White;
+    parentNode.querySelector(".onyx > span").textContent = tokenInfo.Brown;
+    parentNode.querySelector(".joker > span").textContent = tokenInfo.Gold;
 };
 
 const updateTierRow = (selector, cards) => {
@@ -87,7 +40,7 @@ const updateMainPlayerInfo = (playerInfo) => {
     playerInv.querySelector(".player-prestige-points-container > span").textContent = playerInfo.prestigePoints;
 
     // why
-    const tokenMap = convertTokenList(playerInfo.tokens.map((v) => v.type));
+    const tokenMap = playerInfo.tokens;
     updateTokensCount(".player-inventory-tokens", tokenMap);
 
     // update their cards
@@ -133,7 +86,7 @@ const updateOtherPlayerInfo = (pInfo) => {
     }
 
     // update tokens, cards, prestige points
-    const tokenMap = convertTokenList(pInfo.tokens.map((v) => v.type));
+    const tokenMap = pInfo.tokens;
     updateTokensCount(selector, tokenMap);
 
 
@@ -202,7 +155,7 @@ const updateGameboard = async () => {
     const data = await resp.json();
 
     // tokens update
-    const tokenMap = convertTokenList(data.boardState.tokens.map((v) => v.type));
+    const tokenMap = data.boardState.tokens;
     updateTokensCount("#board .board-tokens", tokenMap);
 
     updateNoblesBoard(data.boardState.nobleDeck.visibleCards);
