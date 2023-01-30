@@ -2,3 +2,4 @@ Bonus color,"Bonus (itself, int)",Prestige points (int),"Cost type (Token, Bonus
 White,1,1,Token,0;0;0;4;0,1,01
 Blue,1,1,Token,0;1;0;2;1,2,02
 Red,1,2,Token,0;2;2;1;0,3,03
+Brown,1,2,Token,1;1;2;1;0,2,04

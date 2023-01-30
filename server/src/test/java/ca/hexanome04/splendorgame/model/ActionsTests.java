@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
 import ca.hexanome04.splendorgame.model.action.actions.TakeTokenAction;
+import ca.hexanome04.splendorgame.model.action.actions.ReserveCardAction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -209,6 +210,66 @@ public class ActionsTests {
         ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
         assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+    }
+
+    @DisplayName("Ensure players can reserve a card when they have not reached the limit.")
+    @Test
+    void testPlayerReserveCard_Valid() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
+
+        // make sure action is valid since player can afford it
+        assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(1);
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+    }
+
+    @DisplayName("Ensure players can reserve a card even when the board has no gold left.")
+    @Test
+    void testPlayerReserveCard_ValidNoGold() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        SplendorBoard board = game.getBoardState();
+
+        HashMap<TokenType, Integer> goldsToRemove = new HashMap<>();
+        goldsToRemove.put(TokenType.Gold, 5);
+        board.removeTokens(goldsToRemove);
+
+        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
+
+        // make sure action is valid since player can afford it
+        assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+    }
+
+    @DisplayName("Ensure players cannot reserve a card when they have reached the limit.")
+    @Test
+    void testPlayerReserveCard_Invalid() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        SplendorBoard board = game.getBoardState();
+        RegDevelopmentCard c1 = (RegDevelopmentCard) board.getCardFromId("01");
+        RegDevelopmentCard c2 = (RegDevelopmentCard) board.getCardFromId("02");
+        RegDevelopmentCard c3 = (RegDevelopmentCard) board.getCardFromId("03");
+
+        p1.reserveCard(c1);
+        p1.reserveCard(c2);
+        p1.reserveCard(c3);
+
+        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("04"));
+
+        // make sure action is valid since player can afford it
+        assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
+        assertThat(result).isEqualTo(ActionResult.MAXIMUM_CARDS_RESERVED);
     }
 
 }
