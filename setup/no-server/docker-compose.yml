@@ -13,6 +13,8 @@ services:
       interval: 5s
 
   lobby-service:
+    extra_hosts:
+      host.docker.internal: host-gateway
     build:
       context: ../
       dockerfile: Dockerfile.ls
