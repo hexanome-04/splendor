@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model.action;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
 import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
 import ca.hexanome04.splendorgame.model.action.actions.ReserveCardAction;
+import ca.hexanome04.splendorgame.model.action.actions.TakeTokenAction;
 import com.google.gson.JsonObject;
 
 /**
@@ -30,6 +31,7 @@ public class ActionDecoder {
 
             return switch (actionType) {
                 case BUY_CARD -> new BuyCardAction().decodeAction(gson);
+                case TAKE_TOKEN -> new TakeTokenAction().decodeAction(gson);
                 case RESERVE_CARD -> new ReserveCardAction().decodeAction(gson);
                 case CHOOSE_NOBLE -> new ChooseNobleAction().decodeAction(gson);
             };

@@ -34,4 +34,9 @@ public enum ActionResult {
      * Not enough tokens left on the board to select.
      */
     NOT_ENOUGH_TOKENS_ON_BOARD,
+
+    /**
+     * Player has hit maximum token threshold in inventory.
+     */
+    MAXIMUM_TOKENS_IN_INVENTORY,
 }
