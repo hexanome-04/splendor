@@ -97,15 +97,6 @@ public abstract class Card {
                 cost.put(key, value - bonuses.get(key));
             });
 
-            /*
-            // Subtract the bonuses a player has
-            for (HashMap.Entry<TokenType, Integer> bonus : bonuses.entrySet()) {
-                TokenType tokenType = bonus.getKey();
-                int costAmt = cost.get(tokenType);
-                int bonusAmt = bonus.getValue();
-                cost.put(tokenType, costAmt - bonusAmt);
-            }
-            */
 
             // Subtract the tokens provided
             for (TokenType t : tokens.keySet()) {

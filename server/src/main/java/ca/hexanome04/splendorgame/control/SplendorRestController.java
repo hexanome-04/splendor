@@ -243,10 +243,11 @@ public class SplendorRestController {
 
             ActionResult actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
-            if (actionResult != ActionResult.VALID_ACTION && actionResult != ActionResult.FURTHER_ACTION_REQUIRED) {
+            if (actionResult != ActionResult.VALID_ACTION) {
                 throw new RuntimeException("Invalid action performed: " + actionResult.toString());
             }
 
+            // TODO: return what further actions are needed (if any)
             return ResponseEntity.status(HttpStatus.OK).body("");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

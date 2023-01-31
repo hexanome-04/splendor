@@ -21,11 +21,6 @@ public enum ActionResult {
     INVALID_TOKENS_GIVEN,
 
     /**
-     * Further action required.
-     */
-    FURTHER_ACTION_REQUIRED,
-
-    /**
      * Maximum number of cards reserved.
      */
     MAXIMUM_CARDS_RESERVED,
@@ -36,12 +31,28 @@ public enum ActionResult {
     NOT_ENOUGH_TOKENS_ON_BOARD,
 
     /**
+     * Player has hit maximum token threshold in inventory.
+     */
+    MAXIMUM_TOKENS_IN_INVENTORY,
+
+    /**
      * Player has qualified for 2+ nobles and must choose noble.
      */
     MUST_CHOOSE_NOBLE,
 
     /**
-     * Player has hit maximum token threshold in inventory.
+     * Player has received an Orient card allowing them to reserve a noble.
      */
-    MAXIMUM_TOKENS_IN_INVENTORY,
+    MUST_RESERVE_NOBLE,
+
+    /**
+     * Player has received an Orient card allowing them to choose a cascade card.
+     */
+    MUST_CHOOSE_CASCADE_CARD,
+
+    /**
+     * Player has received an Orient card of type satchel, so they must choose a token type.
+     */
+    MUST_CHOOSE_TOKEN_TYPE,
+
 }

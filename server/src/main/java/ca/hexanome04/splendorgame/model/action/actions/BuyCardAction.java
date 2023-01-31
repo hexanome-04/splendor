@@ -1,14 +1,9 @@
 package ca.hexanome04.splendorgame.model.action.actions;
 
-import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.RegDevelopmentCard;
-import ca.hexanome04.splendorgame.model.SplendorBoard;
-import ca.hexanome04.splendorgame.model.SplendorGame;
-import ca.hexanome04.splendorgame.model.TokenType;
+import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.*;
@@ -47,7 +42,7 @@ public class BuyCardAction extends Action {
 
         // get card from board
         // should be a development card (hopefully)
-        RegDevelopmentCard dc = (RegDevelopmentCard) board.getCardFromId(this.buyCardId);
+        DevelopmentCard dc = (DevelopmentCard) board.getCardFromId(this.buyCardId);
         if (dc == null) {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
@@ -57,12 +52,9 @@ public class BuyCardAction extends Action {
         }
 
         // no error handling
-        board.takeCard(dc);
-        player.buyCard(dc); // will remove tokens from inventory here too
+        ActionResult result = dc.buyCard(player, board, selectedTokens); // will remove tokens from inventory here too
 
-        board.addTokens(dc.getTokenCost());
-
-        return ActionResult.VALID_ACTION;
+        return result;
     }
 
     @Override

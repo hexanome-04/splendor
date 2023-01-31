@@ -60,6 +60,54 @@ public class ActionsTests {
         assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
     }
 
+    @DisplayName("Ensure players can buy a card using normal and gold tokens.")
+    @Test
+    void testPlayerBuyCard_UseGold() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Blue, 1);
+        tokensToAdd.put(TokenType.Gold, 1);
+        tokensToAdd.put(TokenType.Red, 2);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Blue, 1);
+        tokensToUse.put(TokenType.Gold, 1);
+        tokensToUse.put(TokenType.Red, 2);
+
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+    }
+
+    @DisplayName("Ensure players can buy a card using bonuses.")
+    @Test
+    void testPlayerBuyCard_UseBonus() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        p1.addBonus(TokenType.Red, 3);
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Red, 1);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 1);
+
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+    }
+
     @DisplayName("Ensure players can take two of same token in one turn.")
     @Test
     void testPlayerTakeTokens_ValidDoubleToken() throws FileNotFoundException {
@@ -293,7 +341,9 @@ public class ActionsTests {
         p1.addTokens(tokensToAdd);
 
         HashMap<TokenType, Integer> tokensToTake = new HashMap<>();
+        tokensToTake.put(TokenType.Blue, 1);
         tokensToTake.put(TokenType.Brown, 1);
+        tokensToTake.put(TokenType.Red, 2);
 
         ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToTake));
 

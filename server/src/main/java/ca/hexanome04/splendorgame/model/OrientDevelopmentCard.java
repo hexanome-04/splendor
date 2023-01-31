@@ -36,25 +36,6 @@ public class OrientDevelopmentCard extends DevelopmentCard {
     }
 
     /**
-     * Creates an orient development card by calling super on the abstract development card class.
-     *
-     * @param tokenType      The type of token associated to this card.
-     * @param bonus          The token bonus associated to this card
-     * @param reserveNoble   Whether this development card allows you to reserve a noble.
-     * @param prestigePoints The number of prestige points associated with this card.
-     * @param costType       Whether this card has a cost of tokens or burning bonuses.
-     * @param tokenCost      The token cost of this card (if applicable).
-     * @param burnBonusCost  The bonus burning of this card (if applicable).
-     * @param id             ID associated to this card.
-     * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
-     */
-    public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, boolean reserveNoble, int prestigePoints,
-                                 CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost, String id) {
-        this(cardTier, tokenType, bonus, CascadeType.None, reserveNoble, prestigePoints, costType, tokenCost, burnBonusCost, id);
-    }
-
-    /**
      * Get whether this card allows the player to reserve a noble.
      *
      * @return Whether it is a reserve noble card.
@@ -89,5 +70,24 @@ public class OrientDevelopmentCard extends DevelopmentCard {
     public HashMap<TokenType, Integer> getBurnBonusCost() {
         return new HashMap<TokenType, Integer>(burnBonusCost);
     }
+
+    /**
+     * Private method to reserve noble, called only when orient reserveNoble card bought.
+     */
+    private void reserveNoble() {
+        // TODO: prompt user to select noble to reserve (once controllers implemented?)
+        // NobleCard noble = ;
+        // reservedNobles.add(noble);
+    }
+
+    /**
+     * Private method to select cascade card, called only when orient cascade card bought.
+     */
+    private void cascadeChooseCard() {
+        // TODO: prompt user to select card at appropriate tier (once controllers implemented?)
+        // OrientDevelopmentCard cascadeCard = ;
+        // cards.add(cascadeCard);
+    }
+
 
 }

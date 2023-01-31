@@ -110,6 +110,24 @@ public class Player {
     }
 
     /**
+     * Adds prestige points to player score.
+     *
+     * @param prestigePoints Prestige points to add to player
+     */
+    public void addPrestigePoints(int prestigePoints) {
+        this.prestigePoints += prestigePoints;
+    }
+
+    /**
+     * Adds card to player inventory.
+     *
+     * @param card Card to be added to player inventory
+     */
+    public void addCard(DevelopmentCard card) {
+        cards.add(card);
+    }
+
+    /**
      * Get a player's held tokens.
      *
      * @return list of tokens that the player has
@@ -150,17 +168,8 @@ public class Player {
      *
      * @param tokens Tokens to remove from player inventory.
      */
-    private void removeTokens(HashMap<TokenType, Integer> tokens) {
-
+    public void removeTokens(HashMap<TokenType, Integer> tokens) {
         tokens.forEach((key, value) -> this.tokens.put(key, this.tokens.get(key) - value));
-
-        /*
-        for (TokenType t : tokens) {
-            // TODO: make this put tokens back in main deck instead of deleting them
-            Integer currentValue = this.tokens.get(t);
-            this.tokens.put(t, currentValue - 1);
-        }
-        */
     }
 
     /**
@@ -168,7 +177,7 @@ public class Player {
      *
      * @param bonuses Bonuses to remove from player inventory
      */
-    private void removeBonuses(HashMap<TokenType, Integer> bonuses) {
+    public void removeBonuses(HashMap<TokenType, Integer> bonuses) {
         bonuses.forEach((key, value) -> {
             Integer currentValue = this.bonuses.get(key);
             this.bonuses.put(key, currentValue - value);
@@ -187,62 +196,12 @@ public class Player {
     }
 
     /**
-     * Adds purchased card to inventory and removes cost from player (for their turn).
-     *
-     * @param card The development card the player would like to purchase.
-     */
-    public void buyCard(DevelopmentCard card) {
-        cards.add(card);
-        bonuses.put(card.getTokenType(), bonuses.get(card.getTokenType()) + card.getBonus());
-        prestigePoints += card.getPrestigePoints();
-
-        // remove card cost (token or bonus burn) from player
-        if (card.getCostType() == CostType.Token) {
-            removeTokens(card.getTokenCost());
-        }
-
-        // TODO: handle orient double gold token cards later
-        if (card.getClass().equals(OrientDevelopmentCard.class)) {
-            OrientDevelopmentCard orientCard = (OrientDevelopmentCard) card;
-            if (orientCard.getCostType() == CostType.Bonus) {
-                removeBonuses(orientCard.getBurnBonusCost());
-            }
-            if (orientCard.getReserveNoble()) {
-                reserveNoble();
-            }
-            if (orientCard.isCascade()) {
-                cascadeChooseCard();
-            }
-            // TODO: handle satchel cards
-        }
-
-    }
-
-    /**
      * Add card to reserved cards for a player and add one gold token to inventory (for their turn).
      *
      * @param card The development card the player would like to reserve.
      */
     public void reserveCard(DevelopmentCard card) {
         reservedCards.add(card);
-    }
-
-    /**
-     * Private method to reserve noble, called only when orient reserveNoble card bought.
-     * */
-    private void reserveNoble() {
-        // TODO: prompt user to select noble to reserve (once controllers implemented?)
-        // NobleCard noble = ;
-        // reservedNobles.add(noble);
-    }
-
-    /**
-     * Private method to select cascade card, called only when orient cascade card bought.
-     * */
-    private void cascadeChooseCard() {
-        // TODO: prompt user to select card at appropriate tier (once controllers implemented?)
-        // OrientDevelopmentCard cascadeCard = ;
-        // cards.add(cascadeCard);
     }
 
     /**
