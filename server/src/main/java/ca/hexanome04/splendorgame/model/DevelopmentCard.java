@@ -115,6 +115,14 @@ public abstract class DevelopmentCard extends Card {
             }
         }
 
+        p.addCard(this);
+        b.takeCard(this);
+
+        p.addBonus(this.getTokenType(), this.getBonus());
+        p.addPrestigePoints(this.getPrestigePoints());
+
+        b.addTokens(this.getTokenCost());
+
         // TODO: handle orient double gold token cards later
         if (this.getClass().equals(OrientDevelopmentCard.class)) {
             OrientDevelopmentCard orientCard = (OrientDevelopmentCard) this;
@@ -131,14 +139,6 @@ public abstract class DevelopmentCard extends Card {
                 result = ActionResult.MUST_CHOOSE_TOKEN_TYPE;
             }
         }
-
-        b.addTokens(this.getTokenCost());
-
-        p.addCard(this);
-        b.takeCard(this);
-
-        p.addBonus(this.getTokenType(), this.getBonus());
-        p.addPrestigePoints(this.getPrestigePoints());
 
         return result;
 
