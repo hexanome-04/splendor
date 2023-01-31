@@ -91,15 +91,17 @@ public abstract class Card {
             // clone so we don't modify the card's data
             HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
 
-            // Subtract the bonuses a player
+            // Subtract the bonuses a player has
             // Easier way than the method below this forEach block
             cost.forEach((key, value) -> {
                 cost.put(key, value - bonuses.get(key));
             });
 
-
             // Subtract the tokens provided
             for (TokenType t : tokens.keySet()) {
+                if (t == TokenType.Gold) {
+                    continue;
+                }
                 int costAmt = cost.get(t);
                 cost.put(t, costAmt - tokens.get(t));
             }
@@ -114,17 +116,34 @@ public abstract class Card {
 
             if (tokens.get(TokenType.Gold) == null) {
                 if (missingTokenCount > 0) {
-                    purchasable = false;
+                    if ((missingTokenCount - bonuses.get(TokenType.Gold)) % 2 != 0) {
+                        purchasable = false;
+                    }
                 }
             } else {
                 if (missingTokenCount > tokens.get(TokenType.Gold)) {
-                    purchasable = false;
+                    missingTokenCount -= tokens.get(TokenType.Gold);
+                    if (missingTokenCount > 0 && ((missingTokenCount - bonuses.get(TokenType.Gold)) % 2 != 0)) {
+                        purchasable = false;
+                    }
                 }
             }
 
         } else if (this.costType == CostType.Bonus) {
             // TODO : does this mean the card is only purchasable with bonuses?
+            HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
 
+            cost.forEach((key, value) -> {
+                cost.put(key, value - bonuses.get(key));
+            });
+
+            // final check to ensure that we fulfilled the cost for the card
+            for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
+                if (entry.getValue() > 0) {
+                    purchasable = false;
+                    break;
+                }
+            }
         }
 
         return purchasable;

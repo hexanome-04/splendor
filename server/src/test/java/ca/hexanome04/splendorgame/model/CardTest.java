@@ -147,4 +147,71 @@ public class CardTest {
         assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
     }
 
+    /**
+     * Ensure isPurchasable correctly checks if a player can purchase a card using their gold tokens.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
+    @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with gold tokens.")
+    @Test
+    public void testIsPurchasableGoldTokens() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokens = new HashMap<>();
+        tokens.put(TokenType.Gold, 4);
+        p1.addTokens(tokens);
+
+        // Make sure tokens added to player are successfully retrieved by getter
+        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
+    }
+
+
+    /**
+     * Ensure isPurchasable correctly checks if a player can purchase a card using their double gold tokens from orient.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
+    @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with double gold tokens from orient.")
+    @Test
+    public void testIsPurchasableDoubleGoldToken() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addBonus(TokenType.Gold, 2);
+
+        HashMap<TokenType, Integer> tokens = new HashMap<>();
+        tokens.put(TokenType.Gold, 2);
+        p1.addTokens(tokens);
+
+        // Make sure tokens added to player are successfully retrieved by getter
+        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
+    }
+
+
+    /**
+     * Ensure isPurchasable correctly checks if a player can purchase a card using their gold tokens.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
+    @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with gold tokens.")
+    @Test
+    public void testIsPurchasableDoubleGoldTokensOddAmt() throws FileNotFoundException {
+        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addBonus(TokenType.Gold, 2);
+
+        HashMap<TokenType, Integer> tokens = new HashMap<>();
+        tokens.put(TokenType.Gold, 3);
+        p1.addTokens(tokens);
+
+        // Make sure tokens added to player are successfully retrieved by getter
+        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(false);
+    }
+
 }
