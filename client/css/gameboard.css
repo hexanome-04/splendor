@@ -408,15 +408,11 @@ body {
   flex-direction: row;
 }
 
-.board-noble-card {
-  /* maybe needed in future */
-  padding: 0 0.7em;
-}
-
 .board-nobles .board-noble-card img {
   height: 4em;
   aspect-ratio: 1/1;
   border-radius: 10%;
+  margin: 0 0.7em;
 }
 
 /* Board development cards */
@@ -474,13 +470,13 @@ body {
 }
 
 .board-cards-row .board-cards-dev-deck[empty],
-.board-cards-row .board-cards-dev-deck-orient[empty],
-.board-cards-row .board-card-dev:has(> img:not([src])) {
+.board-cards-row .board-cards-dev-deck-orient[empty] {
   visibility: hidden;
 }
 
+.board-cards-row .board-card-dev img:not([src]),
 .board-nobles .board-noble-card img:not([src]) {
-  visibility: hidden;
+  display: none;
 }
 
 .board-cards-dev-selectable {

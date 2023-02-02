@@ -19,29 +19,6 @@ const purchaseBtn = document.getElementById("purchase-btn");
 
 // --------------------------------------------------
 
-// PURCHASE DEVELOPMENT CARD - Token Count Functions
-document.querySelectorAll(".token-count-outer-container .token-count-inner-container").forEach(elm => {
-    // set buttons
-    elm.querySelector(".increase").onclick = () => {
-        const countElm = elm.querySelector(".count");
-        let count = parseInt(countElm.textContent);
-        if (count !== 10) {
-            count += 1;
-            countElm.innerHTML = count.toString();
-        }
-    };
-
-    elm.querySelector(".decrease").onclick = () => {
-        const countElm = elm.querySelector(".count");
-        let count = parseInt(countElm.textContent);
-        if (count !== 0) {
-            count -= 1;
-            countElm.innerHTML = count.toString();
-        }
-    };
-});
-
-
 // Reserve cards selection
 function setupSelectionCards(selector) {
     document.querySelectorAll(selector).forEach((elm) => {
@@ -91,8 +68,13 @@ const showPayment = (cardNode) => {
     document.querySelector("#dev-card-payment-modal .purchase-show-card img").setAttribute("src", imgSrc);
 
     // clear previous numbers
-    document.querySelectorAll(".token-count-outer-container .token-count-inner-container .count").forEach(elm => {
-        elm.textContent = "0";
+    document.querySelectorAll("#dev-card-payment-modal board-token").forEach(elm => {
+        elm.setCount(0);
+    });
+
+    // set min and max for counters, TODO: set max and min values to what tokens the player has
+    document.querySelectorAll("#dev-card-payment-modal board-token-counter").forEach(elm => {
+        elm.setMax(10);
     });
 
     confirmBtn.onclick = () => {
