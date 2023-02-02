@@ -3,12 +3,12 @@ import { startTurn, verifyNoModals } from "./modals.js";
 
 const updateTokensCount = (parentSelector, tokenInfo) => {
     const parentNode = document.querySelector(parentSelector);
-    parentNode.querySelector(".ruby > span").textContent = tokenInfo.Red;
-    parentNode.querySelector(".sapphire > span").textContent = tokenInfo.Blue;
-    parentNode.querySelector(".emerald > span").textContent = tokenInfo.Green;
-    parentNode.querySelector(".diamond > span").textContent = tokenInfo.White;
-    parentNode.querySelector(".onyx > span").textContent = tokenInfo.Brown;
-    parentNode.querySelector(".joker > span").textContent = tokenInfo.Gold;
+    parentNode.querySelector(".red-token > span").textContent = tokenInfo.Red;
+    parentNode.querySelector(".blue-token > span").textContent = tokenInfo.Blue;
+    parentNode.querySelector(".green-token > span").textContent = tokenInfo.Green;
+    parentNode.querySelector(".white-token > span").textContent = tokenInfo.White;
+    parentNode.querySelector(".brown-token > span").textContent = tokenInfo.Brown;
+    parentNode.querySelector(".gold-token > span").textContent = tokenInfo.Gold;
 };
 
 const updateTierRow = (selector, cards) => {

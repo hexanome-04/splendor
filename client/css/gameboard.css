@@ -296,7 +296,7 @@ body {
 }
 
 /* Token colors */
-.ruby {
+.red-token {
   background-image:
     linear-gradient(
       to top,
@@ -304,12 +304,12 @@ body {
       rgba(39 2 2 / 30%)
     ),
     url(
-      "../images/tokens/RubyToken.jpg"
+      "../images/tokens/RedToken.jpg"
     );
   background-size: contain;
 }
 
-.sapphire {
+.blue-token {
   background-image:
     linear-gradient(
       to top,
@@ -317,12 +317,12 @@ body {
       rgba(2 2 41 / 30%)
     ),
     url(
-      "../images/tokens/SapphireToken.jpg"
+      "../images/tokens/BlueToken.jpg"
     );
   background-size: contain;
 }
 
-.emerald {
+.green-token {
   background-image:
     linear-gradient(
       to top,
@@ -330,12 +330,12 @@ body {
       rgba(3 34 1 / 30%)
     ),
     url(
-      "../images/tokens/EmeraldToken.jpg"
+      "../images/tokens/GreenToken.jpg"
     );
   background-size: contain;
 }
 
-.diamond {
+.white-token {
   background-image:
     linear-gradient(
       to top,
@@ -343,12 +343,12 @@ body {
       rgba(37 37 37 / 30%)
     ),
     url(
-      "../images/tokens/DiamondToken.jpg"
+      "../images/tokens/WhiteToken.jpg"
     );
   background-size: contain;
 }
 
-.onyx {
+.brown-token {
   background-image:
     linear-gradient(
       to top,
@@ -356,12 +356,12 @@ body {
       rgba(49 29 7 / 30%)
     ),
     url(
-      "../images/tokens/OnyxToken.jpg"
+      "../images/tokens/BrownToken.jpg"
     );
   background-size: contain;
 }
 
-.joker {
+.gold-token {
   background-image:
     linear-gradient(
       to top,
