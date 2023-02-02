@@ -4,6 +4,7 @@ import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.*;
@@ -36,13 +37,11 @@ public class BuyCardAction extends Action {
     }
 
     @Override
-    protected ActionResult run(SplendorGame game, Player player) {
-
-        SplendorBoard board = game.getBoardState();
+    protected ActionResult run(Game game, Player player) {
 
         // get card from board
         // should be a development card (hopefully)
-        DevelopmentCard dc = (DevelopmentCard) board.getCardFromId(this.buyCardId);
+        DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.buyCardId);
         if (dc == null) {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
@@ -52,7 +51,7 @@ public class BuyCardAction extends Action {
         }
 
         // no error handling
-        ActionResult result = dc.buyCard(player, board, selectedTokens); // will remove tokens from inventory here too
+        ActionResult result = dc.buyCard(player, game, selectedTokens); // will remove tokens from inventory here too
 
         return result;
     }

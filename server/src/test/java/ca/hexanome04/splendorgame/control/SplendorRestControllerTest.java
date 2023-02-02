@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -53,7 +54,7 @@ public class SplendorRestControllerTest {
         sessionManager = new SessionManager();
         restController = new SplendorRestController(sessionManager, auth, gameServiceName);
 
-        sessionManager.addSession(testGameSessionId, (ArrayList<Player>) testPlayers, "p1", "");
+        sessionManager.addSession(testGameSessionId, (ArrayList<Player>) testPlayers, "p1", "", BASE_ORIENT);
     }
 
     /**
@@ -107,7 +108,7 @@ public class SplendorRestControllerTest {
     public void testLaunchSessionDuplicateSessionIdFail() throws Exception {
         LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayers.get(0).getName(), "");
 
-        sessionManager.addSession("sid", (ArrayList<Player>) testPlayers, "p1", "ssss");
+        sessionManager.addSession("sid", (ArrayList<Player>) testPlayers, "p1", "ssss", BASE_ORIENT);
         assertThat(restController.launchSession("sid", launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 

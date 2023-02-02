@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
 public class GameSession {
     private final String sessionId;
     private boolean launched;
-    private SplendorGame game;
+    private Game game;
     private String creatorUsername;
     private String sessionName;
 
@@ -41,7 +42,7 @@ public class GameSession {
      *
      * @return game associated with this session
      */
-    public SplendorGame getGame() {
+    public Game getGame() {
         return game;
     }
 
@@ -50,7 +51,7 @@ public class GameSession {
      *
      * @param game The game associated with the session.
      */
-    public void setGame(SplendorGame game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 

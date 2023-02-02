@@ -33,7 +33,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       working-directory: ./server
-      run: mvn -B package --file pom.xml
+      run: mvn -B clean package --file pom.xml
     - name: Run tests
       working-directory: ./server
       run: mvn test

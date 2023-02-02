@@ -1,14 +1,11 @@
 package ca.hexanome04.splendorgame.model.action.actions;
 
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.RegDevelopmentCard;
-import ca.hexanome04.splendorgame.model.SplendorBoard;
-import ca.hexanome04.splendorgame.model.SplendorGame;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
-import com.google.gson.JsonArray;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.HashMap;
@@ -43,12 +40,11 @@ public class TakeTokenAction extends Action {
     }
 
     @Override
-    protected ActionResult run(SplendorGame game, Player player) {
+    protected ActionResult run(Game game, Player player) {
 
-        SplendorBoard board = game.getBoardState();
         int playerTotalTokens = 0;
 
-        for (TokenType token : board.getTokens().keySet()) {
+        for (TokenType token : game.getTokens().keySet()) {
             int takeTokensNum = takeTokens.get(token) == null ? 0 : takeTokens.get(token);
             int putBackTokensNum = putBackTokens.get(token) == null ? 0 : putBackTokens.get(token);
 
@@ -62,7 +58,7 @@ public class TakeTokenAction extends Action {
                 continue;
             }
 
-            int tokensLeftOnBoard = board.getTokens().get(token) - takeTokensNum + putBackTokensNum;
+            int tokensLeftOnBoard = game.getTokens().get(token) - takeTokensNum + putBackTokensNum;
             if (tokensLeftOnBoard < 0) {
                 return ActionResult.NOT_ENOUGH_TOKENS_ON_BOARD;
             }
@@ -87,7 +83,7 @@ public class TakeTokenAction extends Action {
                 doubleTokens += 1;
 
                 // board pile must have at least 4 of this token for player to take two
-                if (board.getTokens().get(t) < 4) {
+                if (game.getTokens().get(t) < 4) {
                     return ActionResult.INVALID_TOKENS_GIVEN;
                 }
             } else {
@@ -102,8 +98,8 @@ public class TakeTokenAction extends Action {
 
 
 
-        board.removeTokens(takeTokens);
-        board.addTokens(putBackTokens);
+        game.removeTokens(takeTokens);
+        game.addTokens(putBackTokens);
         player.takeTokens(takeTokens, putBackTokens);
 
         return ActionResult.VALID_ACTION;

@@ -2,8 +2,8 @@ package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.model.GameSession;
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.SplendorBoard;
-import ca.hexanome04.splendorgame.model.SplendorGame;
+import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,11 +58,12 @@ public class SessionManager {
      * @param players player in session
      * @param creatorName creator name
      * @param sessionName session name
+     * @param version version of the game (which expansions)
      * @return game session instance
      * @throws Exception if issue occurred
      */
     public GameSession addSession(String sessionId, ArrayList<Player> players,
-                                  String creatorName, String sessionName) throws Exception {
+                                  String creatorName, String sessionName, GameVersions version) throws Exception {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionId)) {
             throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
@@ -72,11 +73,17 @@ public class SessionManager {
             throw new Exception("Game can not be created, 2-4 players required");
         }
 
-        // TODO: get session ID, name, and creator username from somewhere
         GameSession session = new GameSession(sessionId, creatorName, sessionName);
         InputStream is = ResourceUtils.getURL("classpath:cards.csv").openStream();
 
-        session.setGame(new SplendorGame(new SplendorBoard(is), 15, players, 0));
+        // TODO: put in other cases once classes made
+        switch (version) {
+            case BASE_ORIENT -> session.setGame(new GameBaseOrient(15, players, 0, is));
+            //case BASE_ORIENT_CITIES -> ;
+            //case BASE_ORIENT_TRADE_ROUTES -> ;
+            default -> session.setGame(new GameBaseOrient(15, players, 0, is));
+        }
+
         gameSessions.put(sessionId, session);
         return session;
     }

@@ -2,11 +2,10 @@ package ca.hexanome04.splendorgame.model.action.actions;
 
 import ca.hexanome04.splendorgame.model.NobleCard;
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.SplendorBoard;
-import ca.hexanome04.splendorgame.model.SplendorGame;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
 
 /**
@@ -34,17 +33,15 @@ public class ChooseNobleAction extends Action {
     }
 
     @Override
-    protected ActionResult run(SplendorGame game, Player p) {
+    protected ActionResult run(Game game, Player p) {
 
-        SplendorBoard board = game.getBoardState();
-
-        NobleCard nc = (NobleCard) board.getCardFromId(nobleId);
+        NobleCard nc = (NobleCard) game.getCardFromId(nobleId);
         if (nc == null) {
             throw new RuntimeException("Noble card with id '" + this.nobleId + "' does not exist.");
         }
 
         // no error handling
-        board.takeCard(nc);
+        game.takeCard(nc);
         p.addNoble(nc);
 
         return ActionResult.VALID_ACTION;

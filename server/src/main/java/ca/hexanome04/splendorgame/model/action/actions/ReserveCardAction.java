@@ -2,14 +2,11 @@ package ca.hexanome04.splendorgame.model.action.actions;
 
 import ca.hexanome04.splendorgame.model.DevelopmentCard;
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.SplendorBoard;
-import ca.hexanome04.splendorgame.model.SplendorGame;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
 import java.util.HashMap;
 
@@ -38,12 +35,10 @@ public class ReserveCardAction extends Action {
     }
 
     @Override
-    protected ActionResult run(SplendorGame game, Player player) {
-
-        SplendorBoard board = game.getBoardState();
+    protected ActionResult run(Game game, Player player) {
 
         // get card from board
-        DevelopmentCard dc = (DevelopmentCard) board.getCardFromId(this.reserveCardId);
+        DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.reserveCardId);
         if (dc == null) {
             throw new RuntimeException("Card with id '" + this.reserveCardId + "' does not exist.");
         }
@@ -53,14 +48,14 @@ public class ReserveCardAction extends Action {
         }
 
         // no error handling
-        board.takeCard(dc);
+        game.takeCard(dc);
         player.reserveCard(dc);
 
         HashMap<TokenType, Integer> goldToken = new HashMap<>();
         goldToken.put(TokenType.Gold, 1);
 
         // removes one gold token from board (if there is a gold token to take)
-        boolean removeTokensResults = board.removeTokens(goldToken);
+        boolean removeTokensResults = game.removeTokens(goldToken);
 
         // give player gold token if there were any left
         if (removeTokensResults == true) {

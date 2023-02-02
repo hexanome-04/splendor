@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.control;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.*;
 
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.GameSession;
@@ -31,16 +32,16 @@ public class SessionManagerTest {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        GameSession game1 = dummySessionManager.addSession(dummyID, players, "creator", "sessionName");
+        GameSession game1 = dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         assertThat(game1).isInstanceOf(GameSession.class);
         // Wrong number of players
         assertThatThrownBy(() -> {
-            dummySessionManager.addSession(dummyID, null, "creator", "sessionName");
+            dummySessionManager.addSession(dummyID, null, "creator", "sessionName", BASE_ORIENT);
         }).isInstanceOf(Exception.class);
 
         // Repeated sessionID
         assertThatThrownBy(() -> {
-            dummySessionManager.addSession(dummyID, players, "creator", "sessionName");
+            dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         }).isInstanceOf(Exception.class);
     }
 
@@ -59,7 +60,7 @@ public class SessionManagerTest {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        dummySessionManager.addSession(dummyID, players, "creator", "sessionName");
+        dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         assertThat(dummySessionManager.getGameSession(dummyID)).isInstanceOf(GameSession.class);
     }
 }

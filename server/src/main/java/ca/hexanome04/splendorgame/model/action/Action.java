@@ -1,7 +1,7 @@
 package ca.hexanome04.splendorgame.model.action;
 
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.SplendorGame;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
 
 /**
@@ -27,7 +27,7 @@ public abstract class Action {
      * @param p player executing the action
      * @return information about execution of action
      */
-    public final ActionResult execute(SplendorGame game, Player p) {
+    public final ActionResult execute(Game game, Player p) {
         // Check if player can execute this action.
         if (!game.getTurnCurrentPlayer().getName().equals(p.getName())) {
             return ActionResult.INVALID_PLAYER;
@@ -43,7 +43,7 @@ public abstract class Action {
      * @param p player executing the action
      * @return information about execution of action
      */
-    protected abstract ActionResult run(SplendorGame game, Player p);
+    protected abstract ActionResult run(Game game, Player p);
 
     /**
      * Decode the action with the given JSON object and return a proper instances of the action.

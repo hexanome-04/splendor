@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ public class GameSessionTest {
     @DisplayName("Test the getGame method.")
     @Test
     public void testGetGame() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         GameSession session = new GameSession("12345", "Player1", "MyGame");
         session.setGame(game);

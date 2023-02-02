@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class SplendorGameTests {
 
     @Test
     void testGameWorks() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         assertThat(game.getTurnCounter()).isEqualTo(0);
     }

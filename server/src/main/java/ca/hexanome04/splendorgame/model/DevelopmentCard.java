@@ -1,6 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,11 +55,11 @@ public abstract class DevelopmentCard extends Card {
      * Allows a player to buy this card.
      *
      * @param p Player buying this card
-     * @param b splendor board
+     * @param g splendor game + board
      * @param tokensToPayWith tokens the player has chosen to pay with
      * @return result of buy card action
      */
-    public ActionResult buyCard(Player p, SplendorBoard b, HashMap<TokenType, Integer> tokensToPayWith) {
+    public ActionResult buyCard(Player p, Game g, HashMap<TokenType, Integer> tokensToPayWith) {
 
         ActionResult result = ActionResult.VALID_ACTION;
 
@@ -67,12 +68,12 @@ public abstract class DevelopmentCard extends Card {
         }
 
         p.addCard(this);
-        b.takeCard(this);
+        g.takeCard(this);
 
         p.addBonus(this.getTokenType(), this.getBonus());
         p.addPrestigePoints(this.getPrestigePoints());
 
-        b.addTokens(this.getTokenCost());
+        g.addTokens(this.getTokenCost());
 
         // TODO: handle orient double gold token cards later
         if (this.getClass().equals(OrientDevelopmentCard.class)) {

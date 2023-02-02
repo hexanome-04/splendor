@@ -1,13 +1,15 @@
 package ca.hexanome04.splendorgame.control;
 
+import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
+
 import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.SplendorGame;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * Rest controller for all API endpoints of Splendor game.
@@ -101,7 +104,8 @@ public class SplendorRestController {
                 newPlayer.addTokens(defaultTokens);
                 playerList.add(newPlayer);
             }
-            sessionManager.addSession(sessionId, playerList, launchSessionInfo.creator(), launchSessionInfo.savegame());
+            sessionManager.addSession(sessionId, playerList, launchSessionInfo.creator(), launchSessionInfo.savegame(),
+                    BASE_ORIENT);
             logger.info("Launched new game session: " + sessionId);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
@@ -167,7 +171,8 @@ public class SplendorRestController {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
 
-            String serializedGameBoard = new Gson().toJson(sessionManager.getGameSession(sessionId).getGame().getBoardState());
+            // TODO: do better information hiding
+            String serializedGameBoard = new Gson().toJson(sessionManager.getGameSession(sessionId).getGame());
             return ResponseEntity.status(HttpStatus.OK).body(serializedGameBoard);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -190,7 +195,7 @@ public class SplendorRestController {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
             // Check if player exists
-            SplendorGame game = sessionManager.getGameSession(sessionId).getGame();
+            Game game = sessionManager.getGameSession(sessionId).getGame();
             Player player = game.getPlayerFromName(playerName);
             if (player == null) {
                 throw new Exception("There is no player in this session associated with this playerID: " + sessionId + ".");
@@ -228,7 +233,7 @@ public class SplendorRestController {
             if (sessionManager.getGameSession(sessionId) == null) {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
-            SplendorGame game = sessionManager.getGameSession(sessionId).getGame();
+            Game game = sessionManager.getGameSession(sessionId).getGame();
             Player player = game.getPlayerFromName(playerName);
 
             if (player == null) {

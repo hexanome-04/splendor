@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
 import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
@@ -13,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -27,7 +27,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot buy a card with insufficient tokens in their inventory.")
     @Test
     void testPlayerBuyCard_InsufficientTokens() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -44,7 +44,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card when sufficient tokens provided.")
     @Test
     void testPlayerBuyCard_SufficientTokens() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -63,7 +63,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using normal and gold tokens.")
     @Test
     void testPlayerBuyCard_UseGold() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -88,7 +88,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses.")
     @Test
     void testPlayerBuyCard_UseBonus() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -111,7 +111,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and gold tokens.")
     @Test
     void testPlayerBuyCard_UseBonusAndGold() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -134,7 +134,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
     @Test
     void testPlayerBuyCard_UseBonusAndDoubleGoldTokensOnly() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -153,7 +153,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
     @Test
     void testPlayerBuyCard_DoubleGoldTokensOnly() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -171,7 +171,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take two of same token in one turn.")
     @Test
     void testPlayerTakeTokens_ValidDoubleToken() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -193,7 +193,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take three unique tokens in one turn.")
     @Test
     void testPlayerTakeTokens_ValidThreeUniqueTokens() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -217,7 +217,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take and put back tokens, remaining under 10 tokens in inventory")
     @Test
     void testPlayerTakeTokens_ValidPlayerTakeAndPutBack() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -243,10 +243,10 @@ public class ActionsTests {
         assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
     }
 
-    @DisplayName("Ensure players cannot take more than 10 tokens.")
+    @DisplayName("Ensure players cannot have more than 10 tokens.")
     @Test
     void testPlayerTakeTokens_InvalidPlayerMaxTokens() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -269,10 +269,10 @@ public class ActionsTests {
         assertThat(result).isEqualTo(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY);
     }
 
-    @DisplayName("Ensure players cannot take more than 2 of the same token per turn.")
+    @DisplayName("Ensure players cannot take more than 2 of the same token per turn (without Trade Routes power).")
     @Test
     void testPlayerTakeTokens_InvalidThreeOfSameToken() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -296,7 +296,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot take more than 3 unique tokens per turn.")
     @Test
     void testPlayerTakeTokens_InvalidFourUniqueTokens() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -324,7 +324,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can reserve a card when they have not reached the limit.")
     @Test
     void testPlayerReserveCard_Valid() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -339,16 +339,14 @@ public class ActionsTests {
     @DisplayName("Ensure players can reserve a card even when the board has no gold left.")
     @Test
     void testPlayerReserveCard_ValidNoGold() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        SplendorBoard board = game.getBoardState();
-
         HashMap<TokenType, Integer> goldsToRemove = new HashMap<>();
         goldsToRemove.put(TokenType.Gold, 5);
-        board.removeTokens(goldsToRemove);
+        game.removeTokens(goldsToRemove);
 
         ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
 
@@ -360,15 +358,14 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot reserve a card when they have reached the limit.")
     @Test
     void testPlayerReserveCard_Invalid() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        SplendorBoard board = game.getBoardState();
-        RegDevelopmentCard c1 = (RegDevelopmentCard) board.getCardFromId("01");
-        RegDevelopmentCard c2 = (RegDevelopmentCard) board.getCardFromId("02");
-        RegDevelopmentCard c3 = (RegDevelopmentCard) board.getCardFromId("03");
+        RegDevelopmentCard c1 = (RegDevelopmentCard) game.getCardFromId("01");
+        RegDevelopmentCard c2 = (RegDevelopmentCard) game.getCardFromId("02");
+        RegDevelopmentCard c3 = (RegDevelopmentCard) game.getCardFromId("03");
 
         p1.reserveCard(c1);
         p1.reserveCard(c2);
@@ -384,7 +381,7 @@ public class ActionsTests {
     @DisplayName("Ensure ChooseNoble action is triggered when player qualifies for 2+ nobles.")
     @Test
     void testPlayerChooseNoble_QualifiesForTwo() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -414,7 +411,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can choose noble when prompted.")
     @Test
     void testPlayerChooseNoble_ValidChooseCard() throws FileNotFoundException {
-        SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -433,8 +430,7 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToTake = new HashMap<>();
         tokensToTake.put(TokenType.Brown, 1);
 
-        SplendorBoard board = game.getBoardState();
-        NobleCard c1 = (NobleCard) board.getCardFromId("98");
+        NobleCard c1 = (NobleCard) game.getCardFromId("98");
         ArrayList<NobleCard> nobleCards = new ArrayList<>();
         nobleCards.add(c1);
 

@@ -1,0 +1,273 @@
+package ca.hexanome04.splendorgame.model.gameversions;
+
+import static ca.hexanome04.splendorgame.model.TokenType.*;
+
+import ca.hexanome04.splendorgame.model.*;
+import ca.hexanome04.splendorgame.model.action.Action;
+import ca.hexanome04.splendorgame.model.action.ActionResult;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
+/**
+ * Class that represents the current state of a base game + orient game.
+ */
+public class GameBaseOrient extends Game {
+
+    //final Logger logger = LoggerFactory.getLogger(GameBaseOrient.class);
+
+    private Deck<NobleCard> nobleDeck;
+
+    /**
+     * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
+     *
+     * @param prestigePointsToWin The amount of prestige points needed to win the game.
+     * @param players             The player order in the game.
+     * @param turnCounter         The turn id associated with the player.
+     * @param is                  Input stream for file.
+     * @throws FileNotFoundException If file is not found.
+     */
+    public GameBaseOrient(int prestigePointsToWin, List<Player> players, int turnCounter, InputStream is)
+            throws FileNotFoundException {
+        super(prestigePointsToWin, players, turnCounter, is);
+    }
+
+    /**
+     * Constructor for the splendorBoard, initializes all the decks with cards from a file.
+     *
+     * @param inputStream input stream for cards csv
+     */
+    public void createSplendorBoard(InputStream inputStream) {
+        String line = "";
+
+        nobleDeck = new Deck<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
+            TokenType[] types = {White, Blue, Green, Red, Brown};
+            int lines = 1;
+            while ((line = br.readLine()) != null) {
+                if (lines == 1) {
+                    // skip first line (headers)
+                    lines++;
+                    continue;
+                }
+
+                String[] card = line.split(",");
+                String[] cost = card[4].split(";");
+                HashMap<TokenType, Integer> tokenCost = new HashMap<>();
+                for (TokenType tokenType : TokenType.values()) {
+                    tokenCost.put(tokenType, 0);
+                }
+
+                for (int i = 0; i <= 4; i++) {
+                    if (!cost[i].equals("0")) {
+                        tokenCost.put(types[i], Integer.parseInt(cost[i]));
+                    }
+                }
+
+                int prestigePoints = Integer.parseInt(card[2]);
+                TokenType tokenType = null;
+                int bonusCount = Integer.parseInt(card[1]);
+                CostType costType = Enum.valueOf(CostType.class, card[3]);
+                if (!card[0].isBlank()) {
+                    tokenType = Enum.valueOf(TokenType.class, card[0]);
+                }
+
+                String cardId = card[6];
+
+                switch (card[5]) {
+                    case "1" -> {
+                        tier1Deck.add(new RegDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
+                                prestigePoints, costType, tokenCost, cardId));
+                    }
+                    case "2" -> {
+                        tier2Deck.add(new RegDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
+                                prestigePoints, costType, tokenCost, cardId));
+                    }
+                    case "3" -> {
+                        tier3Deck.add(new RegDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
+                                prestigePoints, costType, tokenCost, cardId));
+                    }
+                    case "N" -> {
+                        nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardId));
+                    }
+                    default -> throw new Exception("File not in proper format");
+                }
+
+                lines++;
+            }
+        } catch (Exception e) {
+            //logger.error("Could not read file"); // Testing
+        }
+    }
+
+    /**
+     * Initialize state of the board (cards, nobles, tokens).
+     */
+    public void initBoard() {
+        tier1Deck.shuffle();
+        tier2Deck.shuffle();
+        tier3Deck.shuffle();
+
+        tier1Deck.drawCards(4);
+        tier2Deck.drawCards(4);
+        tier3Deck.drawCards(4);
+
+        nobleDeck.shuffle();
+        nobleDeck.drawCards(players.size() + 1);
+
+        // Now initialize tokens
+        int numTokens;
+
+        switch (players.size()) {
+            case 2 -> numTokens = 4;
+            case 3 -> numTokens = 5;
+            case 4 -> numTokens = 7;
+            default -> {
+                numTokens = 0;
+                //logger.error("Invalid number of players."); // Testing
+            }
+        }
+
+        for (TokenType tokenType : TokenType.values()) {
+            tokens.put(tokenType, numTokens);
+        }
+
+        tokens.put(Satchel, 0);
+        tokens.put(Gold, 5);
+    }
+
+    /**
+     * Retrieve a card from the decks within the board.
+     *
+     * @param id card id
+     * @return card from the board (could be null, if doesn't exist)
+     */
+    public Card getCardFromId(String id) {
+        // look through all the decks
+        Card card = null;
+        for (Card c : this.tier1Deck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        for (Card c : this.tier2Deck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        for (Card c : this.tier3Deck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        for (Card c : this.nobleDeck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        return card;
+    }
+
+    /**
+     * Take a card from whichever deck it resides in.
+     *
+     * @param card card to take from the board
+     * @return card taken successfully
+     */
+    public boolean takeCard(Card card) {
+
+        Card takenCard = null;
+
+        if (card instanceof RegDevelopmentCard rdcard) {
+            takenCard = this.tier1Deck.take(rdcard);
+
+            if (takenCard == null) {
+                takenCard = this.tier2Deck.take(rdcard);
+            }
+
+            if (takenCard == null) {
+                takenCard = this.tier3Deck.take(rdcard);
+            }
+        } else if (card instanceof NobleCard nbcard) {
+            takenCard = this.nobleDeck.take(nbcard);
+        }
+
+        return takenCard != null;
+    }
+
+    /**
+     * Check if player has the right bonuses to qualify for any nobles.
+     *
+     * @param player Player to check
+     * @return List of nobles player qualifies for
+     */
+    public ArrayList<NobleCard> qualifiesForNoble(Player player) {
+        ArrayList<NobleCard> noblesQualifiedFor = new ArrayList<>();
+
+        for (NobleCard noble : nobleDeck.getVisibleCards()) {
+            int notEnoughBonusesCounter = 0;
+
+            for (TokenType tokenType : noble.getTokenCost().keySet()) {
+                // subtract player's bonuses of this TokenType from noble card cost
+                int bonusRemaining = noble.getTokenCost().get(tokenType) - player.getBonuses().get(tokenType);
+                if (bonusRemaining > 0) {
+                    notEnoughBonusesCounter++;
+                }
+            }
+
+            if (notEnoughBonusesCounter == 0) {
+                noblesQualifiedFor.add(noble);
+            }
+        }
+
+        return noblesQualifiedFor;
+    }
+
+    /**
+     * Allows player to perform an action.
+     *
+     * @param playerName player performing action
+     * @param action     action being executed
+     * @return result of action execution
+     */
+    public ActionResult takeAction(String playerName, Action action) {
+
+        if (players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
+            return ActionResult.INVALID_PLAYER;
+        }
+
+        Player p = this.getPlayerFromName(playerName);
+
+        ActionResult ar = action.execute(this, p);
+
+        // Check if player qualifies for noble card at end of turn
+        ArrayList<NobleCard> nobleCards = qualifiesForNoble(p);
+        if (nobleCards.size() != 0) {
+            if (nobleCards.size() == 1) {
+                NobleCard noble = nobleCards.get(0);
+                takeCard(noble);
+                p.addNoble(noble);
+            } else {
+                // don't increment turn if player must choose noble
+                ar = ActionResult.MUST_CHOOSE_NOBLE;
+            }
+        }
+
+        if (ar == ActionResult.VALID_ACTION) {
+            // success and valid action
+            this.incrementTurn();
+        }
+
+        return ar;
+    }
+
+
+}
