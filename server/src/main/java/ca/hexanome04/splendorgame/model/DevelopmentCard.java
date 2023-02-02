@@ -62,57 +62,8 @@ public abstract class DevelopmentCard extends Card {
 
         ActionResult result = ActionResult.VALID_ACTION;
 
-        // remove card cost (if token) from player
-        if (this.getCostType() == CostType.Token) {
-            // make hashmap with each TokenType set to 0 to initialize other hashmaps
-            HashMap<TokenType, Integer> emptyHashmap = new HashMap<>();
-            for (TokenType t : TokenType.values()) {
-                emptyHashmap.put(t, 0);
-            }
-
-            // keep track of how many tokens still need to be paid
-            HashMap<TokenType, Integer> tokensLeftToPay = this.getTokenCost();
-
-            for (Map.Entry<TokenType, Integer> currTokenAndPrice : this.getTokenCost().entrySet()) {
-                TokenType currentToken = currTokenAndPrice.getKey();
-
-                if (this.getTokenCost().get(currentToken) == 0) {
-                    continue;
-                }
-
-                // remove bonuses from cost (e.g. tokensLeftToPay -= bonus)
-                tokensLeftToPay.put(currentToken, tokensLeftToPay.get(currentToken) - p.getBonuses().get(currentToken));
-
-                int tokenToPayWithValue = tokensToPayWith.get(currentToken) == null ? 0 : tokensToPayWith.get(currentToken);
-                // make sure player has enough tokens to pay
-                int tokensUnderpaid = tokensLeftToPay.get(currentToken) - tokenToPayWithValue;
-                if (tokensUnderpaid > 0) {
-                    // check for gold if they didn't pay full price in normal tokens
-                    if (tokensToPayWith.get(TokenType.Gold) != null
-                            && tokensToPayWith.get(TokenType.Gold) >= tokensUnderpaid) {
-                        tokensLeftToPay.put(currentToken, tokensLeftToPay.get(currentToken) - tokensUnderpaid);
-
-                        HashMap<TokenType, Integer> tokensToRemoveFromPlayer = new HashMap<>(emptyHashmap);
-                        tokensToRemoveFromPlayer.put(TokenType.Gold, tokensUnderpaid);
-
-                        tokensToRemoveFromPlayer.put(currentToken, tokensLeftToPay.get(currentToken));
-                        tokensLeftToPay.put(currentToken, tokensLeftToPay.get(currentToken)
-                                - tokenToPayWithValue);
-
-                        p.removeTokens(tokensToRemoveFromPlayer);
-                    } else {
-                        return ActionResult.INVALID_TOKENS_GIVEN;
-                    }
-                } else {
-                    HashMap<TokenType, Integer> tokensToRemoveFromPlayer = new HashMap<>(emptyHashmap);
-                    tokensToRemoveFromPlayer.put(currentToken, tokensLeftToPay.get(currentToken));
-
-                    tokensLeftToPay.put(currentToken, tokensLeftToPay.get(currentToken)
-                            - tokensToPayWith.get(currentToken));
-
-                    p.removeTokens(tokensToRemoveFromPlayer);
-                }
-            }
+        if (!isPurchasable(p, tokensToPayWith)) {
+            result = ActionResult.INVALID_TOKENS_GIVEN;
         }
 
         p.addCard(this);

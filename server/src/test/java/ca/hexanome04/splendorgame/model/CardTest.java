@@ -197,7 +197,8 @@ public class CardTest {
      *
      * @throws FileNotFoundException Throws exception if loading from file fails
      */
-    @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with gold tokens.")
+    @DisplayName("Ensure isPurchasable correctly checks if player can't purchase a card if they're missing" +
+            " an odd amount of tokens with double gold tokens from orient.")
     @Test
     public void testIsPurchasableDoubleGoldTokensOddAmt() throws FileNotFoundException {
         SplendorGame game = GameUtils.createNewGameFromFile(15, 4);
