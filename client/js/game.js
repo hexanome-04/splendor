@@ -155,14 +155,14 @@ const updateGameboard = async () => {
     const data = await resp.json();
 
     // tokens update
-    const tokenMap = data.boardState.tokens;
+    const tokenMap = data.tokens;
     updateTokensCount("#board .board-tokens", tokenMap);
 
-    updateNoblesBoard(data.boardState.nobleDeck.visibleCards);
+    updateNoblesBoard(data.nobleDeck.visibleCards);
 
-    updateTierRow(".board-cards-row.board-cards-level1", data.boardState.tier1Deck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level2", data.boardState.tier2Deck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level3", data.boardState.tier3Deck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards);
 
     const curUsername = SETTINGS.getUsername();
 
