@@ -41,13 +41,13 @@ function setupSelectionCards(selector) {
  * @returns [{ token: count }]
  */
 const getPaymentTokensList = () => {
-    const tokensCountNodes = document.querySelectorAll("#dev-card-payment-modal .token-count-outer-container .count");
+    const tokensCountNodes = document.querySelectorAll("#dev-card-payment-modal board-token-counter board-token .board-token");
 
     const tokens = {};
 
     tokensCountNodes.forEach(node => {
-        const tokenType = node.parentNode.getAttribute("jewel-color");
-        const count = parseInt(node.textContent);
+        const tokenType = node.getAttribute("jewel-color");
+        const count = node.parentNode.count;
 
         tokens[tokenType] = count;
     });
