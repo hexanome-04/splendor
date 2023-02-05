@@ -46,10 +46,6 @@ public class BuyCardAction extends Action {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
 
-        if (!dc.isPurchasable(player, selectedTokens)) {
-            return ActionResult.INVALID_TOKENS_GIVEN;
-        }
-
         // no error handling
         ActionResult result = dc.buyCard(player, game, selectedTokens); // will remove tokens from inventory here too
 

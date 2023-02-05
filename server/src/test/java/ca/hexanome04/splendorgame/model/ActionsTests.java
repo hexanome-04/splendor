@@ -168,6 +168,22 @@ public class ActionsTests {
         assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
     }
 
+    @DisplayName("Ensure players cannot buy a card when providing zero tokens.")
+    @Test
+    void testPlayerBuyCard_ZeroTokensGiven() throws FileNotFoundException {
+        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+
+        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+    }
+
     @DisplayName("Ensure players can take two of same token in one turn.")
     @Test
     void testPlayerTakeTokens_ValidDoubleToken() throws FileNotFoundException {

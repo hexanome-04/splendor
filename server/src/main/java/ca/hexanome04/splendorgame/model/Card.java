@@ -114,19 +114,17 @@ public abstract class Card {
                 }
             }
 
-            if (tokens.get(TokenType.Gold) == null) {
-                if (missingTokenCount > 0) {
-                    if ((missingTokenCount - bonuses.get(TokenType.Gold)) % 2 != 0) {
-                        purchasable = false;
-                    }
-                }
+            if (tokens.get(TokenType.Gold) != null) {
+                missingTokenCount -= tokens.get(TokenType.Gold);
+            }
+
+            if (bonuses.get(TokenType.Gold) < missingTokenCount || missingTokenCount % 2 != 0) {
+                purchasable = false;
+
             } else {
-                if (missingTokenCount > tokens.get(TokenType.Gold)) {
-                    missingTokenCount -= tokens.get(TokenType.Gold);
-                    if (missingTokenCount > 0 && ((missingTokenCount - bonuses.get(TokenType.Gold)) % 2 != 0)) {
-                        purchasable = false;
-                    }
-                }
+                HashMap<TokenType, Integer> toRemove = new HashMap<>();
+                toRemove.put(TokenType.Gold, missingTokenCount);
+                player.removeBonuses(toRemove);
             }
 
         } else if (this.costType == CostType.Bonus) {
