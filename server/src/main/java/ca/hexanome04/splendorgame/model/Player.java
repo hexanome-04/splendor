@@ -20,6 +20,7 @@ public class Player {
     private ArrayList<NobleCard> nobleCards;
     private ArrayList<DevelopmentCard> reservedCards;
     private ArrayList<NobleCard> reservedNobles;
+    private int coatsOfArms;
 
     /**
      * Creates a Player object with a given name and colour.
@@ -37,6 +38,7 @@ public class Player {
         reservedCards = new ArrayList<>();
         reservedNobles = new ArrayList<>();
         nobleCards = new ArrayList<>();
+        coatsOfArms = 5;
 
         for (TokenType tokenType : TokenType.values()) {
             tokens.put(tokenType, 0);
