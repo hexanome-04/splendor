@@ -1,6 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
-import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ public class PlayerTest {
     @DisplayName("Ensure players correctly store and retrieve tokens.")
     @Test
     void testPlayerGetTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -46,7 +46,7 @@ public class PlayerTest {
     @DisplayName("Ensure player names can be set and retrieved.")
     @Test
     void testPlayerGetName() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -59,7 +59,7 @@ public class PlayerTest {
     @DisplayName("Ensure player colour can be set and retrieved.")
     @Test
     void testPlayerGetColour() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -72,7 +72,7 @@ public class PlayerTest {
     @DisplayName("Ensure reserved cards can be retrieved.")
     @Test
     void testPlayerReserveCard() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -100,7 +100,7 @@ public class PlayerTest {
     @DisplayName("Ensure players correctly store and retrieve tokens.")
     @Test
     void testPlayerTakeTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");

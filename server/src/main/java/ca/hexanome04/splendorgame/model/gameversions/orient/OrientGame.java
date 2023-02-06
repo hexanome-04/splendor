@@ -1,10 +1,11 @@
-package ca.hexanome04.splendorgame.model.gameversions;
+package ca.hexanome04.splendorgame.model.gameversions.orient;
 
 import static ca.hexanome04.splendorgame.model.TokenType.*;
 
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.gameversions.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Class that represents the current state of a base game + orient game.
  */
-public class GameBaseOrient extends Game {
+public class OrientGame extends Game {
 
     //final Logger logger = LoggerFactory.getLogger(GameBaseOrient.class);
 
@@ -31,14 +32,10 @@ public class GameBaseOrient extends Game {
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
      *
      * @param prestigePointsToWin The amount of prestige points needed to win the game.
-     * @param players             The player order in the game.
      * @param turnCounter         The turn id associated with the player.
-     * @param is                  Input stream for file.
-     * @throws FileNotFoundException If file is not found.
      */
-    public GameBaseOrient(int prestigePointsToWin, List<Player> players, int turnCounter, InputStream is)
-            throws FileNotFoundException {
-        super(prestigePointsToWin, players, turnCounter, is);
+    public OrientGame(int prestigePointsToWin, int turnCounter) {
+        super(prestigePointsToWin, turnCounter);
     }
 
     /**
@@ -334,6 +331,21 @@ public class GameBaseOrient extends Game {
         }
 
         return ar;
+    }
+
+    @Override
+    public Player createPlayer(String name, String colour) {
+        return new OrientPlayer(name, colour);
+    }
+
+    @Override
+    public boolean canPlayerWin(Player player) {
+        return false;
+    }
+
+    @Override
+    public List<Player> getPlayersWhoCanWin() {
+        return null;
     }
 
 

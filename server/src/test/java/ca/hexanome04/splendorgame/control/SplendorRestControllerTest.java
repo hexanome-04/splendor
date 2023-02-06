@@ -38,23 +38,19 @@ public class SplendorRestControllerTest {
     @Autowired
     SplendorRestController restController;
 
-    List<Player> testPlayers = new ArrayList<>();
     List<PlayerInfo> testPlayerInfos = new ArrayList<>();
     final String gameServiceName = "gamename";
     final String testGameSessionId = "testgameId";
 
     @BeforeEach
     void setup() throws Exception {
-        testPlayers.add(new Player("p1", "c1"));
-        testPlayers.add(new Player("p2", "c2"));
-
         testPlayerInfos.add(new PlayerInfo("p1", "c1"));
         testPlayerInfos.add(new PlayerInfo("p2", "c2"));
 
         sessionManager = new SessionManager();
         restController = new SplendorRestController(sessionManager, auth, gameServiceName);
 
-        sessionManager.addSession(testGameSessionId, (ArrayList<Player>) testPlayers, "p1", "", BASE_ORIENT);
+        sessionManager.addSession(testGameSessionId, testPlayerInfos, "p1", "", BASE_ORIENT);
     }
 
     /**
@@ -64,7 +60,7 @@ public class SplendorRestControllerTest {
     @DisplayName("Verify that the session launches")
     public void testLaunchSession() {
         String sessionId = "random";
-        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayers.get(0).getName(), "");
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayerInfos.get(0).name(), "");
 
         assertThat(restController.launchSession(sessionId, launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -84,7 +80,7 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that the session launch fails when missing game service name in launch session info")
     public void testLaunchSessionNoGameServiceNameLaunchInfoFail() {
-        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(null, testPlayerInfos, testPlayers.get(0).getName(), "");
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(null, testPlayerInfos, testPlayerInfos.get(0).name(), "");
 
         assertThat(restController.launchSession("sid", launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -95,7 +91,7 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that the session launch fails when game service is not valid in launch session info")
     public void testLaunchSessionInvalidGameServiceLaunchInfoFail() {
-        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo("asdasdas", testPlayerInfos, testPlayers.get(0).getName(), "");
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo("asdasdas", testPlayerInfos, testPlayerInfos.get(0).name(), "");
 
         assertThat(restController.launchSession("sid", launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -106,9 +102,9 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that the session launch fails when a session id already exists")
     public void testLaunchSessionDuplicateSessionIdFail() throws Exception {
-        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayers.get(0).getName(), "");
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayerInfos.get(0).name(), "");
 
-        sessionManager.addSession("sid", (ArrayList<Player>) testPlayers, "p1", "ssss", BASE_ORIENT);
+        sessionManager.addSession("sid", testPlayerInfos, "p1", "ssss", BASE_ORIENT);
         assertThat(restController.launchSession("sid", launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 

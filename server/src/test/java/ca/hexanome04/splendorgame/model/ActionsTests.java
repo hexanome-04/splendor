@@ -1,6 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
-import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.actions.BuyCardAction;
 import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
@@ -27,7 +27,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot buy a card with insufficient tokens in their inventory.")
     @Test
     void testPlayerBuyCard_InsufficientTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -44,7 +44,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card when sufficient tokens provided.")
     @Test
     void testPlayerBuyCard_SufficientTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -63,7 +63,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using normal and gold tokens.")
     @Test
     void testPlayerBuyCard_UseGold() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -88,7 +88,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses.")
     @Test
     void testPlayerBuyCard_UseBonus() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -111,7 +111,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and gold tokens.")
     @Test
     void testPlayerBuyCard_UseBonusAndGold() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -134,7 +134,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
     @Test
     void testPlayerBuyCard_UseBonusAndDoubleGoldTokensOnly() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -153,7 +153,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
     @Test
     void testPlayerBuyCard_DoubleGoldTokensOnly() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -171,7 +171,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot buy a card when providing zero tokens.")
     @Test
     void testPlayerBuyCard_ZeroTokensGiven() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -187,7 +187,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take two of same token in one turn.")
     @Test
     void testPlayerTakeTokens_ValidDoubleToken() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -209,7 +209,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take three unique tokens in one turn.")
     @Test
     void testPlayerTakeTokens_ValidThreeUniqueTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -233,7 +233,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can take and put back tokens, remaining under 10 tokens in inventory")
     @Test
     void testPlayerTakeTokens_ValidPlayerTakeAndPutBack() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -262,7 +262,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot have more than 10 tokens.")
     @Test
     void testPlayerTakeTokens_InvalidPlayerMaxTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -288,7 +288,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot take more than 2 of the same token per turn (without Trade Routes power).")
     @Test
     void testPlayerTakeTokens_InvalidThreeOfSameToken() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -312,7 +312,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot take more than 3 unique tokens per turn.")
     @Test
     void testPlayerTakeTokens_InvalidFourUniqueTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -340,7 +340,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can reserve a card when they have not reached the limit.")
     @Test
     void testPlayerReserveCard_Valid() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -355,7 +355,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can reserve a card even when the board has no gold left.")
     @Test
     void testPlayerReserveCard_ValidNoGold() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -374,7 +374,7 @@ public class ActionsTests {
     @DisplayName("Ensure players cannot reserve a card when they have reached the limit.")
     @Test
     void testPlayerReserveCard_Invalid() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -397,7 +397,7 @@ public class ActionsTests {
     @DisplayName("Ensure ChooseNoble action is triggered when player qualifies for 2+ nobles.")
     @Test
     void testPlayerChooseNoble_QualifiesForTwo() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -427,7 +427,7 @@ public class ActionsTests {
     @DisplayName("Ensure players can choose noble when prompted.")
     @Test
     void testPlayerChooseNoble_ValidChooseCard() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");

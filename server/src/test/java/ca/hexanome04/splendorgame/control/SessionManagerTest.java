@@ -3,8 +3,7 @@ package ca.hexanome04.splendorgame.control;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.*;
-
-import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.control.templates.*;
 import ca.hexanome04.splendorgame.model.GameSession;
 import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
@@ -18,8 +17,8 @@ public class SessionManagerTest {
 
     private final SessionManager dummySessionManager = new SessionManager();
     private final String dummyID = "id";
-    private final Player p1 = new Player("p1", "red");
-    private final Player p2 = new Player("p2", "blue");
+    private final PlayerInfo p1 = new PlayerInfo("p1", "red");
+    private final PlayerInfo p2 = new PlayerInfo("p2", "blue");
 
     /**
      * Verify add session.
@@ -29,7 +28,7 @@ public class SessionManagerTest {
     @Test
     @DisplayName("Verify add session")
     public void testAddSession() throws Exception {
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<PlayerInfo> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
         GameSession game1 = dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
@@ -57,7 +56,7 @@ public class SessionManagerTest {
         assertNull(dummySessionManager.getGameSession("wrongID"));
 
         // Session found
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<PlayerInfo> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
         dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);

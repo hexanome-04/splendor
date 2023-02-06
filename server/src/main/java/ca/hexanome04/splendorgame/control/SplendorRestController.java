@@ -3,9 +3,7 @@ package ca.hexanome04.splendorgame.control;
 import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
 
 import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
-import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.Player;
-import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
@@ -13,8 +11,6 @@ import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,23 +85,8 @@ public class SplendorRestController {
             }
 
             // Looks good, lets create the game
-            ArrayList<Player> playerList = new ArrayList<>();
-            for (PlayerInfo p : launchSessionInfo.players()) {
-                HashMap<TokenType, Integer> defaultTokens = new HashMap<>();
-
-                defaultTokens.put(TokenType.Green, 3);
-                defaultTokens.put(TokenType.White, 3);
-                defaultTokens.put(TokenType.Blue, 3);
-                defaultTokens.put(TokenType.Brown, 3);
-                defaultTokens.put(TokenType.Red, 3);
-
-                Player newPlayer = new Player(p.name(), p.colour());
-
-                newPlayer.addTokens(defaultTokens);
-                playerList.add(newPlayer);
-            }
-            sessionManager.addSession(sessionId, playerList, launchSessionInfo.creator(), launchSessionInfo.savegame(),
-                    BASE_ORIENT);
+            sessionManager.addSession(sessionId, launchSessionInfo.players(), launchSessionInfo.creator(),
+                    launchSessionInfo.savegame(), BASE_ORIENT);
             logger.info("Launched new game session: " + sessionId);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {

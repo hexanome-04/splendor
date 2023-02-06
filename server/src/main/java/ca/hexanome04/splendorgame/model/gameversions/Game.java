@@ -36,26 +36,20 @@ public abstract class Game {
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
      *
      * @param prestigePointsToWin       The amount of prestige points needed to win the game.
-     * @param players                   The player order in the game.
      * @param turnCounter               The turn id associated with the player.
-     * @param is                        Input stream for file.
-     * @throws FileNotFoundException    If file is not found.
      */
-    public Game(int prestigePointsToWin, List<Player> players, int turnCounter, InputStream is)
-            throws FileNotFoundException {
+    public Game(int prestigePointsToWin, int turnCounter) {
         this.prestigePointsToWin = prestigePointsToWin;
-        this.players.addAll(players);
         this.turnCounter = turnCounter;
-        createSplendorBoard(is);
-        initBoard();
     }
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
      *
      * @param inputStream input stream for cards csv
+     * @throws FileNotFoundException If file is not found.
      */
-    public abstract void createSplendorBoard(InputStream inputStream);
+    public abstract void createSplendorBoard(InputStream inputStream) throws FileNotFoundException;
 
     /**
      * Initialize state of the board (cards, nobles, tokens).
@@ -204,6 +198,15 @@ public abstract class Game {
     }
 
     /**
+     * Set the players in the game.
+     *
+     * @param players list players to be added to game
+     */
+    public void setPlayers(List<Player> players) {
+        this.players.addAll(players);
+    }
+
+    /**
      * Retrieve all players in this game.
      *
      * @return list of all players in this game
@@ -221,5 +224,28 @@ public abstract class Game {
      */
     public abstract ActionResult takeAction(String playerName, Action action);
 
+    /**
+     * Create an instance of player for this game version.
+     *
+     * @param name player name
+     * @param colour player color
+     * @return player instance
+     */
+    public abstract Player createPlayer(String name, String colour);
+
+    /**
+     * Check if the given player can win this round.
+     *
+     * @param player player to check
+     * @return true if qualifies to win
+     */
+    public abstract boolean canPlayerWin(Player player);
+
+    /**
+     * List of players that quality to win this round.
+     *
+     * @return list of players that qualify to win
+     */
+    public abstract List<Player> getPlayersWhoCanWin();
 
 }

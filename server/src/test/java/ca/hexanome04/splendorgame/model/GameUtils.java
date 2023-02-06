@@ -1,6 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
-import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
+import ca.hexanome04.splendorgame.model.gameversions.orient.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
@@ -25,7 +25,7 @@ public class GameUtils {
      * @return a game instance of splendor
      * @throws FileNotFoundException if file does not exist
      */
-    public static GameBaseOrient createNewGameFromFile(int prestigePointsToWin, int numberOfPlayers) throws FileNotFoundException {
+    public static OrientGame createNewOrientGameFromFile(int prestigePointsToWin, int numberOfPlayers) throws FileNotFoundException {
         // get the test board file
         String filename = "";
         File file = ResourceUtils.getFile("classpath:testBoard.csv");
@@ -33,10 +33,16 @@ public class GameUtils {
 
         ArrayList<Player> players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            players.add(new Player("Player" + (i + 1), "Colour" + (i + 1)));
+            players.add(new OrientPlayer("Player" + (i + 1), "Colour" + (i + 1)));
         }
 
-        return new GameBaseOrient(prestigePointsToWin, players, 0, new FileInputStream(filename));
+        OrientGame game = new OrientGame(prestigePointsToWin, 0);
+
+        game.setPlayers(players);
+        game.createSplendorBoard(new FileInputStream(filename));
+        game.initBoard();
+
+        return game;
     }
 
 }

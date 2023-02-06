@@ -6,7 +6,7 @@ import java.util.HashMap;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.hexanome04.splendorgame.model.gameversions.GameBaseOrient;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -122,7 +122,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card.")
     @Test
     public void testIsPurchasable() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -144,7 +144,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with gold tokens.")
     @Test
     public void testIsPurchasableGoldTokens() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -166,7 +166,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with double gold tokens from orient.")
     @Test
     public void testIsPurchasableDoubleGoldToken() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -190,7 +190,7 @@ public class CardTest {
             " an odd amount of tokens with double gold tokens from orient.")
     @Test
     public void testIsPurchasableDoubleGoldTokensOddAmt() throws FileNotFoundException {
-        GameBaseOrient game = GameUtils.createNewGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
