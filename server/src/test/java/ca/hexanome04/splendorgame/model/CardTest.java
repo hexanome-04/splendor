@@ -64,7 +64,6 @@ public class CardTest {
                 put(TokenType.Brown, 1);
                 put(TokenType.Red, 1);
             }},
-            new HashMap<>(),
             "234"
     );
 
@@ -113,15 +112,6 @@ public class CardTest {
     @Test
     public void testGetCascadeType() {
         assertEquals(dummyOrient.getCascadeType(), CascadeType.Tier1);
-    }
-
-    /**
-     * Test the getBurnBonuses method for OrientDevelopmentCard.
-     */
-    @DisplayName("Test the getBurnBonuses method for OrientDevelopmentCard.")
-    @Test
-    public void testGetBurnBonusCost() {
-        assertEquals(dummyOrient.getBurnBonusCost(), new HashMap<>());
     }
 
     /**

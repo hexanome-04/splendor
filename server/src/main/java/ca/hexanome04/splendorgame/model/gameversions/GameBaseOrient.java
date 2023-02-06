@@ -20,6 +20,12 @@ public class GameBaseOrient extends Game {
     //final Logger logger = LoggerFactory.getLogger(GameBaseOrient.class);
 
     private Deck<NobleCard> nobleDeck;
+    /** Tier 1 Orient deck. */
+    protected Deck<OrientDevelopmentCard> tier1OrientDeck;
+    /** Tier 2 Orient deck. */
+    protected Deck<OrientDevelopmentCard> tier2OrientDeck;
+    /** Tier 3 Orient deck. */
+    protected Deck<OrientDevelopmentCard> tier3OrientDeck;
 
     /**
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
@@ -44,6 +50,9 @@ public class GameBaseOrient extends Game {
         String line = "";
 
         nobleDeck = new Deck<>();
+        tier1OrientDeck = new Deck<>();
+        tier2OrientDeck = new Deck<>();
+        tier3OrientDeck = new Deck<>();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             TokenType[] types = {White, Blue, Green, Red, Brown};
@@ -79,21 +88,43 @@ public class GameBaseOrient extends Game {
                 String cardId = card[6];
 
                 switch (card[5]) {
-                    case "1" -> {
-                        tier1Deck.add(new RegDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardId));
+                    case "1" -> tier1Deck.add(new RegDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
+                            prestigePoints, costType, tokenCost, cardId));
+
+                    case "2" -> tier2Deck.add(new RegDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
+                            prestigePoints, costType, tokenCost, cardId));
+
+                    case "3" -> tier3Deck.add(new RegDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
+                            prestigePoints, costType, tokenCost, cardId));
+
+                    case "N" -> nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardId));
+
+                    case "O1" -> tier1OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
+                            CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+
+                    case "O2" -> {
+                        if (!card[7].isBlank()) {
+                            tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
+                                    CascadeType.Tier1, false, prestigePoints, costType, tokenCost, cardId));
+                        } else if (!card[8].isBlank()) {
+                            tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
+                                    CascadeType.None, true, prestigePoints, costType, tokenCost, cardId));
+                        } else {
+                            tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
+                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+                        }
                     }
-                    case "2" -> {
-                        tier2Deck.add(new RegDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardId));
+
+                    case "O3" -> {
+                        if (!card[7].isBlank()) {
+                            tier3OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
+                                    CascadeType.Tier2, false, prestigePoints, costType, tokenCost, cardId));
+                        } else {
+                            tier3OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
+                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+                        }
                     }
-                    case "3" -> {
-                        tier3Deck.add(new RegDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
-                                prestigePoints, costType, tokenCost, cardId));
-                    }
-                    case "N" -> {
-                        nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardId));
-                    }
+
                     default -> throw new Exception("File not in proper format");
                 }
 
@@ -111,10 +142,16 @@ public class GameBaseOrient extends Game {
         tier1Deck.shuffle();
         tier2Deck.shuffle();
         tier3Deck.shuffle();
+        tier1OrientDeck.shuffle();
+        tier2OrientDeck.shuffle();
+        tier3OrientDeck.shuffle();
 
         tier1Deck.drawCards(4);
         tier2Deck.drawCards(4);
         tier3Deck.drawCards(4);
+        tier1OrientDeck.drawCards(4);
+        tier2OrientDeck.drawCards(4);
+        tier3OrientDeck.drawCards(4);
 
         nobleDeck.shuffle();
         nobleDeck.drawCards(players.size() + 1);
@@ -167,6 +204,24 @@ public class GameBaseOrient extends Game {
             }
         }
 
+        for (Card c : this.tier1OrientDeck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        for (Card c : this.tier2OrientDeck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
+        for (Card c : this.tier3OrientDeck.getVisibleCards()) {
+            if (c.getId().equals(id)) {
+                card = c;
+            }
+        }
+
         for (Card c : this.nobleDeck.getVisibleCards()) {
             if (c.getId().equals(id)) {
                 card = c;
@@ -196,6 +251,18 @@ public class GameBaseOrient extends Game {
             if (takenCard == null) {
                 takenCard = this.tier3Deck.take(rdcard);
             }
+
+        } else if (card instanceof OrientDevelopmentCard ordcard) {
+            takenCard = this.tier1OrientDeck.take(ordcard);
+
+            if (takenCard == null) {
+                takenCard = this.tier2OrientDeck.take(ordcard);
+            }
+
+            if (takenCard == null) {
+                takenCard = this.tier3OrientDeck.take(ordcard);
+            }
+
         } else if (card instanceof NobleCard nbcard) {
             takenCard = this.nobleDeck.take(nbcard);
         }

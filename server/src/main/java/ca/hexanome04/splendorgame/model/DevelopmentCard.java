@@ -79,7 +79,7 @@ public abstract class DevelopmentCard extends Card {
         if (this.getClass().equals(OrientDevelopmentCard.class)) {
             OrientDevelopmentCard orientCard = (OrientDevelopmentCard) this;
             if (orientCard.getCostType() == CostType.Bonus) {
-                p.removeBonuses(orientCard.getBurnBonusCost());
+                p.removeBonuses(orientCard.getTokenCost());
             }
             if (orientCard.getReserveNoble()) {
                 result = ActionResult.MUST_RESERVE_NOBLE;

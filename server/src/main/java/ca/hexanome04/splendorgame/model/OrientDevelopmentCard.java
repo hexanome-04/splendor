@@ -9,8 +9,6 @@ public class OrientDevelopmentCard extends DevelopmentCard {
 
     private final boolean reserveNoble;
     private CascadeType cascadeType;
-    private final HashMap<TokenType, Integer> burnBonusCost;
-
 
     /**
      * Creates an orient development card by calling super on the abstract development card class.
@@ -21,18 +19,15 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param reserveNoble   Whether this development card allows you to reserve a noble.
      * @param prestigePoints The number of prestige points associated with this card.
      * @param costType       Whether this card has a cost of tokens or burning bonuses.
-     * @param tokenCost      The token cost of this card (if applicable).
-     * @param burnBonusCost  The bonus burning of this card (if applicable).
+     * @param tokenCost      The token cost of this card
      * @param id             ID associated to this card.
      * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
-                                 int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost,
-                                 HashMap<TokenType, Integer> burnBonusCost, String id) {
+                                 int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
         super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, id);
         this.reserveNoble = reserveNoble;
         this.cascadeType = cascadeType;
-        this.burnBonusCost = burnBonusCost;
     }
 
     /**
@@ -60,15 +55,6 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      */
     public CascadeType getCascadeType() {
         return cascadeType;
-    }
-
-    /**
-     * Get the cost for cards that require burning bonuses for purchase.
-     *
-     * @return The bonuses that must be burned.
-     */
-    public HashMap<TokenType, Integer> getBurnBonusCost() {
-        return new HashMap<TokenType, Integer>(burnBonusCost);
     }
 
     /**
