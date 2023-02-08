@@ -24,4 +24,14 @@ public enum Actions {
      * Choose noble action.
      */
     CHOOSE_NOBLE,
+
+    /**
+     * Choose noble action.
+     */
+    CASCADE,
+
+    /**
+     * Reserve noble action.
+     */
+    RESERVE_NOBLE,
 }

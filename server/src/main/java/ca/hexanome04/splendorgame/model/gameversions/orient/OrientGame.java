@@ -276,7 +276,12 @@ public class OrientGame extends Game {
     public ArrayList<NobleCard> qualifiesForNoble(Player player) {
         ArrayList<NobleCard> noblesQualifiedFor = new ArrayList<>();
 
-        for (NobleCard noble : nobleDeck.getVisibleCards()) {
+        ArrayList<NobleCard> nobles = new ArrayList<>(nobleDeck.getVisibleCards());
+        for (NobleCard n : player.getReservedNobles()) {
+            nobles.add(n);
+        }
+
+        for (NobleCard noble : nobles) {
             int notEnoughBonusesCounter = 0;
 
             for (TokenType tokenType : noble.getTokenCost().keySet()) {

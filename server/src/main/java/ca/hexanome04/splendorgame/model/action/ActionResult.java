@@ -46,9 +46,14 @@ public enum ActionResult {
     MUST_RESERVE_NOBLE,
 
     /**
-     * Player has received an Orient card allowing them to choose a cascade card.
+     * Player has received an Orient card allowing them to choose a cascade card of tier 1.
      */
-    MUST_CHOOSE_CASCADE_CARD,
+    MUST_CHOOSE_CASCADE_CARD_TIER_1,
+
+    /**
+     * Player has received an Orient card allowing them to choose a cascade card of tier 2.
+     */
+    MUST_CHOOSE_CASCADE_CARD_TIER_2,
 
     /**
      * Player has received an Orient card of type satchel, so they must choose a token type.

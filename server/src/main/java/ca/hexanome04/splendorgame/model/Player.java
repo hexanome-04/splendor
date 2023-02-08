@@ -155,6 +155,15 @@ public abstract class Player {
     }
 
     /**
+     * Get a player's reserved nobles.
+     *
+     * @return list of reserved nobles that the player has
+     */
+    public List<NobleCard> getReservedNobles() {
+        return new ArrayList<>(this.reservedNobles);
+    }
+
+    /**
      * Get a player's bonuses (obtained from their owned development cards).
      *
      * @return map of player's bonuses
@@ -202,6 +211,15 @@ public abstract class Player {
      */
     public void reserveCard(DevelopmentCard card) {
         reservedCards.add(card);
+    }
+
+    /**
+     * Add card to reserved cards for a player and add one gold token to inventory (for their turn).
+     *
+     * @param noble The development card the player would like to reserve.
+     */
+    public void reserveNoble(NobleCard noble) {
+        reservedNobles.add(noble);
     }
 
     /**

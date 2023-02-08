@@ -13,7 +13,7 @@ import java.util.Map;
 
 
 /**
- * Perform the buy card action.
+ * Perform the take token action.
  */
 public class TakeTokenAction extends Action {
 
@@ -33,7 +33,7 @@ public class TakeTokenAction extends Action {
     }
 
     /**
-     * Construct a buy card action (to be filled with info from decoder).
+     * Construct a take token action (to be filled with info from decoder).
      */
     public TakeTokenAction() {
         this(new HashMap<>(), new HashMap<>());

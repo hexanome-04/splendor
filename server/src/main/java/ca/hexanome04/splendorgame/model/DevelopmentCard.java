@@ -64,7 +64,7 @@ public abstract class DevelopmentCard extends Card {
         ActionResult result = ActionResult.VALID_ACTION;
 
         if (!isPurchasable(p, tokensToPayWith)) {
-            result = ActionResult.INVALID_TOKENS_GIVEN;
+            return ActionResult.INVALID_TOKENS_GIVEN;
         }
 
         p.addCard(this);
@@ -74,8 +74,8 @@ public abstract class DevelopmentCard extends Card {
         p.addPrestigePoints(this.getPrestigePoints());
 
         g.addTokens(this.getTokenCost());
+        p.removeTokens(tokensToPayWith);
 
-        // TODO: handle orient double gold token cards later
         if (this.getClass().equals(OrientDevelopmentCard.class)) {
             OrientDevelopmentCard orientCard = (OrientDevelopmentCard) this;
             if (orientCard.getCostType() == CostType.Bonus) {
@@ -84,8 +84,10 @@ public abstract class DevelopmentCard extends Card {
             if (orientCard.getReserveNoble()) {
                 result = ActionResult.MUST_RESERVE_NOBLE;
             }
-            if (orientCard.getCascadeType() != CascadeType.None) {
-                result = ActionResult.MUST_CHOOSE_CASCADE_CARD;
+            if (orientCard.getCascadeType() == CascadeType.Tier1) {
+                result = ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1;
+            } else if (orientCard.getCascadeType() == CascadeType.Tier2) {
+                result = ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2;
             }
             if (orientCard.getTokenType() == TokenType.Satchel) {
                 result = ActionResult.MUST_CHOOSE_TOKEN_TYPE;
