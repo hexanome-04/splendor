@@ -222,7 +222,7 @@ public abstract class Game {
      * @param action action being executed
      * @return result of action execution
      */
-    public abstract ActionResult takeAction(String playerName, Action action);
+    public abstract ArrayList<ActionResult> takeAction(String playerName, Action action);
 
     /**
      * Create an instance of player for this game version.

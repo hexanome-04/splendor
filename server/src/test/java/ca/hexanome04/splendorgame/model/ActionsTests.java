@@ -35,10 +35,10 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Red, 3);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // should be no more tier 1 cards available to be purchased
-        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+        assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card when sufficient tokens provided.")
@@ -54,10 +54,10 @@ public class ActionsTests {
 
         p1.addTokens(tokensToUse);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using normal and gold tokens.")
@@ -79,10 +79,10 @@ public class ActionsTests {
         tokensToUse.put(TokenType.Gold, 1);
         tokensToUse.put(TokenType.Red, 2);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses.")
@@ -102,10 +102,10 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Red, 1);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and gold tokens.")
@@ -125,10 +125,10 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Gold, 1);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
@@ -144,10 +144,10 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
@@ -162,10 +162,10 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players cannot buy a card when providing zero tokens.")
@@ -178,10 +178,10 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+        assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
     @DisplayName("Ensure players can take two of same token in one turn.")
@@ -201,9 +201,9 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can take three unique tokens in one turn.")
@@ -225,9 +225,9 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can take and put back tokens, remaining under 10 tokens in inventory")
@@ -254,9 +254,9 @@ public class ActionsTests {
         tokensToPutBack.put(TokenType.Red, 1);
 
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players cannot have more than 10 tokens.")
@@ -280,9 +280,9 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY);
+        assertThat(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY).isIn(result);
     }
 
     @DisplayName("Ensure players cannot take more than 2 of the same token per turn (without Trade Routes power).")
@@ -304,9 +304,9 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+        assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
     @DisplayName("Ensure players cannot take more than 3 unique tokens per turn.")
@@ -332,9 +332,9 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
-        ActionResult result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(result).isEqualTo(ActionResult.INVALID_TOKENS_GIVEN);
+        assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
     @DisplayName("Ensure players can reserve a card when they have not reached the limit.")
@@ -345,11 +345,11 @@ public class ActionsTests {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
 
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(1);
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players can reserve a card even when the board has no gold left.")
@@ -364,11 +364,11 @@ public class ActionsTests {
         goldsToRemove.put(TokenType.Gold, 5);
         game.removeTokens(goldsToRemove);
 
-        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
 
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
     @DisplayName("Ensure players cannot reserve a card when they have reached the limit.")
@@ -387,11 +387,11 @@ public class ActionsTests {
         p1.reserveCard(c2);
         p1.reserveCard(c3);
 
-        ActionResult result = game.takeAction(p1.getName(), new ReserveCardAction("04"));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("04"));
 
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
-        assertThat(result).isEqualTo(ActionResult.MAXIMUM_CARDS_RESERVED);
+        assertThat(ActionResult.MAXIMUM_CARDS_RESERVED).isIn(result);
     }
 
     @DisplayName("Ensure ChooseNoble action is triggered when player qualifies for 2+ nobles.")
@@ -418,10 +418,10 @@ public class ActionsTests {
         tokensToTake.put(TokenType.Brown, 1);
         tokensToTake.put(TokenType.Red, 2);
 
-        ActionResult result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToTake));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToTake));
 
         // make sure action is valid since player can afford it
-        assertThat(result).isEqualTo(ActionResult.MUST_CHOOSE_NOBLE);
+        assertThat(ActionResult.MUST_CHOOSE_NOBLE).isIn(result);
     }
 
     @DisplayName("Ensure players can choose noble when prompted.")
@@ -450,11 +450,11 @@ public class ActionsTests {
         ArrayList<NobleCard> nobleCards = new ArrayList<>();
         nobleCards.add(c1);
 
-        ActionResult result = game.takeAction(p1.getName(), new ChooseNobleAction("98"));
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ChooseNobleAction("98"));
 
         // make sure action is valid since player can afford it
         assertThat(p1.getNobles()).isEqualTo(nobleCards);
-        assertThat(result).isEqualTo(ActionResult.VALID_ACTION);
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
     }
 
 }

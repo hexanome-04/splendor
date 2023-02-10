@@ -307,10 +307,13 @@ public class OrientGame extends Game {
      * @param action     action being executed
      * @return result of action execution
      */
-    public ActionResult takeAction(String playerName, Action action) {
+    public ArrayList<ActionResult> takeAction(String playerName, Action action) {
+
+        ArrayList<ActionResult> results = new ArrayList<>();
 
         if (players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
-            return ActionResult.INVALID_PLAYER;
+            results.add(ActionResult.INVALID_PLAYER);
+            return results;
         }
 
         Player p = this.getPlayerFromName(playerName);
@@ -326,7 +329,7 @@ public class OrientGame extends Game {
                 p.addNoble(noble);
             } else {
                 // don't increment turn if player must choose noble
-                ar = ActionResult.MUST_CHOOSE_NOBLE;
+                results.add(ActionResult.MUST_CHOOSE_NOBLE);
             }
         }
 
@@ -335,7 +338,8 @@ public class OrientGame extends Game {
             this.incrementTurn();
         }
 
-        return ar;
+        results.add(ar);
+        return results;
     }
 
     @Override

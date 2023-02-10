@@ -11,6 +11,7 @@ import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,9 +228,9 @@ public class SplendorRestController {
 
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
 
-            ActionResult actionResult =
+            ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
-            if (actionResult != ActionResult.VALID_ACTION) {
+            if (!actionResult.contains(ActionResult.VALID_ACTION)) {
                 throw new RuntimeException("Invalid action performed: " + actionResult.toString());
             }
 
