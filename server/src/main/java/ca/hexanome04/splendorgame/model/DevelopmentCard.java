@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class DevelopmentCard extends Card {
 
-    private final TokenType tokenType;
+    private TokenType tokenType;
     private final int bonus;
     private final CardTier cardTier;
 
@@ -40,6 +40,18 @@ public abstract class DevelopmentCard extends Card {
      */
     public TokenType getTokenType() {
         return tokenType;
+    }
+
+    /**
+     * Sets the token type of this card, but only if it's of type satchel to begin with.
+     *
+     * @param tokenType The type of token to be assigned to this card.
+     */
+
+    public void setTokenType(TokenType tokenType) {
+        if (this.tokenType == TokenType.Satchel) {
+            this.tokenType = tokenType;
+        }
     }
 
     /**

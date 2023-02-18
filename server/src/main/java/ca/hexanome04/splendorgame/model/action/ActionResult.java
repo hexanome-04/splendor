@@ -21,6 +21,11 @@ public enum ActionResult {
     INVALID_TOKENS_GIVEN,
 
     /**
+     * Invalid token chosen for satchel card assignment.
+     */
+    INVALID_TOKEN_CHOSEN,
+
+    /**
      * Maximum number of cards reserved.
      */
     MAXIMUM_CARDS_RESERVED,

@@ -33,6 +33,7 @@ public class ActionDecoder {
                 case CHOOSE_NOBLE -> new ChooseNobleAction().decodeAction(gson);
                 case CASCADE -> new CascadeAction().decodeAction(gson);
                 case RESERVE_NOBLE -> new ReserveNobleAction().decodeAction(gson);
+                case CHOOSE_TOKEN -> new ChooseTokenTypeAction().decodeAction(gson);
             };
 
         } catch (IllegalArgumentException e) {

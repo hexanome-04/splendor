@@ -34,4 +34,10 @@ public enum Actions {
      * Reserve noble action.
      */
     RESERVE_NOBLE,
+
+    /**
+     * Choose token type for satchel action.
+     */
+
+    CHOOSE_TOKEN
 }
