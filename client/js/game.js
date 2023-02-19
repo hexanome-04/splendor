@@ -1,6 +1,9 @@
 import { SETTINGS } from "./settings.js";
 import { startTurn, verifyNoModals } from "./modals.js";
 
+// eslint-disable-next-line no-undef
+var MD5 = CryptoJS.MD5;
+
 const updateTokensCount = (parentSelector, tokenInfo) => {
     const parentNode = document.querySelector(parentSelector);
     parentNode.querySelector(".red-token > span").textContent = tokenInfo.Red;
@@ -136,23 +139,58 @@ const updateNoblesBoard = async (cards) => {
     });
 };
 
+let gameStateHash = "-";
+
+const attempUpdate = () => {
+    let nextCallTime = 1;
+    updateGameboard().catch((err) => {
+        if(!err.toString().includes("Failed to fetch" )) {
+            window.alert(err);
+            console.log("[AS] Error during check (retry 30s): " + err);
+        }
+        nextCallTime = 30000;
+    }).finally(() => {
+        setTimeout(attempUpdate, nextCallTime);
+    });
+};
+
 const updateGameboard = async () => {
     await SETTINGS.verifyCredentials();
 
     const windowParams = (new URL(document.location)).searchParams;
     const sessionId = windowParams.get("sessionId");
+    const params = {
+        "hash": gameStateHash
+    };
 
-    const resp = await fetch(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game`);
+    const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game`);
+    url.search = new URLSearchParams(params).toString();
 
-    if(!resp.ok) {
-        const dataText = await resp.text();
+    const resp = await fetch(url);
 
-        console.log(dataText);
-        window.alert(dataText);
+    const dataText = await resp.text();
+
+    if(resp.status == 204) {
+        // no update
         return;
     }
 
-    const data = await resp.json();
+    if(!resp.ok) {
+        throw new Error(dataText);
+    }
+
+    // update hash
+    // console.log("Update: " + t);
+    const newHash = MD5(dataText);
+
+    // update only if needed
+    if(newHash === gameStateHash) {
+        return;
+    }
+
+    gameStateHash = newHash;
+    console.log("[AS] Update available!");
+    const data = JSON.parse(dataText);
 
     // tokens update
     const tokenMap = data.tokens;
@@ -181,11 +219,9 @@ const updateGameboard = async () => {
     } else {
         verifyNoModals();
     }
-
-    setTimeout(updateGameboard, 5000); // refresh every 5 seconds
 };
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    setTimeout(updateGameboard, 1);
+    setTimeout(attempUpdate, 1);
 });

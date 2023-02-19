@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.control;
 import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
 
 import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
+import ca.hexanome04.splendorgame.model.GameSession;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
@@ -11,7 +12,12 @@ import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev.dacbiet.simpoll.ContentWatcher;
+import dev.dacbiet.simpoll.Fetcher;
+import dev.dacbiet.simpoll.ResultGenerator;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 
 /**
@@ -33,6 +40,8 @@ public class SplendorRestController {
     private String gameServiceName;
     private final SessionManager sessionManager;
     private final Authentication auth;
+    private final long longPollTimeout;
+    private final Map<String, ContentWatcher> gameWatcher;
 
     /**
      * Create an instance of Splendor's REST controller.
@@ -40,14 +49,18 @@ public class SplendorRestController {
      * @param sessionManager session manager
      * @param auth methods relating to authentication with LS
      * @param gameServiceName game service name
+     * @param longPollTimeout timeout for long polling
      */
 
     public SplendorRestController(@Autowired SessionManager sessionManager,
                                   @Autowired Authentication auth,
-                                  @Value("${gs.name}") String gameServiceName) {
+                                  @Value("${gs.name}") String gameServiceName,
+                                  @Value("${longpoll.timeout}") int longPollTimeout) {
         this.sessionManager = sessionManager;
         this.auth = auth;
         this.gameServiceName = gameServiceName;
+        this.longPollTimeout = longPollTimeout;
+        this.gameWatcher = new HashMap<>();
     }
 
     /**
@@ -86,9 +99,8 @@ public class SplendorRestController {
             }
 
             // Looks good, lets create the game
-            sessionManager.addSession(sessionId, launchSessionInfo.players(), launchSessionInfo.creator(),
-                    launchSessionInfo.savegame(), BASE_ORIENT);
-            logger.info("Launched new game session: " + sessionId);
+            this.addSession(sessionId, launchSessionInfo);
+
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             logger.error("Unable to launch game session: " + e.getMessage());
@@ -98,25 +110,47 @@ public class SplendorRestController {
     }
 
     /**
+     * Adds a session to the session manger and initializes the game.
+     *
+     * @param sessionId session id of game
+     * @param launchSessionInfo launch session info of game
+     * @throws Exception thrown due to IO or invalid information given
+     */
+    protected void addSession(String sessionId, LaunchSessionInfo launchSessionInfo) throws Exception {
+        sessionManager.addSession(sessionId, launchSessionInfo.players(),
+                launchSessionInfo.creator(),
+                launchSessionInfo.savegame(),
+                BASE_ORIENT);
+        logger.info("Launched new game session: " + sessionId);
+        gameWatcher.put(sessionId, new ContentWatcher());
+    }
+
+    /**
      * Obtain the game state of specified session.
      *
      * @param sessionId session id to get game state of
+     * @param hash optional hash from client
      * @return JSON object of game state
      */
     @GetMapping(value = "/api/sessions/{sessionId}/game", produces = "application/json; charset=utf-8")
-    public ResponseEntity getGameState(@PathVariable String sessionId) {
+    public DeferredResult getGameState(@PathVariable String sessionId, @RequestParam(required = false) String hash) {
         try {
             // Check if session exists
-            if (sessionManager.getGameSession(sessionId) == null) {
+            GameSession game = sessionManager.getGameSession(sessionId);
+            if (game == null) {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
 
-            // If so, serialize game and place it as body in a ResponseEntity
-            String serializedGameState = new Gson().toJson(sessionManager.getGameSession(sessionId).getGame());
-            return ResponseEntity.status(HttpStatus.OK).body(serializedGameState);
+            ContentWatcher watcher = gameWatcher.get(sessionId);
+            // serialize game
+            Fetcher fetcher = () -> new Gson().toJson(game.getGame());
+
+            return ResultGenerator.getStringResult(watcher, fetcher, hash, this.longPollTimeout);
         } catch (Exception e) {
             // Something went wrong. Send a http-400 and pass the exception message as body payload.
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            DeferredResult result = new DeferredResult();
+            result.setResult(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()));
+            return result;
         }
     }
 
@@ -144,20 +178,29 @@ public class SplendorRestController {
      * Get game board of specified session.
      *
      * @param sessionId session id
+     * @param hash optional hash from client
      * @return JSON object of game board
      */
     @GetMapping(value = "/api/sessions/{sessionId}/game/board", produces = "application/json; charset=utf-8")
-    public ResponseEntity getGameBoard(@PathVariable String sessionId) {
+    public DeferredResult getGameBoard(@PathVariable String sessionId, @RequestParam(required = false) String hash) {
         try {
-            if (sessionManager.getGameSession(sessionId) == null) {
+            // Check if session exists
+            GameSession game = sessionManager.getGameSession(sessionId);
+            if (game == null) {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
 
             // TODO: do better information hiding
-            String serializedGameBoard = new Gson().toJson(sessionManager.getGameSession(sessionId).getGame());
-            return ResponseEntity.status(HttpStatus.OK).body(serializedGameBoard);
+            ContentWatcher watcher = gameWatcher.get(sessionId);
+            // serialize game
+            Fetcher fetcher = () -> new Gson().toJson(game.getGame());
+
+            return ResultGenerator.getStringResult(watcher, fetcher, hash, this.longPollTimeout);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            DeferredResult result = new DeferredResult();
+            result.setResult(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()));
+            return result;
         }
     }
 
@@ -235,6 +278,8 @@ public class SplendorRestController {
             }
 
             // TODO: return what further actions are needed (if any)
+            // mark that the game state has changed
+            gameWatcher.get(sessionId).markDirty();
             return ResponseEntity.status(HttpStatus.OK).body("");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -34,7 +34,6 @@ public class SplendorRestControllerTest {
     @Mock
     Authentication auth;
     SessionManager sessionManager;
-    @InjectMocks
     @Autowired
     SplendorRestController restController;
 
@@ -48,9 +47,15 @@ public class SplendorRestControllerTest {
         testPlayerInfos.add(new PlayerInfo("p2", "c2"));
 
         sessionManager = new SessionManager();
-        restController = new SplendorRestController(sessionManager, auth, gameServiceName);
+        restController = new SplendorRestController(sessionManager, auth, gameServiceName, 30000);
 
-        sessionManager.addSession(testGameSessionId, testPlayerInfos, "p1", "", BASE_ORIENT);
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(
+                gameServiceName,
+                testPlayerInfos,
+                "p1",
+                ""
+        );
+        restController.addSession(testGameSessionId, launchSessionInfo);
     }
 
     /**
@@ -114,7 +119,8 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that the game state is obtained through the end point")
     public void testApiGameState() {
-        assertThat(restController.getGameState(testGameSessionId).getStatusCode()).isEqualTo(HttpStatus.OK);
+        ResponseEntity result = (ResponseEntity) restController.getGameState(testGameSessionId, null).getResult();
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     /**
@@ -123,7 +129,8 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that no game state is obtained from a non-existent game with the api endpoint")
     public void testApiGameStateFail() {
-        assertThat(restController.getGameState("nonexist").getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        ResponseEntity result = (ResponseEntity) restController.getGameState("s", null).getResult();
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -150,7 +157,8 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that the game board state is obtained through the end point")
     public void testApiGameBoardState() {
-        assertThat(restController.getGameBoard(testGameSessionId).getStatusCode()).isEqualTo(HttpStatus.OK);
+        ResponseEntity result = (ResponseEntity) restController.getGameState(testGameSessionId, null).getResult();
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     /**
@@ -159,7 +167,8 @@ public class SplendorRestControllerTest {
     @Test
     @DisplayName("Verify that no game board state is obtained from a non-existent game with the api endpoint")
     public void testApiGameBoardStateFail() {
-        assertThat(restController.getGameBoard("nonexist").getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        ResponseEntity result = (ResponseEntity) restController.getGameState("s", null).getResult();
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     /**
