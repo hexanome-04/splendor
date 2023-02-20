@@ -1,7 +1,12 @@
 ---
-import "../styles/gameboard.css"
-import "../styles/gameboard-otherplayers.css"
-import "../styles/modals.css"
+import "../styles/gameboard.css";
+import "../styles/gameboard-otherplayers.css";
+import "../styles/modals.css";
+import TakeTurnModal from "../components/modals/TakeTurnModal.astro";
+import BuyCardModal from "../components/modals/BuyCardModal.astro";
+import ReserveCardModal from "../components/modals/ReserveCardModal.astro";
+import SaveGameModal from "../components/modals/SaveGameModal.astro";
+import RestartGameModal from "../components/modals/RestartGameModal.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +15,8 @@ import "../styles/modals.css"
         <title>Splendor</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
 
         <script type="module" src="js/settings.js"></script>
 
@@ -186,78 +191,12 @@ import "../styles/modals.css"
             </div>
         </div>
 
-        <!-- ALL MODALS -->
-        <!-- YOUR TURN -->
-        <div id="your-turn-modal" class="modal">
-            <div class="modal-content">
-                <h1>YOUR TURN</h1>
-                <p>Choose an action.</p>
-
-                <div class="turn-button-container">
-                    <button class="get-tokens-btn" id="get-tokens-btn">GET TOKENS</button>
-                    <button class="purchase-btn" id="purchase-btn">PURCHASE</button>
-                    <button class="reserve-btn" id="reserve-btn">RESERVE</button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- BUY CARD MODAL -->
-        <div id="buy-card-modal" class="modal">
-            <div class="modal-content">
-                <h1>PURCHASE</h1>
-                <p>Please select the card you wish to purchase.</p>
-
-                <div id="buy-card-board" class="buy-card-board">
-                    <div class="modal-board-cards">
-                    </div>
-                </div>
-                <div class="button-container">
-                    <button class="buy-card-back-btn" id="buy-card-back-btn">BACK</button>
-                    <button class="buy-card-confirm-btn" id="buy-card-confirm-btn">CONFIRM</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="dev-card-payment-modal" class="modal">
-            <div class="modal-content">
-                <h1>CONFIRM PURCHASE</h1>
-                <p>Select the number of tokens you wish to purchase the card with.</p>
-                <!-- selected card here -->
-                <div class="purchase-show-card board-card-dev">
-                    <img>
-                </div>
-
-                <div class="token-count-outer-container">
-
-                    <!-- Red Counter -->
-                    <board-token-counter color="red"></board-token-counter>
-
-                    <!-- Blue Counter -->
-                    <board-token-counter color="blue"></board-token-counter>
-
-                    <!-- Green Counter -->
-                    <board-token-counter color="green"></board-token-counter>
-
-                    <!-- White Counter -->
-                    <board-token-counter color="white"></board-token-counter>
-
-                    <!-- Brown Counter -->
-                    <board-token-counter color="brown"></board-token-counter>
-
-                    <!-- Gold Counter -->
-                    <board-token-counter color="gold"></board-token-counter>
-                </div>
-
-                <div class="button-container">
-                    <button class="buy-card-back-btn" id="purchase-confirm-back-btn"> BACK</button>
-                    <button class="buy-card-confirm-btn" id="purchase-confirm-btn">CONFIRM</button>
-                </div>
-
-
-            </div>
-
-        </div>
+        <!-- MODALS -->
+        <TakeTurnModal></TakeTurnModal>
+        <BuyCardModal></BuyCardModal>
+        <ReserveCardModal></ReserveCardModal>
+        <SaveGameModal></SaveGameModal>
+        <RestartGameModal></RestartGameModal>
 
         <!-- Templates to be used throughout the game -->
         <template id="development-card-template">

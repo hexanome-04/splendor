@@ -1,0 +1,60 @@
+---
+import "../../styles/modals.css";
+import "../../styles/gameboard.css";
+---
+
+<div id="buy-card-modal" class="modal">
+    <div class="modal-content">
+        <h1>PURCHASE</h1>
+        <p>Please select the card you wish to purchase.</p>
+
+        <div id="buy-card-board" class="buy-card-board">
+            <div class="modal-board-cards">
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="buy-card-back-btn" id="buy-card-back-btn">BACK</button>
+            <button class="buy-card-confirm-btn" id="buy-card-confirm-btn">CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+<div id="dev-card-payment-modal" class="modal">
+    <div class="modal-content">
+        <h1>CONFIRM PURCHASE</h1>
+        <p>Select the number of tokens you wish to purchase the card with.</p>
+        <!-- Selected Card Here -->
+        <div class="purchase-show-card board-card-dev">
+            <img>
+        </div>
+
+        <div class="token-count-outer-container">
+
+            <!-- Red Counter -->
+            <board-token-counter color="red"></board-token-counter>
+
+            <!-- Blue Counter -->
+            <board-token-counter color="blue"></board-token-counter>
+
+            <!-- Green Counter -->
+            <board-token-counter color="green"></board-token-counter>
+
+            <!-- White Counter -->
+            <board-token-counter color="white"></board-token-counter>
+
+            <!-- Brown Counter -->
+            <board-token-counter color="brown"></board-token-counter>
+
+            <!-- Gold Counter -->
+            <board-token-counter color="gold"></board-token-counter>
+        </div>
+
+        <div class="button-container">
+            <button class="buy-card-back-btn" id="purchase-confirm-back-btn"> BACK</button>
+            <button class="buy-card-confirm-btn" id="purchase-confirm-btn">CONFIRM</button>
+        </div>
+
+
+    </div>
+
+</div>

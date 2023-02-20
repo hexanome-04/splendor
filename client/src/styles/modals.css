@@ -103,7 +103,8 @@
 
 /* PURCHASE CARD MODAL */
 
-.buy-card-board {
+.buy-card-board,
+.reserve-card-board {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +140,13 @@
 }
 
 .buy-card-back-btn,
-.buy-card-confirm-btn {
+.buy-card-confirm-btn,
+.reserve-card-back-btn,
+.reserve-card-confirm-btn,
+.restart-no-btn,
+.restart-yes-btn,
+.save-back-btn,
+.save-confirm-btn {
   width: 100%;
   height: 6vh;
   border: 0.098rem solid goldenrod;
@@ -168,7 +175,13 @@
 
 .buy-card-back-btn:hover,
 .buy-card-confirm-btn:hover,
-.quantity-button:hover {
+.reserve-card-back-btn:hover,
+.reserve-card-confirm-btn:hover,
+.restart-no-btn:hover,
+.restart-yes-btn:hover,
+.quantity-button:hover,
+.save-back-btn:hover,
+.save-confirm-btn:hover {
   color: #f2d675;
   border-color: #f2d675;
   cursor: pointer;
