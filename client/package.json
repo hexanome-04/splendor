@@ -1,14 +1,21 @@
 {
-  "scripts": {
-    "linthtml": "npx htmlhint --config ../linters/.htmlhintrc \"*.html\"",
-    "lintcss": "npx stylelint --config ../linters/.stylelintrc.json \"./css/*.css\"",
-    "lintjs": "npx eslint -c ../linters/.eslintrc.yml ./js",
-    "lint": "npx htmlhint \"*.html\" && npx stylelint --config ../linters/.stylelintrc.json \"./css/*.css\" && npx eslint -c ../linters/.eslintrc.yml ./js"
-  },
-  "devDependencies": {
-    "eslint": "^8.27.0",
-    "htmlhint": "^1.1.4",
-    "stylelint": "^14.14.1",
-    "stylelint-config-standard": "^29.0.0"
-  }
+    "name": "client",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/tailwind": "^3.0.1",
+        "astro": "^2.0.13",
+        "tailwindcss": "^3.2.7"
+    },
+    "devDependencies": {
+        "eslint": "^8.34.0",
+        "eslint-plugin-astro": "^0.23.0"
+    }
 }

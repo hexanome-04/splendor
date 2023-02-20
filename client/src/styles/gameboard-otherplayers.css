@@ -39,7 +39,7 @@
 
 .other-prestige-point-container {
   position: absolute;
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
   background-size: contain;
   border: 0.2rem solid goldenrod;
   top: 0;

@@ -83,7 +83,7 @@
   height: 9vh;
   border: 0.098rem solid goldenrod;
   border-radius: 20%;
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
   font-size: 1.5rem;
   color: rgb(227 178 56);
   font-family: "Dancing Script", cursive;
@@ -144,7 +144,7 @@
   height: 6vh;
   border: 0.098rem solid goldenrod;
   border-radius: 20%;
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
   font-size: 1.3rem;
   color: rgb(227 178 56);
   font-family: "Dancing Script", cursive;
@@ -163,7 +163,7 @@
   justify-content: center;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
   border: 0.098rem solid goldenrod;
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
 }
 
 .buy-card-back-btn:hover,

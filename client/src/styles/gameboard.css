@@ -13,7 +13,7 @@ html {
   height: 100%;
   background-image:
     linear-gradient(0deg, rgba(0 0 0 / 20%), rgba(0 0 0 / 20%)),
-    url("../images/bluebackground.jpg");
+    url("/images/bluebackground.jpg");
 }
 
 body {
@@ -159,7 +159,7 @@ body {
 }
 
 .player-prestige-points-container {
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
   background-size: contain;
   border: 0.2rem solid goldenrod;
   border-radius: 50%;
@@ -304,7 +304,7 @@ body {
       rgba(39 2 2 / 30%)
     ),
     url(
-      "../images/tokens/RedToken.jpg"
+      "/images/tokens/RedToken.jpg"
     );
   background-size: contain;
 }
@@ -317,7 +317,7 @@ body {
       rgba(2 2 41 / 30%)
     ),
     url(
-      "../images/tokens/BlueToken.jpg"
+      "/images/tokens/BlueToken.jpg"
     );
   background-size: contain;
 }
@@ -330,7 +330,7 @@ body {
       rgba(3 34 1 / 30%)
     ),
     url(
-      "../images/tokens/GreenToken.jpg"
+      "/images/tokens/GreenToken.jpg"
     );
   background-size: contain;
 }
@@ -343,7 +343,7 @@ body {
       rgba(37 37 37 / 30%)
     ),
     url(
-      "../images/tokens/WhiteToken.jpg"
+      "/images/tokens/WhiteToken.jpg"
     );
   background-size: contain;
 }
@@ -356,7 +356,7 @@ body {
       rgba(49 29 7 / 30%)
     ),
     url(
-      "../images/tokens/BrownToken.jpg"
+      "/images/tokens/BrownToken.jpg"
     );
   background-size: contain;
 }
@@ -369,7 +369,7 @@ body {
       rgba(53 44 3 / 30%)
     ),
     url(
-      "../images/tokens/GoldToken.jpg"
+      "/images/tokens/GoldToken.jpg"
     );
   background-size: contain;
 }

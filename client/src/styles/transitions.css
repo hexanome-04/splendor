@@ -10,7 +10,7 @@
       rgba(0 0 0 / 70%),
       rgba(0 0 0 / 70%)
     ),
-    url("../images/mapBackground.jpg");
+    url("/images/mapBackground.jpg");
   background-size: cover;
   transition: 0.4s ease-out;
 }

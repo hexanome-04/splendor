@@ -10,7 +10,7 @@ body {
       rgba(0 0 0 / 65%),
       rgba(0 0 0 / 65%)
     ),
-    url("../images/titleImage.jpg");
+    url("/images/titleImage.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -125,7 +125,7 @@ form .txt-field {
   height: 6vh;
   border: 0.098rem solid goldenrod;
   border-radius: 20%;
-  background-image: url("../images/bluebackground.jpg");
+  background-image: url("/images/bluebackground.jpg");
   font-size: 1.5rem;
   color: rgb(227 178 56);
   font-family: "Dancing Script", cursive;

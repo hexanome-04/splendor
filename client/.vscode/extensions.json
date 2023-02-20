@@ -1,7 +1,7 @@
 {
     "recommendations": [
         "stylelint.vscode-stylelint",
-        "htmlhint.vscode-htmlhint",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "astro-build.astro-vscode"
     ]
 }
