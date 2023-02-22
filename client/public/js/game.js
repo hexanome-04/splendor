@@ -163,7 +163,7 @@ const updateGameboard = async () => {
         "hash": gameStateHash
     };
 
-    const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/game`);
+    const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}`);
     url.search = new URLSearchParams(params).toString();
 
     const resp = await fetch(url);

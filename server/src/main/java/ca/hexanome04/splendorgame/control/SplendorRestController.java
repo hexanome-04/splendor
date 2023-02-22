@@ -132,7 +132,7 @@ public class SplendorRestController {
      * @param hash optional hash from client
      * @return JSON object of game state
      */
-    @GetMapping(value = "/api/sessions/{sessionId}/game", produces = "application/json; charset=utf-8")
+    @GetMapping(value = "/api/sessions/{sessionId}", produces = "application/json; charset=utf-8")
     public DeferredResult getGameState(@PathVariable String sessionId, @RequestParam(required = false) String hash) {
         try {
             // Check if session exists
@@ -160,7 +160,7 @@ public class SplendorRestController {
      * @param sessionId game session id
      * @return JSON object of players
      */
-    @GetMapping(value = "/api/sessions/{sessionId}/game/players", produces = "application/json; charset=utf-8")
+    @GetMapping(value = "/api/sessions/{sessionId}/players", produces = "application/json; charset=utf-8")
     public ResponseEntity getPlayers(@PathVariable String sessionId) {
         try {
             if (sessionManager.getGameSession(sessionId) == null) {
@@ -175,43 +175,13 @@ public class SplendorRestController {
     }
 
     /**
-     * Get game board of specified session.
-     *
-     * @param sessionId session id
-     * @param hash optional hash from client
-     * @return JSON object of game board
-     */
-    @GetMapping(value = "/api/sessions/{sessionId}/game/board", produces = "application/json; charset=utf-8")
-    public DeferredResult getGameBoard(@PathVariable String sessionId, @RequestParam(required = false) String hash) {
-        try {
-            // Check if session exists
-            GameSession game = sessionManager.getGameSession(sessionId);
-            if (game == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
-            }
-
-            // TODO: do better information hiding
-            ContentWatcher watcher = gameWatcher.get(sessionId);
-            // serialize game
-            Fetcher fetcher = () -> new Gson().toJson(game.getGame());
-
-            return ResultGenerator.getStringResult(watcher, fetcher, hash, this.longPollTimeout);
-        } catch (Exception e) {
-            // Something went wrong. Send a http-400 and pass the exception message as body payload.
-            DeferredResult result = new DeferredResult();
-            result.setResult(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()));
-            return result;
-        }
-    }
-
-    /**
      * Obtain the available actions for this turn.
      *
      * @param sessionId session id to get actions for
      * @param playerName player whose action is being put
      * @return JSON object of available actions
      */
-    @GetMapping(value = "/api/sessions/{sessionId}/game/players/{playerName}/actions",
+    @GetMapping(value = "/api/sessions/{sessionId}/players/{playerName}/actions",
                 produces = "application/json; charset=utf-8")
     public ResponseEntity getActions(@PathVariable String sessionId, @PathVariable String playerName) {
         try {
@@ -248,7 +218,7 @@ public class SplendorRestController {
      * @param bodyData JSON string information of action
      * @return String (empty is OK)
      */
-    @PutMapping(value = "/api/sessions/{sessionId}/game/players/{playerName}/actions/{actionIdentifier}",
+    @PutMapping(value = "/api/sessions/{sessionId}/players/{playerName}/actions/{actionIdentifier}",
             consumes = "application/json; charset=utf-8")
     public ResponseEntity<String> putAction(@RequestParam("access_token") String token, @PathVariable String sessionId,
                                             @PathVariable String playerName, @PathVariable Actions actionIdentifier,
