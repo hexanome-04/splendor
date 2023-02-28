@@ -8,7 +8,9 @@ import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -40,7 +42,12 @@ public class TakeTokenAction extends Action {
     }
 
     @Override
-    protected ActionResult run(Game game, Player player) {
+    protected List<ActionResult> run(Game game, Player player) {
+
+        // clear list of current player valid actions
+        game.clearValidActions();
+
+        ArrayList<ActionResult> result = new ArrayList<>();
 
         int playerTotalTokens = 0;
 
@@ -60,7 +67,8 @@ public class TakeTokenAction extends Action {
 
             int tokensLeftOnBoard = game.getTokens().get(token) - takeTokensNum + putBackTokensNum;
             if (tokensLeftOnBoard < 0) {
-                return ActionResult.NOT_ENOUGH_TOKENS_ON_BOARD;
+                result.add(ActionResult.NOT_ENOUGH_TOKENS_ON_BOARD);
+                return result;
             }
 
 
@@ -68,7 +76,8 @@ public class TakeTokenAction extends Action {
 
         // check if player total token inventory goes over 10
         if (playerTotalTokens > 10) {
-            return ActionResult.MAXIMUM_TOKENS_IN_INVENTORY;
+            result.add(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY);
+            return result;
         }
 
 
@@ -78,13 +87,15 @@ public class TakeTokenAction extends Action {
         for (TokenType t : takeTokens.keySet()) {
             // invalid if player tries to take >2 of one token type (unless trade routes power unlocked)
             if (takeTokens.get(t) > 2) {
-                return ActionResult.INVALID_TOKENS_GIVEN;
+                result.add(ActionResult.INVALID_TOKENS_GIVEN);
+                return result;
             } else if (takeTokens.get(t) == 2) {
                 doubleTokens += 1;
 
                 // board pile must have at least 4 of this token for player to take two
                 if (game.getTokens().get(t) < 4) {
-                    return ActionResult.INVALID_TOKENS_GIVEN;
+                    result.add(ActionResult.INVALID_TOKENS_GIVEN);
+                    return result;
                 }
             } else {
                 uniqueTokens += 1;
@@ -93,7 +104,8 @@ public class TakeTokenAction extends Action {
 
         // verify either 2 of same token or 3 unique tokens
         if (doubleTokens > 1 || uniqueTokens > 3 || (uniqueTokens > 0 && doubleTokens > 0)) {
-            return ActionResult.INVALID_TOKENS_GIVEN;
+            result.add(ActionResult.INVALID_TOKENS_GIVEN);
+            return result;
         }
 
 
@@ -102,7 +114,8 @@ public class TakeTokenAction extends Action {
         game.addTokens(putBackTokens);
         player.takeTokens(takeTokens, putBackTokens);
 
-        return ActionResult.VALID_ACTION;
+        result.add(ActionResult.TURN_COMPLETED);
+        return result;
 
     }
 

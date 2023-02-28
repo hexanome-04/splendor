@@ -57,7 +57,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using normal and gold tokens.")
@@ -82,7 +82,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses.")
@@ -105,7 +105,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and gold tokens.")
@@ -128,7 +128,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
@@ -147,7 +147,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can buy a card using bonuses and double gold tokens.")
@@ -165,7 +165,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players cannot buy a card when providing zero tokens.")
@@ -203,7 +203,7 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can take three unique tokens in one turn.")
@@ -227,7 +227,7 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can take and put back tokens, remaining under 10 tokens in inventory")
@@ -256,7 +256,7 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players cannot have more than 10 tokens.")
@@ -349,7 +349,7 @@ public class ActionsTests {
 
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(1);
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players can reserve a card even when the board has no gold left.")
@@ -368,7 +368,7 @@ public class ActionsTests {
 
         // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
     @DisplayName("Ensure players cannot reserve a card when they have reached the limit.")
@@ -454,7 +454,7 @@ public class ActionsTests {
 
         // make sure action is valid since player can afford it
         assertThat(p1.getNobles()).isEqualTo(nobleCards);
-        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
 }

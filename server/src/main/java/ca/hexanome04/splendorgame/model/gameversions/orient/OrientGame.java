@@ -5,6 +5,7 @@ import static ca.hexanome04.splendorgame.model.TokenType.*;
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.*;
 import java.io.*;
 import java.nio.charset.Charset;
@@ -277,9 +278,7 @@ public class OrientGame extends Game {
         ArrayList<NobleCard> noblesQualifiedFor = new ArrayList<>();
 
         ArrayList<NobleCard> nobles = new ArrayList<>(nobleDeck.getVisibleCards());
-        for (NobleCard n : player.getReservedNobles()) {
-            nobles.add(n);
-        }
+        nobles.addAll(player.getReservedNobles());
 
         for (NobleCard noble : nobles) {
             int notEnoughBonusesCounter = 0;
@@ -309,6 +308,8 @@ public class OrientGame extends Game {
      */
     public ArrayList<ActionResult> takeAction(String playerName, Action action) {
 
+        this.clearValidActions();
+
         ArrayList<ActionResult> results = new ArrayList<>();
 
         if (players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {
@@ -318,7 +319,7 @@ public class OrientGame extends Game {
 
         Player p = this.getPlayerFromName(playerName);
 
-        ActionResult ar = action.execute(this, p);
+        List<ActionResult> ar = action.execute(this, p);
 
         // Check if player qualifies for noble card at end of turn
         ArrayList<NobleCard> nobleCards = qualifiesForNoble(p);
@@ -333,12 +334,26 @@ public class OrientGame extends Game {
             }
         }
 
-        if (ar == ActionResult.VALID_ACTION) {
-            // success and valid action
+        results.addAll(ar);
+        if (results.contains(ActionResult.TURN_COMPLETED) && results.size() == 1) {
+            // increment action also resets current valid actions list
             this.incrementTurn();
+        } else {
+
+            for (ActionResult ares : results) {
+                switch (ares) {
+                    case MUST_CHOOSE_NOBLE -> this.addValidAction(Actions.CHOOSE_NOBLE);
+                    case MUST_CHOOSE_CASCADE_CARD_TIER_1 -> this.addValidAction(Actions.CASCADE_1);
+                    case MUST_CHOOSE_CASCADE_CARD_TIER_2 -> this.addValidAction(Actions.CASCADE_2);
+                    case MUST_CHOOSE_TOKEN_TYPE -> this.addValidAction(Actions.CHOOSE_SATCHEL_TOKEN);
+                    case MUST_RESERVE_NOBLE -> this.addValidAction(Actions.RESERVE_NOBLE);
+                    default -> {
+                        continue;
+                    }
+                }
+            }
         }
 
-        results.add(ar);
         return results;
     }
 

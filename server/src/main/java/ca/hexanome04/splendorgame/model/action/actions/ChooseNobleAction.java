@@ -7,6 +7,8 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Perform the choose noble action (in case when player qualifies for >1 noble in one turn).
@@ -33,7 +35,11 @@ public class ChooseNobleAction extends Action {
     }
 
     @Override
-    protected ActionResult run(Game game, Player p) {
+    protected List<ActionResult> run(Game game, Player p) {
+
+        game.removeValidAction(Actions.CHOOSE_NOBLE);
+
+        ArrayList<ActionResult> result = new ArrayList<>();
 
         NobleCard nc = (NobleCard) game.getCardFromId(nobleId);
         if (nc == null) {
@@ -43,8 +49,11 @@ public class ChooseNobleAction extends Action {
         // no error handling
         game.takeCard(nc);
         p.addNoble(nc);
+        if (game.getCurValidActions().size() == 0) {
+            result.add(ActionResult.TURN_COMPLETED);
+        }
 
-        return ActionResult.VALID_ACTION;
+        return result;
     }
 
     @Override

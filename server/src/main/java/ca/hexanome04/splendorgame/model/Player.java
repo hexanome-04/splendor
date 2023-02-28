@@ -21,6 +21,8 @@ public abstract class Player {
     private ArrayList<DevelopmentCard> reservedCards;
     private ArrayList<NobleCard> reservedNobles;
 
+
+
     /**
      * Creates a Player object with a given name and colour.
      *

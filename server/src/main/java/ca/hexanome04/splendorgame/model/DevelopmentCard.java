@@ -2,8 +2,9 @@ package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Abstract class that represents a development card.
@@ -71,12 +72,13 @@ public abstract class DevelopmentCard extends Card {
      * @param tokensToPayWith tokens the player has chosen to pay with
      * @return result of buy card action
      */
-    public ActionResult buyCard(Player p, Game g, HashMap<TokenType, Integer> tokensToPayWith) {
+    public List<ActionResult> buyCard(Player p, Game g, HashMap<TokenType, Integer> tokensToPayWith) {
 
-        ActionResult result = ActionResult.VALID_ACTION;
+        ArrayList<ActionResult> result = new ArrayList<>();
 
         if (!isPurchasable(p, tokensToPayWith)) {
-            return ActionResult.INVALID_TOKENS_GIVEN;
+            result.add(ActionResult.INVALID_TOKENS_GIVEN);
+            return result;
         }
 
         p.addCard(this);
@@ -94,16 +96,23 @@ public abstract class DevelopmentCard extends Card {
                 p.removeBonuses(orientCard.getTokenCost());
             }
             if (orientCard.getReserveNoble()) {
-                result = ActionResult.MUST_RESERVE_NOBLE;
+                result.add(ActionResult.MUST_RESERVE_NOBLE);
             }
             if (orientCard.getCascadeType() == CascadeType.Tier1) {
-                result = ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1;
+                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1);
+
+                // Differentiation between up and down needed? Unclear
             } else if (orientCard.getCascadeType() == CascadeType.Tier2) {
-                result = ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2;
+                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2);
+
             }
             if (orientCard.getTokenType() == TokenType.Satchel) {
-                result = ActionResult.MUST_CHOOSE_TOKEN_TYPE;
+                result.add(ActionResult.MUST_CHOOSE_TOKEN_TYPE);
             }
+        }
+
+        if (g.getCurValidActions().size() == 0) {
+            result.add(ActionResult.TURN_COMPLETED);
         }
 
         return result;

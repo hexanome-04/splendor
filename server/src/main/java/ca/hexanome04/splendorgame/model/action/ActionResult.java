@@ -8,7 +8,7 @@ public enum ActionResult {
     /**
      * Valid action.
      */
-    VALID_ACTION,
+    TURN_COMPLETED,
 
     /**
      * Invalid player attempting to take action (e.g. not their turn).

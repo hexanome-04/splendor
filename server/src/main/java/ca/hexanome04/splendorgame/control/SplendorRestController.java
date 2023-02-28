@@ -197,7 +197,11 @@ public class SplendorRestController {
             }
 
             // If so, serialize actions and place it as body in a ResponseEntity
-            String[] actions = { Actions.BUY_CARD.toString() };
+            String[] actions = new String[game.getCurValidActions().size()];
+            for (int i = 0; i < game.getCurValidActions().size(); i++) {
+                actions[i] = game.getCurValidActions().get(i).toString();
+            }
+
             String serializedActions = new Gson().toJson(actions);
             return ResponseEntity.status(HttpStatus.OK).body(serializedActions);
         } catch (Exception e) {
@@ -243,7 +247,7 @@ public class SplendorRestController {
 
             ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
-            if (!actionResult.contains(ActionResult.VALID_ACTION)) {
+            if (!actionResult.contains(ActionResult.TURN_COMPLETED)) {
                 throw new RuntimeException("Invalid action performed: " + actionResult.toString());
             }
 

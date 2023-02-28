@@ -3,6 +3,8 @@ package ca.hexanome04.splendorgame.model.action;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An abstract action that can be performed on a game.
@@ -27,10 +29,11 @@ public abstract class Action {
      * @param p player executing the action
      * @return information about execution of action
      */
-    public final ActionResult execute(Game game, Player p) {
+    public final List<ActionResult> execute(Game game, Player p) {
+        ArrayList<ActionResult> result = new ArrayList<ActionResult>();
         // Check if player can execute this action.
         if (!game.getTurnCurrentPlayer().getName().equals(p.getName())) {
-            return ActionResult.INVALID_PLAYER;
+            result.add(ActionResult.INVALID_PLAYER);
         }
 
         return this.run(game, p);
@@ -43,7 +46,7 @@ public abstract class Action {
      * @param p player executing the action
      * @return information about execution of action
      */
-    protected abstract ActionResult run(Game game, Player p);
+    protected abstract List<ActionResult> run(Game game, Player p);
 
     /**
      * Decode the action with the given JSON object and return a proper instances of the action.

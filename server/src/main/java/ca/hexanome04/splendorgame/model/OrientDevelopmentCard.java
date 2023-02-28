@@ -57,23 +57,5 @@ public class OrientDevelopmentCard extends DevelopmentCard {
         return cascadeType;
     }
 
-    /**
-     * Private method to reserve noble, called only when orient reserveNoble card bought.
-     */
-    private void reserveNoble() {
-        // TODO: prompt user to select noble to reserve (once controllers implemented?)
-        // NobleCard noble = ;
-        // reservedNobles.add(noble);
-    }
-
-    /**
-     * Private method to select cascade card, called only when orient cascade card bought.
-     */
-    private void cascadeChooseCard() {
-        // TODO: prompt user to select card at appropriate tier (once controllers implemented?)
-        // OrientDevelopmentCard cascadeCard = ;
-        // cards.add(cascadeCard);
-    }
-
 
 }

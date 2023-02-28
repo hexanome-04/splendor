@@ -19,4 +19,5 @@ public enum CascadeType {
      * No cascade.
      */
     None
+
 }

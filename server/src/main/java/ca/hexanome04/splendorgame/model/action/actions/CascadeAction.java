@@ -6,11 +6,13 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Perform the cascade action.
  */
-public class CascadeAction extends Action {
+public abstract class CascadeAction extends Action {
 
     private String cascadeCardId;
 
@@ -18,37 +20,16 @@ public class CascadeAction extends Action {
      * Construct a cascade action.
      *
      * @param buyCardId card id to be bought from game
+     * @param tier the tier level of the cascade (1 or 2)
      */
-    public CascadeAction(String buyCardId) {
-        super(Actions.CASCADE);
+    public CascadeAction(String buyCardId, Actions tier) {
+        super(tier);
         this.cascadeCardId = buyCardId;
     }
 
-    /**
-     * Construct a cascade action (to be filled with info from decoder).
-     */
-    public CascadeAction() {
-        this("");
-    }
 
     @Override
-    protected ActionResult run(Game game, Player player) {
-
-        // get card from board
-        // should be a development card (hopefully)
-        DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.cascadeCardId);
-        if (dc == null) {
-            throw new RuntimeException("Card with id '" + this.cascadeCardId + "' does not exist.");
-        }
-
-        player.addCard(dc);
-        game.takeCard(dc);
-
-        player.addBonus(dc.getTokenType(), dc.getBonus());
-        player.addPrestigePoints(dc.getPrestigePoints());
-
-        return ActionResult.VALID_ACTION;
-    }
+    protected abstract List<ActionResult> run(Game game, Player player);
 
     @Override
     public Action decodeAction(JsonObject jobj) {

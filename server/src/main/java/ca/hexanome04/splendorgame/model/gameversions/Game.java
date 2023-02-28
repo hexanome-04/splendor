@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model.gameversions;
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.action.Actions;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,8 @@ public abstract class Game {
     protected final int prestigePointsToWin;
     /** Counter keeping track of player turns. */
     protected int turnCounter;
+
+    private List<Actions> curValidActions = new ArrayList<>();
 
     /** Tier 1 deck. */
     protected final Deck<RegDevelopmentCard> tier1Deck = new Deck<>();
@@ -156,6 +159,12 @@ public abstract class Game {
             turnCounter++;
         }
 
+        // reset list of current player valid actions
+        curValidActions.clear();
+        curValidActions.add(Actions.BUY_CARD);
+        curValidActions.add(Actions.TAKE_TOKEN);
+        curValidActions.add(Actions.RESERVE_CARD);
+
         return players.get(turnCounter);
     }
 
@@ -214,6 +223,41 @@ public abstract class Game {
     public List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
+
+    /**
+     * Get valid actions for current player (turn is done when the list is empty).
+     *
+     * @return list of valid action for current player
+     */
+    public List<Actions> getCurValidActions() {
+        return new ArrayList<>(curValidActions);
+    }
+
+    /**
+     * Adds action to list of valid actions for current player.
+     *
+     * @param action being added to valid actions
+     */
+    public void addValidAction(Actions action) {
+        curValidActions.add(action);
+    }
+
+    /**
+     * Removes action to list of valid actions for current player.
+     *
+     * @param action being removed for valid actions
+     */
+    public void removeValidAction(Actions action) {
+        curValidActions.remove(action);
+    }
+
+    /**
+     * Clears list of valid actions for current player.
+     */
+    public void clearValidActions() {
+        curValidActions.clear();
+    }
+
 
     /**
      * Allows player to perform an action.

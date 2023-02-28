@@ -8,6 +8,8 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Perform the choose token type for satchel action.
@@ -26,33 +28,41 @@ public class ChooseTokenTypeAction extends Action {
      * @param assignedTokenType token type to use for assignment
      */
     public ChooseTokenTypeAction(String cardId, TokenType assignedTokenType) {
-        super(Actions.CHOOSE_TOKEN);
+        super(Actions.CHOOSE_SATCHEL_TOKEN);
         this.cardId = cardId;
         this.assignedTokenType = assignedTokenType;
     }
 
     /**
-     * Construct a buy card action (to be filled with info from decoder).
+     * Construct a choose token action (to be filled with info from decoder).
      */
     public ChooseTokenTypeAction() {
         this("", null);
     }
 
     @Override
-    protected ActionResult run(Game game, Player p) {
+    protected List<ActionResult> run(Game game, Player p) {
+
+        game.removeValidAction(Actions.CHOOSE_SATCHEL_TOKEN);
+
+        ArrayList<ActionResult> result = new ArrayList<>();
+
         OrientDevelopmentCard odc = (OrientDevelopmentCard) game.getCardFromId(this.cardId);
         if (odc == null || odc.getTokenType() != TokenType.Satchel) {
             throw new RuntimeException("Card with id '" + this.cardId + "' does not exist or is not of type Satchel.");
         }
 
+        // The act of choosing a bonus type could make a player eligible for a noble/win condition... is this checked?
         if (p.getBonuses().get(assignedTokenType) > 0
                 && assignedTokenType != TokenType.Gold && assignedTokenType != TokenType.Satchel) {
             odc.setTokenType(assignedTokenType);
-            return ActionResult.VALID_ACTION;
+            result.add(ActionResult.TURN_COMPLETED);
 
         } else {
-            return ActionResult.INVALID_TOKEN_CHOSEN;
+            result.add(ActionResult.INVALID_TOKEN_CHOSEN);
         }
+
+        return result;
 
     }
 

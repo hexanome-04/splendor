@@ -26,9 +26,14 @@ public enum Actions {
     CHOOSE_NOBLE,
 
     /**
-     * Choose noble action.
+     * Choose cascade tier 1 action.
      */
-    CASCADE,
+    CASCADE_1,
+
+    /**
+     * Choose cascade tier 2 action.
+     */
+    CASCADE_2,
 
     /**
      * Reserve noble action.
@@ -39,5 +44,5 @@ public enum Actions {
      * Choose token type for satchel action.
      */
 
-    CHOOSE_TOKEN
+    CHOOSE_SATCHEL_TOKEN
 }

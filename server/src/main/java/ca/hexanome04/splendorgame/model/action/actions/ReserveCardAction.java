@@ -8,7 +8,9 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Perform the reserve card action.
@@ -35,7 +37,12 @@ public class ReserveCardAction extends Action {
     }
 
     @Override
-    protected ActionResult run(Game game, Player player) {
+    protected List<ActionResult> run(Game game, Player player) {
+
+        // clear list of current player valid actions
+        game.clearValidActions();
+
+        ArrayList<ActionResult> result = new ArrayList<>();
 
         // get card from board
         DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.reserveCardId);
@@ -44,7 +51,8 @@ public class ReserveCardAction extends Action {
         }
 
         if (player.getReservedCards().size() >= 3) {
-            return ActionResult.MAXIMUM_CARDS_RESERVED;
+            result.add(ActionResult.MAXIMUM_CARDS_RESERVED);
+            return result;
         }
 
         // no error handling
@@ -62,7 +70,10 @@ public class ReserveCardAction extends Action {
             player.addTokens(goldToken);
         }
 
-        return ActionResult.VALID_ACTION;
+        if (game.getCurValidActions().size() == 0) {
+            result.add(ActionResult.TURN_COMPLETED);
+        }
+        return result;
     }
 
     @Override

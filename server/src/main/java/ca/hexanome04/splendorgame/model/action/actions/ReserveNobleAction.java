@@ -6,6 +6,8 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Perform the reserve noble action.
@@ -32,7 +34,11 @@ public class ReserveNobleAction extends Action {
     }
 
     @Override
-    protected ActionResult run(Game game, Player player) {
+    protected List<ActionResult> run(Game game, Player player) {
+
+        game.removeValidAction(Actions.RESERVE_NOBLE);
+
+        ArrayList<ActionResult> result = new ArrayList<>();
 
         // get card from board
         NobleCard noble = (NobleCard) game.getCardFromId(this.reserveNobleId);
@@ -44,7 +50,12 @@ public class ReserveNobleAction extends Action {
         game.takeCard(noble);
         player.reserveNoble(noble);
 
-        return ActionResult.VALID_ACTION;
+
+        if (game.getCurValidActions().size() == 0) {
+            result.add(ActionResult.TURN_COMPLETED);
+        }
+
+        return result;
     }
 
     @Override

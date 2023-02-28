@@ -37,7 +37,10 @@ public class BuyCardAction extends Action {
     }
 
     @Override
-    protected ActionResult run(Game game, Player player) {
+    protected List<ActionResult> run(Game game, Player player) {
+
+        // clear list of current player valid actions
+        game.clearValidActions();
 
         // get card from board
         // should be a development card (hopefully)
@@ -46,10 +49,7 @@ public class BuyCardAction extends Action {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
 
-        // no error handling
-        ActionResult result = dc.buyCard(player, game, selectedTokens); // will remove tokens from inventory here too
-
-        return result;
+        return dc.buyCard(player, game, selectedTokens);
     }
 
     @Override
