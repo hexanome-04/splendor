@@ -9,6 +9,7 @@ import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -91,15 +92,27 @@ public class SplendorRestController {
             if (launchSessionInfo.gameServer() == null) {
                 throw new Exception("Missing service name in launch session info.");
             }
-            if (!launchSessionInfo.gameServer().equals(gameServiceName)) {
+
+            // verify if game service name is valid.
+            boolean validGameServiceName = false;
+            GameVersions gameVersion = null;
+            for (GameVersions gv : GameVersions.values()) {
+                if (launchSessionInfo.gameServer().equals(gameServiceName + "_" + gv)) {
+                    validGameServiceName = true;
+                    gameVersion = gv;
+                    break;
+                }
+            }
+            if (!validGameServiceName) {
                 throw new Exception("Lobby Service did not specify a matching Service name.");
             }
+
             if (sessionManager.getGameSession(sessionId) != null) {
                 throw new Exception("Game can not be launched. Id is already in use.");
             }
 
             // Looks good, lets create the game
-            this.addSession(sessionId, launchSessionInfo);
+            this.addSession(sessionId, launchSessionInfo, gameVersion);
 
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
@@ -114,13 +127,14 @@ public class SplendorRestController {
      *
      * @param sessionId session id of game
      * @param launchSessionInfo launch session info of game
+     * @param gameVersion  game version to launch as
      * @throws Exception thrown due to IO or invalid information given
      */
-    protected void addSession(String sessionId, LaunchSessionInfo launchSessionInfo) throws Exception {
+    protected void addSession(String sessionId, LaunchSessionInfo launchSessionInfo, GameVersions gameVersion) throws Exception {
         sessionManager.addSession(sessionId, launchSessionInfo.players(),
                 launchSessionInfo.creator(),
                 launchSessionInfo.savegame(),
-                BASE_ORIENT);
+                gameVersion);
         logger.info("Launched new game session: " + sessionId);
         gameWatcher.put(sessionId, new ContentWatcher());
     }

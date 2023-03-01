@@ -3,7 +3,9 @@ package ca.hexanome04.splendorgame.control;
 import ca.hexanome04.splendorgame.control.templates.*;
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.gameversions.*;
+import ca.hexanome04.splendorgame.model.gameversions.cities.CitiesGame;
 import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsGame;
 import java.io.*;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +75,10 @@ public class SessionManager {
 
         InputStream is = ResourceUtils.getURL("classpath:cards.csv").openStream();
 
-        // TODO: put in other cases once classes made
         Game game = switch (version) {
             case BASE_ORIENT -> new OrientGame(15, 0);
-            //case BASE_ORIENT_CITIES -> ;
-            //case BASE_ORIENT_TRADE_ROUTES -> ;
+            case BASE_ORIENT_CITIES -> new CitiesGame(0);
+            case BASE_ORIENT_TRADE_ROUTES -> new TradingPostsGame(15, 0);
             default -> throw new RuntimeException("Invalid game version selected!");
         };
 

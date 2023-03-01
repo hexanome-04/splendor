@@ -36,14 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     
-    function createSession() {
+    /**
+     * Create a session with the specified version of Splendor.
+     *
+     * @param {string} gameVersion version of splendor
+     */
+    function createSession(gameVersion) {
         const createBtn = document.querySelector(".create-session-btn");
         createBtn.disabled = true;
 
         SETTINGS.verifyCredentials().then(() => {
             const postData = {
                 "creator": SETTINGS.getUsername(),
-                "game": "splendor",
+                "game": gameVersion,
                 "savegame": ""
             };
 
@@ -64,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    document.querySelector(".create-session-btn").onclick = createSession;
+    // TODO: be able to specify the version.
+    document.querySelector(".create-session-btn").onclick = () => createSession("splendor_BASE_ORIENT");
 
     const joinSession = (elm) => {
         elm.disabled = true;
@@ -196,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const trNode = tempNode.querySelector("tr");
             trNode.setAttribute("session-id", sesId);
+            trNode.setAttribute("version", ses.gameParameters.name.replace("splendor_", ""));
 
             trNode.querySelector(".session-game-name").textContent = ses.gameParameters.displayName;
             trNode.querySelector(".session-creator-name").textContent = ses.creator;

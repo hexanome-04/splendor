@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model.gameversions.tradingposts;
 
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import ca.hexanome04.splendorgame.model.gameversions.orient.*;
 
 /**
@@ -14,7 +15,7 @@ public class TradingPostsGame extends OrientGame {
      * @param turnCounter         The turn id associated with the player.
      */
     public TradingPostsGame(int prestigePointsToWin, int turnCounter) {
-        super(prestigePointsToWin, turnCounter);
+        super(GameVersions.BASE_ORIENT_TRADE_ROUTES, prestigePointsToWin, turnCounter);
     }
 
 }

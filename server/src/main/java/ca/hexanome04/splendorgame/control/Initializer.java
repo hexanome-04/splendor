@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.SplendorGameApplication;
 import ca.hexanome04.splendorgame.control.templates.GameServiceInfo;
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import com.google.gson.Gson;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -32,7 +33,7 @@ public class Initializer {
 
     @Value("${LS.location}")
     private String lsLocation;
-    GameServiceInfo gameServiceInfo;
+    GameServiceInfo[] gameServices;
     Authentication auth;
     RestTemplate restTemplate = new RestTemplate();
 
@@ -40,8 +41,8 @@ public class Initializer {
      * Initializes server with lobby service.
      *
      * @param auth methods relating to token
-     * @param gsName game service name
-     * @param gsDisplayName game service display name
+     * @param gsName game service base name
+     * @param gsDisplayName game service base display name
      * @param gsLocation game service location
      */
     public Initializer(@Autowired Authentication auth,
@@ -49,8 +50,19 @@ public class Initializer {
                        @Value("${gs.displayName}") String gsDisplayName,
                        @Value("${gs.location}") String gsLocation) {
         this.auth = auth;
-        this.gameServiceInfo = new GameServiceInfo(gsName, gsDisplayName, gsLocation,
-                2, 4, "true");
+        this.gameServices = new GameServiceInfo[] {
+            new GameServiceInfo(gsName + "_" + GameVersions.BASE_ORIENT,
+                        gsDisplayName + " Orient", gsLocation,
+                    2, 4, "true"),
+
+            new GameServiceInfo(gsName + "_" + GameVersions.BASE_ORIENT_CITIES,
+                        gsDisplayName + " Cities", gsLocation,
+                        2, 4, "true"),
+
+            new GameServiceInfo(gsName + "_" + GameVersions.BASE_ORIENT_TRADE_ROUTES,
+                        gsDisplayName + " Trade Routes", gsLocation,
+                        2, 4, "true"),
+        };
     }
 
     /**
@@ -75,14 +87,17 @@ public class Initializer {
         int retries = 0;
         while (retries < maxRetries && !registered) {
             try {
-                if (checkRegistered().getStatusCode().is2xxSuccessful()) {
-                    logger.info("Game service already registered.");
-                    unregister();
-                }
+                // attempt to register all game versions
+                for (GameServiceInfo gameServiceInfo : this.gameServices) {
+                    if (checkRegistered(gameServiceInfo).getStatusCode().is2xxSuccessful()) {
+                        logger.info("Game service ({}) already registered.", gameServiceInfo.displayName());
+                        unregister(gameServiceInfo);
+                    }
 
-                ResponseEntity regResp = attemptRegister();
-                if (!regResp.getStatusCode().is2xxSuccessful()) {
-                    throw new RestClientException(regResp.getBody().toString());
+                    ResponseEntity regResp = attemptRegister(gameServiceInfo);
+                    if (!regResp.getStatusCode().is2xxSuccessful()) {
+                        throw new RestClientException(regResp.getBody().toString());
+                    }
                 }
             } catch (RestClientException e) {
                 logger.debug(e.toString());
@@ -105,8 +120,10 @@ public class Initializer {
 
     /**
      * Unregister our game service from the lobby service.
+     *
+     * @param gameServiceInfo game service info
      */
-    private void unregister() throws RestClientException {
+    private void unregister(GameServiceInfo gameServiceInfo) throws RestClientException {
         String token = auth.getToken();
 
         URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
@@ -121,16 +138,17 @@ public class Initializer {
                 String.class
         );
 
-        logger.info("Unregistered game service.");
+        logger.info("Unregistered game service ({}).", gameServiceInfo.displayName());
     }
 
     /**
      * Check if our game service was already registered with the lobby service.
      *
+     * @param gameServiceInfo game service info
      * @return response from server
      */
-    private ResponseEntity checkRegistered() throws RestClientException {
-        logger.info("Checking if game service is already registered.");
+    private ResponseEntity checkRegistered(GameServiceInfo gameServiceInfo) throws RestClientException {
+        logger.info("Checking if game service ({}) is already registered.", gameServiceInfo.displayName());
 
         URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
                 .path("/api/gameservices/" + gameServiceInfo.name())
@@ -147,10 +165,11 @@ public class Initializer {
     /**
      * Attempt to register our game with the lobby service.
      *
+     * @param gameServiceInfo game service info
      * @return response from server
      */
-    private ResponseEntity attemptRegister() throws RestClientException {
-        logger.info("Attempting to register our game service.");
+    private ResponseEntity attemptRegister(GameServiceInfo gameServiceInfo) throws RestClientException {
+        logger.info("Attempting to register our game service ({}).", gameServiceInfo.displayName());
 
         String token = auth.getToken();
 

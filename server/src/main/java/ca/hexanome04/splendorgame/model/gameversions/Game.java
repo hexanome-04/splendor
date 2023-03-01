@@ -16,6 +16,9 @@ import java.util.Map;
  */
 public abstract class Game {
 
+    /** The game version of this game instance. */
+    protected final GameVersions gameVersion;
+
     /** List of players in game. */
     protected List<Player> players = new ArrayList<>();
     /** Prestige points in game. */
@@ -38,10 +41,12 @@ public abstract class Game {
     /**
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
      *
+     * @param gameVersion               The game version of this game instance.
      * @param prestigePointsToWin       The amount of prestige points needed to win the game.
      * @param turnCounter               The turn id associated with the player.
      */
-    public Game(int prestigePointsToWin, int turnCounter) {
+    public Game(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
+        this.gameVersion = gameVersion;
         this.prestigePointsToWin = prestigePointsToWin;
         this.turnCounter = turnCounter;
     }

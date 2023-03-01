@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model.gameversions.cities;
 
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import ca.hexanome04.splendorgame.model.gameversions.orient.*;
 
 /**
@@ -13,7 +14,7 @@ public class CitiesGame extends OrientGame {
      * @param turnCounter         The turn id associated with the player.
      */
     public CitiesGame(int turnCounter) {
-        super(-1, turnCounter);
+        super(GameVersions.BASE_ORIENT_CITIES, -1, turnCounter);
     }
 
 }

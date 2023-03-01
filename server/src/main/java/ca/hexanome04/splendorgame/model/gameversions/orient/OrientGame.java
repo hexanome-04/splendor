@@ -32,11 +32,23 @@ public class OrientGame extends Game {
     /**
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
      *
+     *
      * @param prestigePointsToWin The amount of prestige points needed to win the game.
      * @param turnCounter         The turn id associated with the player.
      */
     public OrientGame(int prestigePointsToWin, int turnCounter) {
-        super(prestigePointsToWin, turnCounter);
+        super(GameVersions.BASE_ORIENT, prestigePointsToWin, turnCounter);
+    }
+
+    /**
+     * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
+     *
+     * @param gameVersion         The game version of this game instance.
+     * @param prestigePointsToWin The amount of prestige points needed to win the game.
+     * @param turnCounter         The turn id associated with the player.
+     */
+    protected OrientGame(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
+        super(gameVersion, prestigePointsToWin, turnCounter);
     }
 
     /**

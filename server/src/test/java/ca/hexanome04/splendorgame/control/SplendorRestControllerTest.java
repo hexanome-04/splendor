@@ -4,6 +4,7 @@ import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.*;
+import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -55,7 +56,7 @@ public class SplendorRestControllerTest {
                 "p1",
                 ""
         );
-        restController.addSession(testGameSessionId, launchSessionInfo);
+        restController.addSession(testGameSessionId, launchSessionInfo, BASE_ORIENT);
     }
 
     /**
@@ -65,7 +66,7 @@ public class SplendorRestControllerTest {
     @DisplayName("Verify that the session launches")
     public void testLaunchSession() {
         String sessionId = "random";
-        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName, testPlayerInfos, testPlayerInfos.get(0).name(), "");
+        LaunchSessionInfo launchSessionInfo = new LaunchSessionInfo(gameServiceName + "_" + BASE_ORIENT, testPlayerInfos, testPlayerInfos.get(0).name(), "");
 
         assertThat(restController.launchSession(sessionId, launchSessionInfo).getStatusCode()).isEqualTo(HttpStatus.OK);
     }
