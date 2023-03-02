@@ -89,6 +89,8 @@
   max-height: var(--other-player-card-size);
 }
 
+
+/* DEVELOPMENT CARDS */
 .other-inventory-cards {
   display: flex;
   flex-direction: row-reverse;
@@ -123,12 +125,54 @@
   box-shadow: rgba(0 0 0 / 24%) 0 3px 8px;
 }
 
-.other-player-profile img:not([src]) {
-  visibility: hidden;
-}
-
 .other-inventory-card:hover > img {
   top: -33.33%;
+}
+
+
+/* RESERVED CARDS */
+.other-inventory-cards-reserved {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20%;
+  min-width: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
+  margin-left: 0.5em;
+}
+
+.other-inventory-card-reserved {
+  position: relative;
+  margin-left: calc(-1 * var(--other-player-card-size) * var(--dev-card-aspect-ratio) + 0.7em);
+  z-index: inherit;
+  min-width: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
+  min-height: var(--other-player-card-size);
+}
+
+.other-inventory-card-reserved:hover {
+  /* z-index: 7; */
+}
+
+.other-inventory-card-reserved:last-child {
+  margin-left: 0;
+}
+
+.other-inventory-card-reserved > img {
+  position: absolute;
+  aspect-ratio: var(--dev-card-aspect-ratio);
+  height: var(--other-player-card-size);
+  border-radius: var(--card-border-radius);
+  transition: 0.3s;
+  rotate: 90deg;
+  top: 0;
+  left: 0;
+  box-shadow: rgba(0 0 0 / 24%) 0 3px 8px;
+}
+
+.other-inventory-card-reserved:hover > img {
+  top: -33.33%;
+}
+
+.other-player-profile img:not([src]) {
+  visibility: hidden;
 }
 
 .other-player-tokens {

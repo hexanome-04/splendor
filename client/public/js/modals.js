@@ -14,12 +14,14 @@ document.getElementById("menu-icon").addEventListener("click", show);
 
 document.querySelector(".resume").parentNode.addEventListener("click", close);
 
+const getTokensBtn = document.getElementById("get-tokens-btn");
 const purchaseBtn = document.getElementById("purchase-btn");
+const reserveBtn = document.getElementById("reserve-btn");
 
 
 // --------------------------------------------------
 
-// Reserve cards selection
+// Reserve/buy cards selection
 function setupSelectionCards(selector) {
     document.querySelectorAll(selector).forEach((elm) => {
         elm.onclick = () => {
@@ -35,6 +37,66 @@ function setupSelectionCards(selector) {
         };
     });
 }
+
+const showReservableDevCards = () => {
+
+    const confirmBtn = document.querySelector("#reserve-card-modal .reserve-card-confirm-btn");
+
+    // literally just duplicate them from the board
+    const cardRows = document.querySelectorAll("#board .board-cards .board-cards-row");
+
+    // clear if already has
+    const modalCardRows = document.querySelector("#reserve-card-board .modal-board-cards");
+    modalCardRows.innerHTML = "";
+
+    cardRows.forEach((elm) => {
+        const cNode = elm.cloneNode(true);
+        modalCardRows.appendChild(cNode);
+    });
+
+    const cardsSelectionSelector = "#reserve-card-modal .modal-board-cards .board-card-dev";
+
+    setupSelectionCards(cardsSelectionSelector);
+
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        if(!selectedCard) {
+            // no card has been selected, error
+            window.alert("You have not selected a card to reserve!");
+            return;
+        }
+        const cardId = selectedCard.getAttribute("card-id");
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/RESERVE_CARD`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {
+                "cardId": cardId,
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+
+};
+
 
 /**
  * Get the require list for token payment for purchasing a development card.
@@ -167,6 +229,13 @@ purchaseBtn.onclick = () => {
     showNextModal("#buy-card-modal");
 };
 
+reserveBtn.onclick = () => {
+    // load the purchase items
+    showReservableDevCards();
+
+    showNextModal("#reserve-card-modal");
+};
+
 
 const backButton = () => {
     // pop top of stack (current modal), close it
@@ -179,6 +248,7 @@ const backButton = () => {
 };
 
 document.querySelectorAll(".buy-card-back-btn").forEach(elm => elm.onclick = backButton);
+document.querySelectorAll(".reserve-card-back-btn").forEach(elm => elm.onclick = backButton);
 
 export function startTurn() {
     // attempt to start the turn if no modals are open and it is still your turn.

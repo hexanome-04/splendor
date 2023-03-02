@@ -46,7 +46,7 @@ const updateMainPlayerInfo = (playerInfo) => {
     const tokenMap = playerInfo.tokens;
     updateTokensCount(".player-inventory-tokens", tokenMap);
 
-    // update their cards
+    // UPDATE DEVELOPMENT CARDS IN PLAYER INVENTORY
     const cardDrawer = playerInv.querySelector(".player-inventory-card-drawer");
 
     const currentInvCardIds = [];
@@ -68,6 +68,30 @@ const updateMainPlayerInfo = (playerInfo) => {
         // add to inv
         cardDrawer.appendChild(tNode);
     });
+
+    // UPDATE RESERVED CARDS IN PLAYER INVENTORY
+    const cardDrawerReserved = playerInv.querySelector(".player-inventory-reservedcards");
+
+    const currentInvResCardIds = [];
+    cardDrawerReserved.querySelectorAll(".player-inventory-card-reserved").forEach(elm => currentInvResCardIds.push(elm.getAttribute("card-id")));
+
+    // server state cards
+    const serverInvResCardIds = playerInfo.reservedCards.map(c => c.id);
+
+    // add new reserved cards to inv
+    const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));
+    toAddResCardsIds.forEach(cid => {
+        const tNode = document.querySelector("#player-inventory-reserved-card-template").content.cloneNode(true);
+        const div = tNode.querySelector("div");
+        const imgUrl = `images/development-cards/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        cardDrawerReserved.appendChild(tNode);
+    });
+
 };
 
 const updateOtherPlayerInfo = (pInfo) => {
@@ -93,7 +117,7 @@ const updateOtherPlayerInfo = (pInfo) => {
     updateTokensCount(selector, tokenMap);
 
 
-    // update their cards
+    // UPDATE DEVELOPMENT CARDS IN OTHER PLAYER INVENTORIES
     const cardDrawer = pNode.querySelector(".other-inventory-cards");
 
     const currentInvCardIds = [];
@@ -114,6 +138,29 @@ const updateOtherPlayerInfo = (pInfo) => {
 
         // add to inv
         cardDrawer.appendChild(tNode);
+    });
+
+    // UPDATE RESERVED CARDS IN OTHER PLAYER INVENTORIES
+    const cardDrawerReserved = pNode.querySelector(".other-inventory-cards-reserved");
+
+    const currentInvResCardIds = [];
+    cardDrawerReserved.querySelectorAll(".other-inventory-card-reserved").forEach(elm => currentInvResCardIds.push(elm.getAttribute("card-id")));
+
+    // server state cards
+    const serverInvResCardIds = pInfo.reservedCards.map(c => c.id);
+
+    // add new cards to inv
+    const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));
+    toAddResCardsIds.forEach(cid => {
+        const tNode = document.querySelector("#other-player-reserved-card-template").content.cloneNode(true);
+        const div = tNode.querySelector("div");
+        const imgUrl = `images/development-cards/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        cardDrawerReserved.appendChild(tNode);
     });
 
     // update prestige points
