@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 SETTINGS.setUsername(username);
 
-                transition("lobby.html");
+                transition("/lobby/");
             }).finally(() => enableInputs());
         event.preventDefault();
     });

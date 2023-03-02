@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     logOutBtn.onclick = () => {
-        window.location.href = "titleScreen.html";
+        window.location.href = "/";
     };
 
     
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 // check is session is launched and you're in it
                 if(value.players.includes(username)) {
-                    window.location.href = "gameboard.html?sessionId=" + sessionId;
+                    window.location.href = "/gameboard/?sessionId=" + sessionId;
                 }
             }
         }

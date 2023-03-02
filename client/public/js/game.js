@@ -22,7 +22,7 @@ const updateTierRow = (selector, cards) => {
         const cost = cardInfo["tokenCost"];
         const cardElm = cardElms[index];
 
-        const imgUrl = `images/development-cards/${cardId}.jpg`;
+        const imgUrl = `/images/development-cards/${cardId}.jpg`;
         const imgElm = cardElm.querySelector("img");
         imgElm.src = imgUrl;
 
@@ -60,7 +60,7 @@ const updateMainPlayerInfo = (playerInfo) => {
     toAddCardsIds.forEach(cid => {
         const tNode = document.querySelector("#development-card-template").content.cloneNode(true);
         const div = tNode.querySelector("div");
-        const imgUrl = `images/development-cards/${cid}.jpg`;
+        const imgUrl = `/images/development-cards/${cid}.jpg`;
 
         div.setAttribute("card-id", cid);
         div.querySelector("img").setAttribute("src", imgUrl);
@@ -83,7 +83,7 @@ const updateMainPlayerInfo = (playerInfo) => {
     toAddResCardsIds.forEach(cid => {
         const tNode = document.querySelector("#player-inventory-reserved-card-template").content.cloneNode(true);
         const div = tNode.querySelector("div");
-        const imgUrl = `images/development-cards/${cid}.jpg`;
+        const imgUrl = `/images/development-cards/${cid}.jpg`;
 
         div.setAttribute("card-id", cid);
         div.querySelector("img").setAttribute("src", imgUrl);
@@ -131,7 +131,7 @@ const updateOtherPlayerInfo = (pInfo) => {
     toAddCardsIds.forEach(cid => {
         const tNode = document.querySelector("#other-player-dev-card-template").content.cloneNode(true);
         const div = tNode.querySelector("div");
-        const imgUrl = `images/development-cards/${cid}.jpg`;
+        const imgUrl = `/images/development-cards/${cid}.jpg`;
 
         div.setAttribute("card-id", cid);
         div.querySelector("img").setAttribute("src", imgUrl);
@@ -177,7 +177,7 @@ const updateNoblesBoard = async (cards) => {
 
         if(index < cards.length) {
             if(curSrc !== cards[index]) {
-                const imgSrc = `images/nobles/${cards[index].id}.jpg`;
+                const imgSrc = `/images/nobles/${cards[index].id}.jpg`;
                 elm.setAttribute("src", imgSrc);
             }
         } else {

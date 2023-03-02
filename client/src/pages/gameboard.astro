@@ -18,12 +18,12 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
 
-        <script type="module" src="js/settings.js"></script>
+        <script type="module" src="/js/settings.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"> 
-        <script type="module" src="js/game-components.js"></script>
+        <script type="module" src="/js/game-components.js"></script>
     </head>
 
     <body>
@@ -100,7 +100,7 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
                 <div class="board-cards">
                     <div class="board-cards-row board-cards-level3">
                         <div class="board-cards-dev-deck">
-                            <img src="./images/BlueCard.jpg">
+                            <img src="/images/BlueCard.jpg">
                         </div>
                         <div class="board-cards-dev-selectable">
                             <div class="board-card-dev">
@@ -124,12 +124,12 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
                             </div>
                         </div>
                         <div class="board-cards-dev-deck-orient" empty>
-                            <img src="./images/RedCardThree.jpg">
+                            <img src="/images/RedCardThree.jpg">
                         </div>
                     </div>
                     <div class="board-cards-row board-cards-level2">
                         <div class="board-cards-dev-deck">
-                            <img src="./images/YellowCard.jpg">
+                            <img src="/images/YellowCard.jpg">
                         </div>
                         <div class="board-cards-dev-selectable">
                             <div class="board-card-dev">
@@ -153,12 +153,12 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
                             </div>
                         </div>
                         <div class="board-cards-dev-deck-orient" empty>
-                            <img src="./images/RedCardTwo.jpg">
+                            <img src="/images/RedCardTwo.jpg">
                         </div>
                     </div>
                     <div class="board-cards-row board-cards-level1">
                         <div class="board-cards-dev-deck">
-                            <img src="./images/GreenCard.jpg">
+                            <img src="/images/GreenCard.jpg">
                         </div>
                         <div class="board-cards-dev-selectable">
                             <div class="board-card-dev">
@@ -182,7 +182,7 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
                             </div>
                         </div>
                         <div class="board-cards-dev-deck-orient" empty>
-                            <img src="./images/RedCardOne.jpg">
+                            <img src="/images/RedCardOne.jpg">
                         </div>
                     </div>
                 </div>
@@ -201,13 +201,13 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
         <!-- Templates to be used throughout the game -->
         <template id="development-card-template">
             <div class="player-inventory-card" card-id cost>
-                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+                <img src="">
             </div>
         </template>
 
         <template id="player-inventory-reserved-card-template">
             <div class="player-inventory-card-reserved">
-                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+                <img src="">
             </div>
         </template>
 
@@ -247,7 +247,7 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
 
         <template id="other-player-dev-card-template">
             <div class="other-inventory-card">
-                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+                <img src="">
             </div>
         </template>
 
@@ -257,8 +257,8 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
             </div>
         </template>
 
-        <script type="module" src="js/game.js"></script>
-        <script type="module" src="js/modals.js"></script>
+        <script type="module" src="/js/game.js"></script>
+        <script type="module" src="/js/modals.js"></script>
 
     </body>
 </html>

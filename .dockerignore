@@ -1,0 +1,7 @@
+# Exclude from COPY operation in Dockerfile
+
+**/node_modules
+**/target
+**/.idea
+**/dist
+**/docs

@@ -126,7 +126,7 @@ const showPayment = (cardNode) => {
     const cardId = cardNode.getAttribute("card-id");
 
     // show card in purchase window
-    const imgSrc = `images/development-cards/${cardId}.jpg`;
+    const imgSrc = `/images/development-cards/${cardId}.jpg`;
     document.querySelector("#dev-card-payment-modal .purchase-show-card img").setAttribute("src", imgSrc);
 
     // clear previous numbers

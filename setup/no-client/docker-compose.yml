@@ -13,8 +13,6 @@ services:
       interval: 5s
 
   lobby-service:
-    extra_hosts:
-      host.docker.internal: host-gateway
     build:
       context: ../
       dockerfile: Dockerfile.ls
@@ -29,14 +27,17 @@ services:
       retries: 20
       interval: 5s
 
-  client:
+  server:
     build:
       context: ../../
-      dockerfile: setup/Dockerfile.client
+      dockerfile: setup/Dockerfile.server
     ports:
-      - "36104:80"
+      - "33402:33402"
+    depends_on:
+      lobby-service:
+        condition: service_healthy
     healthcheck:
-      test: curl --fail http://localhost:80 || exit 1
+      test: curl --fail http://localhost:33402/api/online || exit 1
       timeout: 5s
       retries: 20
       interval: 5s

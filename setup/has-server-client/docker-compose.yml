@@ -44,10 +44,8 @@ services:
 
   client:
     build:
-      context: ../
-      dockerfile: Dockerfile.client
-    volumes:
-      - ../../client:/usr/share/nginx/html/
+      context: ../../
+      dockerfile: setup/Dockerfile.client
     ports:
       - "36104:80"
     depends_on:

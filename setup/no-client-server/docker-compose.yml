@@ -28,15 +28,3 @@ services:
       timeout: 5s
       retries: 20
       interval: 5s
-
-  client:
-    build:
-      context: ../../
-      dockerfile: setup/Dockerfile.client
-    ports:
-      - "36104:80"
-    healthcheck:
-      test: curl --fail http://localhost:80 || exit 1
-      timeout: 5s
-      retries: 20
-      interval: 5s

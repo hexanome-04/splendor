@@ -6,7 +6,7 @@ export function transition(newLink) {
     transition_el.classList.add("is-active");
 
     setTimeout(() => {
-        window.location.href = newLink;
+        window.location.pathname = newLink;
     }, 400);
 }
 
@@ -15,7 +15,7 @@ window.addEventListener("load", () => {
         const btn = button_el[i];
 
         btn.addEventListener("click", function() {
-            transition("login.html");
+            transition("/login/");
         });
     }
 });

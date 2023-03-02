@@ -127,3 +127,6 @@ node_modules/
 target/
 *.iml
 .idea/
+
+dist/
+docs/

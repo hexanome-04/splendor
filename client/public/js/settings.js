@@ -132,7 +132,7 @@ export const SETTINGS = {
      * Force client to go to login screen.
      */
     goToLogin: () => {
-        window.location = "login.html";
+        window.location.pathname = "/login/";
     },
 
     /**

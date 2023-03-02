@@ -15,46 +15,42 @@ git submodule init
 git submodule update
 ```
 
-## Run
+## Running a setup
 
-### Running with the server
-
-**The server needs to successfully build for this to work.**
-
-**This would be mainly for testing/debugging the client.**
+### In general
 
 Start with a terminal in the root of the folder (likely "f2022-hexanome-04")
 
 ```bash
-cd setup/has-server
-docker compose up
+cd setup/{setup name}
+docker compose up --build
 ```
 
+### List of setups
 
-### Running without the server
+#### has-server-client
+- The server needs to successfully build for this to work.
+- The client needs to successfully build for this to work.
+- Used for running the whole game all together.
 
-**This would be mainly for testing/debugging the server.**
+#### no-client-server
+- Used for testing/debugging the client & server.
 
-Start with a terminal in the root of the folder (likely "f2022-hexanome-04")
+#### no-client
+- The server needs to successfully build for this to work.
+- Used for testing/debugging the client.
 
-```bash
-cd setup/no-server
-docker compose up
-```
+#### no-server
+- The client needs to successfully build for this to work.
+- Used for testing/debugging the server.
 
-## Connecting to the client
+## Connecting to the client (if it has)
 
-Regardless if you run with/without the server, a web server will have been created for the client, which you can access with this link: [http://localhost:36104/titleScreen.html](http://localhost:36104/titleScreen.html).
-
-***If you cannot login when using the client, ensure that the client is pointing to the correct API endpoints.***
-
-In `f2022-hexanome-04/client/js/settings.js`, check that the `GS_API` and `LS_API` is `http://localhost:53402` and `http://localhost:54172` respectively.
-
-Then clear your browser's cache or open the debugging tools, go into network, disable the cache and reload the page.
+A web server will have been created for the client, which you can access with this link: [http://localhost:36104](http://localhost:36104).
 
 ## Updates to the code
 
-If you happen to change branches, update the code for the server, you must rebuild the docker image.
+If you happen to change branches, update the code for the server and/or client, you must rebuild the docker images.
 An easy way to do that is to add `--build` to the docker compose command.
 
 ```bash

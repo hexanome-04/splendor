@@ -1,4 +1,11 @@
+FROM node:18.14.2-alpine3.16 AS builder
+WORKDIR /client
+COPY ../client /client
+RUN npm install
+RUN npm run build
+
 FROM nginx:1.23.3-alpine-slim
-COPY nginx_no-cache.conf /etc/nginx/nginx.conf
+COPY setup/nginx_no-cache.conf /etc/nginx/nginx.conf
+COPY --from=builder /client/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
