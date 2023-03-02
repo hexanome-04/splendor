@@ -12,6 +12,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -19,7 +22,7 @@ import java.util.List;
  */
 public class OrientGame extends Game {
 
-    //final Logger logger = LoggerFactory.getLogger(GameBaseOrient.class);
+    final Logger logger = LoggerFactory.getLogger(OrientGame.class);
 
     private Deck<NobleCard> nobleDeck;
     /** Tier 1 Orient deck. */
@@ -141,7 +144,7 @@ public class OrientGame extends Game {
                 lines++;
             }
         } catch (Exception e) {
-            //logger.error("Could not read file"); // Testing
+            logger.error("Could not read file"); // Testing
         }
     }
 
