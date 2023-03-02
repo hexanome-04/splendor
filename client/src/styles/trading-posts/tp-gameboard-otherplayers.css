@@ -1,0 +1,18 @@
+/* OTHER PLAYER COAT OF ARMS INDICATOR */
+.op-name-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.op-coa-image-container {
+  padding-top: 1em;
+  font-size: 0.8vmin;
+}
+
+.op-coa-image-container img {
+  height: 3em;
+  aspect-ratio: 27 / 31;
+}

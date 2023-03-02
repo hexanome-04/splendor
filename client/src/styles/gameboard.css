@@ -142,6 +142,7 @@ body {
 }
 
 .player-inventory-container {
+  position: relative;
   flex: 0 1 auto;
   display: flex;
   flex-direction: column;
@@ -158,12 +159,15 @@ body {
   --player-inv-card-height: 6em;
 }
 
-.player-prestige-points-container {
+.player-inventory-container > .player-prestige-points-container {
+  position: absolute;
+  right: -1em;
+  top: -1em;
   background-image: url("/images/bluebackground.jpg");
   background-size: contain;
   border: 0.2rem solid goldenrod;
   border-radius: 50%;
-  height: 3em;
+  height: 2.5em;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
@@ -171,9 +175,9 @@ body {
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
 }
 
-.player-prestige-points-container span {
+.player-inventory-container > .player-prestige-points-container span {
   font-family: Lobster, cursive;
-  font-size: 1.8em;
+  font-size: 1.5em;
   color: rgb(245 204 101);
   -webkit-text-stroke: 0.08rem black;
   text-shadow: 1px 3px 5px black;

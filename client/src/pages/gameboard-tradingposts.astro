@@ -1,0 +1,321 @@
+---
+import "../styles/gameboard.css";
+import "../styles/gameboard-otherplayers.css";
+import "../styles/trading-posts/tp-gameboard.css";
+import "../styles/trading-posts/tp-gameboard-otherplayers.css";
+import "../styles/modals.css";
+import TakeTurnModal from "../components/modals/TakeTurnModal.astro";
+import BuyCardModal from "../components/modals/BuyCardModal.astro";
+import ReserveCardModal from "../components/modals/ReserveCardModal.astro";
+import SaveGameModal from "../components/modals/SaveGameModal.astro";
+import RestartGameModal from "../components/modals/RestartGameModal.astro";
+---
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Splendor | Trading Posts</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
+
+        <script type="module" src="/js/settings.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"> 
+        <script type="module" src="/js/game-components.js"></script>
+    </head>
+
+    <body>
+        <div class="navigation">
+            <nav>
+                <ul>
+                    <li><p class="resume"> RESUME </p></li>
+                    <li><p class="save"> SAVE GAME </p></li>
+                    <li><p class="restart"> RESTART </p></li>
+                    <li><p class="quit"> QUIT </p></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="top-menu-bar" class="top-menu-bar">
+            <div id="menu-icon" class="menu-icon">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <p id="top-menu-title" class="top-menu-title"> Splendor </p>
+        </div>
+        <div id="game-elements" class="game-elements">
+            <div id="player-inventory" class="player-inventory">
+                <div class="player-inventory-container">
+                    <div class="player-prestige-points-container">
+                        <span>0</span>
+                    </div>
+                    <div class="player-coat-of-arms">
+                        <img src="/images/trading-posts/RedCoatOfArms.png">
+                    </div>
+                    <div class="player-inventory-tokens">
+                        <board-token color="red"></board-token>
+                        <board-token color="blue"></board-token>
+                        <board-token color="green"></board-token>
+                        <board-token color="white"></board-token>
+                        <board-token color="brown"></board-token>
+                        <board-token color="gold"></board-token>
+                    </div>
+                    <div class="player-inventory-cards">
+                        <div class="player-inventory-card-placeholder">
+                            <img>
+                        </div>
+                        <div class="player-inventory-card-drawer">
+                        </div>
+                    </div>
+                    <div class="player-inventory-reservedcards">
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <!-- POWERS -->
+                <div class="powers-container">
+
+                    <div class="power">
+                        <div class="coa-indicator">
+                            <img src="/images/trading-posts/RedCoatOfArms.png">
+                            <img src="/images/trading-posts/BlueCoatOfArms.png">
+                            <img src="/images/trading-posts/YellowCoatOfArms.png">
+                            <img src="/images/trading-posts/BlackCoatOfArms.png">
+                        </div>
+                        <img src="/images/trading-posts/ExtraTokenAfterPurchasePower.png">
+                    </div>
+
+                    <div class="power">
+                        <div class="coa-indicator">
+                            <img src="/images/trading-posts/RedCoatOfArms.png">
+                            <img src="/images/trading-posts/BlueCoatOfArms.png">
+                            <img src="/images/trading-posts/YellowCoatOfArms.png">
+                            <img src="/images/trading-posts/BlackCoatOfArms.png">
+                        </div>
+                        <img src="/images/trading-posts/ExtraTokenAfterTakingSameColorTokensPower.png">
+                    </div>
+
+                    <div class="power">
+                        <div class="coa-indicator">
+                            <img src="/images/trading-posts/RedCoatOfArms.png">
+                            <img src="/images/trading-posts/BlueCoatOfArms.png">
+                            <img src="/images/trading-posts/YellowCoatOfArms.png">
+                            <img src="/images/trading-posts/BlackCoatOfArms.png">
+                        </div>
+                        <img src="/images/trading-posts/GoldTokenWorthTwoTokensPower.png">
+                    </div>
+
+                    <div class="power">
+                        <div class="coa-indicator">
+                            <img src="/images/trading-posts/RedCoatOfArms.png">
+                            <img src="/images/trading-posts/BlueCoatOfArms.png">
+                            <img src="/images/trading-posts/YellowCoatOfArms.png">
+                            <img src="/images/trading-posts/BlackCoatOfArms.png">
+                        </div>
+                        <img src="/images/trading-posts/AddFivePrestigePointsPower.png">
+                    </div>
+
+                    <div class="power">
+                        <div class="coa-indicator">
+                            <img src="/images/trading-posts/RedCoatOfArms.png">
+                            <img src="/images/trading-posts/BlueCoatOfArms.png">
+                            <img src="/images/trading-posts/YellowCoatOfArms.png">
+                            <img src="/images/trading-posts/BlackCoatOfArms.png">
+                        </div>
+                        <img src="/images/trading-posts/AddPrestigePointsWithCoatOfArmsPower.png">
+                    </div>
+                </div>
+
+                <!-- BOARD CARDS -->
+                <div id="board" class="board">
+                    <div class="board-tokens">
+                        <board-token color="red"></board-token>
+                        <board-token color="blue"></board-token>
+                        <board-token color="green"></board-token>
+                        <board-token color="white"></board-token>
+                        <board-token color="brown"></board-token>
+                        <board-token color="gold"></board-token>
+                    </div>
+                    <div class="board-nobles">
+                        <div class="board-noble-card">
+                            <img>
+                        </div>
+                        <div class="board-noble-card">
+                            <img>
+                        </div>
+                        <div class="board-noble-card">
+                            <img>
+                        </div>
+                        <div class="board-noble-card">
+                            <img>
+                        </div>
+                        <div class="board-noble-card">
+                            <img>
+                        </div>
+                    </div>
+                    <div class="board-cards">
+                        <div class="board-cards-row board-cards-level3">
+                            <div class="board-cards-dev-deck">
+                                <img src="/images/BlueCard.jpg">
+                            </div>
+                            <div class="board-cards-dev-selectable">
+                                <div class="board-card-dev">
+                                    <!-- Replace with <img> when ready -->
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                            </div>
+                            <div class="board-cards-dev-deck-orient" empty>
+                                <img src="/images/RedCardThree.jpg">
+                            </div>
+                        </div>
+                        <div class="board-cards-row board-cards-level2">
+                            <div class="board-cards-dev-deck">
+                                <img src="/images/YellowCard.jpg">
+                            </div>
+                            <div class="board-cards-dev-selectable">
+                                <div class="board-card-dev">
+                                    <!-- Replace with <img> when ready -->
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                            </div>
+                            <div class="board-cards-dev-deck-orient" empty>
+                                <img src="/images/RedCardTwo.jpg">
+                            </div>
+                        </div>
+                        <div class="board-cards-row board-cards-level1">
+                            <div class="board-cards-dev-deck">
+                                <img src="/images/GreenCard.jpg">
+                            </div>
+                            <div class="board-cards-dev-selectable">
+                                <div class="board-card-dev">
+                                    <!-- Replace with <img> when ready -->
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                                <div class="board-card-dev board-card-dev-orient">
+                                    <img>
+                                </div>
+                            </div>
+                            <div class="board-cards-dev-deck-orient" empty>
+                                <img src="/images/RedCardOne.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="other-players" class="other-players"></div>
+        </div>
+
+        <!-- MODALS -->
+        <TakeTurnModal></TakeTurnModal>
+        <BuyCardModal></BuyCardModal>
+        <ReserveCardModal></ReserveCardModal>
+        <SaveGameModal></SaveGameModal>
+        <RestartGameModal></RestartGameModal>
+
+        <!-- Templates to be used throughout the game -->
+        <template id="development-card-template">
+            <div class="player-inventory-card" card-id cost>
+                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+            </div>
+        </template>
+
+        <template id="player-inventory-reserved-card-template">
+            <div class="player-inventory-card-reserved">
+                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+            </div>
+        </template>
+
+        <template id="dev-card-template">
+
+        </template>
+
+        <template id="other-player-tab-template">
+            <div class="other-player">
+                <div class="other-player-container">
+                    <div class="other-prestige-point-container">
+                        <span>15</span>
+                    </div>
+                    <div class="other-player-profile">
+                        <img>
+                        <div class="op-name-container">
+                            <div class="op-coa-image-container">
+                                <img src="/images/trading-posts/RedCoatOfArms.png">
+                            </div>
+                            <p class="other-player-name">NAME</p>
+                        </div>
+                    </div>
+                    <div class="other-player-inventory">
+                        <div class="other-player-tokens">
+                            <board-token color="red"></board-token>
+                            <board-token color="blue"></board-token>
+                            <board-token color="green"></board-token>
+                            <board-token color="white"></board-token>
+                            <board-token color="brown"></board-token>
+                            <board-token color="gold"></board-token>
+                        </div>
+                        <div class="other-inventory-cards">
+                            <!-- The following cards have to be put in reverse order -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="other-player-dev-card-template">
+            <div class="other-inventory-card">
+                <img src="./images/G-G-2-1-0-0-2-0.jpg">
+            </div>
+        </template>
+
+        <script type="module" src="/js/game.js"></script>
+        <script type="module" src="/js/modals.js"></script>
+
+    </body>
+</html>

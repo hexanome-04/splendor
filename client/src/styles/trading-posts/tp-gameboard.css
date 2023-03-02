@@ -1,0 +1,49 @@
+/* PLAYER INVENTORY */
+.player-coat-of-arms > img {
+  height: 2em;
+  aspect-ratio: 27 / 31;
+  filter: drop-shadow(0.07em 0.07em 0.1em #222);
+}
+
+/* POWERS SECTION */
+.board-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1 0 auto;
+  padding-left: 5em;
+}
+
+.board-container > .powers-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 1.6vmin;
+}
+
+.power >  img {
+  height: 4em;
+  aspect-ratio: 41 / 14;
+}
+
+.power {
+  position: relative;
+  display: flex;
+}
+
+.power > .coa-indicator {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  top: -1em;
+  right: 0;
+}
+
+.coa-indicator img {
+  height: 2em;
+  aspect-ratio: 27 / 31;
+  filter: drop-shadow(0.07em 0.07em 0.2em #222);
+}
