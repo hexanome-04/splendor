@@ -309,6 +309,10 @@ tr > th {
   background: #50c878;
 }
 
+.current-sessions-table .play-btn {
+  background: #5e259b;
+}
+
 /* Disable if not enough players or not creator */
 .current-sessions-table tr:is([launchable][created]) .launch-btn {
   display: block;
