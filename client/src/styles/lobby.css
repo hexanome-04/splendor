@@ -348,7 +348,7 @@ tr > th {
 }
 
 /* Disable if cannot join */
-.current-sessions-table tr:not([full], [joined]) .join-btn {
+.current-sessions-table tr:not([full], [joined], [started]) .join-btn {
   display: block;
 }
 
@@ -358,6 +358,10 @@ tr > th {
 
 .current-sessions-table .play-btn {
   background: #5e259b;
+}
+
+.current-sessions-table .placeholder-btn {
+  visibility: hidden;
 }
 
 /* Disable if not enough players or not creator */
@@ -370,7 +374,7 @@ tr > th {
 }
 
 /* Disable if creator */
-.current-sessions-table tr:not([created]):is([joined]) .leave-btn {
+.current-sessions-table tr:not([created], [started]):is([joined]) .leave-btn {
   display: block;
 }
 
@@ -379,6 +383,16 @@ tr > th {
 }
 
 /* Disable if creator */
-.current-sessions-table tr[created] .del-btn {
+.current-sessions-table tr:not([started]):is([created]) .del-btn {
+  display: block;
+}
+
+/* Add play button to join a launched session */
+.current-sessions-table tr:is([started][joined]) .play-btn {
+  display: block;
+}
+
+/* Add placeholder so that row size stays constant */
+.current-sessions-table tr:is([started]):not([joined]) .placeholder-btn {
   display: block;
 }

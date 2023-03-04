@@ -1,4 +1,4 @@
-import { SETTINGS } from "./settings.js";
+import { SETTINGS, GAME_VERSION_TO_BOARD } from "./settings.js";
 
 // perhaps we need a better build system
 // eslint-disable-next-line no-undef
@@ -157,6 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    const playSession = (elm, sesId, gameVer) => {
+        elm.disabled = true;
+
+        SETTINGS.verifyCredentials().then(() => {
+            window.location.href = `/${GAME_VERSION_TO_BOARD[gameVer]}/?sessionId=${sesId}`
+        }).finally(() => elm.disabled = false);
+    };
+
     // Related to checking sessions that user can join
     var availableSessionHash = "-";
 
@@ -167,20 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const username = SETTINGS.getUsername();
 
-        // map sessions (that aren't launched)
-        // make list of all non launched sesions ids
+        // map sessions
         const nowAvailableSesions = {};
         const nowAvailableSesIdList = [];
         for (const [sessionId, value] of Object.entries(data.sessions)) {
-            if(!value.launched) {
-                nowAvailableSesions[sessionId] = value;
-                nowAvailableSesIdList.push(sessionId);
-            } else {
-                // check is session is launched and you're in it
-                if(value.players.includes(username)) {
-                    window.location.href = "/gameboard/?sessionId=" + sessionId;
-                }
-            }
+            nowAvailableSesions[sessionId] = value;
+            nowAvailableSesIdList.push(sessionId);
         }
 
         // make list of all sessions already shown id
@@ -192,6 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // calc difference of lists
         const toAddSesIdList = nowAvailableSesIdList.filter(x => !curSesIdList.includes(x));
+
+        // remove session that are no longer there
         const toRemoveSesIdList = curSesIdList.filter(x => !nowAvailableSesIdList.includes(x));
 
         // Remove non available sessions
@@ -199,15 +201,39 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(`${tableSel} tr[session-id="${sesId}"]`).remove();
         });
 
+        const setAttributes = (ses, node) => {
+            const sesPlayers = ses.players;
+
+            if(sesPlayers.includes(username)) {
+                node.setAttribute("joined", "true");
+            } else {
+                node.removeAttribute("joined");
+            }
+
+            if(ses.creator === username) {
+                node.setAttribute("created", "true");
+                if(sesPlayers.length > 1 && !ses.launched) {
+                    node.setAttribute("launchable", "true");
+                } else {
+                    node.removeAttribute("launchable");
+                }
+            }
+
+            if(ses.launched) {
+                node.setAttribute("started", "true");
+            }
+        };
+
         // Add available sessions
         const tbl = document.querySelector(tableSel);
         toAddSesIdList.forEach((sesId) => {
             const tempNode = document.querySelector(templateSel).content.cloneNode(true);
             const ses = nowAvailableSesions[sesId];
+            const gameVer = ses.gameParameters.name.replace("splendor_", "");
 
             const trNode = tempNode.querySelector("tr");
             trNode.setAttribute("session-id", sesId);
-            trNode.setAttribute("version", ses.gameParameters.name.replace("splendor_", ""));
+            trNode.setAttribute("version", gameVer);
 
             trNode.querySelector(".session-game-name").textContent = ses.gameParameters.displayName;
             trNode.querySelector(".session-creator-name").textContent = ses.creator;
@@ -217,26 +243,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const maxP = ses.gameParameters.maxSessionPlayers;
             trNode.querySelector(".session-players-info").textContent = `[${curP}/${maxP}]: ${sesPlayers.join(", ")}`;
 
-            if(ses.players.includes(username)) {
-                trNode.setAttribute("joined", "true");
-            }
-
-            if(ses.creator === username) {
-                trNode.setAttribute("created", "true");
-                if(sesPlayers.length > 1) {
-                    trNode.setAttribute("launchable", "true");
-                }
-            }
+            setAttributes(ses, trNode);
 
             // assign button events
             const delBtn = tempNode.querySelector(".del-btn.ses-btn");
             const leaveBtn = tempNode.querySelector(".leave-btn.ses-btn");
             const joinBtn = tempNode.querySelector(".join-btn.ses-btn");
             const launchBtn = tempNode.querySelector(".launch-btn.ses-btn");
+            const playBtn = tempNode.querySelector(".play-btn.ses-btn");
             delBtn.onclick = () => { deleteSession(delBtn); };
             leaveBtn.onclick = () => { leaveSession(leaveBtn); };
             joinBtn.onclick = () => { joinSession(joinBtn); };
             launchBtn.onclick = () => { launchSession(launchBtn); };
+            playBtn.onclick = () => playSession(playBtn, sesId, gameVer);
 
             tbl.appendChild(tempNode);
         });
@@ -251,17 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const maxP = ses.gameParameters.maxSessionPlayers;
 
             const trNode = document.querySelector(`tr[session-id="${sesId}"]`);
-            if(ses.players.includes(username)) {
-                trNode.setAttribute("joined", "true");
-            } else {
-                trNode.removeAttribute("joined");
-            }
 
-            if(ses.creator === username) {
-                if(sesPlayers.length > 1) {
-                    trNode.setAttribute("launchable", "true");
-                }
-            }
+            setAttributes(ses, trNode);
 
             const node = document.querySelector(`${tableSel} tr[session-id="${sesId}"] .session-players-info`);
             const newText = `[${curP}/${maxP}]: ${sesPlayers.join(", ")}`;
