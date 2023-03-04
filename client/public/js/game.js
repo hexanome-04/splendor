@@ -33,11 +33,11 @@ const updateTierRow = (selector, devCards, orientCards) => {
     setEmptyIfNeeded(".board-cards-dev-deck", devCards.length == 0);
     setEmptyIfNeeded(".board-cards-dev-deck-orient", orientCards.length == 0);
 
-    const updateCardElement = (cardElm, cardInfo, imgBase) => {
+    const updateCardElement = (cardElm, cardInfo) => {
         const cardId = cardInfo["id"];
         const cost = cardInfo["tokenCost"];
 
-        const imgUrl = `${imgBase}/${cardId}.jpg`;
+        const imgUrl = `/images/development-cards/${cardId}.jpg`;
         const imgElm = cardElm.querySelector("img");
         imgElm.src = imgUrl;
 
@@ -46,9 +46,9 @@ const updateTierRow = (selector, devCards, orientCards) => {
         cardElm.setAttribute("cost", JSON.stringify(cost));
     };
 
-    devCards.forEach((cardInfo, index) => updateCardElement(cardElms[index], cardInfo, "/images/development-cards"));
+    devCards.forEach((cardInfo, index) => updateCardElement(cardElms[index], cardInfo));
     // skip first 4 card elements in the row (reg dev cards)
-    orientCards.forEach((cardInfo, index) => updateCardElement(cardElms[index + 4], cardInfo, "/images/orient-development-cards"));
+    orientCards.forEach((cardInfo, index) => updateCardElement(cardElms[index + 4], cardInfo));
 };
 
 const updateMainPlayerInfo = (playerInfo) => {
@@ -171,7 +171,7 @@ const updateOtherPlayerInfo = (pInfo) => {
     toAddResCardsIds.forEach(cid => {
         const tNode = document.querySelector("#other-player-reserved-card-template").content.cloneNode(true);
         const div = tNode.querySelector("div");
-        const imgUrl = `images/development-cards/${cid}.jpg`;
+        const imgUrl = `/images/development-cards/${cid}.jpg`;
 
         div.setAttribute("card-id", cid);
         div.querySelector("img").setAttribute("src", imgUrl);
