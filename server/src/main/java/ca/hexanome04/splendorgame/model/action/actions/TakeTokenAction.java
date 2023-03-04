@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Perform the take token action.
@@ -21,6 +22,8 @@ public class TakeTokenAction extends Action {
 
     private HashMap<TokenType, Integer> takeTokens;
     private HashMap<TokenType, Integer> putBackTokens;
+
+    Logger logger = LoggerFactory.getLogger(TakeTokenAction.class);
 
     /**
      * Construct a take token action.
@@ -71,6 +74,10 @@ public class TakeTokenAction extends Action {
                 return result;
             }
 
+            if (putBackTokensNum > playerCurrentTokensNum) {
+                result.add(ActionResult.NOT_ENOUGH_TOKENS_IN_INVENTORY);
+                return result;
+            }
 
         }
 
@@ -79,7 +86,6 @@ public class TakeTokenAction extends Action {
             result.add(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY);
             return result;
         }
-
 
         // cannot have doubleTokens > 0 and uniqueTokens > 0 at same time (mutually exclusive options)
         int uniqueTokens = 0; // max value of 3
@@ -98,16 +104,18 @@ public class TakeTokenAction extends Action {
                     return result;
                 }
             } else {
-                uniqueTokens += 1;
+                if (takeTokens.get(t) > 0) {
+                    uniqueTokens++;
+                }
             }
         }
 
         // verify either 2 of same token or 3 unique tokens
         if (doubleTokens > 1 || uniqueTokens > 3 || (uniqueTokens > 0 && doubleTokens > 0)) {
+            logger.error("Double tokens: " + doubleTokens + "\nUnique tokens: " + uniqueTokens);
             result.add(ActionResult.INVALID_TOKENS_GIVEN);
             return result;
         }
-
 
 
         game.removeTokens(takeTokens);

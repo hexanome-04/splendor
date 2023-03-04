@@ -14,9 +14,9 @@ document.getElementById("menu-icon").addEventListener("click", show);
 
 document.querySelector(".resume").parentNode.addEventListener("click", close);
 
-const getTokensBtn = document.getElementById("get-tokens-btn");
 const purchaseBtn = document.getElementById("purchase-btn");
 const reserveBtn = document.getElementById("reserve-btn");
+const takeTokenBtn = document.getElementById("get-tokens-btn");
 
 
 // --------------------------------------------------
@@ -99,11 +99,11 @@ const showReservableDevCards = () => {
 
 
 /**
- * Get the require list for token payment for purchasing a development card.
+ * Get the list of tokens when taking / putting back tokens or purchasing a development card
  * @returns [{ token: count }]
  */
-const getPaymentTokensList = () => {
-    const tokensCountNodes = document.querySelectorAll("#dev-card-payment-modal board-token-counter board-token .board-token");
+const getTokensList = (selector) => {
+    const tokensCountNodes = document.querySelectorAll(selector);
 
     const tokens = {};
 
@@ -116,6 +116,84 @@ const getPaymentTokensList = () => {
 
     return tokens;
 };
+
+const setBoardTokens = (modal) => {
+    const boardNode = document.querySelector("#board .board-tokens");
+    const modalNode = document.querySelector(modal);
+    modalNode.querySelector(".red-token > span").textContent = boardNode.querySelector(".red-token > span").textContent;
+    modalNode.querySelector(".blue-token > span").textContent = boardNode.querySelector(".blue-token > span").textContent;
+    modalNode.querySelector(".green-token > span").textContent = boardNode.querySelector(".green-token > span").textContent;
+    modalNode.querySelector(".white-token > span").textContent = boardNode.querySelector(".white-token > span").textContent;
+    modalNode.querySelector(".brown-token > span").textContent = boardNode.querySelector(".brown-token > span").textContent;
+    modalNode.querySelector(".gold-token > span").textContent = boardNode.querySelector(".gold-token > span").textContent;
+}
+
+const takeTokens = () => {
+    
+    // clear previous numbers
+    document.querySelectorAll("#take-token-modal board-token").forEach(elm => {
+        elm.setCount(0);
+    });
+
+    // set min and max for counters, TODO: set max and min values to what tokens the player has
+    document.querySelectorAll("#take-token-modal board-token-counter").forEach(elm => {
+        elm.setMax(10);
+    });
+
+    setBoardTokens("#take-token-modal");
+
+    document.querySelector("#take-token-modal #take-token-confirm-btn").onclick = () => {
+        putBackTokens();
+        showNextModal("#put-back-token-modal");
+    };
+    
+}
+
+const putBackTokens = () => {
+
+    const confirmBtn = document.querySelector("#put-back-token-modal .put-back-token-confirm-btn");
+    
+    // clear previous numbers
+    document.querySelectorAll("#put-back-token-modal board-token").forEach(elm => {
+        elm.setCount(0);
+    });
+
+    // set min and max for counters, TODO: set max and min values to what tokens the player has
+    document.querySelectorAll("#put-back-token-modal board-token-counter").forEach(elm => {
+        elm.setMax(10);
+    });
+
+    setBoardTokens("#put-back-token-modal");
+
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/TAKE_TOKEN`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+            const jsonData = {
+                "takeTokens": getTokensList("#take-token-modal board-token-counter board-token .board-token"),
+                "putBackTokens": getTokensList("#put-back-token-modal board-token-counter board-token .board-token")
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+}
 
 const showPayment = (cardNode) => {
 
@@ -152,7 +230,7 @@ const showPayment = (cardNode) => {
 
             const jsonData = {
                 "cardId": cardId,
-                "tokens": getPaymentTokensList()
+                "tokens": getTokensList("#dev-card-payment-modal board-token-counter board-token .board-token")
             };
 
             fetch(url, {
@@ -222,6 +300,12 @@ const showNextModal = (selector) => {
     showModal(navContext[navContext.length-1]);
 };
 
+takeTokenBtn.onclick = () => {
+    takeTokens();
+
+    showNextModal("#take-token-modal");
+};
+
 purchaseBtn.onclick = () => {
     // load the purchase items
     showPurchasableDevCards();
@@ -247,6 +331,8 @@ const backButton = () => {
     }
 };
 
+document.querySelectorAll(".take-token-back-btn").forEach(elm => elm.onclick = backButton);
+document.querySelectorAll(".put-back-token-back-btn").forEach(elm => elm.onclick = backButton);
 document.querySelectorAll(".buy-card-back-btn").forEach(elm => elm.onclick = backButton);
 document.querySelectorAll(".reserve-card-back-btn").forEach(elm => elm.onclick = backButton);
 

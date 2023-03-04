@@ -3,10 +3,10 @@ import "../../styles/modals.css";
 import "../../styles/gameboard.css";
 ---
 
-<div id="take-token-modal" class="modal">
+<div id="put-back-token-modal" class="modal">
     <div class="modal-content">
-        <h1>TAKE TOKEN</h1>
-        <p>Please select the tokens you wish to take from the bank.</p>
+        <h1>PUT BACK TOKEN</h1>
+        <p>Please select the tokens you wish to put back into the bank.</p>
 
         <h2>Bank Tokens</h2>
         <!-- Bank Current Tokens -->
@@ -63,11 +63,14 @@ import "../../styles/gameboard.css";
             <!-- Brown Counter -->
             <board-token-counter color="brown"></board-token-counter>
 
+            <!-- Gold Counter -->
+            <board-token-counter color="gold"></board-token-counter>
+
         </div>
 
         <div class="button-container">
-            <button class="take-token-back-btn" id="take-token-confirm-back-btn">BACK</button>
-            <button class="take-token-confirm-btn" id="take-token-confirm-btn">CONFIRM</button>
+            <button class="put-back-token-back-btn" id="put-back-token-confirm-back-btn">BACK</button>
+            <button class="put-back-token-confirm-btn" id="put-back-token-confirm-btn">CONFIRM</button>
         </div>
 
         <script type="module" src="/js/game-components.js"></script>

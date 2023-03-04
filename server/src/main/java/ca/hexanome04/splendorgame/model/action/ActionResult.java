@@ -41,6 +41,11 @@ public enum ActionResult {
     MAXIMUM_TOKENS_IN_INVENTORY,
 
     /**
+     * Player does not have enough tokens in inventory.
+     */
+    NOT_ENOUGH_TOKENS_IN_INVENTORY,
+
+    /**
      * Player has qualified for 2+ nobles and must choose noble.
      */
     MUST_CHOOSE_NOBLE,
