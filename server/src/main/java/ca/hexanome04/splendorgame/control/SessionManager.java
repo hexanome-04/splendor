@@ -73,6 +73,23 @@ public class SessionManager {
             throw new Exception("Game can not be created, 2-4 players required");
         }
 
+        GameSession session = new GameSession(sessionId, creatorName, sessionName);
+        session.setGame(this.launchNewGame(version, players));
+
+        gameSessions.put(sessionId, session);
+        return session;
+    }
+
+    /**
+     * Create a new game with the specified information and launch it.
+     *
+     * @param version game version
+     * @param players list of player infos
+     * @return newly created game
+     * @throws Exception thrown if issue occurred
+     */
+    public Game launchNewGame(GameVersions version, List<PlayerInfo> players) throws Exception {
+
         InputStream is = ResourceUtils.getURL("classpath:cards.csv").openStream();
 
         Game game = switch (version) {
@@ -101,11 +118,8 @@ public class SessionManager {
         game.createSplendorBoard(is);
         game.initBoard();
 
-        GameSession session = new GameSession(sessionId, creatorName, sessionName);
-        session.setGame(game);
-
-        gameSessions.put(sessionId, session);
-        return session;
+        return game;
     }
+
 
 }

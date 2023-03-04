@@ -1,22 +1,8 @@
 import { SETTINGS } from "./settings.js";
 
-function show() {
-    document.querySelector(".navigation").classList.add("active");
-}
-
-
-function close() {
-    document.querySelector(".navigation").classList.remove("active");
-}
-
-
-document.getElementById("menu-icon").addEventListener("click", show);
-
-document.querySelector(".resume").parentNode.addEventListener("click", close);
-
 const purchaseBtn = document.getElementById("purchase-btn");
 const reserveBtn = document.getElementById("reserve-btn");
-const takeTokenBtn = document.getElementById("get-tokens-btn");
+const getTokensBtn = document.getElementById("get-tokens-btn");
 
 
 // --------------------------------------------------
@@ -291,7 +277,7 @@ const closeModal = (selector) => {
     document.querySelector(selector).classList.remove("show");
 };
 
-const showNextModal = (selector) => {
+export const showNextModal = (selector) => {
     // close current
     closeModal(navContext[navContext.length-1]);
 
@@ -300,7 +286,7 @@ const showNextModal = (selector) => {
     showModal(navContext[navContext.length-1]);
 };
 
-takeTokenBtn.onclick = () => {
+getTokensBtn.onclick = () => {
     takeTokens();
 
     showNextModal("#take-token-modal");
@@ -321,7 +307,7 @@ reserveBtn.onclick = () => {
 };
 
 
-const backButton = () => {
+export const backButton = () => {
     // pop top of stack (current modal), close it
     closeModal(navContext.pop());
 

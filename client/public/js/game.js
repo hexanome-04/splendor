@@ -72,6 +72,10 @@ const updateMainPlayerInfo = (playerInfo) => {
     // server state cards
     const serverInvCardIds = playerInfo.cards.map(c => c.id);
 
+    // cards that exist in inv but not server side, must remove
+    const nonExistCardsIds = currentInvCardIds.filter(x => !serverInvCardIds.includes(x));
+    nonExistCardsIds.forEach(cid => cardDrawer.querySelector(`.player-inventory-card[card-id="${cid}"]`).remove());
+
     // add new cards to inv
     const toAddCardsIds = serverInvCardIds.filter(x => !currentInvCardIds.includes(x));
     toAddCardsIds.forEach(cid => {
@@ -94,6 +98,10 @@ const updateMainPlayerInfo = (playerInfo) => {
 
     // server state cards
     const serverInvResCardIds = playerInfo.reservedCards.map(c => c.id);
+
+    // cards that exist in inv but not server side, must remove
+    const nonExistReserveCardsIds = currentInvResCardIds.filter(x => !serverInvResCardIds.includes(x));
+    nonExistReserveCardsIds.forEach(cid => cardDrawerReserved.querySelector(`.player-inventory-card-reserved[card-id="${cid}"]`).remove());
 
     // add new reserved cards to inv
     const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));
@@ -143,6 +151,10 @@ const updateOtherPlayerInfo = (pInfo) => {
     // server state cards
     const serverInvCardIds = pInfo.cards.map(c => c.id);
 
+    // cards that exist in inv but not server side, must remove
+    const nonExistCardsIds = currentInvCardIds.filter(x => !serverInvCardIds.includes(x));
+    nonExistCardsIds.forEach(cid => cardDrawer.querySelector(`.other-inventory-card[card-id="${cid}"]`).remove());
+
     // add new cards to inv
     const toAddCardsIds = serverInvCardIds.filter(x => !currentInvCardIds.includes(x));
     toAddCardsIds.forEach(cid => {
@@ -165,6 +177,10 @@ const updateOtherPlayerInfo = (pInfo) => {
 
     // server state cards
     const serverInvResCardIds = pInfo.reservedCards.map(c => c.id);
+
+    // cards that exist in inv but not server side, must remove
+    const nonExistReserveCardsIds = currentInvResCardIds.filter(x => !serverInvResCardIds.includes(x));
+    nonExistReserveCardsIds.forEach(cid => cardDrawerReserved.querySelector(`.other-inventory-card-reserved[card-id="${cid}"]`).remove());
 
     // add new cards to inv
     const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));

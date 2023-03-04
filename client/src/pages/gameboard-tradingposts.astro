@@ -8,7 +8,7 @@ import TakeTurnModal from "../components/modals/TakeTurnModal.astro";
 import BuyCardModal from "../components/modals/BuyCardModal.astro";
 import ReserveCardModal from "../components/modals/ReserveCardModal.astro";
 import SaveGameModal from "../components/modals/SaveGameModal.astro";
-import RestartGameModal from "../components/modals/RestartGameModal.astro";
+import GameNavMenu from "../components/GameNavMenu.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -29,24 +29,7 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
     </head>
 
     <body>
-        <div class="navigation">
-            <nav>
-                <ul>
-                    <li><p class="resume"> RESUME </p></li>
-                    <li><p class="save"> SAVE GAME </p></li>
-                    <li><p class="restart"> RESTART </p></li>
-                    <li><p class="quit"> QUIT </p></li>
-                </ul>
-            </nav>
-        </div>
-        <div id="top-menu-bar" class="top-menu-bar">
-            <div id="menu-icon" class="menu-icon">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-            <p id="top-menu-title" class="top-menu-title"> Splendor </p>
-        </div>
+        <GameNavMenu title=" Splendor "></GameNavMenu>
         <div id="game-elements" class="game-elements">
             <div id="player-inventory" class="player-inventory">
                 <div class="player-inventory-container">
@@ -257,7 +240,6 @@ import RestartGameModal from "../components/modals/RestartGameModal.astro";
         <BuyCardModal></BuyCardModal>
         <ReserveCardModal></ReserveCardModal>
         <SaveGameModal></SaveGameModal>
-        <RestartGameModal></RestartGameModal>
 
         <!-- Templates to be used throughout the game -->
         <template id="development-card-template">

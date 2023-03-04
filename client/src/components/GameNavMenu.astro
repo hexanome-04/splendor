@@ -1,0 +1,25 @@
+---
+import RestartGameModal from "../components/modals/RestartGameModal.astro";
+
+const { title } = Astro.props;
+---
+<div class="navigation">
+    <nav>
+        <ul>
+            <li><p class="resume"> RESUME </p></li>
+            <li><p class="save"> SAVE GAME </p></li>
+            <li><p class="restart"> RESTART </p></li>
+            <li><p class="quit"> QUIT </p></li>
+        </ul>
+    </nav>
+</div>
+<div id="top-menu-bar" class="top-menu-bar">
+    <div id="menu-icon" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <p id="top-menu-title" class="top-menu-title">{title}</p>
+</div>
+<RestartGameModal></RestartGameModal>
+<script is:inline type="module" src="/js/game-navmenu.js"></script>

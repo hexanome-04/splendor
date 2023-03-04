@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.control;
 import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
 
 import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
+import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.GameSession;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
@@ -18,6 +19,7 @@ import dev.dacbiet.simpoll.Fetcher;
 import dev.dacbiet.simpoll.ResultGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -254,7 +256,7 @@ public class SplendorRestController {
             }
 
             if (!auth.getNameFromToken(token).equals(playerName)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token does not match requested players name.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token does not match requested players name.");
             }
 
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
@@ -274,5 +276,52 @@ public class SplendorRestController {
         }
     }
 
+    /**
+     * Restart an already launched game.
+     *
+     * @param token token of player
+     * @param sessionId session id
+     * @param bodyData body data in post
+     * @return String (empty is OK)
+     */
+    @PostMapping(value = "/api/sessions/{sessionId}/restart",
+            consumes = "text/plain; charset=utf-8")
+    public ResponseEntity<String> restartGame(@RequestParam("access_token") String token,
+                                              @PathVariable String sessionId,
+                                              @RequestBody(required = false) String bodyData) {
+        try {
+            if (sessionManager.getGameSession(sessionId) == null) {
+                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+            }
+            GameSession gameSession = sessionManager.getGameSession(sessionId);
+            String creatorName = gameSession.getCreatorUsername();
+
+            if (!auth.getNameFromToken(token).equals(creatorName)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Only the creator of the game can restart the game.");
+            }
+
+            // username matches, maybe we add a vote to restart in the future?
+            // recreate all info to launch a game
+            GameVersions gameVersion = gameSession.getGame().getGameVersion();
+
+            List<PlayerInfo> playersInfo = new ArrayList<>();
+            for (Player p : gameSession.getGame().getPlayers()) {
+                playersInfo.add(new PlayerInfo(p.getName(), p.getColour()));
+            }
+
+            Game newGame = sessionManager.launchNewGame(gameVersion, playersInfo);
+            gameSession.setGame(newGame);
+
+            logger.info("Restarted game session: " + sessionId);
+
+            // game has updated
+            gameWatcher.get(sessionId).markDirty();
+
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
 }

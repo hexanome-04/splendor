@@ -239,6 +239,15 @@ public abstract class Game {
     }
 
     /**
+     * Get the version of this game (DLC).
+     *
+     * @return game version of instance
+     */
+    public GameVersions getGameVersion() {
+        return this.gameVersion;
+    }
+
+    /**
      * Adds action to list of valid actions for current player.
      *
      * @param action being added to valid actions

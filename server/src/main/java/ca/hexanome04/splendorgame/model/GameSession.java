@@ -73,4 +73,13 @@ public class GameSession {
         return this.sessionId;
     }
 
+    /**
+     * Get the username for the creator of this game.
+     *
+     * @return creator username
+     */
+    public String getCreatorUsername() {
+        return this.creatorUsername;
+    }
+
 }
