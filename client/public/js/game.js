@@ -14,24 +14,41 @@ const updateTokensCount = (parentSelector, tokenInfo) => {
     parentNode.querySelector(".gold-token > span").textContent = tokenInfo.Gold;
 };
 
-const updateTierRow = (selector, cards) => {
-    const cardElms = document.querySelectorAll(`${selector} .board-card-dev:not(.board-card-dev-orient)`);
+const updateTierRow = (selector, devCards, orientCards) => {
+    const row = document.querySelector(selector);
+    const cardElms = row.querySelectorAll(".board-card-dev");
 
-    cards.forEach((cardInfo, index) => {
+    // clear images first
+    cardElms.forEach(elm => {
+        elm.querySelector("img").removeAttribute("src");
+    });
+
+    // mark deck as empty if needed
+    const setEmptyIfNeeded = (deckSelector, isEmpty) => {
+        if(isEmpty) {
+            row.querySelector(deckSelector).setAttribute("empty", "true");
+        }
+    };
+    
+    setEmptyIfNeeded(".board-cards-dev-deck", devCards.length == 0);
+    setEmptyIfNeeded(".board-cards-dev-deck-orient", orientCards.length == 0);
+
+    const updateCardElement = (cardElm, cardInfo, imgBase) => {
         const cardId = cardInfo["id"];
         const cost = cardInfo["tokenCost"];
-        const cardElm = cardElms[index];
 
-        const imgUrl = `/images/development-cards/${cardId}.jpg`;
+        const imgUrl = `${imgBase}/${cardId}.jpg`;
         const imgElm = cardElm.querySelector("img");
         imgElm.src = imgUrl;
 
         // add additional info
         cardElm.setAttribute("card-id", cardId);
         cardElm.setAttribute("cost", JSON.stringify(cost));
+    };
 
-    });
-
+    devCards.forEach((cardInfo, index) => updateCardElement(cardElms[index], cardInfo, "/images/development-cards"));
+    // skip first 4 card elements in the row (reg dev cards)
+    orientCards.forEach((cardInfo, index) => updateCardElement(cardElms[index + 4], cardInfo, "/images/orient-development-cards"));
 };
 
 const updateMainPlayerInfo = (playerInfo) => {
@@ -245,9 +262,9 @@ const updateGameboard = async () => {
 
     updateNoblesBoard(data.nobleDeck.visibleCards);
 
-    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck.visibleCards, data.tier1OrientDeck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards, data.tier2OrientDeck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards, data.tier3OrientDeck.visibleCards);
 
     const curUsername = SETTINGS.getUsername();
 

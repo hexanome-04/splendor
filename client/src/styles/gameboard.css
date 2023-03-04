@@ -425,7 +425,7 @@ body {
   flex-direction: column;
   gap: 0.5em;
 
-  --board-deck-margin: 2em;
+  --board-deck-margin: 1.5em;
 }
 
 .board-cards-row {
@@ -460,6 +460,10 @@ body {
   border-radius: var(--card-border-radius);
 }
 
+.board-cards-row .board-card-dev:not(.board-card-dev-orient) + .board-card-dev-orient {
+  margin-left: calc(var(--board-deck-margin) / 3);
+}
+
 .board-card-dev,
 .board-card-dev-orient {
   border-radius: var(--card-border-radius);
@@ -475,7 +479,7 @@ body {
 
 .board-cards-row .board-cards-dev-deck[empty],
 .board-cards-row .board-cards-dev-deck-orient[empty] {
-  visibility: hidden;
+  display: none;
 }
 
 .board-cards-row .board-card-dev img:not([src]),

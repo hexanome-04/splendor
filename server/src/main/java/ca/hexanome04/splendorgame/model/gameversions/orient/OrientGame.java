@@ -162,9 +162,9 @@ public class OrientGame extends Game {
         tier1Deck.drawCards(4);
         tier2Deck.drawCards(4);
         tier3Deck.drawCards(4);
-        tier1OrientDeck.drawCards(4);
-        tier2OrientDeck.drawCards(4);
-        tier3OrientDeck.drawCards(4);
+        tier1OrientDeck.drawCards(2);
+        tier2OrientDeck.drawCards(2);
+        tier3OrientDeck.drawCards(2);
 
         nobleDeck.shuffle();
         nobleDeck.drawCards(players.size() + 1);
