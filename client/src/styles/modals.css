@@ -170,6 +170,8 @@
 .save-confirm-btn,
 .take-token-back-btn,
 .take-token-confirm-btn,
+.cascade-back-btn,
+.cascade-confirm-btn,
 .put-back-token-back-btn,
 .put-back-token-confirm-btn {
   width: 100%;

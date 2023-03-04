@@ -83,6 +83,73 @@ const showReservableDevCards = () => {
 
 };
 
+// CASCADE CARDS
+const showCascadeCards = () => {
+
+    const confirmBtn = document.querySelector("#cascade-modal .cascade-confirm-btn");
+
+    // Instead of showing all cards, only show the selectable rows
+    const level1Row = document.querySelectorAll("#board .board-cards .board-cards-level1");
+    const level2Row = document.querySelectorAll("#board .board-cards .board-cards-level2");
+
+    // clear if already has
+    const modalCardRows = document.querySelector("#cascade-board .modal-board-cards");
+    modalCardRows.innerHTML = "";
+    
+    // Show only level 1 and level 2 cards
+    level2Row.forEach((elm) => {
+        const cNode = elm.cloneNode(true);
+        modalCardRows.appendChild(cNode);
+    });
+
+    level1Row.forEach((elm) => {
+        const cNode = elm.cloneNode(true);
+        modalCardRows.appendChild(cNode);
+    });
+
+    const cardsSelectionSelector = "#cascade-modal .modal-board-cards .board-card-dev";
+
+    setupSelectionCards(cardsSelectionSelector);
+
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        if(!selectedCard) {
+            // no card has been selected, error
+            window.alert("You have not selected a card!");
+            return;
+        }
+        const cardId = selectedCard.getAttribute("card-id");
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/CASCADE_1`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {
+                "cardId": cardId,
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+
+};
+
 
 /**
  * Get the list of tokens when taking / putting back tokens or purchasing a development card
