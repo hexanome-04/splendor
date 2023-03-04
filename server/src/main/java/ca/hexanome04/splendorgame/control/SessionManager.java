@@ -101,17 +101,7 @@ public class SessionManager {
 
         List<Player> playerList = new ArrayList<>();
         for (PlayerInfo p : players) {
-            HashMap<TokenType, Integer> defaultTokens = new HashMap<>();
-
-            defaultTokens.put(TokenType.Green, 3);
-            defaultTokens.put(TokenType.White, 3);
-            defaultTokens.put(TokenType.Blue, 3);
-            defaultTokens.put(TokenType.Brown, 3);
-            defaultTokens.put(TokenType.Red, 3);
-
             Player newPlayer = game.createPlayer(p.name(), p.colour());
-
-            newPlayer.addTokens(defaultTokens);
             playerList.add(newPlayer);
         }
         game.setPlayers(playerList);
