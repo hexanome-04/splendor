@@ -27,7 +27,18 @@ import "../styles/lobby.css";
                 <div class="current-sessions">
                     <div class="header">
                         <span>Available Sessions</span>
-                        <span class="create-session-btn">Create Session</span>
+                        <!-- SELECT GAME VERSION -->
+                        <div class="game-selection-dropdown">
+                            <div class="select">
+                                <span class="create-session-btn">Create Session</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="game-options">
+                                <li version="BASE_ORIENT">Splendor Orient</li>
+                                <li version="BASE_ORIENT_CITIES">Splendor Cities</li>
+                                <li version="BASE_ORIENT_TRADE_ROUTES">Splendor Trading Posts</li>
+                            </ul>
+                        </div>
                     </div>
                     <table class="current-sessions-table">
                         <tbody>

@@ -69,8 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // TODO: be able to specify the version.
-    document.querySelector(".create-session-btn").onclick = () => createSession("splendor_BASE_ORIENT");
+    // SPECIFY GAME VERSION
+    document.querySelectorAll(".game-options li").forEach(option => {
+        option.addEventListener("click", () => {
+            const version = "splendor_" + option.getAttribute("version");
+            createSession(version);
+        });
+    });
 
     const joinSession = (elm) => {
         elm.disabled = true;

@@ -237,17 +237,64 @@ tr > th {
   filter: blur(1px);
 }
 
-/* Availabe Sessions stuff */
-.create-session-btn {
+/* Available Sessions stuff */
+.game-selection-dropdown {
   margin-left: auto;
-  background-color: #82bbff;
   margin-right: var(--right-margin);
-  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  background-color: #82bbff;
   color: white;
   font-size: 0.7em;
   font-weight: normal;
-  padding: 0.6em 1em;
+  padding: 0.6em 2em;
   cursor: pointer;
+  border-radius: 0.5em;
+}
+
+.game-selection-dropdown:hover .game-options {
+  display: block;
+}
+
+.game-selection-dropdown:hover .select .caret {
+  transform: rotate(180deg);
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #fff;
+}
+
+.game-options {
+  list-style: none;
+  background-color: #82bbff;
+  position: absolute;
+  border-radius: 0.5em;
+  box-shadow: 0 0.3em 0.5em rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.game-options li {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  font-size: 0.7em;
+  font-weight: normal;
+  color: white;
+  cursor: pointer;
+}
+
+.game-options li:hover {
+  background-color: #6cacfa;
+  transition: 0.3s;
 }
 
 .current-sessions-table {
