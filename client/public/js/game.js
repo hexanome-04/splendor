@@ -126,6 +126,33 @@ const updateMainPlayerInfo = (playerInfo) => {
         cardDrawerReserved.appendChild(tNode);
     });
 
+
+    // Update nobles
+    const nobleCardInv = playerInv.querySelector(".player-inventory-nobles");
+
+    const currentNobleCardIds = [];
+    nobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentNobleCardIds.push(elm.getAttribute("card-id")));
+
+    // server state cards
+    const serverNobleCardIds = playerInfo.nobleCards.map(c => c.id);
+
+    // cards that exist in inv but not server side, must remove
+    const nonExistNobleCardsIds = currentNobleCardIds.filter(x => !serverNobleCardIds.includes(x));
+    nonExistNobleCardsIds.forEach(cid => nobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
+
+    // add new reserved cards to inv
+    const toAddNobleCardsIds = serverNobleCardIds.filter(x => !currentNobleCardIds.includes(x));
+    toAddNobleCardsIds.forEach(cid => {
+        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
+        const div = tNode.querySelector("div");
+        const imgUrl = `/images/nobles/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        nobleCardInv.appendChild(tNode);
+    });
 };
 
 const updateOtherPlayerInfo = (pInfo) => {
@@ -205,13 +232,40 @@ const updateOtherPlayerInfo = (pInfo) => {
         cardDrawerReserved.appendChild(tNode);
     });
 
+    // Update nobles
+    const nobleCardInv = pNode.querySelector(".other-inventory-noble-cards");
+
+    const currentNobleCardIds = [];
+    nobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentNobleCardIds.push(elm.getAttribute("card-id")));
+
+    // server state cards
+    const serverNobleCardIds = pInfo.nobleCards.map(c => c.id);
+
+    // cards that exist in inv but not server side, must remove
+    const nonExistNobleCardsIds = currentNobleCardIds.filter(x => !serverNobleCardIds.includes(x));
+    nonExistNobleCardsIds.forEach(cid => nobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
+
+    // add new reserved cards to inv
+    const toAddNobleCardsIds = serverNobleCardIds.filter(x => !currentNobleCardIds.includes(x));
+    toAddNobleCardsIds.forEach(cid => {
+        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
+        const div = tNode.querySelector("div");
+        const imgUrl = `/images/nobles/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        nobleCardInv.appendChild(tNode);
+    });
+
     // update prestige points
     pNode.querySelector(".other-prestige-point-container > span").textContent = pInfo.prestigePoints;
 
 };
 
 const updateNoblesBoard = async (cards) => {
-    const noblesDiv = document.querySelectorAll(".board-nobles .board-noble-card img");
+    const noblesDiv = document.querySelectorAll(".board-nobles .noble-card img");
 
     // should be changed prolly
     noblesDiv.forEach((elm, index) => {

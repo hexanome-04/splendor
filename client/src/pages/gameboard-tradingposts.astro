@@ -97,6 +97,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                     </div>
                     <div class="player-inventory-reservedcards">
                     </div>
+                    <div class="player-inventory-nobles"></div>
                 </div>
             </div>
 
@@ -166,19 +167,19 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <board-token color="gold"></board-token>
                     </div>
                     <div class="board-nobles">
-                        <div class="board-noble-card">
+                        <div class="noble-card">
                             <img>
                         </div>
-                        <div class="board-noble-card">
+                        <div class="noble-card">
                             <img>
                         </div>
-                        <div class="board-noble-card">
+                        <div class="noble-card">
                             <img>
                         </div>
-                        <div class="board-noble-card">
+                        <div class="noble-card">
                             <img>
                         </div>
-                        <div class="board-noble-card">
+                        <div class="noble-card">
                             <img>
                         </div>
                     </div>
@@ -295,6 +296,12 @@ import GameNavMenu from "../components/GameNavMenu.astro";
             </div>
         </template>
 
+        <template id="noble-card-template">
+            <div class="noble-card" card-id>
+                <img src="">
+            </div>
+        </template>
+
         <template id="dev-card-template">
 
         </template>
@@ -368,6 +375,9 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                             <!-- The following cards have to be put in reverse order -->
                         </div>
                         <div class="other-inventory-cards-reserved">
+                            <!-- The following cards have to be put in reverse order -->
+                        </div>
+                        <div class="other-inventory-noble-cards">
                             <!-- The following cards have to be put in reverse order -->
                         </div>
                     </div>

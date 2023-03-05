@@ -258,8 +258,6 @@ body {
   position: relative;
   display: flex;
   max-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
-  min-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
-  aspect-ratio: calc(1 / (var(--dev-card-aspect-ratio)));
 }
 
 .player-inventory-reservedcards .player-inventory-card-reserved {
@@ -287,6 +285,30 @@ body {
   rotate: 90deg;
   box-shadow: rgba(0 0 0 / 10%) 0 4px 12px;
   transform-origin: calc((var(--player-inv-card-height) * var(--dev-card-aspect-ratio)) / 2);
+}
+
+.player-inventory-nobles {
+  display: flex;
+  max-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+}
+
+.player-inventory-nobles .noble-card {
+  transition: 0.5s;
+  width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  height: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
+  flex: 1 0 100%;
+}
+
+.player-inventory-nobles .noble-card:not(:first-child) {
+  margin-left: -100%;
+}
+
+.player-inventory-nobles:hover .noble-card:not(:first-child) {
+  margin-left: 2%;
+}
+
+.player-inventory-nobles .noble-card img {
+  width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
 }
 
 .board {
@@ -440,10 +462,13 @@ body {
   flex-direction: row;
 }
 
-.board-nobles .board-noble-card img {
-  height: 4em;
+.noble-card img {
   aspect-ratio: 1/1;
   border-radius: 10%;
+}
+
+.board-nobles .noble-card img {
+  height: 4em;
   margin: 0 0.7em;
 }
 
@@ -511,7 +536,7 @@ body {
 }
 
 .board-cards-row .board-card-dev img:not([src]),
-.board-nobles .board-noble-card img:not([src]) {
+.board-nobles .noble-card img:not([src]) {
   display: none;
 }
 
