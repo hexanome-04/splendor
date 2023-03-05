@@ -118,30 +118,64 @@ public abstract class Card {
                 missingTokenCount -= tokens.get(TokenType.Gold);
             }
 
-            if (bonuses.get(TokenType.Gold) < missingTokenCount || missingTokenCount % 2 != 0) {
+            if (bonuses.get(TokenType.Gold) < missingTokenCount) {
                 purchasable = false;
 
             } else {
                 HashMap<TokenType, Integer> toRemove = new HashMap<>();
-                toRemove.put(TokenType.Gold, missingTokenCount);
+
+                if (missingTokenCount % 2 == 0) {
+                    toRemove.put(TokenType.Gold, missingTokenCount);
+
+                } else {
+                    // This is when a player wastes a double gold token by only using one of them
+                    toRemove.put(TokenType.Gold, missingTokenCount + 1);
+                }
+
                 player.removeBonuses(toRemove);
+
+                // Remove double gold bonus cards from player's inventory if used
+                for (int i = 0; i < Math.round((double) missingTokenCount / 2); i++) {
+                    for (DevelopmentCard c : player.getCards()) {
+                        if (c.getTokenType() == TokenType.Gold) {
+                            player.removeCard(c);
+                            break;
+                        }
+                    }
+                }
             }
 
         } else if (this.costType == CostType.Bonus) {
-            // TODO : does this mean the card is only purchasable with bonuses?
+            // TODO : Remove cards if their bonus is spent
             HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
+            HashMap<TokenType, Integer> bonusesToRemove = new HashMap<>(this.tokenCost);
 
             cost.forEach((key, value) -> {
                 cost.put(key, value - bonuses.get(key));
             });
 
-            // final check to ensure that we fulfilled the cost for the card
+            // final check to ensure that we fulfilled the cost for the card, if passed then can purchase
             for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
                 if (entry.getValue() > 0) {
                     purchasable = false;
                     break;
                 }
             }
+
+            // Removes correct amount of cards that have their bonus match with the bonus cost
+            // TODO: Currently does NOT make the best selection
+            // (i.e. between a 2PP blue card and a 0PP blue card, it may take the 2PP one if it is found first)
+            bonusesToRemove.forEach((key, value) -> {
+                for (int i = 0; i < value; i++) {
+                    for (DevelopmentCard c : player.getCards()) {
+                        if (c.getTokenType() == key) {
+                            player.removeCard(c);
+                        }
+                    }
+                }
+            });
+
+
         }
 
         return purchasable;

@@ -130,6 +130,16 @@ public abstract class Player {
     }
 
     /**
+     * Removes a card from player inventory.
+     *
+     * @param card Card to removed from player inventory
+     */
+
+    public void removeCard(DevelopmentCard card) {
+        this.cards.remove(card);
+    }
+
+    /**
      * Get a player's held tokens.
      *
      * @return list of tokens that the player has
@@ -241,6 +251,15 @@ public abstract class Player {
         }
         return true;
 
+    }
+
+    /**
+     * Returns the arraylist of cards that a player has.
+     *
+     * @return the arraylist of cards that a player has
+     */
+    public List<DevelopmentCard> getCards() {
+        return new ArrayList<DevelopmentCard>(this.cards);
     }
 
     @Override

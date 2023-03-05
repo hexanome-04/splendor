@@ -182,12 +182,11 @@ public class CardTest {
 
 
     /**
-     * Ensure isPurchasable correctly checks if a player can purchase a card using their gold tokens.
+     * Ensure isPurchasable correctly checks if a player can purchase a card using their double gold bonuses.
      *
      * @throws FileNotFoundException Throws exception if loading from file fails
      */
-    @DisplayName("Ensure isPurchasable correctly checks if player can't purchase a card if they're missing" +
-            " an odd amount of tokens with double gold tokens from orient.")
+    @DisplayName("Ensure that a player can waste a double gold token by using only 1 of the bonus gold tokens")
     @Test
     public void testIsPurchasableDoubleGoldTokensOddAmt() throws FileNotFoundException {
         OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
@@ -201,7 +200,7 @@ public class CardTest {
         p1.addTokens(tokens);
 
         // Make sure tokens added to player are successfully retrieved by getter
-        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(false);
+        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
     }
 
 }
