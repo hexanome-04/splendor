@@ -4,14 +4,23 @@ import { startTurn, verifyNoModals } from "./modals.js";
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
 
-const updateTokensCount = (parentSelector, tokenInfo) => {
+const updateTokensCount = (parentSelector, tokenInfo, bonusInfo = null) => {
+    const setTokenInfo = (elm, color) => {
+        // set token count
+        elm.textContent = tokenInfo[color];
+
+        // set bonus
+        if(bonusInfo) {
+            // get bonus container
+            elm.closest(".bonus-container").querySelector(".bonus-icon > span").textContent = bonusInfo[color];
+        }
+    };
+    const colors = ["Red", "Blue", "Green", "White", "Brown", "Gold"];
+
     const parentNode = document.querySelector(parentSelector);
-    parentNode.querySelector(".red-token > span").textContent = tokenInfo.Red;
-    parentNode.querySelector(".blue-token > span").textContent = tokenInfo.Blue;
-    parentNode.querySelector(".green-token > span").textContent = tokenInfo.Green;
-    parentNode.querySelector(".white-token > span").textContent = tokenInfo.White;
-    parentNode.querySelector(".brown-token > span").textContent = tokenInfo.Brown;
-    parentNode.querySelector(".gold-token > span").textContent = tokenInfo.Gold;
+    colors.forEach((col) => {
+        setTokenInfo(parentNode.querySelector(`.${col.toLowerCase()}-token > span`), col);
+    });
 };
 
 const updateTierRow = (selector, devCards, orientCards) => {
@@ -61,7 +70,7 @@ const updateMainPlayerInfo = (playerInfo) => {
 
     // why
     const tokenMap = playerInfo.tokens;
-    updateTokensCount(".player-inventory-tokens", tokenMap);
+    updateTokensCount(".player-inventory-tokens", tokenMap, playerInfo.bonuses);
 
     // UPDATE DEVELOPMENT CARDS IN PLAYER INVENTORY
     const cardDrawer = playerInv.querySelector(".player-inventory-card-drawer");
@@ -139,7 +148,7 @@ const updateOtherPlayerInfo = (pInfo) => {
 
     // update tokens, cards, prestige points
     const tokenMap = pInfo.tokens;
-    updateTokensCount(selector, tokenMap);
+    updateTokensCount(selector, tokenMap, pInfo.bonuses);
 
 
     // UPDATE DEVELOPMENT CARDS IN OTHER PLAYER INVENTORIES

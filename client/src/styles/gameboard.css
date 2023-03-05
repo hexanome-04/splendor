@@ -378,6 +378,34 @@ body {
   background-size: contain;
 }
 
+/* Token Bonuses */
+.bonus-container {
+  position: relative;
+}
+
+.bonus-icon {
+  position: absolute;
+  background-color: #1e516d;
+  height: 1.1em;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.06em solid white;
+  border-radius: 50%;
+  right: -0.3em;
+  top: -0.2em;
+  box-shadow: rgb(0 0 0 / 24%) 0 6px 8px;
+}
+
+.bonus-icon span {
+  font-size: 0.7em;
+  font-family: Lobster, cursive;
+  color: white;
+  -webkit-text-stroke: 0.05rem black;
+  text-shadow: 0px 2px 3px black;
+}
+
 /* Board tokens */
 .board-tokens {
   display: flex;
