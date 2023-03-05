@@ -73,6 +73,9 @@ public class ReserveCardAction extends Action {
         if (game.getCurValidActions().size() == 0) {
             result.add(ActionResult.TURN_COMPLETED);
         }
+
+        result.add(ActionResult.VALID_ACTION);
+
         return result;
     }
 

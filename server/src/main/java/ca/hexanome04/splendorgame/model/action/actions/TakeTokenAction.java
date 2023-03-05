@@ -123,6 +123,8 @@ public class TakeTokenAction extends Action {
         player.takeTokens(takeTokens, putBackTokens);
 
         result.add(ActionResult.TURN_COMPLETED);
+        result.add(ActionResult.VALID_ACTION);
+
         return result;
 
     }

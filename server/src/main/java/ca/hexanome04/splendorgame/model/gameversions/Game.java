@@ -272,6 +272,15 @@ public abstract class Game {
         curValidActions.clear();
     }
 
+    /**
+     * Clears list of main three valid actions for current player.
+     */
+    public void clearMainValidActions() {
+        curValidActions.remove(Actions.BUY_CARD);
+        curValidActions.remove(Actions.TAKE_TOKEN);
+        curValidActions.remove(Actions.RESERVE_CARD);
+    }
+
 
     /**
      * Allows player to perform an action.

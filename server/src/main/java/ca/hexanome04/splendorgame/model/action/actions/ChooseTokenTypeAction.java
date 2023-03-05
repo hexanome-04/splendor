@@ -47,20 +47,23 @@ public class ChooseTokenTypeAction extends Action {
 
         ArrayList<ActionResult> result = new ArrayList<>();
 
-        OrientDevelopmentCard odc = (OrientDevelopmentCard) game.getCardFromId(this.cardId);
-        if (odc == null || odc.getTokenType() != TokenType.Satchel) {
+        OrientDevelopmentCard orientDevCard = (OrientDevelopmentCard) game.getCardFromId(this.cardId);
+        if (orientDevCard == null || orientDevCard.getTokenType() != TokenType.Satchel) {
             throw new RuntimeException("Card with id '" + this.cardId + "' does not exist or is not of type Satchel.");
         }
 
         // The act of choosing a bonus type could make a player eligible for a noble/win condition... is this checked?
         if (p.getBonuses().get(assignedTokenType) > 0
                 && assignedTokenType != TokenType.Gold && assignedTokenType != TokenType.Satchel) {
-            odc.setTokenType(assignedTokenType);
+            orientDevCard.setTokenType(assignedTokenType);
             result.add(ActionResult.TURN_COMPLETED);
 
         } else {
             result.add(ActionResult.INVALID_TOKEN_CHOSEN);
+            return result;
         }
+
+        result.add(ActionResult.VALID_ACTION);
 
         return result;
 

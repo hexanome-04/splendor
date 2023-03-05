@@ -1,5 +1,5 @@
 import { SETTINGS } from "./settings.js";
-import { startTurn, verifyNoModals } from "./modals.js";
+import { startTurn, verifyNoModals, followupActions } from "./modals.js";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
@@ -344,6 +344,9 @@ const updateGameboard = async () => {
     updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck.visibleCards, data.tier1OrientDeck.visibleCards);
     updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards, data.tier2OrientDeck.visibleCards);
     updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards, data.tier3OrientDeck.visibleCards);
+
+    const actions = data.curValidActions;
+    followupActions(actions);
 
     const curUsername = SETTINGS.getUsername();
 

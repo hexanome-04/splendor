@@ -53,6 +53,8 @@ public class ChooseNobleAction extends Action {
             result.add(ActionResult.TURN_COMPLETED);
         }
 
+        result.add(ActionResult.VALID_ACTION);
+
         return result;
     }
 

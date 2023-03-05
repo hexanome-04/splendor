@@ -293,12 +293,14 @@
 
 /* Unnecessary to show in modal */
 #buy-card-modal .board-cards-row .board-cards-dev-deck,
-#buy-card-modal .board-cards-row .board-cards-dev-deck-orient {
+#buy-card-modal .board-cards-row .board-cards-dev-deck-orient,
+#reserve-card-modal .board-cards-row .board-cards-dev-deck,
+#reserve-card-modal .board-cards-row .board-cards-dev-deck-orient,
+#cascade-modal .board-cards-row .board-cards-dev-deck,
+#cascade-modal .board-cards-row .board-cards-dev-deck-orient {
   display: none;
 }
 
-/* Unnecessary to show in modal */
-#reserve-card-modal .board-cards-row .board-cards-dev-deck,
-#reserve-card-modal .board-cards-row .board-cards-dev-deck-orient {
-  display: none;
+.cascade-board {
+  margin-bottom: 2.5em;
 }

@@ -84,7 +84,7 @@ const showReservableDevCards = () => {
 };
 
 // CASCADE CARDS
-const showCascadeCards = () => {
+const showCascadeCards = (tier) => {
 
     const confirmBtn = document.querySelector("#cascade-modal .cascade-confirm-btn");
 
@@ -95,17 +95,24 @@ const showCascadeCards = () => {
     // clear if already has
     const modalCardRows = document.querySelector("#cascade-board .modal-board-cards");
     modalCardRows.innerHTML = "";
+        
     
-    // Show only level 1 and level 2 cards
-    level2Row.forEach((elm) => {
-        const cNode = elm.cloneNode(true);
-        modalCardRows.appendChild(cNode);
-    });
+    if (tier == "CASCADE_1") {
+        level1Row.forEach((elm) => {
+            const cNode = elm.cloneNode(true);
+            modalCardRows.appendChild(cNode);
+        });
+        document.getElementById("cascade-text").textContent = "Please select a card from level 1.";
+    }
 
-    level1Row.forEach((elm) => {
-        const cNode = elm.cloneNode(true);
-        modalCardRows.appendChild(cNode);
-    });
+    if (tier == "CASCADE_2") {
+        level2Row.forEach((elm) => {
+            const cNode = elm.cloneNode(true);
+            modalCardRows.appendChild(cNode);
+        });
+        document.getElementById("cascade-text").textContent = "Please select a card from level 2.";
+    }
+    
 
     const cardsSelectionSelector = "#cascade-modal .modal-board-cards .board-card-dev";
 
@@ -126,7 +133,7 @@ const showCascadeCards = () => {
             const windowParams = (new URL(document.location)).searchParams;
             const sessionId = windowParams.get("sessionId");
 
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/CASCADE_1`);
+            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/${tier}`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
 
@@ -332,6 +339,32 @@ const showPurchasableDevCards = () => {
         showNextModal("#dev-card-payment-modal");
     };
 };
+
+export function followupActions(actions) {
+
+    if (actions.length == 0) {
+        return;
+    }
+    
+    if (actions[0] == "CASCADE_1" || actions[0] == "CASCADE_2") {
+        verifyNoModals();
+        
+        showCascadeCards(actions[0]);
+        console.log("Nav after show cascade cards: " + navContext);
+
+        const selector = "#cascade-modal";
+        navContext.push(selector);
+        showModal(selector);
+
+        // closeModal(selector);
+
+        console.log("Nav context after cascade: " + navContext);
+    }
+    
+
+    // TODO: add more followup actions like choose satchel token, choose noble, etc
+
+}
 
 
 const navContext = [];

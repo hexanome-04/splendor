@@ -6,9 +6,14 @@ package ca.hexanome04.splendorgame.model.action;
 public enum ActionResult {
 
     /**
-     * Valid action.
+     * Turn completed.
      */
     TURN_COMPLETED,
+
+    /**
+     * Valid action.
+     */
+    VALID_ACTION,
 
     /**
      * Invalid player attempting to take action (e.g. not their turn).

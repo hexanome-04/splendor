@@ -323,7 +323,7 @@ public class OrientGame extends Game {
      */
     public ArrayList<ActionResult> takeAction(String playerName, Action action) {
 
-        this.clearValidActions();
+        this.clearMainValidActions();
 
         ArrayList<ActionResult> results = new ArrayList<>();
 
@@ -350,7 +350,8 @@ public class OrientGame extends Game {
         }
 
         results.addAll(ar);
-        if (results.contains(ActionResult.TURN_COMPLETED) && results.size() == 1) {
+        if (results.contains(ActionResult.TURN_COMPLETED) && results.contains(ActionResult.VALID_ACTION)
+                && results.size() == 2) {
             // increment action also resets current valid actions list
             this.incrementTurn();
         } else {

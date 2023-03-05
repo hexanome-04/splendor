@@ -263,8 +263,8 @@ public class SplendorRestController {
 
             ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
-            if (!actionResult.contains(ActionResult.TURN_COMPLETED)) {
-                throw new RuntimeException("Invalid action performed: " + actionResult.toString());
+            if (!actionResult.contains(ActionResult.VALID_ACTION)) {
+                throw new RuntimeException("Invalid action performed: " + actionResult);
             }
 
             // TODO: return what further actions are needed (if any)

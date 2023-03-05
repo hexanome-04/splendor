@@ -115,6 +115,8 @@ public abstract class DevelopmentCard extends Card {
             result.add(ActionResult.TURN_COMPLETED);
         }
 
+        result.add(ActionResult.VALID_ACTION);
+
         return result;
 
     }

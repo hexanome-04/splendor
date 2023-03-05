@@ -69,6 +69,8 @@ public class CascadeTier1Action extends CascadeAction {
             result.add(ActionResult.TURN_COMPLETED);
         }
 
+        result.add(ActionResult.VALID_ACTION);
+
         return result;
     }
 
