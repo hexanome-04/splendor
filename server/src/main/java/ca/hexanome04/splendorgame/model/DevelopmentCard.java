@@ -87,7 +87,7 @@ public abstract class DevelopmentCard extends Card {
         p.addBonus(this.getTokenType(), this.getBonus());
         p.addPrestigePoints(this.getPrestigePoints());
 
-        g.addTokens(this.getTokenCost());
+        g.addTokens(tokensToPayWith);
         p.removeTokens(tokensToPayWith);
 
         if (this.getClass().equals(OrientDevelopmentCard.class)) {
