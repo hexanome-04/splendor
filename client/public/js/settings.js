@@ -1,20 +1,94 @@
 // Define settings to be used, that are shared across the frontend
 
 /**
+ * Check if the endpoint is alive.
+ * 
+ * @param {string} endpoint 
+ * @returns true if valid endpoint
+ */
+const checkEndpoint = async (endpoint) => {
+    const resp = await fetch(`${endpoint}/api/online`);
+    return resp.ok;
+};
+
+/**
+ * Internal settings that shouldn't be exposed.
+ */
+const INTERNAL_SETTINGS = {
+    /**
+     * Location for access to the game service.
+     * Null if custom endpoint not set.
+     */
+    GS_API: "",
+    DEFAULT_GS_PORT: 33402,
+
+    /**
+     * Location for access to the Lobby Service.
+     * Null if custom endpoint not set.
+     */
+    LS_API: "",
+    DEFAULT_LS_PORT: 34172,
+};
+
+/**
  * Define the settings.
  */
 
 export const SETTINGS = {
 
     /**
-     * Location for access to the game service.
+     * Set the GS API Endpoint origin.
+     * 
+     * @param {string} gs 
      */
-    GS_API: "http://localhost:33402",
+    setGS_API: (gs) => {
+        try {
+            checkEndpoint(gs).then(() => INTERNAL_SETTINGS.GS_API = gs);
+        } catch(err) {
+            window.alert("Could not set GS Endpoint: " + err);
+        }
+    },
+
+    /**
+     * Location for access to the Game Service.
+     * 
+     * @returns location origin of GS
+     */
+    getGS_API: () => {
+        // if custom set, return that
+        if(INTERNAL_SETTINGS.GS_API !== "") {
+            return INTERNAL_SETTINGS.GS_API;
+        }
+
+        return `${window.location.protocol}//${window.location.hostname}:${INTERNAL_SETTINGS.DEFAULT_GS_PORT}`
+    },
+
+    /**
+     * Set the LS API Endpoint origin.
+     * 
+     * @param {string} ls 
+     */
+    setLS_API: (ls) => {
+        try {
+            checkEndpoint(ls).then(() => INTERNAL_SETTINGS.LS_API = ls);
+        } catch(err) {
+            window.alert("Could not set LS Endpoint: " + err);
+        }
+    },
 
     /**
      * Location for access to the Lobby Service.
+     * 
+     * @returns location origin of LS
      */
-    LS_API: "http://localhost:34172",
+    getLS_API: () => {
+        // if custom set, return that
+        if(INTERNAL_SETTINGS.LS_API !== "") {
+            return INTERNAL_SETTINGS.LS_API;
+        }
+
+        return `${window.location.protocol}//${window.location.hostname}:${INTERNAL_SETTINGS.DEFAULT_LS_PORT}`
+    },
 
     /**
      * Get the access token stored in local storage
@@ -73,7 +147,7 @@ export const SETTINGS = {
      */
     fetchUsername: async () => {
         // build url
-        const url = new URL(`${SETTINGS.LS_API}/oauth/username`);
+        const url = new URL(`${SETTINGS.getLS_API()}/oauth/username`);
         url.search = new URLSearchParams({ "access_token": SETTINGS.getAccessToken() }).toString();
 
         const resp = await fetch(url, { method: "GET" });
@@ -103,7 +177,7 @@ export const SETTINGS = {
             "grant_type": "refresh_token",
             "refresh_token": rt
         };
-        const url = new URL(`${SETTINGS.LS_API}/oauth/token`);
+        const url = new URL(`${SETTINGS.getLS_API()}/oauth/token`);
         url.search = new URLSearchParams(params).toString();
 
         const headers = new Headers();

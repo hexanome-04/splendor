@@ -34,7 +34,7 @@ document.querySelector("#restart-game-modal #restart-yes-btn").addEventListener(
         const searchParams = new URLSearchParams(window.location.search);
         const sessionId = searchParams.get("sessionId");
 
-        const url = new URL(`${SETTINGS.GS_API}/api/sessions/${sessionId}/restart`);
+        const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/restart`);
         url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
         fetch(url, {

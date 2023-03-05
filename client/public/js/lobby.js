@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "savegame": ""
             };
 
-            const url = new URL(`${SETTINGS.LS_API}/api/sessions`);
+            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
             fetch(url, {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sessionId = elm.closest("tr[session-id]").getAttribute("session-id");
 
         SETTINGS.verifyCredentials().then(() => {
-            const url = new URL(`${SETTINGS.LS_API}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}`);
+            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
             fetch(url, {
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sessionId = elm.closest("tr[session-id]").getAttribute("session-id");
 
         SETTINGS.verifyCredentials().then(() => {
-            const url = new URL(`${SETTINGS.LS_API}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}`);
+            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
     
             fetch(url, {
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sessionId = elm.closest("tr[session-id]").getAttribute("session-id");
 
         SETTINGS.verifyCredentials().then(() => {
-            const url = new URL(`${SETTINGS.LS_API}/api/sessions/${sessionId}`);
+            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions/${sessionId}`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
             fetch(url, {
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sessionId = elm.closest("tr[session-id]").getAttribute("session-id");
 
         SETTINGS.verifyCredentials().then(() => {
-            const url = new URL(`${SETTINGS.LS_API}/api/sessions/${sessionId}`);
+            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions/${sessionId}`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
             fetch(url, {
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const params = {
             "hash": availableSessionHash
         };
-        const url = new URL(`${SETTINGS.LS_API}/api/sessions`);
+        const url = new URL(`${SETTINGS.getLS_API()}/api/sessions`);
         url.search = new URLSearchParams(params).toString();
 
         fetch(url, {

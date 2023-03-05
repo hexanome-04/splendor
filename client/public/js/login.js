@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const headers = new Headers();
         headers.set("Authorization", `Basic ${btoa("bgp-client-name:bgp-client-pw")}`);
 
-        const url = new URL(`${SETTINGS.LS_API}/oauth/token`);
+        const url = new URL(`${SETTINGS.getLS_API()}/oauth/token`);
         url.search = new URLSearchParams(params).toString();
 
         fetch(url, {
