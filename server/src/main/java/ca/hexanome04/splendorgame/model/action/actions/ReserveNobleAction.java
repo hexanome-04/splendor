@@ -36,8 +36,6 @@ public class ReserveNobleAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        game.removeValidAction(Actions.RESERVE_NOBLE);
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         // get card from board
@@ -50,12 +48,12 @@ public class ReserveNobleAction extends Action {
         game.takeCard(noble);
         player.reserveNoble(noble);
 
-
-        if (game.getCurValidActions().size() == 0) {
-            result.add(ActionResult.TURN_COMPLETED);
+        if (game.getCurValidActions().contains(Actions.RESERVE_NOBLE)) {
+            result.add(ActionResult.VALID_ACTION);
         }
+        result.add(ActionResult.TURN_COMPLETED);
 
-        result.add(ActionResult.VALID_ACTION);
+        game.removeValidAction(Actions.RESERVE_NOBLE);
 
         return result;
     }

@@ -39,9 +39,6 @@ public class ReserveCardAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        // clear list of current player valid actions
-        game.clearValidActions();
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         // get card from board
@@ -70,11 +67,13 @@ public class ReserveCardAction extends Action {
             player.addTokens(goldToken);
         }
 
-        if (game.getCurValidActions().size() == 0) {
-            result.add(ActionResult.TURN_COMPLETED);
+        if (game.getCurValidActions().contains(Actions.RESERVE_CARD)) {
+            result.add(ActionResult.VALID_ACTION);
         }
+        result.add(ActionResult.TURN_COMPLETED);
 
-        result.add(ActionResult.VALID_ACTION);
+        // clear list of current player valid actions
+        game.clearValidActions();
 
         return result;
     }

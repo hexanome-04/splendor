@@ -49,6 +49,10 @@ public abstract class Game {
         this.gameVersion = gameVersion;
         this.prestigePointsToWin = prestigePointsToWin;
         this.turnCounter = turnCounter;
+
+        curValidActions.add(Actions.BUY_CARD);
+        curValidActions.add(Actions.TAKE_TOKEN);
+        curValidActions.add(Actions.RESERVE_CARD);
     }
 
     /**

@@ -1,6 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,11 +112,9 @@ public abstract class DevelopmentCard extends Card {
             }
         }
 
-        if (g.getCurValidActions().size() == 0) {
+        if (result.size() == 0) {
             result.add(ActionResult.TURN_COMPLETED);
         }
-
-        result.add(ActionResult.VALID_ACTION);
 
         return result;
 

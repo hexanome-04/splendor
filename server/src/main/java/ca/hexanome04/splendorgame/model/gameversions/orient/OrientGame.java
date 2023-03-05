@@ -323,8 +323,6 @@ public class OrientGame extends Game {
      */
     public ArrayList<ActionResult> takeAction(String playerName, Action action) {
 
-        this.clearMainValidActions();
-
         ArrayList<ActionResult> results = new ArrayList<>();
 
         if (players.indexOf(this.getPlayerFromName(playerName)) != this.turnCounter) {

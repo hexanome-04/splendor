@@ -43,7 +43,6 @@ public class ChooseTokenTypeAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player p) {
 
-        game.removeValidAction(Actions.CHOOSE_SATCHEL_TOKEN);
 
         ArrayList<ActionResult> result = new ArrayList<>();
 
@@ -63,7 +62,11 @@ public class ChooseTokenTypeAction extends Action {
             return result;
         }
 
-        result.add(ActionResult.VALID_ACTION);
+        if (game.getCurValidActions().contains(Actions.CHOOSE_SATCHEL_TOKEN)) {
+            result.add(ActionResult.VALID_ACTION);
+        }
+
+        game.removeValidAction(Actions.CHOOSE_SATCHEL_TOKEN);
 
         return result;
 

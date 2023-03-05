@@ -37,8 +37,6 @@ public class ChooseNobleAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player p) {
 
-        game.removeValidAction(Actions.CHOOSE_NOBLE);
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         NobleCard nc = (NobleCard) game.getCardFromId(nobleId);
@@ -49,11 +47,13 @@ public class ChooseNobleAction extends Action {
         // no error handling
         game.takeCard(nc);
         p.addNoble(nc);
-        if (game.getCurValidActions().size() == 0) {
-            result.add(ActionResult.TURN_COMPLETED);
-        }
 
-        result.add(ActionResult.VALID_ACTION);
+        if (game.getCurValidActions().contains(Actions.CHOOSE_NOBLE)) {
+            result.add(ActionResult.VALID_ACTION);
+        }
+        result.add(ActionResult.TURN_COMPLETED);
+
+        game.removeValidAction(Actions.CHOOSE_NOBLE);
 
         return result;
     }

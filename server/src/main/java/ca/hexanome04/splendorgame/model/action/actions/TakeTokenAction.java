@@ -47,9 +47,6 @@ public class TakeTokenAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        // clear list of current player valid actions
-        game.clearValidActions();
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         int playerTotalTokens = 0;
@@ -122,8 +119,13 @@ public class TakeTokenAction extends Action {
         game.addTokens(putBackTokens);
         player.takeTokens(takeTokens, putBackTokens);
 
+        if (game.getCurValidActions().contains(Actions.TAKE_TOKEN)) {
+            result.add(ActionResult.VALID_ACTION);
+        }
         result.add(ActionResult.TURN_COMPLETED);
-        result.add(ActionResult.VALID_ACTION);
+
+        // clear list of current player valid actions
+        game.clearValidActions();
 
         return result;
 

@@ -39,9 +39,6 @@ public class BuyCardAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        // clear list of current player valid actions
-        game.clearValidActions();
-
         // get card from board
         // should be a development card (hopefully)
         DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.buyCardId);
@@ -49,7 +46,16 @@ public class BuyCardAction extends Action {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
 
-        return dc.buyCard(player, game, selectedTokens);
+        List<ActionResult> result = dc.buyCard(player, game, selectedTokens);
+
+        if (game.getCurValidActions().contains(Actions.BUY_CARD)) {
+            result.add(ActionResult.VALID_ACTION);
+        }
+
+        // clear list of current player valid actions
+        game.clearValidActions();
+
+        return result;
     }
 
     @Override

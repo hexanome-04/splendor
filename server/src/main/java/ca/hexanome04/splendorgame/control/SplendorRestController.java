@@ -259,6 +259,12 @@ public class SplendorRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token does not match requested players name.");
             }
 
+            List<Actions> validActions = game.getCurValidActions();
+
+            if (!validActions.contains(actionIdentifier)) {
+                throw new Exception("Given action is not valid: " + actionIdentifier);
+            }
+
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
 
             ArrayList<ActionResult> actionResult =

@@ -36,8 +36,6 @@ public class CascadeTier2Action extends CascadeAction {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        game.removeValidAction(Actions.CASCADE_2);
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         // get card from board
@@ -68,11 +66,12 @@ public class CascadeTier2Action extends CascadeAction {
             }
         }
 
-        if (game.getCurValidActions().size() == 0) {
-            result.add(ActionResult.TURN_COMPLETED);
+        if (game.getCurValidActions().contains(Actions.CASCADE_2)) {
+            result.add(ActionResult.VALID_ACTION);
         }
+        result.add(ActionResult.TURN_COMPLETED);
 
-        result.add(ActionResult.VALID_ACTION);
+        game.removeValidAction(Actions.CASCADE_2);
 
         return result;
     }
