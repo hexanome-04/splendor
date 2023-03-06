@@ -349,7 +349,7 @@ public class OrientGame extends Game {
 
         results.addAll(ar);
         if (results.contains(ActionResult.TURN_COMPLETED) && results.contains(ActionResult.VALID_ACTION)
-                && results.size() == 2) {
+                && results.size() == 2 && this.getCurValidActions().size() == 0) {
             // increment action also resets current valid actions list
             this.incrementTurn();
         } else {

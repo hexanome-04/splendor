@@ -351,19 +351,16 @@ export function followupActions(data) {
         verifyNoModals();
         
         showCascadeCards(actions[0]);
-        console.log("Nav after show cascade cards: " + navContext);
+        // console.log("Nav after show cascade cards: " + navContext);
 
         const selector = "#cascade-modal";
         navContext.push(selector);
         showModal(selector);
 
-        // closeModal(selector);
-
-        console.log("Nav context after cascade: " + navContext);
     } else if(actions[0] == "CHOOSE_SATCHEL_TOKEN") {
         verifyNoModals();
 
-        showBonuses(data);
+        showSatchelBonuses(data);
 
         const selector = "#choose-satchel-modal";
         navContext.push(selector);
@@ -401,7 +398,7 @@ function setupBonusSelect(selector) {
     });
 }
 
-const showBonuses = (data) => {
+const showSatchelBonuses = (data) => {
     const pUsername = SETTINGS.getUsername();
 
     const confirmBtn = document.querySelector("#choose-satchel-modal .satchel-confirm-btn");
@@ -429,6 +426,9 @@ const showBonuses = (data) => {
         confirmBtn.disabled = true;
 
         const selectedBonus = document.querySelector(`${bonusSelectionSelector}.selected-bonus`);
+
+        console.log("bonusSelector from document.query: " + bonusSelectionSelector);
+
         if(!selectedBonus) {
             // no card has been selected, error
             window.alert("You have not assigned this satchel card a bonus!");
@@ -437,7 +437,8 @@ const showBonuses = (data) => {
         }
         // assume the satchel card is the latest satchel card added to the player's inventory
         // (it shouldn't matter which satchel card we set right?)
-        const cardId = document.querySelector("#player-inventory .player-inventory-card-drawer .player-inventory-card:last-child[satchel='true']").getAttribute("card-id");
+        const cardId = document.querySelector("#player-inventory .player-inventory-card-drawer .player-inventory-card[satchel='true']").getAttribute("card-id");
+        console.log("cardId from document.query: " + bonusSelectionSelector);
         const bonusColor = selectedBonus.getAttribute("color");
 
         SETTINGS.verifyCredentials().then(() => {

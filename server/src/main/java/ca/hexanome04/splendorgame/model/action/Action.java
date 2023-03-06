@@ -34,6 +34,7 @@ public abstract class Action {
         // Check if player can execute this action.
         if (!game.getTurnCurrentPlayer().getName().equals(p.getName())) {
             result.add(ActionResult.INVALID_PLAYER);
+            return result;
         }
 
         return this.run(game, p);

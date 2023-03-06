@@ -198,7 +198,7 @@ public class SplendorRestController {
      * @return JSON object of available actions
      */
     @GetMapping(value = "/api/sessions/{sessionId}/players/{playerName}/actions",
-                produces = "application/json; charset=utf-8")
+            produces = "application/json; charset=utf-8")
     public ResponseEntity getActions(@PathVariable String sessionId, @PathVariable String playerName) {
         try {
             // Check if session exists
@@ -267,11 +267,15 @@ public class SplendorRestController {
 
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
 
+            logger.info("Valid actions BEFORE turn: " + game.getCurValidActions());
+
             ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
             if (!actionResult.contains(ActionResult.VALID_ACTION)) {
                 throw new RuntimeException("Invalid action performed: " + actionResult);
             }
+
+            logger.info("Valid actions AFTER turn:  " + game.getCurValidActions() + "\n");
 
             // TODO: return what further actions are needed (if any)
             // mark that the game state has changed

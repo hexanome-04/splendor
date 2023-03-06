@@ -101,9 +101,11 @@ const updateMainPlayerInfo = (playerInfo) => {
 
     // mark cards as satchel (so that we can select them later in the choose satchel token type)
     playerInfo.cards.forEach((c) => {
+        const card = cardDrawer.querySelector(`.player-inventory-card[card-id="${c.id}"]`);
         if(c.tokenType === "Satchel") {
-            const card = cardDrawer.querySelector(`.player-inventory-card[card-id="${c.id}"]`);
             card.setAttribute("satchel", "true");
+        } else if(c.tokenType !== "Satchel" && card.hasAttribute("satchel")) {
+            card.removeAttribute("satchel");
         }
     });
 

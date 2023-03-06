@@ -1,12 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
-import ca.hexanome04.splendorgame.model.action.ActionResult;
-import ca.hexanome04.splendorgame.model.action.Actions;
-import ca.hexanome04.splendorgame.model.gameversions.Game;
-import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Abstract class that represents a development card.
@@ -64,68 +58,6 @@ public abstract class DevelopmentCard extends Card {
      */
     public int getBonus() {
         return bonus;
-    }
-
-    /**
-     * Allows a player to buy this card.
-     *
-     * @param p Player buying this card
-     * @param g splendor game + board
-     * @param tokensToPayWith tokens the player has chosen to pay with
-     * @return result of buy card action
-     */
-    public List<ActionResult> buyCard(Player p, Game g, HashMap<TokenType, Integer> tokensToPayWith) {
-
-        ArrayList<ActionResult> result = new ArrayList<>();
-
-        if (!isPurchasable(p, tokensToPayWith)) {
-            result.add(ActionResult.INVALID_TOKENS_GIVEN);
-            return result;
-        }
-
-        p.addCard(this);
-        g.takeCard(this);
-
-        p.addBonus(this.getTokenType(), this.getBonus());
-        p.addPrestigePoints(this.getPrestigePoints());
-
-        g.addTokens(tokensToPayWith);
-        p.removeTokens(tokensToPayWith);
-
-        if (this.getClass().equals(OrientDevelopmentCard.class)) {
-            OrientDevelopmentCard orientCard = (OrientDevelopmentCard) this;
-            if (orientCard.getCostType() == CostType.Bonus) {
-                p.removeBonuses(orientCard.getTokenCost());
-            }
-            if (orientCard.getReserveNoble()) {
-                result.add(ActionResult.MUST_RESERVE_NOBLE);
-            }
-            if (orientCard.getCascadeType() == CascadeType.Tier1) {
-                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1);
-
-                // Differentiation between up and down needed? Unclear
-            } else if (orientCard.getCascadeType() == CascadeType.Tier2) {
-                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2);
-
-            }
-            if (orientCard.getTokenType() == TokenType.Satchel) {
-                result.add(ActionResult.MUST_CHOOSE_TOKEN_TYPE);
-            }
-        }
-
-        // Take extra token if player has unlocked power 1
-        if (p instanceof TradingPostsPlayer tpp) {
-            if (tpp.extraTokenAfterPurchase.isUnlocked()) {
-                result.add(ActionResult.MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE);
-            }
-        }
-
-        if (result.size() == 0) {
-            result.add(ActionResult.TURN_COMPLETED);
-        }
-
-        return result;
-
     }
 
 }

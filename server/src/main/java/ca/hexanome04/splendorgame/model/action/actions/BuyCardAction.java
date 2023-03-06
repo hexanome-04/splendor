@@ -5,6 +5,7 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.*;
@@ -64,7 +65,53 @@ public class BuyCardAction extends Action {
         }
 
 
-        List<ActionResult> result = dc.buyCard(player, game, selectedTokens);
+        ArrayList<ActionResult> result = new ArrayList<>();
+
+        if (!dc.isPurchasable(player, selectedTokens)) {
+            result.add(ActionResult.INVALID_TOKENS_GIVEN);
+            return result;
+        }
+
+        player.addCard(dc);
+        game.takeCard(dc);
+
+        player.addBonus(dc.getTokenType(), dc.getBonus());
+        player.addPrestigePoints(dc.getPrestigePoints());
+
+        game.addTokens(selectedTokens);
+        player.removeTokens(selectedTokens);
+
+        if (dc.getClass().equals(OrientDevelopmentCard.class)) {
+            OrientDevelopmentCard orientCard = (OrientDevelopmentCard) dc;
+            if (orientCard.getCostType() == CostType.Bonus) {
+                player.removeBonuses(orientCard.getTokenCost());
+            }
+            if (orientCard.getReserveNoble()) {
+                result.add(ActionResult.MUST_RESERVE_NOBLE);
+            }
+            if (orientCard.getCascadeType() == CascadeType.Tier1) {
+                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1);
+
+                // Differentiation between up and down needed? Unclear
+            } else if (orientCard.getCascadeType() == CascadeType.Tier2) {
+                result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2);
+
+            }
+            if (orientCard.getTokenType() == TokenType.Satchel) {
+                result.add(ActionResult.MUST_CHOOSE_TOKEN_TYPE);
+            }
+        }
+
+        // Take extra token if player has unlocked power 1
+        if (player instanceof TradingPostsPlayer tpp) {
+            if (tpp.extraTokenAfterPurchase.isUnlocked()) {
+                result.add(ActionResult.MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE);
+            }
+        }
+
+        if (result.size() == 0) {
+            result.add(ActionResult.TURN_COMPLETED);
+        }
 
         if (game.getCurValidActions().contains(Actions.BUY_CARD)) {
             result.add(ActionResult.VALID_ACTION);
