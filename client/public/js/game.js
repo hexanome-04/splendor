@@ -99,6 +99,15 @@ const updateMainPlayerInfo = (playerInfo) => {
         cardDrawer.appendChild(tNode);
     });
 
+    // mark cards as satchel (so that we can select them later in the choose satchel token type)
+    playerInfo.cards.forEach((c) => {
+        if(c.tokenType === "Satchel") {
+            const card = cardDrawer.querySelector(`.player-inventory-card[card-id="${c.id}"]`);
+            card.setAttribute("satchel", "true");
+        }
+    });
+
+
     // UPDATE RESERVED CARDS IN PLAYER INVENTORY
     const cardDrawerReserved = playerInv.querySelector(".player-inventory-reservedcards");
 
@@ -345,8 +354,7 @@ const updateGameboard = async () => {
     updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards, data.tier2OrientDeck.visibleCards);
     updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards, data.tier3OrientDeck.visibleCards);
 
-    const actions = data.curValidActions;
-    followupActions(actions);
+    followupActions(data);
 
     const curUsername = SETTINGS.getUsername();
 

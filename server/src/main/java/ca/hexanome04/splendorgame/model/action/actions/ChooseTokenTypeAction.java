@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model.action.actions;
 
+import ca.hexanome04.splendorgame.model.DevelopmentCard;
 import ca.hexanome04.splendorgame.model.OrientDevelopmentCard;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.TokenType;
@@ -46,15 +47,37 @@ public class ChooseTokenTypeAction extends Action {
 
         ArrayList<ActionResult> result = new ArrayList<>();
 
-        OrientDevelopmentCard orientDevCard = (OrientDevelopmentCard) game.getCardFromId(this.cardId);
-        if (orientDevCard == null || orientDevCard.getTokenType() != TokenType.Satchel) {
-            throw new RuntimeException("Card with id '" + this.cardId + "' does not exist or is not of type Satchel.");
+        DevelopmentCard devCard = p.getPurchasedDevelopmentCard(this.cardId);
+        if (!(devCard instanceof OrientDevelopmentCard orientDevCard)) {
+            throw new RuntimeException("Card with id '" + this.cardId + "' does not exist is not of type Satchel.");
+        }
+
+        if (orientDevCard.getTokenType() != TokenType.Satchel) {
+            throw new RuntimeException("Card with id '" + this.cardId + "' is not of type Satchel.");
+        }
+
+        // player can only set satchel token type to another bonus they already have
+        boolean valid = false;
+        for (DevelopmentCard c : p.getCards()) {
+            if (c.getTokenType() != null && c.getTokenType() != TokenType.Satchel
+                    && c.getTokenType() != TokenType.Gold
+                    && c.getTokenType() == this.assignedTokenType) {
+                valid = true;
+                break;
+            }
+        }
+        if (!valid) {
+            throw new RuntimeException("You must pair the satchel's token type to a card you already own.");
         }
 
         // The act of choosing a bonus type could make a player eligible for a noble/win condition... is this checked?
         if (p.getBonuses().get(assignedTokenType) > 0
                 && assignedTokenType != TokenType.Gold && assignedTokenType != TokenType.Satchel) {
             orientDevCard.setTokenType(assignedTokenType);
+
+            // i think the checks in this if are what i do above, whoops
+            // add bonus to player
+            p.addBonus(assignedTokenType, 1);
             result.add(ActionResult.TURN_COMPLETED);
 
         } else {
@@ -80,6 +103,6 @@ public class ChooseTokenTypeAction extends Action {
 
         this.assignedTokenType = TokenType.valueOf(jobj.get("selected").getAsString());
 
-        return null;
+        return this;
     }
 }

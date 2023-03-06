@@ -262,6 +262,21 @@ public abstract class Player {
         return new ArrayList<DevelopmentCard>(this.cards);
     }
 
+    /**
+     * Retrieve a purchased development card from the players inventory using the card id.
+     *
+     * @param cid card id
+     * @return development card if found
+     */
+    public DevelopmentCard getPurchasedDevelopmentCard(String cid) {
+        for (DevelopmentCard c : this.cards) {
+            if (c.getId().equals(cid)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Player name: " + name + " / Player colour: " + colour;

@@ -186,7 +186,7 @@ const setBoardTokens = (modal) => {
     modalNode.querySelector(".white-token > span").textContent = boardNode.querySelector(".white-token > span").textContent;
     modalNode.querySelector(".brown-token > span").textContent = boardNode.querySelector(".brown-token > span").textContent;
     modalNode.querySelector(".gold-token > span").textContent = boardNode.querySelector(".gold-token > span").textContent;
-}
+};
 
 const takeTokens = () => {
     
@@ -207,7 +207,7 @@ const takeTokens = () => {
         showNextModal("#put-back-token-modal");
     };
     
-}
+};
 
 const putBackTokens = () => {
 
@@ -253,7 +253,7 @@ const putBackTokens = () => {
             }).finally(() =>  confirmBtn.disabled = false);
         });
     };
-}
+};
 
 const showPayment = (cardNode) => {
 
@@ -340,7 +340,8 @@ const showPurchasableDevCards = () => {
     };
 };
 
-export function followupActions(actions) {
+export function followupActions(data) {
+    const actions = data.curValidActions;
 
     if (actions.length == 0) {
         return;
@@ -359,12 +360,114 @@ export function followupActions(actions) {
         // closeModal(selector);
 
         console.log("Nav context after cascade: " + navContext);
+    } else if(actions[0] == "CHOOSE_SATCHEL_TOKEN") {
+        verifyNoModals();
+
+        showBonuses(data);
+
+        const selector = "#choose-satchel-modal";
+        navContext.push(selector);
+        showModal(selector);
+        console.log("Nav context after satchel: " + navContext);
     }
     
 
     // TODO: add more followup actions like choose satchel token, choose noble, etc
 
 }
+
+
+// --------------------------------------------------
+
+// CHOOSE SATCHEL BONUS SECTION
+function setupBonusSelect(selector) {
+    // remove selection
+    const oldSelected = document.querySelector(`${selector}.selected-bonus`);
+    if(oldSelected) {
+        oldSelected.classList.remove("selected-bonus");
+    }
+    document.querySelectorAll(selector).forEach((elm) => {
+        elm.onclick = () => {
+            // get the current selected card (should have .selected-card as a class)
+            const selectedBonus = document.querySelector(`${selector}.selected-bonus`);
+            // remove the selection
+            if(selectedBonus) selectedBonus.classList.remove("selected-bonus");
+
+            // only add to clicked element if the old selected was not the clicked element
+            if(selectedBonus !== elm) {
+                elm.classList.add("selected-bonus");
+            }
+        };
+    });
+}
+
+const showBonuses = (data) => {
+    const pUsername = SETTINGS.getUsername();
+
+    const confirmBtn = document.querySelector("#choose-satchel-modal .satchel-confirm-btn");
+
+    const bonusSelectionSelector = "#choose-satchel-modal .board-token";
+
+    setupBonusSelect(bonusSelectionSelector);
+
+    // disable the tokens that the player cannot select
+    data.players.forEach((pInfo) => {
+        if(pInfo.name === pUsername) {
+            const allTokens = document.querySelectorAll(`${bonusSelectionSelector}`);
+            allTokens.forEach((elm) => {
+                const color = elm.getAttribute("color");
+                if(pInfo.bonuses[color] > 0) {
+                    elm.classList.add("show");
+                } else {
+                    elm.classList.remove("show");
+                }
+            });
+        }
+    });
+
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        const selectedBonus = document.querySelector(`${bonusSelectionSelector}.selected-bonus`);
+        if(!selectedBonus) {
+            // no card has been selected, error
+            window.alert("You have not assigned this satchel card a bonus!");
+            confirmBtn.disabled = false;
+            return;
+        }
+        // assume the satchel card is the latest satchel card added to the player's inventory
+        // (it shouldn't matter which satchel card we set right?)
+        const cardId = document.querySelector("#player-inventory .player-inventory-card-drawer .player-inventory-card:last-child[satchel='true']").getAttribute("card-id");
+        const bonusColor = selectedBonus.getAttribute("color");
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/CHOOSE_SATCHEL_TOKEN`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {
+                "cardId": cardId,
+                "selected": bonusColor
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+
+};
 
 
 const navContext = [];
@@ -402,7 +505,7 @@ purchaseBtn.onclick = () => {
 reserveBtn.onclick = () => {
     // load the purchase items
     showReservableDevCards();
-
+    
     showNextModal("#reserve-card-modal");
 };
 

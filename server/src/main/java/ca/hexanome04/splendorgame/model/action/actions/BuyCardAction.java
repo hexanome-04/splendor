@@ -46,6 +46,24 @@ public class BuyCardAction extends Action {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
 
+        // for orient, can only buy satchel if you own another card with a bonus
+        if (dc.getTokenType() == TokenType.Satchel) {
+            boolean hasAnotherBonusCard = false;
+            for (DevelopmentCard c : player.getCards()) {
+                if (c.getTokenType() != null && c.getTokenType() != TokenType.Satchel
+                        && c.getTokenType() != TokenType.Gold) {
+                    // doesn't fail the checks above? should be good maybe
+                    hasAnotherBonusCard = true;
+                    break;
+                }
+            }
+            if (!hasAnotherBonusCard) {
+                throw new RuntimeException("Cannot purchase card with satchel bonus "
+                        + "without having another purchased card with a bonus.");
+            }
+        }
+
+
         List<ActionResult> result = dc.buyCard(player, game, selectedTokens);
 
         if (game.getCurValidActions().contains(Actions.BUY_CARD)) {

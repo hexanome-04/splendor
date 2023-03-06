@@ -173,7 +173,8 @@
 .cascade-back-btn,
 .cascade-confirm-btn,
 .put-back-token-back-btn,
-.put-back-token-confirm-btn {
+.put-back-token-confirm-btn,
+.satchel-confirm-btn {
   width: 100%;
   height: 6vh;
   border: 0.098rem solid goldenrod;
@@ -211,8 +212,11 @@
 .save-confirm-btn:hover,
 .take-token-back-btn:hover,
 .take-token-confirm-btn:hover,
+.cascade-back-btn:hover,
+.cascade-confirm-btn:hover,
 .put-back-token-back-btn:hover,
-.put-back-token-confirm-btn:hover {
+.put-back-token-confirm-btn:hover,
+.satchel-confirm-btn:hover {
   color: #f2d675;
   border-color: #f2d675;
   cursor: pointer;
@@ -267,6 +271,26 @@
   width: 100%;
   height: 100%;
   border-radius: var(--card-border-radius);
+}
+
+/* CHOOSE SATCHEL BONUS MODAL */
+.satchel-bonus-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+  padding: 2em;
+}
+
+.satchel-bonus-container .board-token:hover {
+  transform: scale(1.2);
+  transition: 0.2s;
+  z-index: 3;
+}
+
+.selected-bonus {
+  box-shadow: 0 0 25px 4px #ffe8a9;
 }
 
 /* Text for token */
