@@ -47,6 +47,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 1rem 1rem 5rem black;
+  z-index: 3;
 }
 
 .bar {
@@ -139,6 +140,7 @@ body {
   justify-content: center;
   max-height: 100%;
   font-size: 2.5vmin;
+  z-index: 3;
 }
 
 .player-inventory-container {

@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   font-size: 2.5vmin;
+  z-index: 3;
 
   --other-player-preview-size: 6em;
   --other-player-card-size: 5em;
