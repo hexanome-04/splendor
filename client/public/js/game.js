@@ -23,7 +23,9 @@ const updateTokensCount = (parentSelector, tokenInfo, bonusInfo = null) => {
     });
 };
 
-const updateTierRow = (selector, devCards, orientCards) => {
+const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
+    const devCards = devCardsDeck.visibleCards;
+    const orientCards = orientCardsDeck.visibleCards;
     const row = document.querySelector(selector);
     const cardElms = row.querySelectorAll(".board-card-dev");
 
@@ -33,14 +35,14 @@ const updateTierRow = (selector, devCards, orientCards) => {
     });
 
     // mark deck as empty if needed
-    const setEmptyIfNeeded = (deckSelector, isEmpty) => {
-        if(isEmpty) {
+    const setEmptyIfNeeded = (deckSelector, canDraw) => {
+        if(!canDraw) {
             row.querySelector(deckSelector).setAttribute("empty", "true");
         }
     };
     
-    setEmptyIfNeeded(".board-cards-dev-deck", devCards.length == 0);
-    setEmptyIfNeeded(".board-cards-dev-deck-orient", orientCards.length == 0);
+    setEmptyIfNeeded(".board-cards-dev-deck", devCardsDeck.canDraw);
+    setEmptyIfNeeded(".board-cards-dev-deck-orient", orientCardsDeck.canDraw);
 
     const updateCardElement = (cardElm, cardInfo) => {
         const cardId = cardInfo["id"];
@@ -355,9 +357,9 @@ const updateGameboard = async () => {
 
     updateNoblesBoard(data.nobleDeck.visibleCards);
 
-    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck.visibleCards, data.tier1OrientDeck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck.visibleCards, data.tier2OrientDeck.visibleCards);
-    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck.visibleCards, data.tier3OrientDeck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck, data.tier1OrientDeck);
+    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck, data.tier2OrientDeck);
+    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck, data.tier3OrientDeck);
 
     followupActions(data);
 

@@ -14,6 +14,10 @@ public class Deck<T extends Card> {
 
     private final Stack<T> cards;
     private final List<T> visibleCards;
+    /**
+     * This field will not work properly with a deck that contains Noble cards.
+     */
+    private boolean canDraw;
 
     /**
      * Construct a deck of cards with nothing inside.
@@ -21,6 +25,7 @@ public class Deck<T extends Card> {
     public Deck() {
         this.cards = new Stack<>();
         this.visibleCards = new ArrayList<>();
+        this.canDraw = false;
     }
 
     /**
@@ -39,6 +44,7 @@ public class Deck<T extends Card> {
      */
     public void add(T card) {
         this.cards.push(card);
+        this.canDraw = true;
     }
 
     /**
@@ -76,8 +82,17 @@ public class Deck<T extends Card> {
             drawCards(1);
         }
 
+        this.updateDrawable();
+
         // return the card taken
         return takenCard;
+    }
+
+    /**
+     * Update internal variable for canDraw.
+     */
+    private void updateDrawable() {
+        this.canDraw = this.cards.size() > 0;
     }
 
     /**
@@ -98,6 +113,7 @@ public class Deck<T extends Card> {
                 this.visibleCards.add(this.cards.pop());
             }
         }
+        this.updateDrawable();
     }
 
 }
