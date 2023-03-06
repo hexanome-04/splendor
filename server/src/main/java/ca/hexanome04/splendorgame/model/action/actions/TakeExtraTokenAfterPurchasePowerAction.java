@@ -61,11 +61,14 @@ public class TakeExtraTokenAfterPurchasePowerAction extends Action {
             playerTotalTokens += playerCurrentTokensNum;
         }
 
-        int tokenLeftOnBoard = game.getTokens().get(takeToken) - takeTokenNum;
-        if (tokenLeftOnBoard < 0) {
-            result.add(ActionResult.NOT_ENOUGH_TOKENS_ON_BOARD);
-            return result;
+        if (takeToken != null) {
+            int tokenLeftOnBoard = game.getTokens().get(takeToken) - takeTokenNum;
+            if (tokenLeftOnBoard < 0) {
+                result.add(ActionResult.NOT_ENOUGH_TOKENS_ON_BOARD);
+                return result;
+            }
         }
+
 
         playerTotalTokens += (takeTokenNum - putBackTokenNum);
 
@@ -81,6 +84,14 @@ public class TakeExtraTokenAfterPurchasePowerAction extends Action {
         if (takeToken != null) {
             takeTokens.put(takeToken, 1);
         }
+
+        int putBackTokenInventory = player.getTokens().get(this.putBackToken) == null
+                ? 0 : player.getTokens().get(this.putBackToken);
+        if (putBackTokenInventory <= 0 && putBackTokenNum > 0) {
+            result.add(ActionResult.INVALID_TOKEN_CHOSEN);
+            return result;
+        }
+
         if (putBackToken != null) {
             putBackTokens.put(putBackToken, 1);
         }
