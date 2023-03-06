@@ -25,7 +25,9 @@
 
 .power >  img {
   height: 4em;
-  aspect-ratio: 41 / 14;
+  aspect-ratio: 42 / 14;
+  box-shadow: 0 0.5em 1em rgb(0 0 0 / 0.4);
+  border-radius: 0.4em;
 }
 
 .power {
