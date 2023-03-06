@@ -5,10 +5,14 @@ import "../styles/trading-posts/tp-gameboard.css";
 import "../styles/trading-posts/tp-gameboard-otherplayers.css";
 import "../styles/modals.css";
 import TakeTurnModal from "../components/modals/TakeTurnModal.astro";
+import TakeTokenModal from "../components/modals/TakeTokenModal.astro";
+import PutBackTokenModal from "../components/modals/PutBackTokenModal.astro";
 import BuyCardModal from "../components/modals/BuyCardModal.astro";
 import ReserveCardModal from "../components/modals/ReserveCardModal.astro";
+import CascadeModal from "../components/modals/CascadeModal.astro";
 import SaveGameModal from "../components/modals/SaveGameModal.astro";
 import GameNavMenu from "../components/GameNavMenu.astro";
+import ChooseSatchelModal from "../components/modals/ChooseSatchelModal.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +41,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <span>0</span>
                     </div>
                     <div class="player-coat-of-arms">
-                        <img src="/images/trading-posts/RedCoatOfArms.png">
+                        <img>
                     </div>
                     <div class="player-inventory-tokens">
                         <!-- RED -->
@@ -105,7 +109,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                 <!-- POWERS -->
                 <div class="powers-container">
 
-                    <div class="power">
+                    <div class="power" power="ExtraTokenAfterPurchasePower">
                         <div class="coa-indicator">
                             <img src="/images/trading-posts/RedCoatOfArms.png">
                             <img src="/images/trading-posts/BlueCoatOfArms.png">
@@ -115,7 +119,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <img src="/images/trading-posts/ExtraTokenAfterPurchasePower.png">
                     </div>
 
-                    <div class="power">
+                    <div class="power" power="ExtraTokenAfterTakingSameColorTokensPower">
                         <div class="coa-indicator">
                             <img src="/images/trading-posts/RedCoatOfArms.png">
                             <img src="/images/trading-posts/BlueCoatOfArms.png">
@@ -125,7 +129,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <img src="/images/trading-posts/ExtraTokenAfterTakingSameColorTokensPower.png">
                     </div>
 
-                    <div class="power">
+                    <div class="power" power="GoldTokenWorthTwoTokensPower">
                         <div class="coa-indicator">
                             <img src="/images/trading-posts/RedCoatOfArms.png">
                             <img src="/images/trading-posts/BlueCoatOfArms.png">
@@ -135,7 +139,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <img src="/images/trading-posts/GoldTokenWorthTwoTokensPower.png">
                     </div>
 
-                    <div class="power">
+                    <div class="power" power="AddFivePrestigePointsPower">
                         <div class="coa-indicator">
                             <img src="/images/trading-posts/RedCoatOfArms.png">
                             <img src="/images/trading-posts/BlueCoatOfArms.png">
@@ -145,7 +149,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <img src="/images/trading-posts/AddFivePrestigePointsPower.png">
                     </div>
 
-                    <div class="power">
+                    <div class="power" power="AddPrestigePointsWithCoatOfArmsPower">
                         <div class="coa-indicator">
                             <img src="/images/trading-posts/RedCoatOfArms.png">
                             <img src="/images/trading-posts/BlueCoatOfArms.png">
@@ -279,9 +283,13 @@ import GameNavMenu from "../components/GameNavMenu.astro";
 
         <!-- MODALS -->
         <TakeTurnModal></TakeTurnModal>
+        <TakeTokenModal></TakeTokenModal>
+        <PutBackTokenModal></PutBackTokenModal>
         <BuyCardModal></BuyCardModal>
         <ReserveCardModal></ReserveCardModal>
         <SaveGameModal></SaveGameModal>
+        <CascadeModal></CascadeModal>
+        <ChooseSatchelModal></ChooseSatchelModal>
 
         <!-- Templates to be used throughout the game -->
         <template id="development-card-template">
@@ -316,7 +324,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
                         <img>
                         <div class="op-name-container">
                             <div class="op-coa-image-container">
-                                <img src="/images/trading-posts/RedCoatOfArms.png">
+                                <img>
                             </div>
                             <p class="other-player-name">NAME</p>
                         </div>
@@ -398,6 +406,7 @@ import GameNavMenu from "../components/GameNavMenu.astro";
         </template>
 
         <script type="module" src="/js/game.js"></script>
+        <script is:inline type="module" src="/js/game-tradingposts.js"></script>
         <script type="module" src="/js/modals.js"></script>
 
     </body>

@@ -46,4 +46,9 @@
   height: 2em;
   aspect-ratio: 27 / 31;
   filter: drop-shadow(0.07em 0.07em 0.2em #222);
+  display: none;
+}
+
+.coa-indicator img.show {
+  display: block;
 }

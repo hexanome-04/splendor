@@ -308,6 +308,9 @@ const attempUpdate = () => {
     });
 };
 
+// array for other updates that can be done (extensions)
+const furtherUpdates = [];
+
 const updateGameboard = async () => {
     await SETTINGS.verifyCredentials();
 
@@ -369,6 +372,8 @@ const updateGameboard = async () => {
         }
     });
 
+    furtherUpdates.forEach((func) => func(data));
+
     // check if it's your turn
     if(data.players[data.turnCounter].name === curUsername) {
         startTurn();
@@ -376,6 +381,16 @@ const updateGameboard = async () => {
         verifyNoModals();
     }
 };
+
+/**
+ * Add an updater to the main update executor.
+ * The added function should take in as an argument the data from the game server.
+ * 
+ * @param {Function} func 
+ */
+export const addUpdater = (func) => {
+    furtherUpdates.push(func);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 
