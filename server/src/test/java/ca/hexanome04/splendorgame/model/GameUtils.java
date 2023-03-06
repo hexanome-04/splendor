@@ -1,6 +1,8 @@
 package ca.hexanome04.splendorgame.model;
 
 import ca.hexanome04.splendorgame.model.gameversions.orient.*;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsGame;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
@@ -37,6 +39,26 @@ public class GameUtils {
         }
 
         OrientGame game = new OrientGame(prestigePointsToWin, 0);
+
+        game.setPlayers(players);
+        game.createSplendorBoard(new FileInputStream(filename));
+        game.initBoard();
+
+        return game;
+    }
+
+    public static TradingPostsGame createNewTradingPostGameFromFile(int prestigePointsToWin, int numberOfPlayers) throws FileNotFoundException {
+        // get the test board file
+        String filename = "";
+        File file = ResourceUtils.getFile("classpath:testBoard.csv");
+        filename = file.getAbsolutePath();
+
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.add(new TradingPostsPlayer("Player" + (i + 1), "Colour" + (i + 1)));
+        }
+
+        TradingPostsGame game = new TradingPostsGame(prestigePointsToWin, 0);
 
         game.setPlayers(players);
         game.createSplendorBoard(new FileInputStream(filename));

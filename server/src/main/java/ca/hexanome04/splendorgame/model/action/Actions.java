@@ -43,6 +43,10 @@ public enum Actions {
     /**
      * Choose token type for satchel action.
      */
-
-    CHOOSE_SATCHEL_TOKEN
+    CHOOSE_SATCHEL_TOKEN,
+    
+    /**
+     * Take token from power 1.
+     */
+    TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER
 }

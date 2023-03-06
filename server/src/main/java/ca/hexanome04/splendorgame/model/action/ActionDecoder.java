@@ -35,6 +35,7 @@ public class ActionDecoder {
                 case CASCADE_2 -> new CascadeTier2Action().decodeAction(gson);
                 case RESERVE_NOBLE -> new ReserveNobleAction().decodeAction(gson);
                 case CHOOSE_SATCHEL_TOKEN -> new ChooseTokenTypeAction().decodeAction(gson);
+                case TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER -> new TakeExtraTokenAfterPurchasePowerAction().decodeAction(gson);
             };
 
         } catch (IllegalArgumentException e) {

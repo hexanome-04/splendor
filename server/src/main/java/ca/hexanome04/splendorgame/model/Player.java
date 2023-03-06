@@ -21,8 +21,6 @@ public abstract class Player {
     private ArrayList<DevelopmentCard> reservedCards;
     private ArrayList<NobleCard> reservedNobles;
 
-
-
     /**
      * Creates a Player object with a given name and colour.
      *
@@ -254,6 +252,30 @@ public abstract class Player {
     }
 
     /**
+     * Check if player has the bonuses specified in the given list.
+     *
+     * @param checkBonuses bonuses to be checked
+     * @return true if player has the specified bonuses
+     */
+    public boolean hasBonuses(HashMap<TokenType, Integer> checkBonuses) {
+        for (TokenType key : checkBonuses.keySet()) {
+            if ((this.bonuses.get(key) - checkBonuses.get(key)) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if player has at least one noble.
+     *
+     * @return true if player has at least one noble
+     */
+    public boolean hasNobles() {
+        return (this.nobleCards.size() > 0);
+    }
+
+    /**
      * Returns the arraylist of cards that a player has.
      *
      * @return the arraylist of cards that a player has
@@ -275,6 +297,16 @@ public abstract class Player {
             }
         }
         return null;
+
+    }
+
+    /**
+     * Returns the amount of prestige points a player has.
+     *
+     * @return the amount of prestige points a player has
+     */
+    public int getPrestigePoints() {
+        return this.prestigePoints;
     }
 
     @Override

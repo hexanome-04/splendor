@@ -1,8 +1,7 @@
 package ca.hexanome04.splendorgame.model;
 
-import java.util.ArrayList;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -115,7 +114,30 @@ public abstract class Card {
             }
 
             if (tokens.get(TokenType.Gold) != null) {
-                missingTokenCount -= tokens.get(TokenType.Gold);
+                if (player instanceof TradingPostsPlayer p && p.goldTokenWorthTwoTokens.isUnlocked()) {
+                    // keep track of the total amount of gold tokens left
+                    int goldTokenTotal = tokens.get(TokenType.Gold);
+                    for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
+                        if (goldTokenTotal > 0) {
+                            int currCost = entry.getValue();
+                            if (currCost > 0) {
+                                int missing = (int) Math.ceil((double) currCost / 2);
+                                if (missing <= goldTokenTotal) {
+                                    goldTokenTotal -= missing;
+                                    missingTokenCount -= currCost;
+                                } else {
+                                    // not enough gold tokens to cover costs
+                                    // but subtract as much as possible from missing token count
+                                    missingTokenCount -= goldTokenTotal * 2;
+                                    goldTokenTotal = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    missingTokenCount -= tokens.get(TokenType.Gold);
+                }
             }
 
             if (bonuses.get(TokenType.Gold) < missingTokenCount) {

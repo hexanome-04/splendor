@@ -75,4 +75,8 @@ public enum ActionResult {
      */
     MUST_CHOOSE_TOKEN_TYPE,
 
+    /**
+     * Player has purchased a development card, so they can take an extra token using power 1.
+     */
+    MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE
 }

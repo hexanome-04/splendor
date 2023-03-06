@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,6 +110,13 @@ public abstract class DevelopmentCard extends Card {
             }
             if (orientCard.getTokenType() == TokenType.Satchel) {
                 result.add(ActionResult.MUST_CHOOSE_TOKEN_TYPE);
+            }
+        }
+
+        // Take extra token if player has unlocked power 1
+        if (p instanceof TradingPostsPlayer tpp) {
+            if (tpp.extraTokenAfterPurchase.isUnlocked()) {
+                result.add(ActionResult.MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE);
             }
         }
 

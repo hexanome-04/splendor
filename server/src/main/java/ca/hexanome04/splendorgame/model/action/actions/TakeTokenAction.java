@@ -6,6 +6,7 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
@@ -108,12 +109,16 @@ public class TakeTokenAction extends Action {
         }
 
         // verify either 2 of same token or 3 unique tokens
-        if (doubleTokens > 1 || uniqueTokens > 3 || (uniqueTokens > 0 && doubleTokens > 0)) {
-            logger.error("Double tokens: " + doubleTokens + "\nUnique tokens: " + uniqueTokens);
+        // Unless for Trading routes, if player has power 2, can take 1 extra token of different color than doubleToken
+        if (player instanceof TradingPostsPlayer tpp && tpp.extraTokenAfterTakingSameColor.isUnlocked()) {
+            if (doubleTokens > 1 || uniqueTokens > 3 || (uniqueTokens > 1 && doubleTokens == 1)) {
+                result.add(ActionResult.INVALID_TOKENS_GIVEN);
+                return result;
+            }
+        } else if (doubleTokens > 1 || uniqueTokens > 3 || (uniqueTokens > 0 && doubleTokens > 0)) {
             result.add(ActionResult.INVALID_TOKENS_GIVEN);
             return result;
         }
-
 
         game.removeTokens(takeTokens);
         game.addTokens(putBackTokens);
