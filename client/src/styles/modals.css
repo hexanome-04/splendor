@@ -174,7 +174,8 @@
 .cascade-confirm-btn,
 .put-back-token-back-btn,
 .put-back-token-confirm-btn,
-.satchel-confirm-btn {
+.satchel-confirm-btn,
+.extra-token-confirm-btn {
   width: 100%;
   height: 6vh;
   border: 0.098rem solid goldenrod;
@@ -216,7 +217,8 @@
 .cascade-confirm-btn:hover,
 .put-back-token-back-btn:hover,
 .put-back-token-confirm-btn:hover,
-.satchel-confirm-btn:hover {
+.satchel-confirm-btn:hover,
+.extra-token-confirm-btn:hover {
   color: #f2d675;
   border-color: #f2d675;
   cursor: pointer;
@@ -273,8 +275,8 @@
   border-radius: var(--card-border-radius);
 }
 
-/* CHOOSE SATCHEL BONUS MODAL */
-.satchel-bonus-container {
+/* CHOOSE SATCHEL BONUS AND TAKE EXTRA TOKEN MODALS */
+.satchel-bonus-container, .extra-token-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -283,13 +285,15 @@
   padding: 2em;
 }
 
-.satchel-bonus-container .board-token:hover {
+.satchel-bonus-container .board-token:hover,
+.extra-token-container .board-token:hover {
   transform: scale(1.2);
   transition: 0.2s;
   z-index: 3;
+  cursor: pointer;
 }
 
-.selected-bonus {
+.selected-bonus, .selected-extra-token {
   box-shadow: 0 0 25px 4px #ffe8a9;
 }
 

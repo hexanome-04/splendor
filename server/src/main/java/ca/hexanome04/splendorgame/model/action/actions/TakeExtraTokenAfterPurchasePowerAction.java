@@ -42,13 +42,12 @@ public class TakeExtraTokenAfterPurchasePowerAction extends Action {
     @Override
     protected List<ActionResult> run(Game game, Player player) {
 
-        // clear list of current player valid actions
-        game.clearValidActions();
-
         ArrayList<ActionResult> result = new ArrayList<>();
 
         if (takeToken == putBackToken) {
+            result.add(ActionResult.VALID_ACTION);
             result.add(ActionResult.TURN_COMPLETED);
+            game.removeValidAction(Actions.TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER);
             return result;
         }
 
@@ -90,15 +89,21 @@ public class TakeExtraTokenAfterPurchasePowerAction extends Action {
         game.addTokens(putBackTokens);
         player.takeTokens(takeTokens, putBackTokens);
 
+        result.add(ActionResult.VALID_ACTION);
         result.add(ActionResult.TURN_COMPLETED);
+        game.removeValidAction(Actions.TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER);
         return result;
     }
 
     @Override
     public Action decodeAction(JsonObject jobj) {
 
-        this.takeToken = TokenType.valueOf(jobj.get("takeTokens").getAsString());
-        this.putBackToken = TokenType.valueOf(jobj.get("putBackTokens").getAsString());
+        if (jobj.has("takeToken")) {
+            this.takeToken = TokenType.valueOf(jobj.get("takeToken").getAsString());
+        }
+        if (jobj.has("putBackToken")) {
+            this.putBackToken = TokenType.valueOf(jobj.get("putBackToken").getAsString());
+        }
 
         return this;
 

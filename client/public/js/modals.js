@@ -366,6 +366,13 @@ export function followupActions(data) {
         navContext.push(selector);
         showModal(selector);
         console.log("Nav context after satchel: " + navContext);
+    } else if(actions[0] == "TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER") {
+        verifyNoModals();
+
+        showExtraTokens();
+        const selector = "#take-extra-token-modal";
+        navContext.push(selector);
+        showModal(selector);
     }
     
 
@@ -465,6 +472,85 @@ const showSatchelBonuses = (data) => {
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
+
+};
+
+// --------------------------------------------------
+
+// TAKE EXTRA TOKEN SECTION (TRADING POSTS)
+function setupExtraTokenSelect(selector) {
+    // remove selection
+    const oldSelected = document.querySelector(`${selector}.selected-extra-token`);
+    if(oldSelected) {
+        oldSelected.classList.remove("selected-extra-token");
+    }
+    document.querySelectorAll(selector).forEach((elm) => {
+        elm.onclick = () => {
+            // get the current selected token (should have .selected- as a class)
+            const selectedExtraToken = document.querySelector(`${selector}.selected-extra-token`);
+            // remove the selection
+            if(selectedExtraToken) selectedExtraToken.classList.remove("selected-extra-token");
+
+            // only add to clicked element if the old selected was not the clicked element
+            if(selectedExtraToken !== elm) {
+                elm.classList.add("selected-extra-token");
+            }
+        };
+    });
+}
+
+const showExtraTokens = () => {
+
+    const takeConfirmBtn = document.querySelector("#take-extra-token-modal .extra-token-confirm-btn");
+    takeConfirmBtn.onclick = () => {
+        showNextModal("#putback-extra-token-modal");
+    };
+
+    const extraTokenSelectionSelector = "#take-extra-token-modal .board-token";
+    setupExtraTokenSelect(extraTokenSelectionSelector);
+
+    const putBackTokenSelectionSelector = "#putback-extra-token-modal .board-token";
+    setupExtraTokenSelect(putBackTokenSelectionSelector);
+
+    const putBackConfirmBtn = document.querySelector("#putback-extra-token-modal #putback-token-confirm-btn");
+    document.querySelector("#putback-extra-token-modal #putback-token-back-btn").onclick = () => {
+        backButton();
+    };
+
+    putBackConfirmBtn.onclick = () => {
+        putBackConfirmBtn.disabled = true;
+
+        const selectedExtraToken = document.querySelector(`${extraTokenSelectionSelector}.selected-extra-token`);
+        const takeToken = selectedExtraToken ? selectedExtraToken.getAttribute("color") : null;
+
+        const selectedPutBackToken = document.querySelector(`${putBackTokenSelectionSelector}.selected-extra-token`);
+        const putBackToken = selectedPutBackToken ? selectedPutBackToken.getAttribute("color") : null;
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {};
+            if(takeToken) jsonData["takeToken"] = takeToken;
+            if(putBackToken) jsonData["putBackToken"] = putBackToken;
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  putBackConfirmBtn.disabled = false);
         });
     };
 
