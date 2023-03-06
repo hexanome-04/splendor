@@ -13,6 +13,10 @@
   background-color: rgba(0 0 0 / 40%);
 }
 
+#restart-game-modal {
+  z-index: 1000;
+}
+
 .modal.show {
   display: block;
 }
