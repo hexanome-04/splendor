@@ -134,6 +134,8 @@ public abstract class Game {
      * @return if tokens were successfully removed (e.g. if enough tokens on board to take)
      */
     public boolean removeTokens(Map<TokenType, Integer> tokensToRemove) {
+
+        // TODO: Check first, technically this could remove some tokens before returning false.
         for (Map.Entry<TokenType, Integer> entry : tokensToRemove.entrySet()) {
             int tokensLeft = tokens.get(entry.getKey()) - entry.getValue();
 

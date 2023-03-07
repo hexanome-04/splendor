@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Perform the reserve card action.
@@ -56,16 +57,24 @@ public class ReserveCardAction extends Action {
         game.takeCard(dc);
         player.reserveCard(dc);
 
-        HashMap<TokenType, Integer> goldToken = new HashMap<>();
-        goldToken.put(TokenType.Gold, 1);
 
-        // removes one gold token from board (if there is a gold token to take)
-        boolean removeTokensResults = game.removeTokens(goldToken);
-
-        // give player gold token if there were any left
-        if (removeTokensResults == true) {
-            player.addTokens(goldToken);
+        // only give player gold token if they don't have 10 tokens already
+        int playerTokenCount = 0;
+        for (Map.Entry<TokenType, Integer> entry : player.getTokens().entrySet()) {
+            playerTokenCount += entry.getValue();
         }
+        if (playerTokenCount < 10) {
+            // removes one gold token from board (if there is a gold token to take)
+            HashMap<TokenType, Integer> goldToken = new HashMap<>();
+            goldToken.put(TokenType.Gold, 1);
+            boolean removeTokensResults = game.removeTokens(goldToken);
+
+            // give player gold token if there were any left
+            if (removeTokensResults) {
+                player.addTokens(goldToken);
+            }
+        }
+
 
         if (game.getCurValidActions().contains(Actions.RESERVE_CARD)) {
             result.add(ActionResult.VALID_ACTION);
