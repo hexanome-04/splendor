@@ -147,6 +147,15 @@ public abstract class Player {
     }
 
     /**
+     * Remove a reserved noble from the players inventory.
+     *
+     * @param card reserved noble card
+     */
+    public void removeReservedNoble(NobleCard card) {
+        this.reservedNobles.remove(card);
+    }
+
+    /**
      * Get a player's held tokens.
      *
      * @return list of tokens that the player has

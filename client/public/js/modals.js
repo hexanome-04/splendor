@@ -366,7 +366,7 @@ export function followupActions(data) {
     
     if (actions[0] == "CASCADE_1" || actions[0] == "CASCADE_2") {
         verifyNoModals();
-        
+
         showCascadeCards(actions[0]);
         // console.log("Nav after show cascade cards: " + navContext);
 
@@ -390,8 +390,16 @@ export function followupActions(data) {
         const selector = "#take-extra-token-modal";
         navContext.push(selector);
         showModal(selector);
+    } else if(actions[0] == "RESERVE_NOBLE") {
+
+        verifyNoModals();
+        initReserveNoble();
+        const selector = "#reserve-noble-modal";
+        navContext.push(selector);
+        showModal(selector);
+
     }
-    
+
 
     // TODO: add more followup actions like choose satchel token, choose noble, etc
 
@@ -571,6 +579,83 @@ const showExtraTokens = () => {
         });
     };
 
+};
+
+
+// Reserve noble
+const setupSelect = (selector, selectedSelector = null) => {
+    const selectedClass = selectedSelector ? selectedSelector : "selected";
+    // remove selection
+    const oldSelected = document.querySelector(`${selector}.${selectedClass}`);
+    if(oldSelected) {
+        oldSelected.classList.remove(selectedClass);
+    }
+    document.querySelectorAll(selector).forEach((elm) => {
+        elm.onclick = () => {
+            // get the current selected token (should have .selected- as a class)
+            const selectedExtraToken = document.querySelector(`${selector}.${selectedClass}`);
+            // remove the selection
+            if(selectedExtraToken) selectedExtraToken.classList.remove(selectedClass);
+
+            // only add to clicked element if the old selected was not the clicked element
+            if(selectedExtraToken !== elm) {
+                elm.classList.add(selectedClass);
+            }
+        };
+    });
+};
+
+const initReserveNoble = () => {
+
+    // copy nobles
+    const nobleContainer = document.querySelector("#reserve-noble-board");
+    const noblesOnBoard = [];
+    document.querySelectorAll("#board .board-nobles .noble-card").forEach((elm) => {
+        if(elm.querySelector("img[src]")) {
+            noblesOnBoard.push(elm.cloneNode(true));
+        }
+    });
+    nobleContainer.replaceChildren(...noblesOnBoard);
+
+    const selectionSelector = "#reserve-noble-modal .noble-card";
+    setupSelect(selectionSelector, "selected-noble");
+
+    const confirmBtn = document.querySelector("#reserve-noble-modal .reserve-card-confirm-btn");
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+
+        const selected = document.querySelector(`${selectionSelector}.selected-noble`);
+        if(!selected) {
+            window.alert("You have not selected a noble!");
+            confirmBtn.disabled = false;
+            return;
+        }
+
+        SETTINGS.verifyCredentials().then(() => {
+            const windowParams = (new URL(document.location)).searchParams;
+            const sessionId = windowParams.get("sessionId");
+
+            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/RESERVE_NOBLE`);
+            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
+
+
+            const jsonData = {
+                "cardId": selected.getAttribute("card-id")
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(jsonData)
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.text().then((data) => { window.alert("Error: " + data); });
+                }
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() =>  confirmBtn.disabled = false);
+        });
+    };
 };
 
 

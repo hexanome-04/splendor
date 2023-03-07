@@ -341,6 +341,10 @@ public class OrientGame extends Game {
                 NobleCard noble = nobleCards.get(0);
                 takeCard(noble);
                 p.addNoble(noble);
+
+                if (p.getReservedNobles().contains(noble)) {
+                    p.removeReservedNoble(noble);
+                }
             } else {
                 // don't increment turn if player must choose noble
                 results.add(ActionResult.MUST_CHOOSE_NOBLE);
@@ -369,6 +373,15 @@ public class OrientGame extends Game {
         }
 
         return results;
+    }
+
+    /**
+     * Get the list of nobles on the game board.
+     *
+     * @return list of nobles visible
+     */
+    public List<NobleCard> getNobles() {
+        return new ArrayList<>(this.nobleDeck.getVisibleCards());
     }
 
     @Override

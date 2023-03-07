@@ -14,6 +14,7 @@ import SaveGameModal from "../components/modals/SaveGameModal.astro";
 import GameNavMenu from "../components/GameNavMenu.astro";
 import ChooseSatchelModal from "../components/modals/ChooseSatchelModal.astro";
 import TakeExtraTokenModal from "../components/modals/TakeExtraTokenModal.astro";
+import ReserveNobleModal from "../components/modals/ReserveNobleModal.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -103,6 +104,7 @@ import TakeExtraTokenModal from "../components/modals/TakeExtraTokenModal.astro"
                     <div class="player-inventory-reservedcards">
                     </div>
                     <div class="player-inventory-nobles"></div>
+                    <div class="player-inventory-reserved-nobles"></div>
                 </div>
             </div>
 
@@ -292,6 +294,7 @@ import TakeExtraTokenModal from "../components/modals/TakeExtraTokenModal.astro"
         <CascadeModal></CascadeModal>
         <ChooseSatchelModal></ChooseSatchelModal>
         <TakeExtraTokenModal></TakeExtraTokenModal>
+        <ReserveNobleModal></ReserveNobleModal>
 
         <!-- Templates to be used throughout the game -->
         <template id="board-card-dev-template" card-id>
@@ -394,6 +397,9 @@ import TakeExtraTokenModal from "../components/modals/TakeExtraTokenModal.astro"
                             <!-- The following cards have to be put in reverse order -->
                         </div>
                         <div class="other-inventory-noble-cards">
+                            <!-- The following cards have to be put in reverse order -->
+                        </div>
+                        <div class="other-inventory-reserved-noble-cards">
                             <!-- The following cards have to be put in reverse order -->
                         </div>
                     </div>

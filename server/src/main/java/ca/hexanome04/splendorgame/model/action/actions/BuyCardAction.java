@@ -5,6 +5,7 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -98,7 +99,7 @@ public class BuyCardAction extends Action {
             if (orientCard.getCostType() == CostType.Bonus) {
                 player.removeBonuses(orientCard.getTokenCost());
             }
-            if (orientCard.getReserveNoble()) {
+            if (orientCard.getReserveNoble() && game instanceof OrientGame og && og.getNobles().size() > 0) {
                 result.add(ActionResult.MUST_RESERVE_NOBLE);
             }
             if (orientCard.getCascadeType() == CascadeType.Tier1) {

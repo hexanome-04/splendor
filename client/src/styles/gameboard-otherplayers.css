@@ -176,14 +176,16 @@
 }
 
 /* Nobles */
-.other-inventory-noble-cards {
+.other-inventory-noble-cards,
+.other-inventory-reserved-noble-cards {
   display: flex;
   flex-direction: row-reverse;
   min-height: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
   margin-left: 0.5em;
 }
 
-.other-inventory-noble-cards .noble-card {
+.other-inventory-noble-cards .noble-card,
+.other-inventory-reserved-noble-cards .noble-card {
   position: relative;
   margin-left: calc(-1 * var(--other-player-card-size) * 0.75);
   z-index: inherit;
@@ -191,19 +193,26 @@
   aspect-ratio: 1 / 1;
 }
 
-.other-inventory-noble-cards .noble-card:last-child {
+.other-inventory-noble-cards .noble-card:last-child,
+.other-inventory-reserved-noble-cards .noble-card:last-child {
   margin-left: 0;
 }
 
-.other-inventory-noble-cards .noble-card img {
+.other-inventory-noble-cards .noble-card img,
+.other-inventory-reserved-noble-cards .noble-card img {
   position: absolute;
   height: var(--other-player-card-size);
   transition: 0.3s;
   top: 0;
 }
 
-.other-inventory-noble-cards .noble-card:hover img {
+.other-inventory-noble-cards .noble-card:hover img,
+.other-inventory-reserved-noble-cards .noble-card:hover img {
   top: -33.33%;
+}
+
+.other-inventory-reserved-noble-cards .noble-card img {
+  rotate: 90deg;
 }
 
 .other-player-profile img:not([src]) {
