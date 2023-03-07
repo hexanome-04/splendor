@@ -11,6 +11,13 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 public class EmptyRestTemplateErrorHandler extends DefaultResponseErrorHandler {
 
     /**
+     * Constructs an empty rest template error handler.
+     */
+    public EmptyRestTemplateErrorHandler() {
+        // Empty.
+    }
+
+    /**
      * Handle the rest template exchange() error (remove exception thrown).
      *
      * @param response the response with the error

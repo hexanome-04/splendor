@@ -4,3 +4,7 @@ ca.hexanome04.splendorgame.control.templates
 ca.hexanome04.splendorgame.model
 ca.hexanome04.splendorgame.model.action
 ca.hexanome04.splendorgame.model.action.actions
+ca.hexanome04.splendorgame.model.gameversions
+ca.hexanome04.splendorgame.model.gameversions.cities
+ca.hexanome04.splendorgame.model.gameversions.orient
+ca.hexanome04.splendorgame.model.gameversions.tradingposts
