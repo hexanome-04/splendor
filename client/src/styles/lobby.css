@@ -360,6 +360,10 @@ tr > th {
   background: #5e259b;
 }
 
+.current-sessions-table .spectate-btn {
+  background: #c1862e;
+}
+
 .current-sessions-table .placeholder-btn {
   visibility: hidden;
 }
@@ -392,7 +396,7 @@ tr > th {
   display: block;
 }
 
-/* Add placeholder so that row size stays constant */
-.current-sessions-table tr:is([started]):not([joined]) .placeholder-btn {
+/* Add spectate button to a launched session that you aren't in */
+.current-sessions-table tr:is([started]):not([joined]) .spectate-btn {
   display: block;
 }

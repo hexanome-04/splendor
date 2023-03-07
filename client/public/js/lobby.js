@@ -251,11 +251,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const joinBtn = tempNode.querySelector(".join-btn.ses-btn");
             const launchBtn = tempNode.querySelector(".launch-btn.ses-btn");
             const playBtn = tempNode.querySelector(".play-btn.ses-btn");
+            const spectateBtn = tempNode.querySelector(".spectate-btn.ses-btn");
             delBtn.onclick = () => { deleteSession(delBtn); };
             leaveBtn.onclick = () => { leaveSession(leaveBtn); };
             joinBtn.onclick = () => { joinSession(joinBtn); };
             launchBtn.onclick = () => { launchSession(launchBtn); };
             playBtn.onclick = () => playSession(playBtn, sesId, gameVer);
+            spectateBtn.onclick = () => playSession(spectateBtn, sesId, gameVer);
 
             tbl.appendChild(tempNode);
         });

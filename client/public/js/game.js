@@ -436,13 +436,22 @@ const updateGameboard = async () => {
     const curUsername = SETTINGS.getUsername();
 
     const playersData = data.players;
+    let amPlaying = false;
     playersData.forEach((pInfo) => {
         if(pInfo.name === curUsername) {
             updateMainPlayerInfo(pInfo);
+            amPlaying = true;
         } else {
             updateOtherPlayerInfo(pInfo);
         }
     });
+    const playerInv = document.querySelector("#player-inventory");
+    if(!amPlaying) {
+        // you are spectating, hide the player inventory on the left
+        playerInv.classList.add("hide");
+    } else if(playerInv.classList.contains("hide")) {
+        playerInv.classList.remove("hide");
+    }
 
     furtherUpdates.forEach((func) => func(data));
 
