@@ -41,15 +41,17 @@ const updatePowers = (data) => {
         // loop through each power and check if unlocked
         allPowers.forEach((v) => {
             const [enumName, varName] = v;
-            if(p[varName] && p[varName].unlocked) {
-                // retrive the relevant power
-                const power = powersContainer.querySelector(`.power[power='${enumName}']`);
 
+            // retrive the relevant power
+            const power = powersContainer.querySelector(`.power[power='${enumName}']`);
+            const coaIndicator = power.querySelector(`img[src="/images/trading-posts/${coatOfArmsImages[index]}"]`);
+            if(p[varName] && p[varName].unlocked) {
                 // check if we've already enabled showing the activated power for the player
-                const coaIndicator = power.querySelector(`img[src="/images/trading-posts/${coatOfArmsImages[index]}"]`);
                 if(!coaIndicator.classList.contains("show")) {
                     coaIndicator.classList.add("show")
                 }
+            } else if(coaIndicator.classList.contains("show")) {
+                coaIndicator.classList.remove("show");
             }
         });
 
