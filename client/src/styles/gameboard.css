@@ -512,6 +512,7 @@ body {
   align-items: center;
 }
 
+#buy-card-board .board-card-dev > img, /* This should not be here loool */
 .board-cards-row .board-cards-dev-deck > img,
 .board-cards-row .board-cards-dev-deck-orient > img,
 .board-cards-row .board-card-dev > img,

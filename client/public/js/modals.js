@@ -310,6 +310,23 @@ const showPayment = (cardNode) => {
 };
 
 const showPurchasableDevCards = () => {
+    // show reserved cards (from player inv, maybe should pass in data from server instead?)
+    const reservedCardNodes = [];
+    const reservedCards = document.querySelectorAll("#player-inventory .player-inventory-reservedcards .player-inventory-card-reserved");
+    reservedCards.forEach((elm) => {
+        const cid = elm.getAttribute("card-id");
+        const node = document.querySelector("#board-card-dev-template").content.cloneNode(true);
+        const div = node.querySelector("div");
+        const imgUrl = `/images/development-cards/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        reservedCardNodes.push(node);
+    });
+    document.querySelector("#buy-card-modal .reserved-cards").replaceChildren(...reservedCardNodes);
+
     // literally just duplicate them from the board
 
     const cardRows = document.querySelectorAll("#board .board-cards .board-cards-row");
@@ -323,7 +340,7 @@ const showPurchasableDevCards = () => {
         modalCardRows.appendChild(cNode);
     });
 
-    const cardsSelectionSelector = "#buy-card-modal .modal-board-cards .board-card-dev";
+    const cardsSelectionSelector = "#buy-card-modal .board-card-dev";
 
     setupSelectionCards(cardsSelectionSelector);
 

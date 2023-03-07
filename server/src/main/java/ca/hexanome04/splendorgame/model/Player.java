@@ -138,6 +138,15 @@ public abstract class Player {
     }
 
     /**
+     * Removes a reserved development card from player inventory.
+     *
+     * @param card Card to removed from player inventory
+     */
+    public void removeReservedCard(DevelopmentCard card) {
+        this.reservedCards.remove(card);
+    }
+
+    /**
      * Get a player's held tokens.
      *
      * @return list of tokens that the player has
@@ -298,6 +307,21 @@ public abstract class Player {
         }
         return null;
 
+    }
+
+    /**
+     * Retrieve a reserved development card from the players inventory using the card id.
+     *
+     * @param cid card id
+     * @return development card if found
+     */
+    public DevelopmentCard getReservedDevelopmentCard(String cid) {
+        for (DevelopmentCard c : this.reservedCards) {
+            if (c.getId().equals(cid)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     /**

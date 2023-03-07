@@ -136,6 +136,17 @@
   padding: 3%;
 }
 
+#buy-card-board {
+  gap: 1.5em;
+  width: 100%;
+}
+
+#buy-card-board .reserved-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
 .modal-board-cards {
   display: flex;
   flex-direction: column;
@@ -144,12 +155,14 @@
   --board-deck-margin: 2em;
 }
 
+#buy-card-board .board-card-dev,
 .modal-board-cards .board-card-dev,
 .purchase-show-card.board-card-dev {
   transition: transform 0.5s;
   box-shadow: rgb(0 0 0 / 83%) 0 2px 4px, rgb(0 0 0 / 65%) 0 7px 13px -3px, rgb(0 0 0 / 78%) 0 -3px 0 inset;
 }
 
+#buy-card-board .board-card-dev:hover,
 .modal-board-cards .board-card-dev:hover,
 .purchase-show-card.board-card-dev:hover {
   transform: scale(2.4);

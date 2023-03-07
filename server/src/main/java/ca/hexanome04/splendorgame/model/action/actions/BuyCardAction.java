@@ -43,6 +43,14 @@ public class BuyCardAction extends Action {
         // get card from board
         // should be a development card (hopefully)
         DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.buyCardId);
+
+        // try reserved
+        boolean wasReserved = false;
+        if (dc == null) {
+            dc = player.getReservedDevelopmentCard(this.buyCardId);
+            wasReserved = dc != null;
+        }
+
         if (dc == null) {
             throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
         }
@@ -73,7 +81,11 @@ public class BuyCardAction extends Action {
         }
 
         player.addCard(dc);
-        game.takeCard(dc);
+        if (wasReserved) {
+            player.removeReservedCard(dc);
+        } else {
+            game.takeCard(dc);
+        }
 
         player.addBonus(dc.getTokenType(), dc.getBonus());
         player.addPrestigePoints(dc.getPrestigePoints());
