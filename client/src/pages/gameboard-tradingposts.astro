@@ -26,12 +26,10 @@ import ReserveNobleModal from "../components/modals/ReserveNobleModal.astro";
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
 
-        <script type="module" src="/js/settings.js"></script>
-
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"> 
-        <script type="module" src="/js/game-components.js"></script>
+        <script src="../scripts/game-components.js"></script>
     </head>
 
     <body>
@@ -419,9 +417,9 @@ import ReserveNobleModal from "../components/modals/ReserveNobleModal.astro";
             </div>
         </template>
 
-        <script type="module" src="/js/game.js"></script>
-        <script is:inline type="module" src="/js/game-tradingposts.js"></script>
-        <script type="module" src="/js/modals.js"></script>
+        <script src="../scripts/game.js"></script>
+        <script src="../scripts/game-tradingposts.js"></script>
+        <script src="../scripts/modals.js"></script>
 
     </body>
 </html>

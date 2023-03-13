@@ -22,4 +22,19 @@ const { title } = Astro.props;
     <p id="top-menu-title" class="top-menu-title">{title}</p>
 </div>
 <RestartGameModal></RestartGameModal>
-<script is:inline type="module" src="/js/game-navmenu.js"></script>
+<script>
+    import { gameMenu, show, close } from "../scripts/game-navmenu.js";
+
+    document.getElementById("menu-icon").addEventListener("click", show);
+    document.querySelector(".resume").parentNode.addEventListener("click", close);
+
+    // quit -> go to lobby
+    gameMenu.querySelector(".quit").parentNode.addEventListener("click", () => {
+        window.location.href = "/lobby/";
+    });
+
+    // show restart modal
+    gameMenu.querySelector(".restart").parentElement.addEventListener("click", () => {
+        document.querySelector("#restart-game-modal").classList.add("show");
+    });
+</script>
