@@ -1,24 +1,33 @@
 import { SETTINGS } from "./settings.js";
+import { performAction } from "./actions";
 
 const purchaseBtn = document.getElementById("purchase-btn");
 const reserveBtn = document.getElementById("reserve-btn");
 const getTokensBtn = document.getElementById("get-tokens-btn");
 
-
-// --------------------------------------------------
-
-// Reserve/buy cards selection
-function setupSelectionCards(selector) {
+/**
+ * Setup a selection for selectable items.
+ * 
+ * @param {*} selector selector for all selectable items 
+ * @param {*} selectedSelector selector for when item is selected
+ */
+const setupSelection = (selector, selectedSelector) => {
+    const selectedClass = selectedSelector ? selectedSelector : "selected";
+    // remove selection
+    const oldSelected = document.querySelector(`${selector}.${selectedClass}`);
+    if(oldSelected) {
+        oldSelected.classList.remove(selectedClass);
+    }
     document.querySelectorAll(selector).forEach((elm) => {
         elm.onclick = () => {
-            // get the current selected card (should have .selected-card as a class)
-            const selectedCard = document.querySelector(`${selector}.selected-card`);
+            // get the current selected token (should have .selected- as a class)
+            const selectedExtraToken = document.querySelector(`${selector}.${selectedClass}`);
             // remove the selection
-            if(selectedCard) selectedCard.classList.remove("selected-card");
+            if(selectedExtraToken) selectedExtraToken.classList.remove(selectedClass);
 
             // only add to clicked element if the old selected was not the clicked element
-            if(selectedCard !== elm) {
-                elm.classList.add("selected-card");
+            if(selectedExtraToken !== elm) {
+                elm.classList.add(selectedClass);
             }
         };
     });
@@ -42,45 +51,31 @@ const showReservableDevCards = () => {
 
     const cardsSelectionSelector = "#reserve-card-modal .modal-board-cards .board-card-dev";
 
-    setupSelectionCards(cardsSelectionSelector);
+    setupSelection(cardsSelectionSelector);
 
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
             window.alert("You have not selected a card to reserve!");
             return;
         }
-        const cardId = selectedCard.getAttribute("card-id");
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
+        const dataCallback = () => {
+            return { "cardId": selectedCard.getAttribute("card-id") };
+        };
 
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/RESERVE_CARD`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
-            const jsonData = {
-                "cardId": cardId,
-            };
-
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction("RESERVE_CARD", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
-
 };
 
 // CASCADE CARDS
@@ -88,73 +83,49 @@ const showCascadeCards = (tier) => {
 
     const confirmBtn = document.querySelector("#cascade-modal .cascade-confirm-btn");
 
+    // tier looks like 'CASCADE_{n}'
+    const tierNum = tier.slice(-1)[0];
     // Instead of showing all cards, only show the selectable rows
-    const level1Row = document.querySelectorAll("#board .board-cards .board-cards-level1");
-    const level2Row = document.querySelectorAll("#board .board-cards .board-cards-level2");
+    const levelRow = document.querySelectorAll(`#board .board-cards .board-cards-level${tierNum}`);
 
     // clear if already has
     const modalCardRows = document.querySelector("#cascade-board .modal-board-cards");
     modalCardRows.innerHTML = "";
         
     
-    if (tier == "CASCADE_1") {
-        level1Row.forEach((elm) => {
-            const cNode = elm.cloneNode(true);
-            modalCardRows.appendChild(cNode);
-        });
-        document.getElementById("cascade-text").textContent = "Please select a card from level 1.";
-    }
-
-    if (tier == "CASCADE_2") {
-        level2Row.forEach((elm) => {
-            const cNode = elm.cloneNode(true);
-            modalCardRows.appendChild(cNode);
-        });
-        document.getElementById("cascade-text").textContent = "Please select a card from level 2.";
-    }
-    
+    levelRow.forEach((elm) => {
+        const cNode = elm.cloneNode(true);
+        modalCardRows.appendChild(cNode);
+    });
+    document.getElementById("cascade-text").textContent = `Please select a card from level ${tierNum}.`;
 
     const cardsSelectionSelector = "#cascade-modal .modal-board-cards .board-card-dev";
 
-    setupSelectionCards(cardsSelectionSelector);
+    setupSelection(cardsSelectionSelector);
 
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
             window.alert("You have not selected a card!");
             return;
         }
-        const cardId = selectedCard.getAttribute("card-id");
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
+        const dataCallback = () => {
+            return { "cardId": selectedCard.getAttribute("card-id") };
+        };
 
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/${tier}`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
-            const jsonData = {
-                "cardId": cardId,
-            };
-
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction(tier, dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
-
 };
 
 
@@ -225,33 +196,25 @@ const putBackTokens = () => {
 
     setBoardTokens("#put-back-token-modal");
 
+    
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
-
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/TAKE_TOKEN`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-            const jsonData = {
+        const dataCallback = () => {
+            return {
                 "takeTokens": getTokensList("#take-token-modal board-token-counter board-token .board-token"),
                 "putBackTokens": getTokensList("#put-back-token-modal board-token-counter board-token .board-token")
             };
+        };
 
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction("TAKE_TOKEN", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
 };
 
@@ -280,31 +243,21 @@ const showPayment = (cardNode) => {
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
-
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/BUY_CARD`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
-            const jsonData = {
+        const dataCallback = () => {
+            return {
                 "cardId": cardId,
                 "tokens": getTokensList("#dev-card-payment-modal board-token-counter board-token .board-token")
             };
+        };
 
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction("BUY_CARD", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
 
 };
@@ -342,10 +295,10 @@ const showPurchasableDevCards = () => {
 
     const cardsSelectionSelector = "#buy-card-modal .board-card-dev";
 
-    setupSelectionCards(cardsSelectionSelector);
+    setupSelection(cardsSelectionSelector);
 
     document.querySelector("#buy-card-modal #buy-card-confirm-btn").onclick = () => {
-        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected-card`);
+        const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
             window.alert("You have not selected a card to purchase!");
@@ -357,77 +310,48 @@ const showPurchasableDevCards = () => {
     };
 };
 
-export function followupActions(data) {
+/**
+ * Attempts to perform a follow up action if required.
+ * 
+ * @param {*} data server data
+ * @returns true if follow up action is required
+ */
+export function performFollowUpAction(data) {
     const actions = data.curValidActions;
 
     if (actions.length == 0) {
         return;
     }
-    
-    if (actions[0] == "CASCADE_1" || actions[0] == "CASCADE_2") {
-        verifyNoModals();
 
-        showCascadeCards(actions[0]);
-        // console.log("Nav after show cascade cards: " + navContext);
-
-        const selector = "#cascade-modal";
-        navContext.push(selector);
-        showModal(selector);
-
-    } else if(actions[0] == "CHOOSE_SATCHEL_TOKEN") {
-        verifyNoModals();
-
-        showSatchelBonuses(data);
-
-        const selector = "#choose-satchel-modal";
-        navContext.push(selector);
-        showModal(selector);
-        console.log("Nav context after satchel: " + navContext);
-    } else if(actions[0] == "TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER") {
-        verifyNoModals();
-
-        showExtraTokens();
-        const selector = "#take-extra-token-modal";
-        navContext.push(selector);
-        showModal(selector);
-    } else if(actions[0] == "RESERVE_NOBLE") {
-
-        verifyNoModals();
-        initReserveNoble();
-        const selector = "#reserve-noble-modal";
-        navContext.push(selector);
-        showModal(selector);
-
+    let modalSelector = "";
+    switch(actions[0]) {
+        case "CASCADE_1":
+        case "CASCADE_2":
+            showCascadeCards(actions[0]);
+            modalSelector = "#cascade-modal";
+            break;
+        case "CHOOSE_SATCHEL_TOKEN":
+            showSatchelBonuses(data);
+            modalSelector = "#choose-satchel-modal";
+            break;
+        case "TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER":
+            showExtraTokens();
+            modalSelector = "#take-extra-token-modal";
+            break;
+        case "RESERVE_NOBLE":
+            initReserveNoble();
+            modalSelector = "#reserve-noble-modal";
+            break;
+        default:
+            // its fine
     }
 
-
-    // TODO: add more followup actions like choose satchel token, choose noble, etc
-
-}
-
-
-// --------------------------------------------------
-
-// CHOOSE SATCHEL BONUS SECTION
-function setupBonusSelect(selector) {
-    // remove selection
-    const oldSelected = document.querySelector(`${selector}.selected-bonus`);
-    if(oldSelected) {
-        oldSelected.classList.remove("selected-bonus");
+    if(modalSelector !== "") {
+        verifyNoModals();
+        showNextModal(modalSelector);
+        return true;
     }
-    document.querySelectorAll(selector).forEach((elm) => {
-        elm.onclick = () => {
-            // get the current selected card (should have .selected-card as a class)
-            const selectedBonus = document.querySelector(`${selector}.selected-bonus`);
-            // remove the selection
-            if(selectedBonus) selectedBonus.classList.remove("selected-bonus");
-
-            // only add to clicked element if the old selected was not the clicked element
-            if(selectedBonus !== elm) {
-                elm.classList.add("selected-bonus");
-            }
-        };
-    });
+    return false;
 }
 
 const showSatchelBonuses = (data) => {
@@ -437,7 +361,7 @@ const showSatchelBonuses = (data) => {
 
     const bonusSelectionSelector = "#choose-satchel-modal .board-token";
 
-    setupBonusSelect(bonusSelectionSelector);
+    setupSelection(bonusSelectionSelector, "selected-token");
 
     // disable the tokens that the player cannot select
     data.players.forEach((pInfo) => {
@@ -457,7 +381,7 @@ const showSatchelBonuses = (data) => {
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        const selectedBonus = document.querySelector(`${bonusSelectionSelector}.selected-bonus`);
+        const selectedBonus = document.querySelector(`${bonusSelectionSelector}.selected-token`);
 
         console.log("bonusSelector from document.query: " + bonusSelectionSelector);
 
@@ -471,60 +395,24 @@ const showSatchelBonuses = (data) => {
         // (it shouldn't matter which satchel card we set right?)
         const cardId = document.querySelector("#player-inventory .player-inventory-card-drawer .player-inventory-card[satchel='true']").getAttribute("card-id");
         console.log("cardId from document.query: " + bonusSelectionSelector);
-        const bonusColor = selectedBonus.getAttribute("color");
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
-
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/CHOOSE_SATCHEL_TOKEN`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
-            const jsonData = {
+        const dataCallback = () => {
+            return {
                 "cardId": cardId,
-                "selected": bonusColor
+                "selected": selectedBonus.getAttribute("color")
             };
+        };
 
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction("CHOOSE_SATCHEL_TOKEN", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
-
 };
-
-// --------------------------------------------------
-
-// TAKE EXTRA TOKEN SECTION (TRADING POSTS)
-function setupExtraTokenSelect(selector) {
-    // remove selection
-    const oldSelected = document.querySelector(`${selector}.selected-extra-token`);
-    if(oldSelected) {
-        oldSelected.classList.remove("selected-extra-token");
-    }
-    document.querySelectorAll(selector).forEach((elm) => {
-        elm.onclick = () => {
-            // get the current selected token (should have .selected- as a class)
-            const selectedExtraToken = document.querySelector(`${selector}.selected-extra-token`);
-            // remove the selection
-            if(selectedExtraToken) selectedExtraToken.classList.remove("selected-extra-token");
-
-            // only add to clicked element if the old selected was not the clicked element
-            if(selectedExtraToken !== elm) {
-                elm.classList.add("selected-extra-token");
-            }
-        };
-    });
-}
 
 const showExtraTokens = () => {
 
@@ -534,10 +422,10 @@ const showExtraTokens = () => {
     };
 
     const extraTokenSelectionSelector = "#take-extra-token-modal .board-token";
-    setupExtraTokenSelect(extraTokenSelectionSelector);
+    setupSelection(extraTokenSelectionSelector, "selected-token");
 
     const putBackTokenSelectionSelector = "#putback-extra-token-modal .board-token";
-    setupExtraTokenSelect(putBackTokenSelectionSelector);
+    setupSelection(putBackTokenSelectionSelector,  "selected-token");
 
     const putBackConfirmBtn = document.querySelector("#putback-extra-token-modal #putback-token-confirm-btn");
     document.querySelector("#putback-extra-token-modal #putback-token-back-btn").onclick = () => {
@@ -547,62 +435,29 @@ const showExtraTokens = () => {
     putBackConfirmBtn.onclick = () => {
         putBackConfirmBtn.disabled = true;
 
-        const selectedExtraToken = document.querySelector(`${extraTokenSelectionSelector}.selected-extra-token`);
+        const selectedExtraToken = document.querySelector(`${extraTokenSelectionSelector}.selected-token`);
         const takeToken = selectedExtraToken ? selectedExtraToken.getAttribute("color") : null;
 
-        const selectedPutBackToken = document.querySelector(`${putBackTokenSelectionSelector}.selected-extra-token`);
+        const selectedPutBackToken = document.querySelector(`${putBackTokenSelectionSelector}.selected-token`);
         const putBackToken = selectedPutBackToken ? selectedPutBackToken.getAttribute("color") : null;
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
-
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
+        const dataCallback = () => {
             const jsonData = {};
             if(takeToken) jsonData["takeToken"] = takeToken;
             if(putBackToken) jsonData["putBackToken"] = putBackToken;
 
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+            return jsonData;
+        };
+
+        performAction("TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
-            }).finally(() =>  putBackConfirmBtn.disabled = false);
-        });
+            }).finally(() =>  confirmBtn.disabled = false);
     };
-
-};
-
-
-// Reserve noble
-const setupSelect = (selector, selectedSelector = null) => {
-    const selectedClass = selectedSelector ? selectedSelector : "selected";
-    // remove selection
-    const oldSelected = document.querySelector(`${selector}.${selectedClass}`);
-    if(oldSelected) {
-        oldSelected.classList.remove(selectedClass);
-    }
-    document.querySelectorAll(selector).forEach((elm) => {
-        elm.onclick = () => {
-            // get the current selected token (should have .selected- as a class)
-            const selectedExtraToken = document.querySelector(`${selector}.${selectedClass}`);
-            // remove the selection
-            if(selectedExtraToken) selectedExtraToken.classList.remove(selectedClass);
-
-            // only add to clicked element if the old selected was not the clicked element
-            if(selectedExtraToken !== elm) {
-                elm.classList.add(selectedClass);
-            }
-        };
-    });
 };
 
 const initReserveNoble = () => {
@@ -618,43 +473,31 @@ const initReserveNoble = () => {
     nobleContainer.replaceChildren(...noblesOnBoard);
 
     const selectionSelector = "#reserve-noble-modal .noble-card";
-    setupSelect(selectionSelector, "selected-noble");
+    setupSelection(selectionSelector);
 
     const confirmBtn = document.querySelector("#reserve-noble-modal .reserve-card-confirm-btn");
     confirmBtn.onclick = () => {
         confirmBtn.disabled = true;
 
-        const selected = document.querySelector(`${selectionSelector}.selected-noble`);
+        const selected = document.querySelector(`${selectionSelector}.selected`);
         if(!selected) {
             window.alert("You have not selected a noble!");
             confirmBtn.disabled = false;
             return;
         }
 
-        SETTINGS.verifyCredentials().then(() => {
-            const windowParams = (new URL(document.location)).searchParams;
-            const sessionId = windowParams.get("sessionId");
+        const dataCallback = () => {
+            return { "cardId": selected.getAttribute("card-id") };
+        };
 
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/players/${SETTINGS.getUsername()}/actions/RESERVE_NOBLE`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-
-            const jsonData = {
-                "cardId": selected.getAttribute("card-id")
-            };
-
-            fetch(url, {
-                method: "PUT",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(jsonData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data); });
+        performAction("RESERVE_NOBLE", dataCallback)
+            .then((resp) => {
+                if(resp.error) {
+                    window.alert("Error: " + resp.message);
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() =>  confirmBtn.disabled = false);
-        });
     };
 };
 
@@ -671,7 +514,9 @@ const closeModal = (selector) => {
 
 export const showNextModal = (selector) => {
     // close current
-    closeModal(navContext[navContext.length-1]);
+    if(navContext.length > 0) {
+        closeModal(navContext[navContext.length-1]);
+    }
 
     // push new
     navContext.push(selector);
@@ -717,8 +562,7 @@ document.querySelectorAll(".reserve-card-back-btn").forEach(elm => elm.onclick =
 export function startTurn() {
     // attempt to start the turn if no modals are open and it is still your turn.
     if(navContext.length == 0) {
-        navContext.push("#your-turn-modal"); // push your turn modal
-        showModal(navContext[navContext.length-1]);
+        showNextModal("#your-turn-modal")
     }
 }
 

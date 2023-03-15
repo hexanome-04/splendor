@@ -1,5 +1,5 @@
 import { SETTINGS } from "./settings.js";
-import { startTurn, verifyNoModals, followupActions } from "./modals.js";
+import { startTurn, verifyNoModals, performFollowUpAction } from "./modals.js";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
@@ -62,6 +62,59 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
     orientCards.forEach((cardInfo, index) => updateCardElement(cardElms[index + 4], cardInfo));
 };
 
+/**
+ * Callback for card ids.
+ *
+ * @callback idsCallback
+ * @param {Array<string>} ids
+ * @returns {void}
+ */
+
+/**
+ * Update a series of cards with the given array.
+ * 
+ * @param {Array} cards list of cards
+ * @param {HTMLElement} baseElement base element for all other selectors
+ * @param {string} containerSelector container selector for all cards
+ * @param {string} cardSelector selector for single card
+ * @param {string} imageFolder folder name for images
+ * @param {string} cardTemplateSelector template for card (could become just an HTMLElement name todo)
+ * @param {idsCallback} addedCallback callback for getting all added card ids
+ * @param {idsCallback} removedCallback callback for getting all removed card ids
+ */
+const updateCards = (cards, baseElement, containerSelector, cardSelector, imageFolder, cardTemplateSelector,
+                    addedCallback = (ids) => {}, removedCallback = (ids) => {}) => {
+
+    const cardContainer = baseElement.querySelector(containerSelector);
+
+    const currentCardIds = [];
+    cardContainer.querySelectorAll(cardSelector).forEach(elm => currentCardIds.push(elm.getAttribute("card-id")));
+
+    // server state cards
+    const serverCardIds = cards.map(c => c.id);
+
+    // cards that exist in inv but not server side, must remove
+    const outdatedCardIds = currentCardIds.filter(x => !serverCardIds.includes(x));
+    outdatedCardIds.forEach(cid => cardContainer.querySelector(`${cardSelector}[card-id="${cid}"]`).remove());
+
+    // add new reserved cards to inv
+    const missingCardIds = serverCardIds.filter(x => !currentCardIds.includes(x));
+    missingCardIds.forEach(cid => {
+        const tNode = document.querySelector(cardTemplateSelector).content.cloneNode(true);
+        const div = tNode.querySelector("div");
+        const imgUrl = `/images/${imageFolder}/${cid}.jpg`;
+
+        div.setAttribute("card-id", cid);
+        div.querySelector("img").setAttribute("src", imgUrl);
+
+        // add to inv
+        cardContainer.appendChild(tNode);
+    });
+
+    addedCallback(missingCardIds);
+    removedCallback(outdatedCardIds);
+};
+
 const updateMainPlayerInfo = (playerInfo) => {
 
     const playerInv = document.querySelector("#player-inventory");
@@ -75,35 +128,12 @@ const updateMainPlayerInfo = (playerInfo) => {
     updateTokensCount(".player-inventory-tokens", tokenMap, playerInfo.bonuses);
 
     // UPDATE DEVELOPMENT CARDS IN PLAYER INVENTORY
-    const cardDrawer = playerInv.querySelector(".player-inventory-card-drawer");
-
-    const currentInvCardIds = [];
-    cardDrawer.querySelectorAll(".player-inventory-card").forEach(elm => currentInvCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverInvCardIds = playerInfo.cards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistCardsIds = currentInvCardIds.filter(x => !serverInvCardIds.includes(x));
-    nonExistCardsIds.forEach(cid => cardDrawer.querySelector(`.player-inventory-card[card-id="${cid}"]`).remove());
-
-    // add new cards to inv
-    const toAddCardsIds = serverInvCardIds.filter(x => !currentInvCardIds.includes(x));
-    toAddCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#development-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/development-cards/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        cardDrawer.appendChild(tNode);
-    });
+    updateCards(playerInfo.cards, playerInv, ".player-inventory-card-drawer",
+                ".player-inventory-card", "development-cards", "#development-card-template");
 
     // mark cards as satchel (so that we can select them later in the choose satchel token type)
     playerInfo.cards.forEach((c) => {
-        const card = cardDrawer.querySelector(`.player-inventory-card[card-id="${c.id}"]`);
+        const card = document.querySelector(`.player-inventory-card-drawer .player-inventory-card[card-id="${c.id}"]`);
         if(c.tokenType === "Satchel") {
             card.setAttribute("satchel", "true");
         } else if(c.tokenType !== "Satchel" && card.hasAttribute("satchel")) {
@@ -113,94 +143,23 @@ const updateMainPlayerInfo = (playerInfo) => {
 
 
     // UPDATE RESERVED CARDS IN PLAYER INVENTORY
-    const cardDrawerReserved = playerInv.querySelector(".player-inventory-reservedcards");
-
-    const currentInvResCardIds = [];
-    cardDrawerReserved.querySelectorAll(".player-inventory-card-reserved").forEach(elm => currentInvResCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverInvResCardIds = playerInfo.reservedCards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistReserveCardsIds = currentInvResCardIds.filter(x => !serverInvResCardIds.includes(x));
-    nonExistReserveCardsIds.forEach(cid => cardDrawerReserved.querySelector(`.player-inventory-card-reserved[card-id="${cid}"]`).remove());
-
-    // add new reserved cards to inv
-    const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));
-    toAddResCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#player-inventory-reserved-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/development-cards/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        cardDrawerReserved.appendChild(tNode);
-    });
-
+    updateCards(playerInfo.reservedCards, playerInv, ".player-inventory-reservedcards",
+                ".player-inventory-card-reserved", "development-cards", "#player-inventory-reserved-card-template");
 
     // Update nobles
-    const nobleCardInv = playerInv.querySelector(".player-inventory-nobles");
-
-    const currentNobleCardIds = [];
-    nobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentNobleCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverNobleCardIds = playerInfo.nobleCards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistNobleCardsIds = currentNobleCardIds.filter(x => !serverNobleCardIds.includes(x));
-    nonExistNobleCardsIds.forEach(cid => nobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
-
-    // add new reserved cards to inv
-    const toAddNobleCardsIds = serverNobleCardIds.filter(x => !currentNobleCardIds.includes(x));
-    toAddNobleCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/nobles/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        nobleCardInv.appendChild(tNode);
-    });
+    updateCards(playerInfo.nobleCards, playerInv, ".player-inventory-nobles",
+                ".noble-card", "nobles", "#noble-card-template");
 
     // Update reserved nobles
-    const reservedNobleCardInv = playerInv.querySelector(".player-inventory-reserved-nobles");
-
-    const currentReservedNobleCardIds = [];
-    reservedNobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentReservedNobleCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverReservedNobleCardIds = playerInfo.reservedNobles.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistReservedNobleCardsIds = currentReservedNobleCardIds.filter(x => !serverReservedNobleCardIds.includes(x));
-    nonExistReservedNobleCardsIds.forEach(cid => reservedNobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
-
-    // add new reserved cards to inv
-    const toAddReservedNobleCardsIds = serverReservedNobleCardIds.filter(x => !currentReservedNobleCardIds.includes(x));
-    toAddReservedNobleCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/nobles/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        reservedNobleCardInv.appendChild(tNode);
-    });
-
+    updateCards(playerInfo.reservedNobles, playerInv, ".player-inventory-reserved-nobles",
+                ".noble-card", "nobles", "#noble-card-template");
 
     // shrink player inventory if too much crap
     let containerCount = 0;
-    if(serverInvCardIds.length > 0) containerCount++;
-    if(serverInvResCardIds.length > 0) containerCount++;
-    if(serverNobleCardIds.length > 0) containerCount++;
-    if(serverReservedNobleCardIds.length > 0) containerCount++;
+    if(playerInfo.cards.length > 0) containerCount++;
+    if(playerInfo.reservedCards.length > 0) containerCount++;
+    if(playerInfo.nobleCards.length > 0) containerCount++;
+    if(playerInfo.reservedNobles.length > 0) containerCount++;
 
     if(containerCount > 2) {
         playerInv.classList.add("shrink");
@@ -233,112 +192,20 @@ const updateOtherPlayerInfo = (pInfo) => {
 
 
     // UPDATE DEVELOPMENT CARDS IN OTHER PLAYER INVENTORIES
-    const cardDrawer = pNode.querySelector(".other-inventory-cards");
-
-    const currentInvCardIds = [];
-    cardDrawer.querySelectorAll(".other-inventory-card").forEach(elm => currentInvCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverInvCardIds = pInfo.cards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistCardsIds = currentInvCardIds.filter(x => !serverInvCardIds.includes(x));
-    nonExistCardsIds.forEach(cid => cardDrawer.querySelector(`.other-inventory-card[card-id="${cid}"]`).remove());
-
-    // add new cards to inv
-    const toAddCardsIds = serverInvCardIds.filter(x => !currentInvCardIds.includes(x));
-    toAddCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#other-player-dev-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/development-cards/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        cardDrawer.appendChild(tNode);
-    });
+    updateCards(pInfo.cards, pNode, ".other-inventory-cards",
+                ".other-inventory-card", "development-cards", "#other-player-dev-card-template");
 
     // UPDATE RESERVED CARDS IN OTHER PLAYER INVENTORIES
-    const cardDrawerReserved = pNode.querySelector(".other-inventory-cards-reserved");
-
-    const currentInvResCardIds = [];
-    cardDrawerReserved.querySelectorAll(".other-inventory-card-reserved").forEach(elm => currentInvResCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverInvResCardIds = pInfo.reservedCards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistReserveCardsIds = currentInvResCardIds.filter(x => !serverInvResCardIds.includes(x));
-    nonExistReserveCardsIds.forEach(cid => cardDrawerReserved.querySelector(`.other-inventory-card-reserved[card-id="${cid}"]`).remove());
-
-    // add new cards to inv
-    const toAddResCardsIds = serverInvResCardIds.filter(x => !currentInvResCardIds.includes(x));
-    toAddResCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#other-player-reserved-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/development-cards/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        cardDrawerReserved.appendChild(tNode);
-    });
+    updateCards(pInfo.reservedCards, pNode, ".other-inventory-cards-reserved",
+                ".other-inventory-card-reserved", "development-cards", "#other-player-reserved-card-template");
 
     // Update nobles
-    const nobleCardInv = pNode.querySelector(".other-inventory-noble-cards");
-
-    const currentNobleCardIds = [];
-    nobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentNobleCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverNobleCardIds = pInfo.nobleCards.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistNobleCardsIds = currentNobleCardIds.filter(x => !serverNobleCardIds.includes(x));
-    nonExistNobleCardsIds.forEach(cid => nobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
-
-    // add new reserved cards to inv
-    const toAddNobleCardsIds = serverNobleCardIds.filter(x => !currentNobleCardIds.includes(x));
-    toAddNobleCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/nobles/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        nobleCardInv.appendChild(tNode);
-    });
+    updateCards(pInfo.nobleCards, pNode, ".other-inventory-noble-cards",
+                ".noble-card", "nobles", "#noble-card-template");
 
     // Update reserved nobles
-    const reservedNobleCardInv = pNode.querySelector(".other-inventory-reserved-noble-cards");
-
-    const currentReservedNobleCardIds = [];
-    reservedNobleCardInv.querySelectorAll(".noble-card").forEach(elm => currentReservedNobleCardIds.push(elm.getAttribute("card-id")));
-
-    // server state cards
-    const serverReservedNobleCardIds = pInfo.reservedNobles.map(c => c.id);
-
-    // cards that exist in inv but not server side, must remove
-    const nonExistReservedNobleCardsIds = currentReservedNobleCardIds.filter(x => !serverReservedNobleCardIds.includes(x));
-    nonExistReservedNobleCardsIds.forEach(cid => reservedNobleCardInv.querySelector(`.noble-card[card-id="${cid}"]`).remove());
-
-    // add new reserved cards to inv
-    const toAddReservedNobleCardsIds = serverReservedNobleCardIds.filter(x => !currentReservedNobleCardIds.includes(x));
-    toAddReservedNobleCardsIds.forEach(cid => {
-        const tNode = document.querySelector("#noble-card-template").content.cloneNode(true);
-        const div = tNode.querySelector("div");
-        const imgUrl = `/images/nobles/${cid}.jpg`;
-
-        div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
-
-        // add to inv
-        reservedNobleCardInv.appendChild(tNode);
-    });
+    updateCards(pInfo.reservedNobles, pNode, ".other-inventory-reserved-noble-cards",
+                ".noble-card", "nobles", "#noble-card-template");
 
     // update prestige points
     pNode.querySelector(".other-prestige-point-container > span").textContent = pInfo.prestigePoints;
@@ -431,8 +298,6 @@ const updateGameboard = async () => {
     updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck, data.tier2OrientDeck);
     updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck, data.tier3OrientDeck);
 
-    followupActions(data);
-
     const curUsername = SETTINGS.getUsername();
 
     const playersData = data.players;
@@ -457,7 +322,9 @@ const updateGameboard = async () => {
 
     // check if it's your turn
     if(data.players[data.turnCounter].name === curUsername) {
-        startTurn();
+        if(!performFollowUpAction(data)) {
+            startTurn();
+        }
     } else {
         verifyNoModals();
     }
