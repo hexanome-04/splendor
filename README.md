@@ -1,5 +1,5 @@
-[![GitHub Super-Linter Frontend](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/linter-frontend.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
-![Build with Maven](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/build-backend.yml/badge.svg)
+[![Frontend Tests](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml/badge.svg?branch=master)](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml)
+![Build with Maven](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/build-backend.yml/badge.svg?branch=master)
 
 # COMP 361 Project
 
