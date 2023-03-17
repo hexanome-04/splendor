@@ -44,7 +44,7 @@ class Player {
     prestigePoints: number;
     tokens: TokensCount;
     bonuses: TokensCount;
-    cards: Array<DevCard>;
+    devCards: Array<DevCard>;
     reservedCards: Array<DevCard>;
     nobleCards: Array<Card>;
     reservedNobles: Array<Card>;
@@ -57,7 +57,7 @@ class Player {
         this.tokens = new TokensCount();
         this.bonuses = new TokensCount();
 
-        this.cards = [];
+        this.devCards = [];
         this.reservedCards = [];
         this.nobleCards = [];
         this.reservedNobles = [];

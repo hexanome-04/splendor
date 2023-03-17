@@ -158,7 +158,7 @@ public abstract class Card {
 
                 // Remove double gold bonus cards from player's inventory if used
                 for (int i = 0; i < Math.round((double) missingTokenCount / 2); i++) {
-                    for (DevelopmentCard c : player.getCards()) {
+                    for (DevelopmentCard c : player.getDevCards()) {
                         if (c.getTokenType() == TokenType.Gold) {
                             player.removeCard(c);
                             break;
@@ -189,7 +189,7 @@ public abstract class Card {
             // (i.e. between a 2PP blue card and a 0PP blue card, it may take the 2PP one if it is found first)
             bonusesToRemove.forEach((key, value) -> {
                 for (int i = 0; i < value; i++) {
-                    for (DevelopmentCard c : player.getCards()) {
+                    for (DevelopmentCard c : player.getDevCards()) {
                         if (c.getTokenType() == key) {
                             player.removeCard(c);
                         }

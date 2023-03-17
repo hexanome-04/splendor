@@ -456,6 +456,72 @@ public class ActionsTests {
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
+    @DisplayName("Ensure end of game is marked at end of round when player reaches 15 prestige points.")
+    @Test
+    void testEndOfRound_OneWinner() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 1);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addPrestigePoints(14);
+
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 4);
+        p1.addTokens(tokensToUse);
+
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(game.getWinner()).isEqualTo(p1);
+        assertThat(game.isGameOver()).isTrue();
+    }
+
+    @DisplayName("Ensure end of game is marked at end of round when >1 player reaches 15 prestige points.")
+    @Test
+    void testEndOfRound_TwoWinners() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addPrestigePoints(14);
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 4);
+        p1.addTokens(tokensToUse);
+
+        Player p2 = game.getPlayerFromName("Player2");
+        p2.addPrestigePoints(15);
+
+        ArrayList<ActionResult> result1 = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+
+        // make sure action is valid since player can afford it
+        assertThat(ActionResult.VALID_ACTION).isIn(result1);
+        assertThat(ActionResult.VALID_ACTION).isIn(result2);
+        assertThat(game.getWinner()).isEqualTo(p2);
+        assertThat(game.isGameOver()).isTrue();
+    }
+
+    @DisplayName("Ensure end of game is NOT marked at end of round where no player has 15 prestige points.")
+    @Test
+    void testEndOfRound_NoWinner() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 1);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
+        tokensToUse.put(TokenType.Red, 4);
+        p1.addTokens(tokensToUse);
+
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+
+        // make sure action is valid since player can afford it
+        assertThat(ActionResult.VALID_ACTION).isIn(result);
+        assertThat(game.getWinner()).isNull();
+        assertThat(game.isGameOver()).isFalse();
+    }
+
     @DisplayName("Ensure power 1 makes you choose an extra token after card purchase")
     @Test
     void testPlayerGainExtraTokenAfterCardPurchasePower1() throws FileNotFoundException {

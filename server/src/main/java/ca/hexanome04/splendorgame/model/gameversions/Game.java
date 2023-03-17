@@ -23,27 +23,34 @@ public abstract class Game {
     protected List<Player> players = new ArrayList<>();
     /** Prestige points in game. */
     protected final int prestigePointsToWin;
+
     /** Counter keeping track of player turns. */
     protected int turnCounter;
 
     private List<Actions> curValidActions = new ArrayList<>();
 
-    /** Tier 1 deck. */
+    /**  Tier 1 deck. */
     protected final Deck<RegDevelopmentCard> tier1Deck = new Deck<>();
-    /** Tier 2 deck. */
+
+    /**  Tier 2 deck. */
     protected final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
-    /** Tier 3 deck. */
+
+    /**  Tier 3 deck. */
     protected final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
 
     /** Tokens on the board. */
     protected final HashMap<TokenType, Integer> tokens = new HashMap<>();
 
+    private List<Player> playersWhoCanWin = new ArrayList<>();
+    private Player winner;
+    private boolean gameOver = false;
+
     /**
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
      *
-     * @param gameVersion               The game version of this game instance.
-     * @param prestigePointsToWin       The amount of prestige points needed to win the game.
-     * @param turnCounter               The turn id associated with the player.
+     * @param gameVersion         The game version of this game instance.
+     * @param prestigePointsToWin The amount of prestige points needed to win the game.
+     * @param turnCounter         The turn id associated with the player.
      */
     public Game(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
         this.gameVersion = gameVersion;
@@ -292,7 +299,7 @@ public abstract class Game {
      * Allows player to perform an action.
      *
      * @param playerName player performing action
-     * @param action action being executed
+     * @param action     action being executed
      * @return result of action execution
      */
     public abstract ArrayList<ActionResult> takeAction(String playerName, Action action);
@@ -300,25 +307,67 @@ public abstract class Game {
     /**
      * Create an instance of player for this game version.
      *
-     * @param name player name
+     * @param name   player name
      * @param colour player color
      * @return player instance
      */
     public abstract Player createPlayer(String name, String colour);
 
     /**
-     * Check if the given player can win this round.
+     * Check for winner(s) at the end of each round.
      *
-     * @param player player to check
-     * @return true if qualifies to win
+     * @return Player who is a winner (null if there are no winners at this moment)
      */
-    public abstract boolean canPlayerWin(Player player);
+    public Player checkForWin() {
+        if (playersWhoCanWin.size() > 0 && turnCounter % players.size() == 0) {
+            winner = playersWhoCanWin.get(0);
+            for (Player p : playersWhoCanWin) {
+                if (p.getDevCards().size() < winner.getDevCards().size()) {
+                    winner = p;
+                }
+            }
+            gameOver = true;
+            return winner;
+        }
+        return null;
+    }
 
     /**
-     * List of players that quality to win this round.
+     * Check if a given player qualifies to win the game.
      *
-     * @return list of players that qualify to win
+     * @param player The player being checked for win qualification.
+     * @return Whether the given player qualifies to win the game.
      */
-    public abstract List<Player> getPlayersWhoCanWin();
+    public boolean canPlayerWin(Player player) {
+        return (player.getPrestigePoints() >= prestigePointsToWin);
+    }
+
+    /**
+     * Add player who qualifies to win to list.
+     *
+     * @param player Player added to list of potential winners
+     */
+    public void addPlayersWhoCanWin(Player player) {
+        playersWhoCanWin.add(player);
+    }
+
+    /**
+     * Return the winner of this game.
+     *
+     * @return Player who won the game
+     */
+    public Player getWinner() {
+        return winner;
+    }
+
+    /**
+     * Returns true if the game is over and a winner is decided.
+     *
+     * @return if game is over
+     */
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
 
 }

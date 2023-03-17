@@ -372,8 +372,15 @@ public class OrientGame extends Game {
             }
         }
 
+        // check for winners
+        if (canPlayerWin(p)) {
+            addPlayersWhoCanWin(p);
+        }
+        checkForWin();
+
         return results;
     }
+
 
     /**
      * Get the list of nobles on the game board.
@@ -387,16 +394,6 @@ public class OrientGame extends Game {
     @Override
     public Player createPlayer(String name, String colour) {
         return new OrientPlayer(name, colour);
-    }
-
-    @Override
-    public boolean canPlayerWin(Player player) {
-        return false;
-    }
-
-    @Override
-    public List<Player> getPlayersWhoCanWin() {
-        return null;
     }
 
 

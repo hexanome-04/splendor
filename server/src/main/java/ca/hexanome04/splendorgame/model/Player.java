@@ -16,7 +16,7 @@ public abstract class Player {
     private int prestigePoints;
     private HashMap<TokenType, Integer> tokens;
     private HashMap<TokenType, Integer> bonuses;
-    private ArrayList<DevelopmentCard> cards;
+    private ArrayList<DevelopmentCard> devCards;
     private ArrayList<NobleCard> nobleCards;
     private ArrayList<DevelopmentCard> reservedCards;
     private ArrayList<NobleCard> reservedNobles;
@@ -33,7 +33,7 @@ public abstract class Player {
         prestigePoints = 0;
         tokens = new HashMap<>();
         bonuses = new HashMap<>();
-        cards = new ArrayList<>();
+        devCards = new ArrayList<>();
         reservedCards = new ArrayList<>();
         reservedNobles = new ArrayList<>();
         nobleCards = new ArrayList<>();
@@ -124,7 +124,7 @@ public abstract class Player {
      * @param card Card to be added to player inventory
      */
     public void addCard(DevelopmentCard card) {
-        cards.add(card);
+        devCards.add(card);
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class Player {
      */
 
     public void removeCard(DevelopmentCard card) {
-        this.cards.remove(card);
+        this.devCards.remove(card);
     }
 
     /**
@@ -298,8 +298,8 @@ public abstract class Player {
      *
      * @return the arraylist of cards that a player has
      */
-    public List<DevelopmentCard> getCards() {
-        return new ArrayList<DevelopmentCard>(this.cards);
+    public List<DevelopmentCard> getDevCards() {
+        return new ArrayList<DevelopmentCard>(this.devCards);
     }
 
     /**
@@ -309,7 +309,7 @@ public abstract class Player {
      * @return development card if found
      */
     public DevelopmentCard getPurchasedDevelopmentCard(String cid) {
-        for (DevelopmentCard c : this.cards) {
+        for (DevelopmentCard c : this.devCards) {
             if (c.getId().equals(cid)) {
                 return c;
             }

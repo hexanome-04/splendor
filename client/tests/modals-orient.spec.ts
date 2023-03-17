@@ -22,7 +22,7 @@ test.describe.parallel("Test orient modals", () => {
         const satchelCard = new OrientDevCard("o1_test", TokenType.Satchel);
 
         player.bonuses.setCount(TokenType.Brown, 1);
-        player.cards.push(new DevCard("d_111", TokenType.Brown), satchelCard);
+        player.devCards.push(new DevCard("d_111", TokenType.Brown), satchelCard);
         game
             .resetValidActions()
             .curValidActions.push(Actions.CHOOSE_SATCHEL_TOKEN);

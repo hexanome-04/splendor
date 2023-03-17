@@ -128,11 +128,11 @@ const updateMainPlayerInfo = (playerInfo) => {
     updateTokensCount(".player-inventory-tokens", tokenMap, playerInfo.bonuses);
 
     // UPDATE DEVELOPMENT CARDS IN PLAYER INVENTORY
-    updateCards(playerInfo.cards, playerInv, ".player-inventory-card-drawer",
+    updateCards(playerInfo.devCards, playerInv, ".player-inventory-card-drawer",
                 ".player-inventory-card", "development-cards", "#development-card-template");
 
     // mark cards as satchel (so that we can select them later in the choose satchel token type)
-    playerInfo.cards.forEach((c) => {
+    playerInfo.devCards.forEach((c) => {
         const card = document.querySelector(`.player-inventory-card-drawer .player-inventory-card[card-id="${c.id}"]`);
         if(c.tokenType === "Satchel") {
             card.setAttribute("satchel", "true");
@@ -156,7 +156,7 @@ const updateMainPlayerInfo = (playerInfo) => {
 
     // shrink player inventory if too much crap
     let containerCount = 0;
-    if(playerInfo.cards.length > 0) containerCount++;
+    if(playerInfo.devCards.length > 0) containerCount++;
     if(playerInfo.reservedCards.length > 0) containerCount++;
     if(playerInfo.nobleCards.length > 0) containerCount++;
     if(playerInfo.reservedNobles.length > 0) containerCount++;
@@ -192,7 +192,7 @@ const updateOtherPlayerInfo = (pInfo) => {
 
 
     // UPDATE DEVELOPMENT CARDS IN OTHER PLAYER INVENTORIES
-    updateCards(pInfo.cards, pNode, ".other-inventory-cards",
+    updateCards(pInfo.devCards, pNode, ".other-inventory-cards",
                 ".other-inventory-card", "development-cards", "#other-player-dev-card-template");
 
     // UPDATE RESERVED CARDS IN OTHER PLAYER INVENTORIES

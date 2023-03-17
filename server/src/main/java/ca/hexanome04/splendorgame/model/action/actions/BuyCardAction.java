@@ -59,7 +59,7 @@ public class BuyCardAction extends Action {
         // for orient, can only buy satchel if you own another card with a bonus
         if (dc.getTokenType() == TokenType.Satchel) {
             boolean hasAnotherBonusCard = false;
-            for (DevelopmentCard c : player.getCards()) {
+            for (DevelopmentCard c : player.getDevCards()) {
                 if (c.getTokenType() != null && c.getTokenType() != TokenType.Satchel
                         && c.getTokenType() != TokenType.Gold) {
                     // doesn't fail the checks above? should be good maybe

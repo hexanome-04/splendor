@@ -58,7 +58,7 @@ public class ChooseTokenTypeAction extends Action {
 
         // player can only set satchel token type to another bonus they already have
         boolean valid = false;
-        for (DevelopmentCard c : p.getCards()) {
+        for (DevelopmentCard c : p.getDevCards()) {
             if (c.getTokenType() != null && c.getTokenType() != TokenType.Satchel
                     && c.getTokenType() != TokenType.Gold
                     && c.getTokenType() == this.assignedTokenType) {
