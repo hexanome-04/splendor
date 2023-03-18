@@ -14,53 +14,8 @@ import java.util.Map;
 /**
  * Class that represents the current state of a game.
  */
-public abstract class Game {
+public interface Game {
 
-    /** The game version of this game instance. */
-    protected final GameVersions gameVersion;
-
-    /** List of players in game. */
-    protected List<Player> players = new ArrayList<>();
-    /** Prestige points in game. */
-    protected final int prestigePointsToWin;
-
-    /** Counter keeping track of player turns. */
-    protected int turnCounter;
-
-    private List<Actions> curValidActions = new ArrayList<>();
-
-    /**  Tier 1 deck. */
-    protected final Deck<RegDevelopmentCard> tier1Deck = new Deck<>();
-
-    /**  Tier 2 deck. */
-    protected final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
-
-    /**  Tier 3 deck. */
-    protected final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
-
-    /** Tokens on the board. */
-    protected final HashMap<TokenType, Integer> tokens = new HashMap<>();
-
-    private List<Player> playersWhoCanWin = new ArrayList<>();
-    private Player winner;
-    private boolean gameOver = false;
-
-    /**
-     * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
-     *
-     * @param gameVersion         The game version of this game instance.
-     * @param prestigePointsToWin The amount of prestige points needed to win the game.
-     * @param turnCounter         The turn id associated with the player.
-     */
-    public Game(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
-        this.gameVersion = gameVersion;
-        this.prestigePointsToWin = prestigePointsToWin;
-        this.turnCounter = turnCounter;
-
-        curValidActions.add(Actions.BUY_CARD);
-        curValidActions.add(Actions.TAKE_TOKEN);
-        curValidActions.add(Actions.RESERVE_CARD);
-    }
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
@@ -68,39 +23,33 @@ public abstract class Game {
      * @param inputStream input stream for cards csv
      * @throws FileNotFoundException If file is not found.
      */
-    public abstract void createSplendorBoard(InputStream inputStream) throws FileNotFoundException;
+    void createSplendorBoard(InputStream inputStream) throws FileNotFoundException;
 
     /**
      * Initialize state of the board (cards, nobles, tokens).
      */
-    public abstract void initBoard();
+    void initBoard();
 
     /**
      * Get the current four visible tier 1 cards.
      *
      * @return list of visible tier 1 cards
      */
-    public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {
-        return this.tier1Deck.getVisibleCards();
-    }
+    List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards();
 
     /**
      * Get the current four visible tier 2 cards.
      *
      * @return list of visible tier 2 cards
      */
-    public List<RegDevelopmentCard> getTier2PurchasableDevelopmentCards() {
-        return this.tier2Deck.getVisibleCards();
-    }
+    List<RegDevelopmentCard> getTier2PurchasableDevelopmentCards();
 
     /**
      * Get the current four visible tier 3 cards.
      *
      * @return list of visible tier 3 cards
      */
-    public List<RegDevelopmentCard> getTier3PurchasableDevelopmentCards() {
-        return this.tier3Deck.getVisibleCards();
-    }
+    List<RegDevelopmentCard> getTier3PurchasableDevelopmentCards();
 
     /**
      * Retrieve a card from the decks within the board.
@@ -108,7 +57,7 @@ public abstract class Game {
      * @param id card id
      * @return card from the board (could be null, if doesn't exist)
      */
-    public abstract Card getCardFromId(String id);
+    Card getCardFromId(String id);
 
     /**
      * Take a card from whichever deck it resides in.
@@ -116,23 +65,14 @@ public abstract class Game {
      * @param card card to take from the board
      * @return card taken successfully
      */
-    public abstract boolean takeCard(Card card);
+    boolean takeCard(Card card);
 
     /**
      * Add tokens to the board.
      *
      * @param tokensInput tokens to be added
      */
-    public void addTokens(Map<TokenType, Integer> tokensInput) {
-        for (Map.Entry<TokenType, Integer> entry : tokensInput.entrySet()) {
-            TokenType tokenType = entry.getKey();
-            int amount = entry.getValue();
-
-            if (this.tokens.containsKey(tokenType) && amount > 0) {
-                this.tokens.put(tokenType, this.tokens.get(tokenType) + amount);
-            }
-        }
-    }
+    void addTokens(Map<TokenType, Integer> tokensInput);
 
     /**
      * Remove tokens from the board.
@@ -140,29 +80,14 @@ public abstract class Game {
      * @param tokensToRemove tokens to be removed
      * @return if tokens were successfully removed (e.g. if enough tokens on board to take)
      */
-    public boolean removeTokens(Map<TokenType, Integer> tokensToRemove) {
-
-        // TODO: Check first, technically this could remove some tokens before returning false.
-        for (Map.Entry<TokenType, Integer> entry : tokensToRemove.entrySet()) {
-            int tokensLeft = tokens.get(entry.getKey()) - entry.getValue();
-
-            // check for taking too many tokens
-            if (tokensLeft < 0) {
-                return false;
-            }
-            this.tokens.put(entry.getKey(), tokensLeft);
-        }
-        return true;
-    }
+    boolean removeTokens(Map<TokenType, Integer> tokensToRemove);
 
     /**
      * Gets the board's tokens.
      *
      * @return hashmap of tokens that the board has
      */
-    public HashMap<TokenType, Integer> getTokens() {
-        return new HashMap<>(this.tokens);
-    }
+    HashMap<TokenType, Integer> getTokens();
 
 
     /**
@@ -170,30 +95,14 @@ public abstract class Game {
      *
      * @return the next player who is going to play.
      */
-    public Player incrementTurn() {
-        if (turnCounter == this.players.size() - 1) {
-            turnCounter = 0;
-        } else {
-            turnCounter++;
-        }
-
-        // reset list of current player valid actions
-        curValidActions.clear();
-        curValidActions.add(Actions.BUY_CARD);
-        curValidActions.add(Actions.TAKE_TOKEN);
-        curValidActions.add(Actions.RESERVE_CARD);
-
-        return players.get(turnCounter);
-    }
+    Player incrementTurn();
 
     /**
      * Get the player whose turn it is.
      *
      * @return player who has to play
      */
-    public Player getTurnCurrentPlayer() {
-        return players.get(turnCounter);
-    }
+    Player getTurnCurrentPlayer();
 
     /**
      * Get the turn counter at the current state.
@@ -201,9 +110,7 @@ public abstract class Game {
      * @return the turn counter.
      */
 
-    public int getTurnCounter() {
-        return turnCounter;
-    }
+    int getTurnCounter();
 
     /**
      * Retrieve player instance from player name.
@@ -211,88 +118,59 @@ public abstract class Game {
      * @param name player name
      * @return player (null if not found)
      */
-    public Player getPlayerFromName(String name) {
-        Player player = null;
-
-        for (Player p : this.players) {
-            if (p.getName().equals(name)) {
-                player = p;
-                break;
-            }
-        }
-
-        return player;
-    }
+    Player getPlayerFromName(String name);
 
     /**
      * Set the players in the game.
      *
      * @param players list players to be added to game
      */
-    public void setPlayers(List<Player> players) {
-        this.players.addAll(players);
-    }
+    void setPlayers(List<Player> players);
 
     /**
      * Retrieve all players in this game.
      *
      * @return list of all players in this game
      */
-    public List<Player> getPlayers() {
-        return new ArrayList<>(players);
-    }
+    List<Player> getPlayers();
 
     /**
      * Get valid actions for current player (turn is done when the list is empty).
      *
      * @return list of valid action for current player
      */
-    public List<Actions> getCurValidActions() {
-        return new ArrayList<>(curValidActions);
-    }
+    List<Actions> getCurValidActions();
 
     /**
      * Get the version of this game (DLC).
      *
      * @return game version of instance
      */
-    public GameVersions getGameVersion() {
-        return this.gameVersion;
-    }
+    GameVersions getGameVersion();
 
     /**
      * Adds action to list of valid actions for current player.
      *
      * @param action being added to valid actions
      */
-    public void addValidAction(Actions action) {
-        curValidActions.add(action);
-    }
+    void addValidAction(Actions action);
 
     /**
      * Removes action to list of valid actions for current player.
      *
      * @param action being removed for valid actions
      */
-    public void removeValidAction(Actions action) {
-        curValidActions.remove(action);
-    }
+    void removeValidAction(Actions action);
 
     /**
      * Clears list of valid actions for current player.
      */
-    public void clearValidActions() {
-        curValidActions.clear();
-    }
+    void clearValidActions();
 
     /**
      * Clears list of main three valid actions for current player.
      */
-    public void clearMainValidActions() {
-        curValidActions.remove(Actions.BUY_CARD);
-        curValidActions.remove(Actions.TAKE_TOKEN);
-        curValidActions.remove(Actions.RESERVE_CARD);
-    }
+    void clearMainValidActions();
 
 
     /**
@@ -302,7 +180,7 @@ public abstract class Game {
      * @param action     action being executed
      * @return result of action execution
      */
-    public abstract ArrayList<ActionResult> takeAction(String playerName, Action action);
+    ArrayList<ActionResult> takeAction(String playerName, Action action);
 
     /**
      * Create an instance of player for this game version.
@@ -311,26 +189,14 @@ public abstract class Game {
      * @param colour player color
      * @return player instance
      */
-    public abstract Player createPlayer(String name, String colour);
+    Player createPlayer(String name, String colour);
 
     /**
      * Check for winner(s) at the end of each round.
      *
      * @return Player who is a winner (null if there are no winners at this moment)
      */
-    public Player checkForWin() {
-        if (playersWhoCanWin.size() > 0 && turnCounter % players.size() == 0) {
-            winner = playersWhoCanWin.get(0);
-            for (Player p : playersWhoCanWin) {
-                if (p.getDevCards().size() < winner.getDevCards().size()) {
-                    winner = p;
-                }
-            }
-            gameOver = true;
-            return winner;
-        }
-        return null;
-    }
+    Player checkForWin();
 
     /**
      * Check if a given player qualifies to win the game.
@@ -338,36 +204,28 @@ public abstract class Game {
      * @param player The player being checked for win qualification.
      * @return Whether the given player qualifies to win the game.
      */
-    public boolean canPlayerWin(Player player) {
-        return (player.getPrestigePoints() >= prestigePointsToWin);
-    }
+    boolean canPlayerWin(Player player);
 
     /**
      * Add player who qualifies to win to list.
      *
      * @param player Player added to list of potential winners
      */
-    public void addPlayersWhoCanWin(Player player) {
-        playersWhoCanWin.add(player);
-    }
+    void addPlayersWhoCanWin(Player player);
 
     /**
      * Return the winner of this game.
      *
      * @return Player who won the game
      */
-    public Player getWinner() {
-        return winner;
-    }
+    Player getWinner();
 
     /**
      * Returns true if the game is over and a winner is decided.
      *
      * @return if game is over
      */
-    public boolean isGameOver() {
-        return gameOver;
-    }
+    boolean isGameOver();
 
 
 }

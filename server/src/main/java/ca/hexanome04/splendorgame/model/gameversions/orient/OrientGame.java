@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,27 +21,42 @@ import org.slf4j.LoggerFactory;
 /**
  * Class that represents the current state of a base game + orient game.
  */
-public class OrientGame extends Game {
+public class OrientGame implements Game {
 
     final Logger logger = LoggerFactory.getLogger(OrientGame.class);
 
+    private final GameVersions gameVersion;
+    private final int prestigePointsToWin;
+    private int turnCounter;
+
+    private List<Actions> curValidActions = new ArrayList<>();
+
+    private List<Player> players = new ArrayList<>();
+
+    /** Board decks. */
+    private final Deck<RegDevelopmentCard> tier1Deck = new Deck<>();
+    private final Deck<RegDevelopmentCard> tier2Deck = new Deck<>();
+    private final Deck<RegDevelopmentCard> tier3Deck = new Deck<>();
+    private Deck<OrientDevelopmentCard> tier1OrientDeck;
+    private Deck<OrientDevelopmentCard> tier2OrientDeck;
+    private Deck<OrientDevelopmentCard> tier3OrientDeck;
     private Deck<NobleCard> nobleDeck;
-    /** Tier 1 Orient deck. */
-    protected Deck<OrientDevelopmentCard> tier1OrientDeck;
-    /** Tier 2 Orient deck. */
-    protected Deck<OrientDevelopmentCard> tier2OrientDeck;
-    /** Tier 3 Orient deck. */
-    protected Deck<OrientDevelopmentCard> tier3OrientDeck;
+    private final HashMap<TokenType, Integer> tokens = new HashMap<>();
+
+    /** End of game info. */
+    private List<Player> playersWhoCanWin = new ArrayList<>();
+    private Player winner;
+    private boolean gameOver = false;
+
 
     /**
      * Creates a Splendor Game with the board state, number of prestige points to win and ordered player list.
-     *
      *
      * @param prestigePointsToWin The amount of prestige points needed to win the game.
      * @param turnCounter         The turn id associated with the player.
      */
     public OrientGame(int prestigePointsToWin, int turnCounter) {
-        super(GameVersions.BASE_ORIENT, prestigePointsToWin, turnCounter);
+        this(GameVersions.BASE_ORIENT, prestigePointsToWin, turnCounter);
     }
 
     /**
@@ -50,8 +66,14 @@ public class OrientGame extends Game {
      * @param prestigePointsToWin The amount of prestige points needed to win the game.
      * @param turnCounter         The turn id associated with the player.
      */
-    protected OrientGame(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
-        super(gameVersion, prestigePointsToWin, turnCounter);
+    public OrientGame(GameVersions gameVersion, int prestigePointsToWin, int turnCounter) {
+        this.gameVersion = gameVersion;
+        this.prestigePointsToWin = prestigePointsToWin;
+        this.turnCounter = turnCounter;
+
+        curValidActions.add(Actions.BUY_CARD);
+        curValidActions.add(Actions.TAKE_TOKEN);
+        curValidActions.add(Actions.RESERVE_CARD);
     }
 
     /**
@@ -382,6 +404,21 @@ public class OrientGame extends Game {
     }
 
 
+    @Override
+    public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {
+        return this.tier1Deck.getVisibleCards();
+    }
+
+    @Override
+    public List<RegDevelopmentCard> getTier2PurchasableDevelopmentCards() {
+        return this.tier2Deck.getVisibleCards();
+    }
+
+    @Override
+    public List<RegDevelopmentCard> getTier3PurchasableDevelopmentCards() {
+        return this.tier3Deck.getVisibleCards();
+    }
+
     /**
      * Get the list of nobles on the game board.
      *
@@ -396,5 +433,160 @@ public class OrientGame extends Game {
         return new OrientPlayer(name, colour);
     }
 
+    /**
+     * Put tokens back in the game inventory.
+     *
+     * @param tokensInput tokens to be added
+     */
+    public void addTokens(Map<TokenType, Integer> tokensInput) {
+        for (Map.Entry<TokenType, Integer> entry : tokensInput.entrySet()) {
+            TokenType tokenType = entry.getKey();
+            int amount = entry.getValue();
+
+            if (this.tokens.containsKey(tokenType) && amount > 0) {
+                this.tokens.put(tokenType, this.tokens.get(tokenType) + amount);
+            }
+        }
+    }
+
+    @Override
+    public boolean removeTokens(Map<TokenType, Integer> tokensToRemove) {
+
+        // TODO: Check first, technically this could remove some tokens before returning false.
+        for (Map.Entry<TokenType, Integer> entry : tokensToRemove.entrySet()) {
+            int tokensLeft = tokens.get(entry.getKey()) - entry.getValue();
+
+            // check for taking too many tokens
+            if (tokensLeft < 0) {
+                return false;
+            }
+            this.tokens.put(entry.getKey(), tokensLeft);
+        }
+        return true;
+    }
+
+    @Override
+    public HashMap<TokenType, Integer> getTokens() {
+        return new HashMap<>(this.tokens);
+    }
+
+
+    @Override
+    public Player incrementTurn() {
+        if (turnCounter == this.players.size() - 1) {
+            turnCounter = 0;
+        } else {
+            turnCounter++;
+        }
+
+        // reset list of current player valid actions
+        curValidActions.clear();
+        curValidActions.add(Actions.BUY_CARD);
+        curValidActions.add(Actions.TAKE_TOKEN);
+        curValidActions.add(Actions.RESERVE_CARD);
+
+        return players.get(turnCounter);
+    }
+
+    @Override
+    public Player getTurnCurrentPlayer() {
+        return players.get(turnCounter);
+    }
+
+    @Override
+    public int getTurnCounter() {
+        return turnCounter;
+    }
+
+    @Override
+    public Player getPlayerFromName(String name) {
+        Player player = null;
+
+        for (Player p : this.players) {
+            if (p.getName().equals(name)) {
+                player = p;
+                break;
+            }
+        }
+
+        return player;
+    }
+
+    @Override
+    public void setPlayers(List<Player> players) {
+        this.players.addAll(players);
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return new ArrayList<>(players);
+    }
+
+    @Override
+    public List<Actions> getCurValidActions() {
+        return new ArrayList<>(curValidActions);
+    }
+
+    @Override
+    public GameVersions getGameVersion() {
+        return this.gameVersion;
+    }
+
+    @Override
+    public void addValidAction(Actions action) {
+        curValidActions.add(action);
+    }
+
+    @Override
+    public void removeValidAction(Actions action) {
+        curValidActions.remove(action);
+    }
+
+    @Override
+    public void clearValidActions() {
+        curValidActions.clear();
+    }
+
+    @Override
+    public void clearMainValidActions() {
+        curValidActions.remove(Actions.BUY_CARD);
+        curValidActions.remove(Actions.TAKE_TOKEN);
+        curValidActions.remove(Actions.RESERVE_CARD);
+    }
+
+    @Override
+    public Player checkForWin() {
+        if (playersWhoCanWin.size() > 0 && turnCounter % players.size() == 0) {
+            winner = playersWhoCanWin.get(0);
+            for (Player p : playersWhoCanWin) {
+                if (p.getDevCards().size() < winner.getDevCards().size()) {
+                    winner = p;
+                }
+            }
+            gameOver = true;
+            return winner;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canPlayerWin(Player player) {
+        return (player.getPrestigePoints() >= prestigePointsToWin);
+    }
+
+    @Override
+    public void addPlayersWhoCanWin(Player player) {
+        playersWhoCanWin.add(player);
+    }
+
+    @Override
+    public Player getWinner() {
+        return winner;
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return gameOver;
+    }
 
 }
