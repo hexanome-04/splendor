@@ -1,5 +1,5 @@
 import { SETTINGS } from "./settings.js";
-import { startTurn, verifyNoModals, performFollowUpAction } from "./modals.js";
+import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modals.js";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
