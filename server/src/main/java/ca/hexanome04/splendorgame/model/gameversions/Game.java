@@ -20,10 +20,9 @@ public interface Game {
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
      *
-     * @param inputStream input stream for cards csv
      * @throws FileNotFoundException If file is not found.
      */
-    void createSplendorBoard(InputStream inputStream) throws FileNotFoundException;
+    void createSplendorBoard() throws FileNotFoundException;
 
     /**
      * Initialize state of the board (cards, nobles, tokens).

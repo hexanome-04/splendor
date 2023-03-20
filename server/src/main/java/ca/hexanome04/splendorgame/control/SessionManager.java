@@ -90,8 +90,6 @@ public class SessionManager {
      */
     public Game launchNewGame(GameVersions version, List<PlayerInfo> players) throws Exception {
 
-        InputStream is = ResourceUtils.getURL("classpath:cards.csv").openStream();
-
         Game game = switch (version) {
             case BASE_ORIENT -> new OrientGame(15, 0);
             case BASE_ORIENT_CITIES -> new CitiesGame(0);
@@ -105,7 +103,7 @@ public class SessionManager {
             playerList.add(newPlayer);
         }
         game.setPlayers(playerList);
-        game.createSplendorBoard(is);
+        game.createSplendorBoard();
         game.initBoard();
 
         return game;

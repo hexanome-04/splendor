@@ -22,7 +22,7 @@ public class GameSessionTest {
     @DisplayName("Test the getGame method.")
     @Test
     public void testGetGame() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         GameSession session = new GameSession("12345", "Player1", "MyGame");
         session.setGame(game);

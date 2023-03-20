@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.util.ResourceUtils;
 
 
 /**
@@ -23,7 +23,9 @@ import org.slf4j.LoggerFactory;
  */
 public class OrientGame implements Game {
 
-    final Logger logger = LoggerFactory.getLogger(OrientGame.class);
+    private static final String cardsFilename = "classpath:cards.csv";
+
+    static final Logger logger = LoggerFactory.getLogger(OrientGame.class);
 
     private final GameVersions gameVersion;
     private final int prestigePointsToWin;
@@ -78,10 +80,14 @@ public class OrientGame implements Game {
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
-     *
-     * @param inputStream input stream for cards csv
      */
-    public void createSplendorBoard(InputStream inputStream) {
+    @Override
+    public void createSplendorBoard() throws FileNotFoundException {
+
+        String filename = "";
+        File boardFile = ResourceUtils.getFile(cardsFilename);
+        filename = boardFile.getAbsolutePath();
+
         String line = "";
 
         nobleDeck = new Deck<>();
@@ -89,7 +95,8 @@ public class OrientGame implements Game {
         tier2OrientDeck = new Deck<>();
         tier3OrientDeck = new Deck<>();
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
+        try (InputStream inputStream = new FileInputStream(filename);
+             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             TokenType[] types = {White, Blue, Green, Red, Brown};
             int lines = 1;
             while ((line = br.readLine()) != null) {
@@ -106,7 +113,7 @@ public class OrientGame implements Game {
                     tokenCost.put(tokenType, 0);
                 }
 
-                for (int i = 0; i <= 4; i++) {
+                for (int i = 0; i < 5; i++) {
                     if (!cost[i].equals("0")) {
                         tokenCost.put(types[i], Integer.parseInt(cost[i]));
                     }
@@ -403,6 +410,14 @@ public class OrientGame implements Game {
         return results;
     }
 
+    /**
+     * Get the list of nobles on the game board.
+     *
+     * @return list of nobles visible
+     */
+    public List<NobleCard> getNobles() {
+        return new ArrayList<>(this.nobleDeck.getVisibleCards());
+    }
 
     @Override
     public List<RegDevelopmentCard> getTier1PurchasableDevelopmentCards() {
@@ -419,25 +434,12 @@ public class OrientGame implements Game {
         return this.tier3Deck.getVisibleCards();
     }
 
-    /**
-     * Get the list of nobles on the game board.
-     *
-     * @return list of nobles visible
-     */
-    public List<NobleCard> getNobles() {
-        return new ArrayList<>(this.nobleDeck.getVisibleCards());
-    }
-
     @Override
     public Player createPlayer(String name, String colour) {
         return new OrientPlayer(name, colour);
     }
 
-    /**
-     * Put tokens back in the game inventory.
-     *
-     * @param tokensInput tokens to be added
-     */
+    @Override
     public void addTokens(Map<TokenType, Integer> tokensInput) {
         for (Map.Entry<TokenType, Integer> entry : tokensInput.entrySet()) {
             TokenType tokenType = entry.getKey();

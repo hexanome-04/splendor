@@ -23,7 +23,7 @@ public class SplendorGameTests {
 
     @Test
     void testGameWorks() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         assertThat(game.getTurnCounter()).isEqualTo(0);
     }

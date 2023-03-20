@@ -122,7 +122,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card.")
     @Test
     public void testIsPurchasable() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -144,7 +144,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with gold tokens.")
     @Test
     public void testIsPurchasableGoldTokens() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -166,7 +166,7 @@ public class CardTest {
     @DisplayName("Ensure isPurchasable correctly checks if player can purchase card with double gold tokens from orient.")
     @Test
     public void testIsPurchasableDoubleGoldToken() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
@@ -189,7 +189,7 @@ public class CardTest {
     @DisplayName("Ensure that a player can waste a double gold token by using only 1 of the bonus gold tokens")
     @Test
     public void testIsPurchasableDoubleGoldTokensOddAmt() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGameFromFile(15, 4);
+        OrientGame game = GameUtils.createNewOrientGame(15, 4);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
