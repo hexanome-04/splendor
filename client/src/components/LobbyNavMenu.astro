@@ -1,0 +1,20 @@
+---
+import "../styles/lobby.css";
+import { Icon } from 'astro-icon';
+
+const { title } = Astro.props;
+---
+<nav>
+    <div class="nav-left">
+        <div class="admin-btn">Admin Zone</div>
+    </div>
+    <div class="nav-middle">
+        <div class="gametitle">Splendor</div>
+    </div>
+    <div class="nav-right">
+        <p id="player-greeting"></p>
+        <div class="profile-pic"></div>
+        <Icon name="ic:baseline-settings"/>
+        <Icon name="ic:outline-logout" class="logout-btn"/>
+    </div>
+</nav>

@@ -1,4 +1,5 @@
 ---
+import LobbyNavMenu from "../components/LobbyNavMenu.astro";
 import "../styles/lobby.css";
 ---
 <!DOCTYPE html>
@@ -12,14 +13,10 @@ import "../styles/lobby.css";
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
     </head>
     <body>
-        <nav>
-            <div class="nav-left"><div class="admin-btn">ADMIN ZONE</div></div>
-            <div class="nav-middle"><div class="gametitle">Splendor</div></div>
-            <div class="nav-right"><a>Settings</a><div class="logout-btn">LOG OUT</div></div>
-        </nav>
+        <LobbyNavMenu title=" Lobby "></LobbyNavMenu>
         <main selected="sessions">
             <div class="select-section">
-                <div id="select-sessions" class="selected">Sessions</div>
+                <div id="select-sessions" class="selected"><span>Sessions</span></div>
                 <div id="select-loadgame"><span>Load a Game</span><span class="notification-icon"></span></div>
             </div>
             <section id="section-sessions" class="content">
@@ -53,7 +50,9 @@ import "../styles/lobby.css";
             </section>
             <section id="section-loadgame" class="content">
                 <div class="saved-games">
-                    <div class="header">My Saved Games</div>
+                    <div class="header">
+                        <span>My Saved Games</span>
+                    </div>
                     <table class="saved-games-table">
                         <tbody>
                             <tr>
@@ -63,35 +62,6 @@ import "../styles/lobby.css";
                                 <th>Players</th>
                                 <th></th>
                                 <th></th>
-                            </tr>
-                            <tr>
-                                <td><div class="row-start">My Saved Game</div></td>
-                                <td><div class="row-cell">Player 1</div></td>
-                                <td><div class="row-cell">9/15/2022  14:30:45</div></td>
-                                <td><div class="row-end">Player 1, Player 2, Player 3, Player 4</div></td>
-                                <td><div class="loadjoin-btn">LOAD GAME</div></td>
-                                <td><div class="delete-btn">DELETE</div></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="active-past-games">
-                    <div class="header">Active Past Games</div>
-                    <table class="active-past-games-table">
-                        <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <th>Creator</th>
-                                <th>Timestamp</th>
-                                <th>Players</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td><div class="row-start">Player 2's Game</div></td>
-                                <td><div class="row-cell">Player 2</div></td>
-                                <td><div class="row-cell">9/15/2022  14:30:45</div></td>
-                                <td><div class="row-end">Player 1, Player 2, Player 5, Player 6</div></td>
-                                <td><div class="loadjoin-btn">JOIN</div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -107,13 +77,32 @@ import "../styles/lobby.css";
                 <td><div class="session-players-info"></div></td>
                 <td class="session-btns">
                     <div>
-                        <!-- <span class="ses-btn empty-btn">a</span> -->
                         <span class="del-btn ses-btn">Delete</span>
                         <span class="leave-btn ses-btn">Leave</span>
                         <span class="join-btn ses-btn">Join</span>
                         <span class="launch-btn ses-btn">Launch</span>
                         <span class="play-btn ses-btn">Play</span>
                         <span class="spectate-btn ses-btn">Spectate</span>
+                    </div>
+                </td>
+            </tr>
+        </template>
+
+        <template id="load-saved-game-template">
+            <tr session-id="" version="">
+                <td><div class="game-name">My Saved Game</div></td>
+                <td><div class="game-creator-name"></div></td>
+                <td><div class="game-timestamp"></div></td>
+                <td><div class="game-players-info"></div></td>
+                <td class="saved-game-btns">
+                    <div>
+                        <span class="del-btn sg-btn">Delete</span>
+                        <span class="leave-btn sg-btn">Leave</span>
+                        <span class="load-btn sg-btn">Load Game</span>
+                        <span class="join-btn sg-btn">Join</span>
+                        <span class="launch-btn sg-btn">Launch</span>
+                        <span class="play-btn sg-btn">Play</span>
+                        <span class="spectate-btn sg-btn">Spectate</span>
                     </div>
                 </td>
             </tr>

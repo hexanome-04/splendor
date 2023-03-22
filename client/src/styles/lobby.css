@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Judson:ital,wght@0,400;0,700;1,400&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -8,24 +10,45 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0 0 0 / 70%),
+      rgba(0 0 0 / 80%),
+      rgba(0 0 0 / 80%)
+    ),
+    url("/images/titleImage.jpg");
 
   --btn-font-size: 0.8em;
-  --btn-margin: 1em;
+  --btn-margin: 1.5em;
+  --bluebackground-img: url("/images/bluebackground.jpg");
 }
 
 .gametitle {
-  font-family: montserrat, serif;
-  font-size: 2.5em;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-family: Judson, serif;
+  font-weight: 800;
   margin: 0.8rem;
+  letter-spacing: 0.1rem;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24);
+  background:
+    linear-gradient(
+      to top,
+      rgb(110 81 7),
+      rgb(218 165 32),
+      rgb(245 204 101)
+    );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 10px black);
 }
 
 nav {
   position: sticky;
   display: flex;
-  background: #d8d8d8;
   box-shadow: 0 2px 2px rgb(0 0 0 / 25%);
   z-index: 1;
+  background: rgba(85, 98, 133, 35%);
 }
 
 .nav-left {
@@ -41,6 +64,7 @@ nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  color: rgb(227 178 56);
   gap: 1.5rem;
 }
 
@@ -53,24 +77,148 @@ nav {
   align-items: center;
 }
 
-.admin-btn {
-  background: #ff7e7e;
+.admin-btn, 
+.session-btns .ses-btn,
+.saved-game-btns .sg-btn {
+  margin-left: var(--btn-margin);
+  padding: 0.8em 1.5em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05em;
+  border-radius: 0.5em;
+  border: 0.098rem solid goldenrod;
+  background-image: 
+    linear-gradient(
+      rgba(219, 54, 54, 30%),
+      rgba(186, 29, 29, 50%)
+    ), 
+    var(--bluebackground-img);
+  color: rgb(227 178 56);
+  font-family: Charm, cursive;
+  text-shadow: 2px 10px 10px black;
+  transition: all 0.2s ease-in-out;
+  letter-spacing: 0.1rem;
+}
+
+.session-btns .ses-btn:hover {
+  color: rgb(227 178 56);
+}
+
+/* Session and Load Save Game Buttons */
+.current-sessions-table .del-btn,
+.saved-games-table .del-btn {
+  background-image: 
+    linear-gradient(
+      rgba(219, 54, 54, 60%),
+      rgba(186, 29, 29, 50%)
+    ), 
+    var(--bluebackground-img);
+}
+
+.current-sessions-table .join-btn,
+.saved-games-table .join-btn {
+  background-image: 
+    linear-gradient(
+      rgba(148, 196, 255, 60%),
+      rgba(51, 116, 196, 50%)
+    ), 
+    var(--bluebackground-img);
+}
+
+.current-sessions-table .launch-btn,
+.saved-games-table .launch-btn {
+  background-image: 
+    linear-gradient(
+      rgba(80, 200, 120, 60%),
+      rgba(22, 120, 55, 50%)
+    ), 
+    var(--bluebackground-img);
+}
+
+.current-sessions-table .leave-btn,
+.saved-games-table .leave-btn {
+  background-image: 
+    linear-gradient(
+      rgba(255, 68, 68, 0.6),
+      rgba(203, 37, 37, 0.5)
+    ), 
+    var(--bluebackground-img);
+}
+
+.current-sessions-table .play-btn,
+.saved-games-table .play-btn {
+  background-image: 
+    linear-gradient(
+      rgba(94, 37, 155, 60%),
+      rgba(48, 15, 82, 0.5)
+    ), 
+    var(--bluebackground-img);
+}
+
+.current-sessions-table .spectate-btn,
+.saved-games-table .spectate-btn {
+  background-image: 
+    linear-gradient(
+      rgba(241, 161, 39, 0.6),
+      rgba(193, 134, 46, 50%)
+    ), 
+    var(--bluebackground-img);
+}
+
+.admin-btn:hover {
+  background-image:
+    linear-gradient(
+      rgba(219, 54, 54, 30%),
+      rgba(190, 60, 60, 0.5)
+    ), 
+    var(--bluebackground-img);
+}
+
+#player-greeting {
+  font-style: italic;
+  font-family: Judson, serif;
+  letter-spacing: 0.1em;
+}
+
+.profile-pic {
+  background: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   color: white;
   font-size: var(--btn-font-size);
-  margin-left: var(--btn-margin);
   border-radius: 10px;
+  border: 0.098rem solid goldenrod;
   padding: 0.8em 1.2em;
+  height: 4.3em;
+  aspect-ratio: 1/1;
+}
+
+[astro-icon] {
+  height: 2em;
+  aspect-ratio: 1 / 1;
+  color: rgb(227 178 56);
   cursor: pointer;
 }
 
-.logout-btn {
-  background: #82bbff;
-  color: white;
-  font-size: var(--btn-font-size);
+/* Icon Animations */
+[astro-icon="ic:baseline-settings"] {
+  transition: all 0.2s ease-out;
+}
+
+[astro-icon="ic:baseline-settings"]:hover {
+  transform: rotate(25deg);
+}
+
+[astro-icon="ic:outline-logout"] {
   margin-right: var(--btn-margin);
-  border-radius: 10px;
-  padding: 0.8em 1.2em;
-  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+[astro-icon="ic:outline-logout"]:hover {
+  transform: translate(0.2em);
 }
 
 .hidden {
@@ -98,7 +246,7 @@ main[selected="loadgame"] #section-sessions {
   display: flex;
   flex-direction: row;
   width: 100%;
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
@@ -109,7 +257,8 @@ tr > * {
 }
 
 .select-section > * {
-  background-color: #d8d8d8;
+  background: rgba(85, 98, 133, 25%);
+  color: white;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -118,9 +267,29 @@ tr > * {
 }
 
 .select-section .selected {
-  background-color: #cdcdcd;
+  background: rgba(85, 98, 133, 30%);
+  color: white;
   box-shadow: 0 -1px 2px 1px rgb(0 0 0 / 25%);
   position: relative;
+}
+
+#select-sessions > span, #select-loadgame > span, .header > span {
+  font-family: Judson, serif;
+  font-size: 1.05em;
+  font-weight: 800;
+  margin: 0.1rem;
+  letter-spacing: 0.1rem;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24);
+  background:
+    linear-gradient(
+      to top,
+      rgb(110 81 7),
+      rgb(218 165 32),
+      rgb(245 204 101)
+    );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 10px black);
 }
 
 .content {
@@ -144,14 +313,16 @@ tr > td > div {
 }
 
 .header {
-  background: #d8d8d8;
+  background: rgba(85, 98, 133, 35%);
   box-shadow: 0 2px 2px 0 rgb(0 0 0 / 25%);
   isolation: isolate;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.6em;
   padding: 0.4em 0.5em;
   display: flex;
   align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 table {
@@ -221,14 +392,6 @@ tr > th {
   cursor: pointer;
 }
 
-.delete-btn {
-  background: #ff7e7e;
-  justify-content: center;
-  margin: 0 1em 0 0.5em;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-}
-
 .notification-icon {
   height: 0.7em;
   width: 0.7em;
@@ -249,13 +412,23 @@ tr > th {
   justify-content: space-between;
   align-items: center;
   gap: 1em;
-  background-color: #82bbff;
-  color: white;
-  font-size: 0.7em;
+  font-size: 0.72em;
   font-weight: normal;
-  padding: 0.6em 2em;
+  padding: 0.6em 2.3em;
   cursor: pointer;
   border-radius: 0.5em;
+  border: 0.098rem solid goldenrod;
+  background-image: var(--bluebackground-img);
+  color: rgb(227 178 56);
+  font-family: Charm, cursive;
+  text-shadow: 2px 10px 10px black;
+  letter-spacing: 0.1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.select:hover {
+  color: #f2d675;
+  border-color: #f2d675;
 }
 
 .game-selection-dropdown:hover .game-options {
@@ -271,12 +444,13 @@ tr > th {
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 6px solid #fff;
+  border-top: 6px solid #e3b238;
 }
 
 .game-options {
   list-style: none;
-  background-color: #82bbff;
+  border: 0.098rem solid goldenrod;
+  background-image: var(--bluebackground-img);
   position: absolute;
   border-radius: 0.5em;
   box-shadow: 0 0.3em 0.5em rgba(0, 0, 0, 0.2);
@@ -287,49 +461,79 @@ tr > th {
   padding: 0.5em 1em;
   border-radius: 0.5em;
   font-size: 0.7em;
+  font-family: Judson, serif;
+  font-style: italic;
   font-weight: normal;
-  color: white;
+  letter-spacing: 0.09rem;
+  color: rgb(227 178 56);
   cursor: pointer;
 }
 
 .game-options li:hover {
-  background-color: #6cacfa;
+  background:
+  linear-gradient(
+    to top,
+    rgb(110 81 7),
+    rgb(218 165 32),
+    rgb(245 204 101)
+  );
+  color: black;
   transition: 0.3s;
 }
 
-.current-sessions-table {
-  --even-bg-color: #f3f3f3;
-  --odd-bg-color: #e9e9e9;
+.current-sessions-table, .saved-games-table {
+  --even-bg-color: rgba(98, 108, 135, 45%);
+  --odd-bg-color: rgba(98, 108, 135, 30%);
   --right-margin: 1rem;
 }
 
-.current-sessions-table tr > td > div {
-  color: black;
+.current-sessions-table tr > td > div,
+.saved-games-table tr > td > div {
+  color: whitesmoke;
+  font-family: Judson, serif;
+  font-size: 1.1em;
+  letter-spacing: 0.03em;
 }
 
-.current-sessions-table tbody > tr:not(:first-child) > * {
+.current-sessions-table tbody > tr,
+.saved-games-table tbody > tr {
+  background: rgba(71, 82, 110, 0.3);
+  color: #e3b238;
+  font-family: Charm, cursive;
+  font-weight: normal;
+  font-size: 1.1em;
+  letter-spacing: 0.1em;
+}
+
+.current-sessions-table tbody > tr:not(:first-child) > *,
+.saved-games-table tbody > tr:not(:first-child) > * {
   padding-top: 0;
 }
 
-.current-sessions-table tr:nth-child(odd) td {
+.current-sessions-table tr:nth-child(odd) td,
+.saved-games-table tr:nth-child(odd) td {
   background: var(--odd-bg-color);
 }
 
-.current-sessions-table tr:nth-child(even) td {
+.current-sessions-table tr:nth-child(even) td,
+.saved-games-table tr:nth-child(even) td {
   background: var(--even-bg-color);
 }
 
-.current-sessions-table tr td.session-btns {
+.current-sessions-table tr td.session-btns,
+.saved-games-table tr td.saved-game-btns {
   padding: 0.6em 0;
   width: 1%; /* no idea why it works */
 }
 
-.current-sessions-table .session-btns > div {
+.current-sessions-table .session-btns > div,
+.saved-games-table .saved-game-btns > div {
   gap: var(--right-margin);
   justify-content: flex-end;
 }
 
-.current-sessions-table .ses-btn {
+.current-sessions-table .ses-btn,
+.saved-games-table .sg-btn {
   float: right;
   color: white;
   border-radius: 6px;
@@ -338,65 +542,38 @@ tr > th {
   display: none;
 }
 
-.current-sessions-table .empty-btn {
-  display: block;
-  visibility: hidden;
-}
-
-.current-sessions-table .join-btn {
-  background: #82bbff;
-}
-
 /* Disable if cannot join */
-.current-sessions-table tr:not([full], [joined], [started]) .join-btn {
+.current-sessions-table tr:not([full], [joined], [started]) .join-btn,
+.saved-games-table tr:not([full], [joined], [started]) .join-btn {
   display: block;
-}
-
-.current-sessions-table .launch-btn {
-  background: #50c878;
-}
-
-.current-sessions-table .play-btn {
-  background: #5e259b;
-}
-
-.current-sessions-table .spectate-btn {
-  background: #c1862e;
-}
-
-.current-sessions-table .placeholder-btn {
-  visibility: hidden;
 }
 
 /* Disable if not enough players or not creator */
-.current-sessions-table tr:is([launchable][created]) .launch-btn {
+.current-sessions-table tr:is([launchable][created]) .launch-btn,
+.saved-games-table tr:is([launchable][created]) .launch-btn {
   display: block;
 }
 
-.current-sessions-table .leave-btn {
-  background: #fe4a49;
-}
-
 /* Disable if creator */
-.current-sessions-table tr:not([created], [started]):is([joined]) .leave-btn {
+.current-sessions-table tr:not([created], [started]):is([joined]) .leave-btn,
+.saved-games-table tr:not([created], [started]):is([joined]) .leave-btn {
   display: block;
 }
 
-.current-sessions-table .del-btn {
-  background: #fe4a49;
-}
-
 /* Disable if creator */
-.current-sessions-table tr:not([started]):is([created]) .del-btn {
+.current-sessions-table tr:not([started]):is([created]) .del-btn,
+.saved-games-table tr:not([started]):is([created]) .del-btn {
   display: block;
 }
 
 /* Add play button to join a launched session */
-.current-sessions-table tr:is([started][joined]) .play-btn {
+.current-sessions-table tr:is([started][joined]) .play-btn,
+.saved-games-table tr:is([started][joined]) .play-btn {
   display: block;
 }
 
 /* Add spectate button to a launched session that you aren't in */
-.current-sessions-table tr:is([started]):not([joined]) .spectate-btn {
+.current-sessions-table tr:is([started]):not([joined]) .spectate-btn,
+.saved-games-table tr:is([started]):not([joined]) .spectate-btn {
   display: block;
 }

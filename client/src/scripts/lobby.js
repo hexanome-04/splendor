@@ -35,6 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "/";
     };
 
+    // PLAYER GREETING
+    document.getElementById("player-greeting").innerHTML = greetUser();
+    console.log(greetUser());
+
+    function greetUser() {
+        var welcome = "Hello, " + SETTINGS.getUsername() +"!";
+        return welcome;
+    }
     
     /**
      * Create a session with the specified version of Splendor.
