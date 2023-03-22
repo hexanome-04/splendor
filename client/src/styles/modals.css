@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Judson:ital,wght@0,400;0,700;1,400&family=Lobster&display=swap');
+
 /* The Modal */
 .modal {
   display: none;
@@ -111,7 +113,7 @@
   background-image: url("/images/bluebackground.jpg");
   font-size: 1.5rem;
   color: rgb(227 178 56);
-  font-family: "Dancing Script", cursive;
+  font-family: Charm, cursive;
   text-shadow: 2px 10px 10px black;
   letter-spacing: 0.1rem;
   font-weight: 500;
@@ -200,7 +202,7 @@
   background-image: url("/images/bluebackground.jpg");
   font-size: 1.3rem;
   color: rgb(227 178 56);
-  font-family: "Dancing Script", cursive;
+  font-family: Charm, cursive;
   text-shadow: 2px 10px 10px black;
   letter-spacing: 0.1rem;
   font-weight: 500;
