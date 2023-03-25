@@ -82,11 +82,7 @@ public class OrientGame implements Game {
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
      */
     @Override
-    public void createSplendorBoard() throws FileNotFoundException {
-
-        String filename = "";
-        File boardFile = ResourceUtils.getFile(cardsFilename);
-        filename = boardFile.getAbsolutePath();
+    public void createSplendorBoard() {
 
         String line = "";
 
@@ -95,7 +91,7 @@ public class OrientGame implements Game {
         tier2OrientDeck = new Deck<>();
         tier3OrientDeck = new Deck<>();
 
-        try (InputStream inputStream = new FileInputStream(filename);
+        try (InputStream inputStream = ResourceUtils.getURL(cardsFilename).openStream();
              BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             TokenType[] types = {White, Blue, Green, Red, Brown};
             int lines = 1;

@@ -39,17 +39,13 @@ public class CitiesGame extends OrientGame {
      * Constructor for the cities splendorBoard, initializes the city deck with cards from a file.
      */
     @Override
-    public void createSplendorBoard() throws FileNotFoundException {
+    public void createSplendorBoard() {
         super.createSplendorBoard();
-
-        String cityFilename = "";
-        File boardFile = ResourceUtils.getFile(cityCardsFilename);
-        cityFilename = boardFile.getAbsolutePath();
 
         String line = "";
         citiesDeck = new Deck<>();
 
-        try (InputStream inputStream = new FileInputStream(cityFilename);
+        try (InputStream inputStream = ResourceUtils.getURL(cityCardsFilename).openStream();
              BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             TokenType[] types = {White, Blue, Green, Red, Brown};
             int lines = 1;

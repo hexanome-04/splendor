@@ -19,10 +19,8 @@ public interface Game {
 
     /**
      * Constructor for the splendorBoard, initializes all the decks with cards from a file.
-     *
-     * @throws FileNotFoundException If file is not found.
      */
-    void createSplendorBoard() throws FileNotFoundException;
+    void createSplendorBoard();
 
     /**
      * Initialize state of the board (cards, nobles, tokens).
