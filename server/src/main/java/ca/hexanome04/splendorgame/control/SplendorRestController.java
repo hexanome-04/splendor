@@ -1,7 +1,5 @@
 package ca.hexanome04.splendorgame.control;
 
-import static ca.hexanome04.splendorgame.model.gameversions.GameVersions.BASE_ORIENT;
-
 import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.GameSession;
@@ -43,6 +41,7 @@ public class SplendorRestController {
     private String gameServiceName;
     private final SessionManager sessionManager;
     private final Authentication auth;
+    private final GameSavesManager gameSavesManager;
     private final long longPollTimeout;
     private final Map<String, ContentWatcher> gameWatcher;
 
@@ -51,16 +50,19 @@ public class SplendorRestController {
      *
      * @param sessionManager session manager
      * @param auth methods relating to authentication with LS
+     * @param gameSavesManager game saves manager
      * @param gameServiceName game service name
      * @param longPollTimeout timeout for long polling
      */
 
     public SplendorRestController(@Autowired SessionManager sessionManager,
                                   @Autowired Authentication auth,
+                                  @Autowired GameSavesManager gameSavesManager,
                                   @Value("${gs.name}") String gameServiceName,
                                   @Value("${longpoll.timeout}") int longPollTimeout) {
         this.sessionManager = sessionManager;
         this.auth = auth;
+        this.gameSavesManager = gameSavesManager;
         this.gameServiceName = gameServiceName;
         this.longPollTimeout = longPollTimeout;
         this.gameWatcher = new HashMap<>();
@@ -133,10 +135,20 @@ public class SplendorRestController {
      * @throws Exception thrown due to IO or invalid information given
      */
     protected void addSession(String sessionId, LaunchSessionInfo launchSessionInfo, GameVersions gameVersion) throws Exception {
-        sessionManager.addSession(sessionId, launchSessionInfo.players(),
-                launchSessionInfo.creator(),
-                launchSessionInfo.savegame(),
-                gameVersion);
+        if (!launchSessionInfo.savegame().isEmpty()) {
+            // retrieve game state from save data
+            Game game = gameSavesManager.getGameSaveData(launchSessionInfo.savegame());
+            if (game == null) {
+                logger.warn("Error while launching session: Retrieved game save state is null!");
+                throw new RuntimeException("Unable to load previous game save state!");
+            }
+            sessionManager.createSession(sessionId, game, launchSessionInfo);
+        } else {
+            sessionManager.createNewSession(sessionId, launchSessionInfo.players(),
+                    launchSessionInfo.creator(),
+                    launchSessionInfo.savegame(),
+                    gameVersion);
+        }
         logger.info("Launched new game session: " + sessionId);
         gameWatcher.put(sessionId, new ContentWatcher());
     }

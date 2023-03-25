@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST"
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error: " + data["error"]); });
+                    resp.text().then((data) => { window.alert("Error while launching game session: " + data); });
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);

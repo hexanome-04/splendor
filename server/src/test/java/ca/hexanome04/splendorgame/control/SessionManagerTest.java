@@ -31,16 +31,16 @@ public class SessionManagerTest {
         ArrayList<PlayerInfo> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        GameSession game1 = dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
+        GameSession game1 = dummySessionManager.createNewSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         assertThat(game1).isInstanceOf(GameSession.class);
         // Wrong number of players
         assertThatThrownBy(() -> {
-            dummySessionManager.addSession(dummyID, null, "creator", "sessionName", BASE_ORIENT);
+            dummySessionManager.createNewSession(dummyID, null, "creator", "sessionName", BASE_ORIENT);
         }).isInstanceOf(Exception.class);
 
         // Repeated sessionID
         assertThatThrownBy(() -> {
-            dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
+            dummySessionManager.createNewSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         }).isInstanceOf(Exception.class);
     }
 
@@ -59,7 +59,7 @@ public class SessionManagerTest {
         ArrayList<PlayerInfo> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        dummySessionManager.addSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
+        dummySessionManager.createNewSession(dummyID, players, "creator", "sessionName", BASE_ORIENT);
         assertThat(dummySessionManager.getGameSession(dummyID)).isInstanceOf(GameSession.class);
     }
 }

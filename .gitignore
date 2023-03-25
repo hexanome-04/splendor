@@ -130,3 +130,5 @@ target/
 dist/
 docs/
 server/docs/
+
+saves/

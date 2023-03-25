@@ -31,25 +31,32 @@ public class Initializer {
 
     final Logger logger = LoggerFactory.getLogger(Initializer.class);
 
+    // we exclude some code that runs automatically when Spring Boot starts, but we do test the methods individually
+    @Value("${test:false}")
+    private boolean isTestMode;
     @Value("${LS.location}")
     private String lsLocation;
     GameServiceInfo[] gameServices;
     Authentication auth;
+    GameSaveInitializer gameSaveInitializer;
     RestTemplate restTemplate = new RestTemplate();
 
     /**
      * Initializes server with lobby service.
      *
      * @param auth methods relating to token
+     * @param gameSaveInitializer game save initializer
      * @param gsName game service base name
      * @param gsDisplayName game service base display name
      * @param gsLocation game service location
      */
     public Initializer(@Autowired Authentication auth,
+                       @Autowired GameSaveInitializer gameSaveInitializer,
                        @Value("${gs.name}") String gsName,
                        @Value("${gs.displayName}") String gsDisplayName,
                        @Value("${gs.location}") String gsLocation) {
         this.auth = auth;
+        this.gameSaveInitializer = gameSaveInitializer;
         this.gameServices = new GameServiceInfo[] {
             new GameServiceInfo(gsName + "_" + GameVersions.BASE_ORIENT,
                         gsDisplayName + " Orient", gsLocation,
@@ -63,6 +70,7 @@ public class Initializer {
                         gsDisplayName + " Trade Routes", gsLocation,
                         2, 4, "true"),
         };
+        this.restTemplate.setErrorHandler(new EmptyRestTemplateErrorHandler());
     }
 
     /**
@@ -71,10 +79,12 @@ public class Initializer {
     @EventListener(ApplicationReadyEvent.class)
     @Profile("!test")
     public void init() {
-        this.restTemplate.setErrorHandler(new EmptyRestTemplateErrorHandler());
-
-        // Avoid blocking main thread
-        new Thread(this::registerWithLobbyService).start();
+        // we exclude some code that runs automatically when Spring Boot starts, but we do test the methods individually
+        if (isTestMode) {
+            return;
+        }
+        this.registerWithLobbyService();
+        this.gameSaveInitializer.registerCurrentGameSaves();
     }
 
     /**

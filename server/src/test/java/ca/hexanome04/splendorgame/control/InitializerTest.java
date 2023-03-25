@@ -26,6 +26,8 @@ public class InitializerTest {
     Authentication auth;
     @Mock
     RestTemplate restTemplate;
+    @Mock
+    GameSaveInitializer gameSaveInitializer;
     @InjectMocks
     @Autowired
     Initializer initializer;

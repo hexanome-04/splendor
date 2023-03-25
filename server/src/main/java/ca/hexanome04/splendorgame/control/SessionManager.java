@@ -8,6 +8,7 @@ import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsGame;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class SessionManager {
     }
 
     /**
-     * Add a session to the session manager.
+     * Creates and adds a new session to the session manager.
      *
      * @param sessionId session id
      * @param players player in session
@@ -62,8 +63,8 @@ public class SessionManager {
      * @return game session instance
      * @throws Exception if issue occurred
      */
-    public GameSession addSession(String sessionId, List<PlayerInfo> players,
-                                  String creatorName, String sessionName, GameVersions version) throws Exception {
+    public GameSession createNewSession(String sessionId, List<PlayerInfo> players,
+                                        String creatorName, String sessionName, GameVersions version) throws Exception {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionId)) {
             throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
@@ -75,6 +76,71 @@ public class SessionManager {
 
         GameSession session = new GameSession(sessionId, creatorName, sessionName);
         session.setGame(this.launchNewGame(version, players));
+
+        gameSessions.put(sessionId, session);
+        return session;
+    }
+
+    /**
+     * Creates a new game session for a pre-existing game instance (for game saves).
+     *
+     * @param sessionId session id
+     * @param game existing game instance
+     * @param launchSessionInfo info to launch the session
+     * @return new game session
+     * @throws Exception if issue occurred
+     */
+    public GameSession createSession(String sessionId, Game game,
+                                     LaunchSessionInfo launchSessionInfo) throws Exception {
+        // Refuse creation if session with this ID already exists
+        if (gameSessions.containsKey(sessionId)) {
+            throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
+        }
+        // Refuse creation if incorrect number of players in session
+        if (launchSessionInfo.players().size() < 2 || launchSessionInfo.players().size() > 4) {
+            throw new Exception("Game can not be created, 2-4 players required");
+        }
+
+        List<Player> curPlayers = game.getPlayers();
+
+        // have to reassign players in the order they appear
+        if (launchSessionInfo.players().size() != curPlayers.size()) {
+            throw new Exception("Game can not be created, launch players count does not match pre-existing count");
+        }
+        Map<String, Player> playerMap = curPlayers.stream()
+                .collect(Collectors.toMap(Player::getName, item -> item));
+        Map<String, PlayerInfo> playerInfoMap = launchSessionInfo.players().stream()
+                .collect(Collectors.toMap(PlayerInfo::name, item -> item));
+
+        for (PlayerInfo pi : launchSessionInfo.players()) {
+            String name = pi.name();
+            Player p = playerMap.get(name); // idk color might have changed
+            if (p != null) {
+                p.setColour(pi.colour());
+
+                // remove the ones that were already in the game covered
+                playerMap.remove(name);
+                playerInfoMap.remove(name);
+            }
+        }
+
+        // now we assign new players to inactive players
+        List<Player> inactivePlayers = new ArrayList<>(
+                curPlayers.stream().filter(p -> playerMap.containsKey(p.getName())).toList()
+        );
+        if (inactivePlayers.size() != playerInfoMap.keySet().size()) {
+            throw new Exception("Game can not be created, inactive player list size does not match remaining player info list");
+        }
+
+        // pop an inactive player out of list and assign it to a player who's not been set
+        for (PlayerInfo pi : playerInfoMap.values()) {
+            Player p = inactivePlayers.remove(0);
+            p.setName(pi.name());
+            p.setColour(pi.colour());
+        }
+
+        GameSession session = new GameSession(sessionId, launchSessionInfo.creator(), launchSessionInfo.savegame());
+        session.setGame(game);
 
         gameSessions.put(sessionId, session);
         return session;
