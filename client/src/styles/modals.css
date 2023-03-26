@@ -15,7 +15,8 @@
   background-color: rgba(0 0 0 / 40%);
 }
 
-#restart-game-modal {
+#restart-game-modal,
+#save-game-modal {
   z-index: 1000;
 }
 

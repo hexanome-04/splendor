@@ -1,5 +1,6 @@
 ---
 import RestartGameModal from "../components/modals/RestartGameModal.astro";
+import SaveGameModal from "./modals/SaveGameModal.astro";
 
 const { title } = Astro.props;
 ---
@@ -22,11 +23,12 @@ const { title } = Astro.props;
     <p id="top-menu-title" class="top-menu-title">{title}</p>
 </div>
 <RestartGameModal></RestartGameModal>
+<SaveGameModal></SaveGameModal>
 <script>
-    import { gameMenu, show, close } from "../scripts/game-navmenu.js";
+    import { gameMenu, showDrawer, closeDrawer, showNextMenu } from "../scripts/game-navmenu.js";
 
-    document.getElementById("menu-icon").addEventListener("click", show);
-    document.querySelector(".resume").parentNode.addEventListener("click", close);
+    document.getElementById("menu-icon").addEventListener("click", showDrawer);
+    document.querySelector(".resume").parentNode.addEventListener("click", closeDrawer);
 
     // quit -> go to lobby
     gameMenu.querySelector(".quit").parentNode.addEventListener("click", () => {
@@ -35,6 +37,10 @@ const { title } = Astro.props;
 
     // show restart modal
     gameMenu.querySelector(".restart").parentElement.addEventListener("click", () => {
-        document.querySelector("#restart-game-modal").classList.add("show");
+        showNextMenu("#restart-game-modal");
+    });
+
+    gameMenu.querySelector(".save").parentElement.addEventListener("click", () => {
+        showNextMenu("#save-game-modal");
     });
 </script>

@@ -1,36 +1,89 @@
 import { SETTINGS, GAME_VERSION_TO_BOARD } from "./settings.js";
+import { checkForGameSaves } from "./lobby-saves.js";
 
 // perhaps we need a better build system
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
 
-document.addEventListener("DOMContentLoaded", () => {
+/**
+ * Creates a new session with the specified game version and save id.
+ * @param {String} gameVersion game version
+ * @param {String} save id (optional)
+ * @returns {Promise<String>} session id
+ */
+export const createNewSession = async (gameVersion, saveId="") => {
+    await SETTINGS.verifyCredentials();
 
-    var sessionTabBtn = document.querySelector("#select-sessions");
-    var loadgameTabBtn = document.querySelector("#select-loadgame");
-    var mainElm = document.querySelector("main");
-    var logOutBtn = document.querySelector(".logout-btn");
+    const postData = {
+        "creator": SETTINGS.getUsername(),
+        "game": gameVersion,
+        "savegame": saveId
+    };
 
-    function changeTab(selectedElm, otherElm) {
-        if(otherElm.classList.contains("selected")) {
-            otherElm.classList.remove("selected");
-        }
+    const url = new URL(`${SETTINGS.getLS_API()}/api/sessions`);
+    url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
-        if(!selectedElm.classList.contains("selected")) {
-            selectedElm.classList.add("selected");
-        }
+    const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData)
+    });
+
+    const respText = await resp.text();
+    if(!resp.ok) {
+        throw new Error(respText);
     }
 
-    sessionTabBtn.onclick = () => {
-        changeTab(sessionTabBtn, loadgameTabBtn);
-        mainElm.setAttribute("selected", "sessions");
-    };
+    return respText;
+};
 
-    loadgameTabBtn.onclick = () => {
-        changeTab(loadgameTabBtn, sessionTabBtn);
-        mainElm.setAttribute("selected", "loadgame");
-    };
+const changeTab = (selectedElm, otherElm) => {
+    if(otherElm.classList.contains("selected")) {
+        otherElm.classList.remove("selected");
+    }
 
+    if(!selectedElm.classList.contains("selected")) {
+        selectedElm.classList.add("selected");
+    }
+};
+
+const sessionTabBtn = document.querySelector("#select-sessions");
+const loadgameTabBtn = document.querySelector("#select-loadgame");
+export const showSessionTab = () => {
+    changeTab(sessionTabBtn, loadgameTabBtn);
+    document.querySelector("main").setAttribute("selected", "sessions");
+};
+
+const showLoadGameTab = () => {
+    changeTab(loadgameTabBtn, sessionTabBtn);
+    document.querySelector("main").setAttribute("selected", "loadgame");
+    checkForGameSaves();
+};
+
+
+// for focusing on a session
+const toFocusList = [];
+
+/**
+ * Attempts to focus on session item if it's already availabe,
+ * else it will wait until it gets added to the page.
+ * @param {String} sesId session id
+ */
+export const focusSession = (sesId) => {
+    const elm = document.querySelector(`.current-sessions-table tr[session-id="${sesId}"]`);
+    if(!elm) {
+        toFocusList.push(sesId);
+    } else {
+        elm.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+};
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    sessionTabBtn.onclick = () => showSessionTab();
+    loadgameTabBtn.onclick = () => showLoadGameTab();
+
+    const logOutBtn = document.querySelector(".logout-btn");
     logOutBtn.onclick = () => {
         window.location.href = "/";
     };
@@ -53,28 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const createBtn = document.querySelector(".create-session-btn");
         createBtn.disabled = true;
 
-        SETTINGS.verifyCredentials().then(() => {
-            const postData = {
-                "creator": SETTINGS.getUsername(),
-                "game": gameVersion,
-                "savegame": ""
-            };
-
-            const url = new URL(`${SETTINGS.getLS_API()}/api/sessions`);
-            url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
-
-            fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(postData)
-            }).then((resp) => {
-                if(!resp.ok) {
-                    resp.text().then((data) => { throw new Error(data); });
-                }
-            }).catch((err) => {
-                window.alert("Error: " + err);
-            }).finally(() => createBtn.disabled = false);
-        });
+        createNewSession(gameVersion)
+            .catch((err) => window.alert("Error while creating a new session: " + err))
+            .finally(() => createBtn.disabled = false);
     }
 
     // SPECIFY GAME VERSION
@@ -220,7 +254,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if(ses.creator === username) {
                 node.setAttribute("created", "true");
-                if(sesPlayers.length > 1 && !ses.launched) {
+
+                // if regular game and has enough palyers
+                const regGameCan = ses.savegameid === "" && sesPlayers.length > 1 && !ses.launched;
+                // if save and equals players
+                const saveCan = ses.savegameid !== "" && !ses.launched
+                                && ses.gameParameters.maxSessionPlayers === sesPlayers.length;
+                if(regGameCan || saveCan) {
                     node.setAttribute("launchable", "true");
                 } else {
                     node.removeAttribute("launchable");
@@ -242,6 +282,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const trNode = tempNode.querySelector("tr");
             trNode.setAttribute("session-id", sesId);
             trNode.setAttribute("version", gameVer);
+            if(ses.savegameid !== "") {
+                trNode.setAttribute("save-id", ses.savegameid);
+            }
 
             trNode.querySelector(".session-game-name").textContent = ses.gameParameters.displayName;
             trNode.querySelector(".session-creator-name").textContent = ses.creator;
@@ -268,6 +311,17 @@ document.addEventListener("DOMContentLoaded", () => {
             spectateBtn.onclick = () => playSession(spectateBtn, sesId, gameVer);
 
             tbl.appendChild(tempNode);
+
+            const focusIndex = toFocusList.indexOf(sesId);
+            if(focusIndex !== -1) {
+                setTimeout(() => {
+                    const elm = tbl.querySelector(`tr[session-id="${sesId}"]`);
+                    elm.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
+
+                // now remove
+                toFocusList.splice(focusIndex, 1);
+            }
         });
 
 

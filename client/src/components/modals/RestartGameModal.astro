@@ -3,7 +3,7 @@ import "../../styles/modals.css";
 import "../../styles/gameboard.css";
 ---
 
-<div id="restart-game-modal" class="modal">
+<div id="restart-game-modal" class="modal ">
     <div class="modal-content">
         <h1>RESTART</h1>
         <p>Are you sure you want to restart?</p>
@@ -16,14 +16,12 @@ import "../../styles/gameboard.css";
 </div>
 <script>
     import { SETTINGS } from "../../scripts/settings.js";
-    import { close } from "../../scripts/game-navmenu.js";
+    import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";
 
     const modal = document.querySelector("#restart-game-modal");
 
-    // enable restart no button (should be within the RestartGameModal component TODO)
-    const closeRestartModal = () => modal.classList.remove("show");
     document.querySelector("#restart-game-modal #restart-no-btn").addEventListener("click", () => {
-        closeRestartModal();
+        showPreviousMenu();
     });
 
     // enable restart yes button (ditto TODO)
@@ -31,10 +29,7 @@ import "../../styles/gameboard.css";
     confirmBtn.addEventListener("click", () => {
         confirmBtn.disabled = true;
         SETTINGS.verifyCredentials().then(() => {
-            const searchParams = new URLSearchParams(window.location.search);
-            const sessionId = searchParams.get("sessionId");
-
-            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${sessionId}/restart`);
+            const url = new URL(`${SETTINGS.getGS_API()}/api/sessions/${getSessionId()}/restart`);
             url.search = new URLSearchParams({"access_token": SETTINGS.getAccessToken()}).toString();
 
             fetch(url, {
@@ -43,9 +38,9 @@ import "../../styles/gameboard.css";
                 if(!resp.ok) {
                     resp.json().then((data) => { window.alert("Error: " + data["error"]); });
                 } else {
-                    close();
+                    closeDrawer();
                 }
-                closeRestartModal();
+                showPreviousMenu();
             }).catch((err) => {
                 window.alert("Error: " + err);
             }).finally(() => confirmBtn.disabled = false);

@@ -33,6 +33,8 @@ services:
       dockerfile: setup/Dockerfile.server
     ports:
       - "33402:33402"
+    volumes:
+      - ./saves:/server/saves
     depends_on:
       lobby-service:
         condition: service_healthy

@@ -77,10 +77,13 @@ nav {
   align-items: center;
 }
 
+.admin-btn {
+  margin-left: var(--btn-margin);
+}
+
 .admin-btn, 
 .session-btns .ses-btn,
 .saved-game-btns .sg-btn {
-  margin-left: var(--btn-margin);
   padding: 0.8em 1.5em;
   cursor: pointer;
   display: flex;
@@ -117,8 +120,7 @@ nav {
     var(--bluebackground-img);
 }
 
-.current-sessions-table .join-btn,
-.saved-games-table .join-btn {
+.current-sessions-table .join-btn {
   background-image: 
     linear-gradient(
       rgba(148, 196, 255, 60%),
@@ -128,7 +130,7 @@ nav {
 }
 
 .current-sessions-table .launch-btn,
-.saved-games-table .launch-btn {
+.saved-games-table .load-btn {
   background-image: 
     linear-gradient(
       rgba(80, 200, 120, 60%),
@@ -137,8 +139,7 @@ nav {
     var(--bluebackground-img);
 }
 
-.current-sessions-table .leave-btn,
-.saved-games-table .leave-btn {
+.current-sessions-table .leave-btn {
   background-image: 
     linear-gradient(
       rgba(255, 68, 68, 0.6),
@@ -147,8 +148,7 @@ nav {
     var(--bluebackground-img);
 }
 
-.current-sessions-table .play-btn,
-.saved-games-table .play-btn {
+.current-sessions-table .play-btn {
   background-image: 
     linear-gradient(
       rgba(94, 37, 155, 60%),
@@ -157,8 +157,7 @@ nav {
     var(--bluebackground-img);
 }
 
-.current-sessions-table .spectate-btn,
-.saved-games-table .spectate-btn {
+.current-sessions-table .spectate-btn {
   background-image: 
     linear-gradient(
       rgba(241, 161, 39, 0.6),
@@ -407,6 +406,10 @@ tr > th {
   box-sizing: border-box;
 }
 
+#section-loadgame .game-selection-dropdown {
+  visibility: hidden;
+}
+
 .select {
   display: flex;
   justify-content: space-between;
@@ -539,6 +542,15 @@ tr > th {
   border-radius: 6px;
   padding: 0.6em 1.5em;
   cursor: pointer;
+  display: none;
+}
+
+.saved-games-table .saved-game-btns .sg-btn {
+  display: block;
+}
+
+/* Disable delete button in game saves if not creator */
+.saved-games-table tr:not([created]) .del-btn {
   display: none;
 }
 

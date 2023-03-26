@@ -51,7 +51,13 @@ import "../styles/lobby.css";
             <section id="section-loadgame" class="content">
                 <div class="saved-games">
                     <div class="header">
-                        <span>My Saved Games</span>
+                        <span>Saved Games</span>
+                        <div class="game-selection-dropdown">
+                            <div class="select">
+                                <!-- placeholder to ensure its the same header size as the create session table -->
+                                <span class="create-session-btn">Create Session</span>
+                            </div>
+                        </div>
                     </div>
                     <table class="saved-games-table">
                         <tbody>
@@ -60,7 +66,6 @@ import "../styles/lobby.css";
                                 <th>Creator</th>
                                 <th>Timestamp</th>
                                 <th>Players</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </tbody>
@@ -89,7 +94,7 @@ import "../styles/lobby.css";
         </template>
 
         <template id="load-saved-game-template">
-            <tr session-id="" version="">
+            <tr version="">
                 <td><div class="game-name">My Saved Game</div></td>
                 <td><div class="game-creator-name"></div></td>
                 <td><div class="game-timestamp"></div></td>
@@ -97,17 +102,13 @@ import "../styles/lobby.css";
                 <td class="saved-game-btns">
                     <div>
                         <span class="del-btn sg-btn">Delete</span>
-                        <span class="leave-btn sg-btn">Leave</span>
-                        <span class="load-btn sg-btn">Load Game</span>
-                        <span class="join-btn sg-btn">Join</span>
-                        <span class="launch-btn sg-btn">Launch</span>
-                        <span class="play-btn sg-btn">Play</span>
-                        <span class="spectate-btn sg-btn">Spectate</span>
+                        <span class="load-btn sg-btn">Load</span>
                     </div>
                 </td>
             </tr>
         </template>
 
         <script src="../scripts/lobby.js"></script>
+        <script src="../scripts/lobby-saves.js"></script>
     </body>
 </html>

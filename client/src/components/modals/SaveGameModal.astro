@@ -9,16 +9,55 @@ import "../../styles/gameboard.css";
         <p>Please name your game file</p>
 
         <div class="save-game-form">
-            <form>
-                <div class="save-txt">
-                    <input type="text" name="game-file-name" placeholder="Name" required
-                    class="p-3 m-10 rounded-2xl italic">
-                </div>
-                <div class="button-container">
-                    <button class="save-back-btn" id="save-back-btn">BACK</button>
-                    <button class="save-confirm-btn" id="save-confirm-btn">CONFIRM</button>
-                </div>
-            </form>
+            <div class="save-txt">
+                <input type="text" name="game-file-name" placeholder="Name" required
+                class="p-3 m-10 rounded-2xl italic">
+            </div>
+            <div class="button-container">
+                <button class="save-back-btn" id="save-back-btn" formnovalidate>BACK</button>
+                <button class="save-confirm-btn" id="save-confirm-btn">CONFIRM</button>
+            </div>
         </div>
     </div>
 </div>
+<script>
+    import { SETTINGS } from "../../scripts/settings.js";
+    import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";
+
+    const modal = document.querySelector("#save-game-modal");
+    const saveNameInput = modal.querySelector("input[name='game-file-name']") as HTMLInputElement;
+
+    modal.querySelector("#save-back-btn").addEventListener("click", () => {
+        saveNameInput.value = ""; // clear previous
+        showPreviousMenu();
+    });
+
+    const confirmBtn = (modal.querySelector(".save-confirm-btn") as HTMLButtonElement);
+    confirmBtn.addEventListener("click", () => {
+        confirmBtn.disabled = true;
+        const gameSaveName = saveNameInput.value;
+
+        SETTINGS.verifyCredentials().then(() => {
+            const url = new URL(`${SETTINGS.getGS_API()}/api/saves`);
+            url.search = new URLSearchParams({
+                "access_token": SETTINGS.getAccessToken(),
+                "session_id": getSessionId()
+            }).toString();
+
+            fetch(url, {
+                method: "POST",
+                body: gameSaveName
+            }).then((resp) => {
+                if(!resp.ok) {
+                    resp.json().then((data) => { window.alert("Error while saving: " + data["error"]); });
+                } else {
+                    closeDrawer();
+                    saveNameInput.value = ""; // clear previous
+                }
+                showPreviousMenu();
+            }).catch((err) => {
+                window.alert("Error: " + err);
+            }).finally(() => confirmBtn.disabled = false);
+        });
+    });
+</script>
