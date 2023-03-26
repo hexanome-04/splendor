@@ -133,6 +133,8 @@ public abstract class Card {
                                     break;
                                 }
                             }
+                        } else {
+                            break;
                         }
                     }
                 } else {
