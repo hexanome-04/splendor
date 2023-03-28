@@ -82,14 +82,21 @@ body {
 .navigation {
   left: -50vw;
   position: fixed;
-  width: 25vw;
+  width: 25%;
   height: 100vh;
   background-color: rgb(14 16 28);
   transition: 0.5s;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 
-.navigation ul li {
+.navigation span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #f2d675;
   -webkit-text-stroke: 0.03rem rgb(82 55 24);
   text-align: center;
@@ -98,11 +105,11 @@ body {
   font-weight: 800;
   font-family: Judson, serif;
   letter-spacing: 0.1rem;
-  padding: 20%;
+  flex: 1;
   cursor: pointer;
 }
 
-.navigation ul li:hover {
+.navigation span:hover {
   color: white !important;
   -webkit-text-stroke: 0.03rem rgb(82 55 24) !important;
   background-color: rgba(50 69 91 / 62%);

@@ -5,14 +5,10 @@ import SaveGameModal from "./modals/SaveGameModal.astro";
 const { title } = Astro.props;
 ---
 <div class="navigation">
-    <nav>
-        <ul>
-            <li><p class="resume"> RESUME </p></li>
-            <li><p class="save"> SAVE GAME </p></li>
-            <li><p class="restart"> RESTART </p></li>
-            <li><p class="quit"> QUIT </p></li>
-        </ul>
-    </nav>
+    <span><p class="resume"> RESUME </p></span>
+    <span><p class="save"> SAVE GAME </p></span>
+    <span><p class="restart"> RESTART </p></span>
+    <span><p class="quit"> QUIT </p></span>
 </div>
 <div id="top-menu-bar" class="top-menu-bar">
     <div id="menu-icon" class="menu-icon">
