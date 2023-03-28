@@ -29,8 +29,7 @@ body {
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-  padding-top: 3.5%;
-  padding-bottom: 3.5%;
+  flex: 1;
 }
 
 /* Top Menu Bar */

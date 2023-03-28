@@ -43,6 +43,6 @@ export const showExtraTokens = () => {
                 }
             }).catch((err) => {
                 window.alert("Error: " + err);
-            }).finally(() =>  confirmBtn.disabled = false);
+            }).finally(() =>  putBackConfirmBtn.disabled = false);
     };
 };
