@@ -88,7 +88,9 @@ public class BuyCardAction extends Action {
             game.takeCard(dc);
         }
 
-        player.addBonus(dc.getTokenType(), dc.getBonus());
+        if (dc.getTokenType() != TokenType.Satchel) {
+            player.addBonus(dc.getTokenType(), dc.getBonus());
+        }
         player.addPrestigePoints(dc.getPrestigePoints());
 
         game.addTokens(selectedTokens);
@@ -97,7 +99,7 @@ public class BuyCardAction extends Action {
         if (dc.getClass().equals(OrientDevelopmentCard.class)) {
             OrientDevelopmentCard orientCard = (OrientDevelopmentCard) dc;
             if (orientCard.getCostType() == CostType.Bonus) {
-                player.removeBonuses(orientCard.getTokenCost());
+                player.burnBonuses(orientCard.getTokenCost());
             }
             if (orientCard.getReserveNoble() && game instanceof OrientGame og && og.getNobles().size() > 0) {
                 result.add(ActionResult.MUST_RESERVE_NOBLE);

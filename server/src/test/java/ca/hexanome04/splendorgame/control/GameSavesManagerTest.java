@@ -59,7 +59,7 @@ public class GameSavesManagerTest {
         RegDevelopmentCard regDevCard = new RegDevelopmentCard(CardTier.TIER_1, TokenType.Red, 1,
                 1, CostType.Token, cost, "1");
         OrientDevelopmentCard orientDevCard = new OrientDevelopmentCard(CardTier.TIER_1, TokenType.Red, 1,
-                CascadeType.None, false, 1, CostType.Token, cost, "o1");
+                CascadeType.None, false, 1, CostType.Token, cost, "o1", false);
         NobleCard nobleCard = new NobleCard(1, CostType.Bonus, cost, "noble1");
         for (Player p : tradingPostsGame.getPlayers()) {
             p.addPrestigePoints(1);

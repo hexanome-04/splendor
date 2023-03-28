@@ -1,12 +1,16 @@
-Bonus color,"Bonus (itself, int)",Prestige points (int),"Cost type (Token, Bonus)",Cost (0;0;0;0;0),"Tier (by number, letter rn)",ID
-White,1,1,Token,0;0;0;4;0,1,01
-Blue,1,1,Token,0;1;0;2;1,2,02
-Red,1,2,Token,0;2;2;1;0,3,03
-Brown,1,2,Token,1;1;2;1;0,2,04
-Red,0,3,Bonus,0;2;2;1;1,N,98
-Red,0,3,Bonus,0;2;2;2;0,N,99
-Green,2,0,Token,0;0;1;0;0,1,05
-Blue,2,0,Token,0;0;1;0;0,2,06
-Red,2,0,Token,0;0;1;0;0,3,07
-Brown,3,0,Token,0;0;1;0;0,1,08
-White,2,0,Token,0;0;1;0;0,2,09
+tokenType (TokenType),bonus (Int),prestigePoints (int),costType (costType),"TokenCost(W,Bl,G,R,Br)",CARD,ID,CASCADETIER,RESERVENOBLE,column 10
+White,1,1,Token,0;0;0;4;0,1,01,,,0
+Blue,1,1,Token,0;1;0;2;1,2,02,,,0
+Red,1,2,Token,0;2;2;1;0,3,03,,,0
+Brown,1,2,Token,1;1;2;1;0,2,04,,,0
+Red,0,3,Bonus,0;2;2;1;1,N,98,,,0
+Red,0,3,Bonus,0;2;2;2;0,N,99,,,0
+Green,2,0,Token,0;0;1;0;0,1,05,,,0
+Blue,2,0,Token,0;0;1;0;0,2,06,,,0
+Red,2,0,Token,0;0;1;0;0,3,07,,,0
+Brown,3,0,Token,0;0;1;0;0,1,08,,,0
+White,2,0,Token,0;0;1;0;0,2,09,,,0
+Brown,1,1,Bonus,0;0;0;2;0,O2,10,,,0
+Satchel,1,1,Token,0;0;1;0;0,O1,11,,,0
+Red,1,1,Token,0;0;1;0;0,O1,12,,,0
+Red,1,0,Token,0;0;1;0;0,O3,13,,,0

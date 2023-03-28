@@ -170,10 +170,7 @@ public abstract class Card {
             }
 
         } else if (this.costType == CostType.Bonus) {
-            // TODO : Remove cards if their bonus is spent
             HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
-            HashMap<TokenType, Integer> bonusesToRemove = new HashMap<>(this.tokenCost);
-
             cost.forEach((key, value) -> {
                 cost.put(key, value - bonuses.get(key));
             });
@@ -185,20 +182,6 @@ public abstract class Card {
                     break;
                 }
             }
-
-            // Removes correct amount of cards that have their bonus match with the bonus cost
-            // TODO: Currently does NOT make the best selection
-            // (i.e. between a 2PP blue card and a 0PP blue card, it may take the 2PP one if it is found first)
-            bonusesToRemove.forEach((key, value) -> {
-                for (int i = 0; i < value; i++) {
-                    for (DevelopmentCard c : player.getDevCards()) {
-                        if (c.getTokenType() == key) {
-                            player.removeCard(c);
-                        }
-                    }
-                }
-            });
-
 
         }
 

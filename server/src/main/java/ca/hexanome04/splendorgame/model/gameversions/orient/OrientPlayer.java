@@ -138,10 +138,106 @@ public class OrientPlayer implements Player {
 
     @Override
     public void removeBonuses(HashMap<TokenType, Integer> bonuses) {
-        bonuses.forEach((key, value) -> {
-            Integer currentValue = this.bonuses.get(key);
-            this.bonuses.put(key, currentValue - value);
-        });
+
+    }
+
+    /**
+     * Burns bonuses from the player's inventory by doing an optimal choice.
+     *
+     * @param bonuses Bonuses to burn from player inventory
+     */
+    public void burnBonuses(HashMap<TokenType, Integer> bonuses) {
+        // When you remove bonuses, it's always 2 of the same colour, and cards
+        // With exactly 2 bonus also exist, so either you use one of those or 2 regulars
+        // We have to decide is it better to remove 2 single or 1 double
+        List<DevelopmentCard> toRemove = new ArrayList<>();
+        for (TokenType type : bonuses.keySet()) {
+            if (bonuses.get(type) > 0) {
+                toRemove = findOptimizedBurn(type);
+                break;
+            }
+        }
+
+        for (DevelopmentCard c : toRemove) {
+            this.removeCard(c);
+            this.bonuses.put(c.getTokenType(), this.bonuses.get(c.getTokenType()) - c.getBonus());
+            this.prestigePoints -= c.getPrestigePoints();
+        }
+
+    }
+
+    /**
+     * Removes bonuses from player inventory in an optimized fashion (i.e. lowest PP).
+     *
+     * @param type type of bonus to remove from player inventory by lowest PP first
+     */
+    private List<DevelopmentCard> findOptimizedBurn(TokenType type) {
+        // Either you choose a single double bonus, or 2 single bonuses
+        DevelopmentCard lowestSingle = null;
+        DevelopmentCard lowestDouble = null;
+        boolean satchel = false;
+        ArrayList<DevelopmentCard> list = new ArrayList<>();
+        List<DevelopmentCard> cards = this.getDevCards();
+
+        // Function does its first pass, finds the lowest double bonus card and the lowest single bonus card, or satchel card
+        // Lowest as in least amount of prestige points
+        for (DevelopmentCard c : cards) {
+            if (c.getTokenType() == type) {
+                if (c.getBonus() == 2) {
+                    if (lowestDouble == null || c.getPrestigePoints() < lowestDouble.getPrestigePoints()) {
+                        lowestDouble = c;
+                    }
+
+                } else {
+                    if (lowestSingle == null || c.getPrestigePoints() < lowestSingle.getPrestigePoints()
+                            || (c instanceof OrientDevelopmentCard && ((OrientDevelopmentCard) c).isSatchel())) {
+                        lowestSingle = c;
+                        if (c instanceof OrientDevelopmentCard && ((OrientDevelopmentCard) c).isSatchel()) {
+                            satchel = true;
+                        }
+                    }
+                }
+            }
+        }
+        list.add(lowestSingle);
+        cards.remove(lowestSingle);
+        lowestSingle = null;
+
+        // Function does its second pass, finding the second lowest single bonus card or more satchel cards
+        for (DevelopmentCard c : cards) {
+            if (c.getTokenType() == type) {
+                if (c.getBonus() == 1 && (lowestSingle == null || c.getPrestigePoints() < lowestSingle.getPrestigePoints()
+                        || (c instanceof OrientDevelopmentCard && ((OrientDevelopmentCard) c).isSatchel()))) {
+                    lowestSingle = c;
+                    if (c instanceof OrientDevelopmentCard && ((OrientDevelopmentCard) c).isSatchel()) {
+                        satchel = true;
+                    }
+                }
+            }
+        }
+        list.add(lowestSingle);
+
+        // If a satchel was found, then skip the logic below to return the 2 lowest chosen cards (or satchels)
+        if (satchel) {
+            return list;
+        }
+
+        // Else, clear the list of single bonus cards and instead put in the lowest double bonus card and return that
+        if (lowestDouble != null) {
+            if (list.get(0) == null || list.get(1) == null) {
+                list.clear();
+                list.add(lowestDouble);
+                return list;
+
+            } else if (list.get(0).getPrestigePoints() + list.get(1).getPrestigePoints() > lowestDouble.getPrestigePoints()) {
+                list.clear();
+                list.add(lowestDouble);
+                return list;
+            } else {
+                return list;
+            }
+        }
+        return list;
     }
 
     @Override

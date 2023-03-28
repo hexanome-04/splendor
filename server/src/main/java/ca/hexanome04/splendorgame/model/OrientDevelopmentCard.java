@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class OrientDevelopmentCard extends DevelopmentCard {
 
     private final boolean reserveNoble;
+    private final boolean isSatchel;
     private CascadeType cascadeType;
 
     /**
@@ -22,12 +23,15 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      * @param tokenCost      The token cost of this card
      * @param id             ID associated to this card.
      * @param cardTier       Tier of the development card (e.g. 1, 2, or 3).
+     * @param isSatchel      Boolean on whether this card used to be a satchel.
      */
     public OrientDevelopmentCard(CardTier cardTier, TokenType tokenType, int bonus, CascadeType cascadeType, boolean reserveNoble,
-                                 int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id) {
+                                 int prestigePoints, CostType costType, HashMap<TokenType, Integer> tokenCost, String id,
+                                 boolean isSatchel) {
         super(cardTier, tokenType, bonus, prestigePoints, costType, tokenCost, id);
         this.reserveNoble = reserveNoble;
         this.cascadeType = cascadeType;
+        this.isSatchel = isSatchel;
     }
 
     /**
@@ -55,6 +59,15 @@ public class OrientDevelopmentCard extends DevelopmentCard {
      */
     public CascadeType getCascadeType() {
         return cascadeType;
+    }
+
+    /**
+     * Return a bool depending on if the card used to be a satchel.
+     *
+     * @return true or false depending on if the card used to be a satchel.
+     */
+    public boolean isSatchel() {
+        return this.isSatchel;
     }
 
 

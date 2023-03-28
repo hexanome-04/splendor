@@ -117,6 +117,7 @@ public class OrientGame implements Game {
 
                 int prestigePoints = Integer.parseInt(card[2]);
                 TokenType tokenType = null;
+                boolean isSatchel = false;
                 int bonusCount = Integer.parseInt(card[1]);
                 CostType costType = Enum.valueOf(CostType.class, card[3]);
                 if (!card[0].isBlank()) {
@@ -124,6 +125,10 @@ public class OrientGame implements Game {
                 }
 
                 String cardId = card[6];
+
+                if (tokenType == Satchel) {
+                    isSatchel = true;
+                }
 
                 switch (card[5]) {
                     case "1" -> tier1Deck.add(new RegDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
@@ -138,28 +143,28 @@ public class OrientGame implements Game {
                     case "N" -> nobleDeck.add(new NobleCard(prestigePoints, costType, tokenCost, cardId));
 
                     case "O1" -> tier1OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_1, tokenType, bonusCount,
-                            CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+                            CascadeType.None, false, prestigePoints, costType, tokenCost, cardId, isSatchel));
 
                     case "O2" -> {
                         if (!card[7].isBlank()) {
                             tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
-                                    CascadeType.Tier1, false, prestigePoints, costType, tokenCost, cardId));
+                                    CascadeType.Tier1, false, prestigePoints, costType, tokenCost, cardId, isSatchel));
                         } else if (!card[8].isBlank()) {
                             tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
-                                    CascadeType.None, true, prestigePoints, costType, tokenCost, cardId));
+                                    CascadeType.None, true, prestigePoints, costType, tokenCost, cardId, isSatchel));
                         } else {
                             tier2OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_2, tokenType, bonusCount,
-                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId, isSatchel));
                         }
                     }
 
                     case "O3" -> {
                         if (!card[7].isBlank()) {
                             tier3OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
-                                    CascadeType.Tier2, false, prestigePoints, costType, tokenCost, cardId));
+                                    CascadeType.Tier2, false, prestigePoints, costType, tokenCost, cardId, isSatchel));
                         } else {
                             tier3OrientDeck.add(new OrientDevelopmentCard(CardTier.TIER_3, tokenType, bonusCount,
-                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId));
+                                    CascadeType.None, false, prestigePoints, costType, tokenCost, cardId, isSatchel));
                         }
                     }
 

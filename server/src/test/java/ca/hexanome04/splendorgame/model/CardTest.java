@@ -64,7 +64,7 @@ public class CardTest {
                 put(TokenType.Brown, 1);
                 put(TokenType.Red, 1);
             }},
-            "234"
+            "234", false
     );
 
     /**

@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model;
 import ca.hexanome04.splendorgame.model.action.actions.*;
 import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -451,6 +452,148 @@ public class ActionsTests {
 
         // make sure action is valid since player can afford it
         assertThat(p1.getNobles()).isEqualTo(nobleCards);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure players can burn a double bonus card when burning bonuses to buy a card.")
+    @Test
+    void testBurnDoubleBonusCardForOrientCardPurchase() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        Player p2 = game.getPlayerFromName("Player2");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 2);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> p2Tokens = new HashMap<>();
+        p2Tokens.put(TokenType.Blue, 2);
+
+        game.takeAction(p1.getName(), new BuyCardAction("07", tokensToAdd));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        Card expectedCard = game.getCardFromId("10");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("10", new HashMap<>()));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Brown, 1);
+
+        // make sure action is valid since player can afford it
+        assertThat(p1.getDevCards().size()).isEqualTo(1);
+        assertThat(p1.getDevCards().get(0)).isEqualTo(expectedCard);
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure players can burn a bonus card and the satchel card takes priority.")
+    @Test
+    void testBurnDoubleBonusCardSatchelPriority() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        Player p2 = game.getPlayerFromName("Player2");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 2);
+        tokensToAdd.put(TokenType.Blue, 2);
+        tokensToAdd.put(TokenType.Red, 1);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> add = new HashMap<>();
+        add.put(TokenType.Green, 1);
+        p1.addTokens(add);
+        p1.addTokens(add);
+
+        HashMap<TokenType, Integer> p2Tokens = new HashMap<>();
+        p2Tokens.put(TokenType.Blue, 1);
+
+        game.takeAction(p1.getName(), new BuyCardAction("03", tokensToAdd));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        game.takeAction(p1.getName(), new BuyCardAction("11", add));
+        game.takeAction(p1.getName(), new ChooseTokenTypeAction("11", TokenType.Red));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        Card expectedCard1 = game.getCardFromId("07");
+        game.takeAction(p1.getName(), new BuyCardAction("07", add));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        Card expectedCard2 = game.getCardFromId("10");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("10", new HashMap<>()));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Red, 2);
+        expectedBonuses.put(TokenType.Brown, 1);
+
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(expectedCard1).isIn(p1.getDevCards());
+        assertThat(expectedCard2).isIn(p1.getDevCards());
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure players can burn a bonus card and lowest prestige point cards take priority.")
+    @Test
+    void testBurnDoubleBonusCardOptimalChoice() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        Player p2 = game.getPlayerFromName("Player2");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 2);
+        tokensToAdd.put(TokenType.Blue, 2);
+        tokensToAdd.put(TokenType.Red, 1);
+        p1.addTokens(tokensToAdd);
+
+        HashMap<TokenType, Integer> add = new HashMap<>();
+        add.put(TokenType.Green, 1);
+        p1.addTokens(add);
+        p1.addTokens(add);
+
+        HashMap<TokenType, Integer> p2Tokens = new HashMap<>();
+        p2Tokens.put(TokenType.Blue, 1);
+
+        Card expectedCard1 = game.getCardFromId("03");
+        game.takeAction(p1.getName(), new BuyCardAction("03", tokensToAdd));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        game.takeAction(p1.getName(), new BuyCardAction("12", add));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        game.takeAction(p1.getName(), new BuyCardAction("13", add));
+
+        game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
+
+        Card expectedCard2 = game.getCardFromId("10");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("10", new HashMap<>()));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Red, 1);
+        expectedBonuses.put(TokenType.Brown, 1);
+
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(p1.getPrestigePoints()).isEqualTo(3);
+        assertThat(expectedCard1).isIn(p1.getDevCards());
+        assertThat(expectedCard2).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 

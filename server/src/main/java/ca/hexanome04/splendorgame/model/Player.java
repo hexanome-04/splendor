@@ -139,11 +139,18 @@ public interface Player {
     void removeTokens(HashMap<TokenType, Integer> tokens);
 
     /**
-     * Removes bonuses from player inventory.
+     * Removes bonuses from player inventory without any restrictions.
      *
      * @param bonuses Bonuses to remove from player inventory
      */
     void removeBonuses(HashMap<TokenType, Integer> bonuses);
+
+    /**
+     * Burns bonuses from player inventory by choosing the most optimal choice.
+     *
+     * @param bonuses Bonuses to remove from player inventory
+     */
+    void burnBonuses(HashMap<TokenType, Integer> bonuses);
 
     /**
      * Takes / puts back tokens for the player's turn.
