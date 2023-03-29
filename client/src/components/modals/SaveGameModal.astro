@@ -1,25 +1,24 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="save-game-modal" class="modal">
-    <div class="modal-content">
-        <h1>SAVE GAME</h1>
-        <p>Please name your game file</p>
+<ModalLayout id="save-game-modal" hasHover={false}>
+    <h1>SAVE GAME</h1>
+    <p>Please name your game file</p>
 
-        <div class="save-game-form">
-            <div class="save-txt">
-                <input type="text" name="game-file-name" placeholder="Name" required
-                class="p-3 m-10 rounded-2xl italic">
-            </div>
-            <div class="button-container">
-                <button class="save-back-btn" id="save-back-btn" formnovalidate>BACK</button>
-                <button class="save-confirm-btn" id="save-confirm-btn">CONFIRM</button>
-            </div>
+    <div class="save-game-form">
+        <div class="save-txt">
+            <input type="text" name="game-file-name" placeholder="Name" required
+            class="p-3 m-10 rounded-2xl italic">
+        </div>
+        <div class="button-container">
+            <button class="save-back-btn" id="save-back-btn" formnovalidate>BACK</button>
+            <button class="save-confirm-btn" id="save-confirm-btn">CONFIRM</button>
         </div>
     </div>
-</div>
+</ModalLayout>
 <script>
     import { SETTINGS } from "../../scripts/settings.js";
     import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";

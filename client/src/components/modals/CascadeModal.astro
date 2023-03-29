@@ -1,19 +1,18 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="cascade-modal" class="modal">
-    <div class="modal-content">
-        <h1>CASCADE</h1>
-        <p id="cascade-text">Please select a card.</p>
+<ModalLayout id="cascade-modal">
+    <h1>CASCADE</h1>
+    <p id="cascade-text">Please select a card.</p>
 
-        <div id="cascade-board" class="cascade-board">
-            <div class="modal-board-cards"></div>
-        </div>
-        <div class="button-container">
-            <button class="cascade-confirm-btn" id="cascade-confirm-btn">CONFIRM</button>
-        </div>
+    <div id="cascade-board" class="cascade-board">
+        <div class="modal-board-cards"></div>
     </div>
-</div>
+    <div class="button-container">
+        <button class="cascade-confirm-btn" id="cascade-confirm-btn">CONFIRM</button>
+    </div>
+</ModalLayout>
 <script src="../../scripts/modals/cascade.js"></script>

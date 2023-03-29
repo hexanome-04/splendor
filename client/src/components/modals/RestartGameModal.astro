@@ -1,19 +1,18 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="restart-game-modal" class="modal ">
-    <div class="modal-content">
-        <h1>RESTART</h1>
-        <p>Are you sure you want to restart?</p>
+<ModalLayout id="restart-game-modal" hasHover={false}>
+    <h1>RESTART</h1>
+    <p>Are you sure you want to restart?</p>
 
-        <div class="button-container">
-            <button class="restart-no-btn" id="restart-no-btn">NO</button>
-            <button class="restart-yes-btn" id="restart-yes-btn">YES</button>
-        </div>
+    <div class="button-container">
+        <button class="restart-no-btn" id="restart-no-btn">NO</button>
+        <button class="restart-yes-btn" id="restart-yes-btn">YES</button>
     </div>
-</div>
+</ModalLayout>
 <script>
     import { SETTINGS } from "../../scripts/settings.js";
     import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";

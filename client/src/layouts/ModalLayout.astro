@@ -1,0 +1,20 @@
+---
+import "../styles/modals.css"
+import { Icon } from 'astro-icon';
+
+export interface Props {
+    id: string;
+    hasHover?: boolean;
+}
+
+const { id, hasHover=true } = Astro.props;
+---
+
+<div id={id} class="modal">
+    <div class="modal-container">
+        {hasHover && <Icon class="dropdown-btn" name="ic:baseline-visibility-off"/>}
+        <div class="modal-content">
+            <slot />
+        </div>
+    </div>
+</div>

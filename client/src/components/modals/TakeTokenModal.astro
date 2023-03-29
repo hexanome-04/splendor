@@ -1,78 +1,75 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="take-token-modal" class="modal">
-    <div class="modal-content">
-        <h1>TAKE TOKEN</h1>
-        <p>Please select the tokens you wish to take from the bank.</p>
+<ModalLayout id="take-token-modal">
+    <h1>TAKE TOKEN</h1>
+    <p>Please select the tokens you wish to take from the bank.</p>
 
-        <h2>Bank Tokens</h2>
-        <!-- Bank Current Tokens -->
-        <div class="player-token-count-container">
-            <!-- Red Token -->
-            <div class="token-count-inner-container">
-                <board-token color="red"></board-token>
-            </div>
+    <h2>Bank Tokens</h2>
+    <!-- Bank Current Tokens -->
+    <div class="player-token-count-container">
+        <!-- Red Token -->
+        <div class="token-count-inner-container">
+            <board-token color="red"></board-token>
+        </div>
+    
+        <!-- Blue Token -->
+        <div class="token-count-inner-container">
+            <board-token color="blue"></board-token>
+        </div>
         
-            <!-- Blue Token -->
-            <div class="token-count-inner-container">
-                <board-token color="blue"></board-token>
-            </div>
-            
-            <!-- Green Token -->
-            <div class="token-count-inner-container">
-                <board-token color="green"></board-token>
-            </div>
-
-            <!-- White Token -->
-            <div class="token-count-inner-container">
-                <board-token color="white"></board-token>
-            </div>
-        
-            <!-- Brown Token -->
-            <div class="token-count-inner-container">
-                <board-token color="brown"></board-token>
-            </div>
-            
-            <!-- Gold Token -->
-            <div class="token-count-inner-container">
-                <board-token color="gold"></board-token>
-            </div>
-            
-
+        <!-- Green Token -->
+        <div class="token-count-inner-container">
+            <board-token color="green"></board-token>
         </div>
 
+        <!-- White Token -->
+        <div class="token-count-inner-container">
+            <board-token color="white"></board-token>
+        </div>
+    
+        <!-- Brown Token -->
+        <div class="token-count-inner-container">
+            <board-token color="brown"></board-token>
+        </div>
         
-        <h2>Select Tokens</h2>
-        <div class="token-count-outer-container">
-
-            <!-- Red Counter -->
-            <board-token-counter color="red"></board-token-counter>
-
-            <!-- Blue Counter -->
-            <board-token-counter color="blue"></board-token-counter>
-
-            <!-- Green Counter -->
-            <board-token-counter color="green"></board-token-counter>
-
-            <!-- White Counter -->
-            <board-token-counter color="white"></board-token-counter>
-
-            <!-- Brown Counter -->
-            <board-token-counter color="brown"></board-token-counter>
-
+        <!-- Gold Token -->
+        <div class="token-count-inner-container">
+            <board-token color="gold"></board-token>
         </div>
-
-        <div class="button-container">
-            <button class="take-token-back-btn" id="take-token-confirm-back-btn">BACK</button>
-            <button class="take-token-confirm-btn" id="take-token-confirm-btn">CONFIRM</button>
-        </div>
-
-        <script src="../../scripts/game-components.js"></script>
-
+        
 
     </div>
 
-</div>
+    
+    <h2>Select Tokens</h2>
+    <div class="token-count-outer-container">
+
+        <!-- Red Counter -->
+        <board-token-counter color="red"></board-token-counter>
+
+        <!-- Blue Counter -->
+        <board-token-counter color="blue"></board-token-counter>
+
+        <!-- Green Counter -->
+        <board-token-counter color="green"></board-token-counter>
+
+        <!-- White Counter -->
+        <board-token-counter color="white"></board-token-counter>
+
+        <!-- Brown Counter -->
+        <board-token-counter color="brown"></board-token-counter>
+
+    </div>
+
+    <div class="button-container">
+        <button class="take-token-back-btn" id="take-token-confirm-back-btn">BACK</button>
+        <button class="take-token-confirm-btn" id="take-token-confirm-btn">CONFIRM</button>
+    </div>
+
+    <script src="../../scripts/game-components.js"></script>
+
+</ModalLayout>

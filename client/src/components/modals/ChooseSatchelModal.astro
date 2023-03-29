@@ -1,24 +1,23 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="choose-satchel-modal" class="modal">
-    <div class="modal-content">
-        <h1>CHOOSE SATCHEL BONUS</h1>
-        <p>You've purchased a satchel card. Please select the bonus you wish to pair with it.</p>
+<ModalLayout id="choose-satchel-modal">
+    <h1>CHOOSE SATCHEL BONUS</h1>
+    <p>You've purchased a satchel card. Please select the bonus you wish to pair with it.</p>
 
-        <div class="satchel-bonus-container">
-            <div color="Red" class="board-token satchel-bonus red-token"></div>
-            <div color="Blue" class="board-token satchel-bonus blue-token"></div>
-            <div color="Green" class="board-token satchel-bonus green-token"></div>
-            <div color="White" class="board-token satchel-bonus white-token"></div>
-            <div color="Brown" class="board-token satchel-bonus brown-token"></div>
-        </div>
-        
-        <div class="button-container">
-            <button class="satchel-confirm-btn" id="satchel-confirm-btn">CONFIRM</button>
-        </div>
+    <div class="satchel-bonus-container">
+        <div color="Red" class="board-token satchel-bonus red-token"></div>
+        <div color="Blue" class="board-token satchel-bonus blue-token"></div>
+        <div color="Green" class="board-token satchel-bonus green-token"></div>
+        <div color="White" class="board-token satchel-bonus white-token"></div>
+        <div color="Brown" class="board-token satchel-bonus brown-token"></div>
     </div>
-</div>
+    
+    <div class="button-container">
+        <button class="satchel-confirm-btn" id="satchel-confirm-btn">CONFIRM</button>
+    </div>
+</ModalLayout>
 <script src="../../scripts/modals/satchel.js"></script>

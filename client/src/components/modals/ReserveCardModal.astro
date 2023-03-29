@@ -1,19 +1,18 @@
 ---
 import "../../styles/modals.css";
 import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
 ---
 
-<div id="reserve-card-modal" class="modal">
-    <div class="modal-content">
-        <h1>RESERVE</h1>
-        <p>Please select the card you wish to reserve.</p>
+<ModalLayout id="reserve-card-modal">
+    <h1>RESERVE</h1>
+    <p>Please select the card you wish to reserve.</p>
 
-        <div id="reserve-card-board" class="reserve-card-board">
-            <div class="modal-board-cards"></div>
-        </div>
-        <div class="button-container">
-            <button class="reserve-card-back-btn" id="reserve-card-back-btn">BACK</button>
-            <button class="reserve-card-confirm-btn" id="reserve-card-confirm-btn">CONFIRM</button>
-        </div>
+    <div id="reserve-card-board" class="reserve-card-board">
+        <div class="modal-board-cards"></div>
     </div>
-</div>
+    <div class="button-container">
+        <button class="reserve-card-back-btn" id="reserve-card-back-btn">BACK</button>
+        <button class="reserve-card-confirm-btn" id="reserve-card-confirm-btn">CONFIRM</button>
+    </div>
+</ModalLayout>

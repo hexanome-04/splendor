@@ -14,6 +14,27 @@
   background-color: rgba(0 0 0 / 40%);
 }
 
+.modal-container {
+  margin: auto;
+  position: relative;
+  width: 50%;
+  min-height: 60%;
+}
+
+[astro-icon] {
+  height: 2em;
+  aspect-ratio: 1 / 1;
+  color: goldenrod;
+  cursor: pointer;
+}
+
+.dropdown-btn {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  z-index: 4;
+}
+
 #restart-game-modal,
 #save-game-modal {
   z-index: 1000;
@@ -23,8 +44,22 @@
   display: flex;
 }
 
+.dropdown-btn {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.dropdown-btn:hover {
+  opacity: 0.5;
+}
+
+.dropdown-btn:hover + .modal-content {
+  opacity: 0.01;
+}
+
 /* Modal Content */
 .modal-content {
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,10 +71,7 @@
       rgb(11 19 33),
       rgb(35 52 84)
     );
-  margin: auto;
-  width: 50%;
   padding: 2%;
-  min-height: 60%;
   border: 0.2rem solid goldenrod;
   border-radius: 1rem;
   box-shadow: 5px 5px 10px black;
@@ -88,7 +120,7 @@
 
 .modal-content p {
   color: white;
-  font-size: 1.1em;
+  font-size: 1em;
   font-family: Judson, serif;
   font-style: italic;
   padding: 2%;

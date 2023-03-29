@@ -29,7 +29,7 @@ export const setupSelection = (selector, selectedSelector) => {
             }
         };
     });
-}
+};
 
 /**
  * Attempts to perform a follow up action if required.
