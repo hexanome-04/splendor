@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model;
 
+import ca.hexanome04.splendorgame.model.gameversions.cities.CityCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,8 +78,8 @@ public class Deck<T extends Card> {
         // take card out of visible list
         this.visibleCards.remove(i);
 
-        // also replenish the taken card (if there's enough in the cards stack, and if it's not a noble card)
-        if (!(card instanceof NobleCard)) {
+        // also replenish the taken card (if there's enough in the cards stack, and if it's not a noble or city card)
+        if (!(card instanceof NobleCard || card instanceof CityCard)) {
             drawCards(1);
         }
 

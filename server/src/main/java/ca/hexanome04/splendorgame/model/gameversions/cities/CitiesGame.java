@@ -167,5 +167,17 @@ public class CitiesGame extends OrientGame {
         return false;
     }
 
+    /**
+     * Creates a cities player.
+     *
+     * @param name name of the player
+     * @param colour color of the player
+     * @return player created
+     */
+    @Override
+    public Player createPlayer(String name, String colour) {
+        return new CitiesPlayer(name, colour);
+    }
+
 
 }

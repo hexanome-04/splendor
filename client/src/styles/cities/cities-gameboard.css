@@ -1,0 +1,89 @@
+/* BOARD CARDS */
+.board-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1 0 auto;
+  padding-left: 5em;
+}
+  
+.board-container > .cities-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 1.6vmin;
+  float: left;
+}
+
+.city-card >  img {
+  height: 8em;
+  aspect-ratio: 2 / 1;
+  filter: drop-shadow(0.1em 0.1em 0.3em rgb(0 0 0 / 0.5));
+  border-radius: 0.4em;
+}
+
+.city-card {
+  position: relative;
+  display: flex;
+  float: left;
+}
+
+/* Don't show empty box on board if no card */
+.cities-container .city-card img:not([src]) {
+  display: none;
+}
+
+/* PLAYER INVENTORY */
+.player-inventory-cities {
+  display: flex;
+}
+
+.player-inventory-cities .city-card {
+  transition: 0.5s;
+  flex: 1 0 100%;
+}
+
+.player-inventory-cities .city-card:not(:first-child) {
+  margin-left: -100%;
+}
+
+.player-inventory-cities .city-card img {
+  width: 4em;
+  height: 2em;
+  aspect-ratio: 2 / 1;
+}
+
+/* OTHER PLAYER INVENTORY */
+.other-inventory-cities {
+  display: flex;
+  flex-direction: row-reverse;
+  min-height: calc(var(--other-player-card-size) * var(--dev-card-aspect-ratio));
+  margin-left: 0.5em;
+}
+
+.other-inventory-cities .city-card {
+  position: relative;
+  margin-left: calc(-1 * var(--other-player-card-size) * 0.75);
+  z-index: inherit;
+  height: var(--other-player-card-size);
+  aspect-ratio: 2 / 1;
+}
+
+.other-inventory-cities .city-card:last-child {
+  margin-left: 0;
+}
+
+.other-inventory-cities .city-card img {
+  position: absolute;
+  height: var(--other-player-card-size);
+  width: var(--other-player-card-size) * var(2);
+  transition: 0.3s;
+  top: 0;
+}
+
+.other-inventory-cities .city-card:hover img {
+  top: -33.33%;
+}
+  

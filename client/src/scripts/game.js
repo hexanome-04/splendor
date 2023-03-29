@@ -82,7 +82,7 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
  * @param {idsCallback} addedCallback callback for getting all added card ids
  * @param {idsCallback} removedCallback callback for getting all removed card ids
  */
-const updateCards = (cards, baseElement, containerSelector, cardSelector, imageFolder, cardTemplateSelector,
+export const updateCards = (cards, baseElement, containerSelector, cardSelector, imageFolder, cardTemplateSelector,
                     addedCallback = (ids) => {}, removedCallback = (ids) => {}) => {
 
     const cardContainer = baseElement.querySelector(containerSelector);
