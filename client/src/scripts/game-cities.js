@@ -10,20 +10,6 @@ const updateCities = (data) => {
     let cards = [];
     cards = data.citiesDeck.visibleCards;
 
-    citiesDiv.forEach((elm, index) => {
-        const curSrc = elm.getAttribute("src");
-        if(index < cards.length) {
-            if(curSrc !== cards[index]) {
-                const imgSrc = `/images/cities/${cards[index].id}.jpg`;
-                elm.parentElement.setAttribute("card-id", cards[index].id);
-                elm.setAttribute("src", imgSrc);
-            }
-        } else {
-            elm.parentElement.removeAttribute("card-id");
-            elm.removeAttribute("src");
-        }
-    });
-    
     // update city cards in inventories
     const curUsername = SETTINGS.getUsername();
     const playersData = data.players;
@@ -42,6 +28,19 @@ const updateCities = (data) => {
         }
     });
 
+    citiesDiv.forEach((elm, index) => {
+        const curSrc = elm.getAttribute("src");
+        if(index < cards.length) {
+            if(curSrc !== cards[index]) {
+                const imgSrc = `/images/cities/${cards[index].id}.jpg`;
+                elm.parentElement.setAttribute("card-id", cards[index].id);
+                elm.setAttribute("src", imgSrc);
+            }
+        } else {
+            elm.parentElement.removeAttribute("card-id");
+            elm.removeAttribute("src");
+        }
+    });
 };
 
 

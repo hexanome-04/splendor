@@ -35,6 +35,11 @@
   z-index: 4;
 }
 
+/* Removes invisible if present (used for animation purposes and should not take effect here) */
+.modal img.invisible {
+  visibility: visible;
+}
+
 #restart-game-modal,
 #save-game-modal {
   z-index: 1000;

@@ -1,0 +1,31 @@
+---
+---
+<template id="card-to-slot">
+    <div class="cts-container">
+        <img>
+    </div>
+</template>
+<template id="card-to-slot-rotate">
+    <div class="cts-container-rotate">
+        <img>
+    </div>
+</template>
+<script src="../../scripts/animation/cards.ts"></script>
+<style>
+    .cts-container,
+    .cts-container-rotate {
+        border-radius: var(--card-border-radius);
+        z-index: 4; /* above player container */
+    }
+
+    .cts-container img,
+    .cts-container-rotate img {
+        border-radius: var(--card-border-radius);
+        height: 100%;
+    }
+
+    /* Rotate styles */
+    .cts-container-rotate {
+        transform-origin: top left;
+    }
+</style>

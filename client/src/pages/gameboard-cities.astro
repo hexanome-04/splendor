@@ -13,6 +13,8 @@ import SaveGameModal from "../components/modals/SaveGameModal.astro";
 import GameNavMenu from "../components/GameNavMenu.astro";
 import ChooseSatchelModal from "../components/modals/ChooseSatchelModal.astro";
 import ReserveNobleModal from "../components/modals/ReserveNobleModal.astro";
+
+import Animations from "../components/anime/Animations.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +33,7 @@ import ReserveNobleModal from "../components/modals/ReserveNobleModal.astro";
     </head>
 
     <body>
+        <Animations></Animations>
         <GameNavMenu title=" Splendor "></GameNavMenu>
         <div id="game-elements" class="game-elements">
             <div id="player-inventory" class="player-inventory">

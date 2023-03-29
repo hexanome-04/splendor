@@ -32,12 +32,13 @@
 
 /* Don't show empty box on board if no card */
 .cities-container .city-card img:not([src]) {
-  display: none;
+  visibility: hidden;
 }
 
 /* PLAYER INVENTORY */
 .player-inventory-cities {
   display: flex;
+  max-width: calc(var(--player-inv-card-height) * var(--dev-card-aspect-ratio));
 }
 
 .player-inventory-cities .city-card {

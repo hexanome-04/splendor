@@ -1,23 +1,35 @@
 import { SETTINGS } from "./settings.js";
 import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modals.js";
+import { animateMoveToken } from "./animation/tokens";
+import { moveCardFromDeck, moveCard, moveCardReserved } from "./animation/cards";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
 
 const updateTokensCount = (parentSelector, tokenInfo, bonusInfo = null) => {
+    const parentNode = document.querySelector(parentSelector);
+
     const setTokenInfo = (elm, color) => {
         // set token count
-        elm.textContent = tokenInfo[color];
+        const updateText = () => elm.textContent = tokenInfo[color];
 
         // set bonus
         if(bonusInfo) {
             // get bonus container
             elm.closest(".bonus-container").querySelector(".bonus-icon > span").textContent = bonusInfo[color];
+
+            const hasCount = parseInt(elm.textContent);
+            const newCount = tokenInfo[color];
+            if(hasCount !== newCount) {
+                // animate tokens moving
+                animateMoveToken(newCount - hasCount, color, parentSelector, "#board .board-tokens", updateText);
+            }
+        } else {
+            updateText(); // update text immediately
         }
     };
     const colors = ["Red", "Blue", "Green", "White", "Brown", "Gold"];
 
-    const parentNode = document.querySelector(parentSelector);
     colors.forEach((col) => {
         setTokenInfo(parentNode.querySelector(`.${col.toLowerCase()}-token > span`), col);
     });
@@ -27,12 +39,47 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
     const devCards = devCardsDeck.visibleCards;
     const orientCards = orientCardsDeck.visibleCards;
     const row = document.querySelector(selector);
-    const cardElms = row.querySelectorAll(".board-card-dev");
+
+    const updateCardElement = (deckSelector, cardSelector, freeCardElm, cardInfo) => {
+        const cardId = cardInfo["id"];
+        const cost = cardInfo["tokenCost"];
+
+        const imgUrl = `/images/development-cards/${cardId}.jpg`;
+        const imgElm = freeCardElm.querySelector("img");
+        imgElm.src = imgUrl;
+        imgElm.classList.add("invisible");
+
+        // add additional info
+        freeCardElm.setAttribute("card-id", cardId);
+        freeCardElm.setAttribute("cost", JSON.stringify(cost));
+
+        moveCardFromDeck(`${selector} ${deckSelector}`, `${selector} ${cardSelector}[card-id="${cardId}"]`);
+    };
 
     // clear images first
-    cardElms.forEach(elm => {
-        elm.querySelector("img").removeAttribute("src");
-    });
+    const clearIfNeeded = (cards, cardSelector, deckSelector) => {
+        const serverCardIds = cards.map(c => c.id);
+        const currentCardIds = [...row.querySelectorAll(`${cardSelector}[card-id]`)]
+                                       .map(elm => elm.getAttribute("card-id"));
+
+        // cards that exist on board but not server side, must remove
+        const outdatedCardIds = currentCardIds.filter(x => !serverCardIds.includes(x));
+        outdatedCardIds.forEach(cid => {
+            const oldElm = row.querySelector(`${selector} ${cardSelector}[card-id="${cid}"]`);
+            oldElm.removeAttribute("card-id");
+            oldElm.removeAttribute("cost");
+            oldElm.querySelector("img").removeAttribute("src")
+        });
+
+        const missingCards = cards.filter(c => !currentCardIds.includes(c.id));
+        missingCards.forEach(card => {
+            // select empty ones to fill
+            const emptyCardElm = document.querySelector(`${selector} ${cardSelector}:not([card-id])`);
+            updateCardElement(deckSelector, cardSelector, emptyCardElm, card);
+        });
+    };
+    clearIfNeeded(devCards, ".board-card-dev:not(.board-card-dev-orient)", ".board-cards-dev-deck");
+    clearIfNeeded(orientCards, ".board-card-dev.board-card-dev-orient", ".board-cards-dev-deck-orient");
 
     // mark deck as empty if needed
     const setEmptyIfNeeded = (deckSelector, canDraw) => {
@@ -43,23 +90,6 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
     
     setEmptyIfNeeded(".board-cards-dev-deck", devCardsDeck.canDraw);
     setEmptyIfNeeded(".board-cards-dev-deck-orient", orientCardsDeck.canDraw);
-
-    const updateCardElement = (cardElm, cardInfo) => {
-        const cardId = cardInfo["id"];
-        const cost = cardInfo["tokenCost"];
-
-        const imgUrl = `/images/development-cards/${cardId}.jpg`;
-        const imgElm = cardElm.querySelector("img");
-        imgElm.src = imgUrl;
-
-        // add additional info
-        cardElm.setAttribute("card-id", cardId);
-        cardElm.setAttribute("cost", JSON.stringify(cost));
-    };
-
-    devCards.forEach((cardInfo, index) => updateCardElement(cardElms[index], cardInfo));
-    // skip first 4 card elements in the row (reg dev cards)
-    orientCards.forEach((cardInfo, index) => updateCardElement(cardElms[index + 4], cardInfo));
 };
 
 /**
@@ -105,10 +135,26 @@ export const updateCards = (cards, baseElement, containerSelector, cardSelector,
         const imgUrl = `/images/${imageFolder}/${cid}.jpg`;
 
         div.setAttribute("card-id", cid);
-        div.querySelector("img").setAttribute("src", imgUrl);
+        const imgElm = div.querySelector("img");
+        imgElm.setAttribute("src", imgUrl);
 
         // add to inv
         cardContainer.appendChild(tNode);
+
+        // since this will be called before removing the card from the board,
+        // we can check if the card already exists on the board,
+        // if yes => make it invisible and queue move animation
+        // else don't animate or make invisible
+        const boardCardSel = document.querySelector(`.board-container *[card-id="${cid}"]`);
+        if(boardCardSel) {
+            imgElm.classList.add("invisible");
+
+            if(containerSelector.includes("reserve")) {
+                moveCardReserved(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
+            } else {
+                moveCard(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
+            }
+        }
     });
 
     addedCallback(missingCardIds);
@@ -292,12 +338,6 @@ const updateGameboard = async () => {
     const tokenMap = data.tokens;
     updateTokensCount("#board .board-tokens", tokenMap);
 
-    updateNoblesBoard(data.nobleDeck.visibleCards);
-
-    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck, data.tier1OrientDeck);
-    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck, data.tier2OrientDeck);
-    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck, data.tier3OrientDeck);
-
     const curUsername = SETTINGS.getUsername();
 
     const playersData = data.players;
@@ -317,6 +357,11 @@ const updateGameboard = async () => {
     } else if(playerInv.classList.contains("hide")) {
         playerInv.classList.remove("hide");
     }
+
+    updateNoblesBoard(data.nobleDeck.visibleCards);
+    updateTierRow(".board-cards-row.board-cards-level1", data.tier1Deck, data.tier1OrientDeck);
+    updateTierRow(".board-cards-row.board-cards-level2", data.tier2Deck, data.tier2OrientDeck);
+    updateTierRow(".board-cards-row.board-cards-level3", data.tier3Deck, data.tier3OrientDeck);
 
     furtherUpdates.forEach((func) => func(data));
 

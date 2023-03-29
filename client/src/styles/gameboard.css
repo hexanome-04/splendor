@@ -8,7 +8,8 @@
 
 :root {
   --dev-card-aspect-ratio: 6 / 9;
-  --card-border-radius: 0.4em;
+  --card-border-radius: 0.5rem;
+  --card-box-shadow: rgba(0, 0, 0, 0.9) -3px 2px 6px -1px;
 }
 
 html {
@@ -502,6 +503,7 @@ body {
 .board-nobles {
   display: flex;
   flex-direction: row;
+  gap: 0.7em;
 }
 
 .noble-card img {
@@ -511,7 +513,7 @@ body {
 
 .board-nobles .noble-card img {
   height: 4em;
-  margin: 0 0.7em;
+  box-shadow: var(--card-box-shadow);
 }
 
 /* Board development cards */
@@ -554,6 +556,7 @@ body {
   height: 6em;
   aspect-ratio: var(--dev-card-aspect-ratio);
   border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
 }
 
 .board-cards-row .board-card-dev:not(.board-card-dev-orient) + .board-card-dev-orient {
@@ -565,20 +568,12 @@ body {
   border-radius: var(--card-border-radius);
 }
 
-.board-card-dev {
-  background: #eee;
-}
-
-.board-card-dev-orient {
-  background: #ffdcdc;
-}
-
 .board-cards-row .board-cards-dev-deck[empty],
 .board-cards-row .board-cards-dev-deck-orient[empty] {
   display: none;
 }
 
-.board-cards-row .board-card-dev img:not([src]),
+/* .board-cards-row .board-card-dev img:not([src]), */
 .board-nobles .noble-card img:not([src]) {
   display: none;
 }
