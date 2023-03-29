@@ -1,5 +1,5 @@
 #anime-overlay > * {
-  position: absolute;
+  position: fixed;
 }
 
 .invisible {

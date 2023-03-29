@@ -145,7 +145,8 @@ export const updateCards = (cards, baseElement, containerSelector, cardSelector,
         // we can check if the card already exists on the board,
         // if yes => make it invisible and queue move animation
         // else don't animate or make invisible
-        const boardCardSel = document.querySelector(`.board-container *[card-id="${cid}"]`);
+        const boardCardSel = document.querySelector(`.board-container *[card-id="${cid}"]`)
+                             || document.querySelector(`.board *[card-id="${cid}"]`); // for regular base + orient board
         if(boardCardSel) {
             imgElm.classList.add("invisible");
 
