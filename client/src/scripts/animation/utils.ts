@@ -16,3 +16,13 @@ export const sizeAndPosElementToOther = (elm1: HTMLElement, elm2: HTMLElement) =
     elm1.style.top = elm2BB.top + "px";
     elm1.style.left = elm2BB.left + "px";
 };
+
+/**
+ * Runs provided function after a short delay.
+ * @param func 
+ */
+export const runDelayed = (func: () => {}) => {
+    setTimeout(() => {
+        func();
+    }, 50);
+};

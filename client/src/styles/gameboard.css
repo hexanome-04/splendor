@@ -150,7 +150,7 @@ body {
   max-height: 100%;
   font-size: 2.5vmin;
   z-index: 3;
-  transition: font-size 0.3s;
+  transition: font-size 0.01s;
 }
 
 .player-inventory.shrink {

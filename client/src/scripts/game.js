@@ -2,6 +2,7 @@ import { SETTINGS } from "./settings.js";
 import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modals.js";
 import { animateMoveToken } from "./animation/tokens";
 import { moveCardFromDeck, moveCard, moveCardReserved } from "./animation/cards";
+import { runDelayed } from "./animation/utils";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
@@ -22,7 +23,8 @@ const updateTokensCount = (parentSelector, tokenInfo, bonusInfo = null) => {
             const newCount = tokenInfo[color];
             if(hasCount !== newCount) {
                 // animate tokens moving
-                animateMoveToken(newCount - hasCount, color, parentSelector, "#board .board-tokens", updateText);
+                // slight delay so that the player inventory will be correct size
+                runDelayed(() => animateMoveToken(newCount - hasCount, color, parentSelector, "#board .board-tokens", updateText));
             }
         } else {
             updateText(); // update text immediately
@@ -53,7 +55,8 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
         freeCardElm.setAttribute("card-id", cardId);
         freeCardElm.setAttribute("cost", JSON.stringify(cost));
 
-        moveCardFromDeck(`${selector} ${deckSelector}`, `${selector} ${cardSelector}[card-id="${cardId}"]`);
+        // slight timeout to ensure no content shift
+        runDelayed(() => moveCardFromDeck(`${selector} ${deckSelector}`, `${selector} ${cardSelector}[card-id="${cardId}"]`));
     };
 
     // clear images first
@@ -150,11 +153,14 @@ export const updateCards = (cards, baseElement, containerSelector, cardSelector,
         if(boardCardSel) {
             imgElm.classList.add("invisible");
 
-            if(containerSelector.includes("reserve")) {
-                moveCardReserved(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
-            } else {
-                moveCard(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
-            }
+            // slight delay so that the player inventory will be correct size
+            runDelayed(() => {
+                if(containerSelector.includes("reserve")) {
+                    moveCardReserved(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
+                } else {
+                    moveCard(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
+                }
+            });
         }
     });
 
