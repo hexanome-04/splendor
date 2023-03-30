@@ -1,5 +1,6 @@
 import { setupSelection } from "./modals.js";
 import { performAction } from "../actions";
+import { showError } from "../notify.js";
 
 export const showCascadeCards = (tier) => {
 
@@ -31,7 +32,7 @@ export const showCascadeCards = (tier) => {
         const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
-            window.alert("You have not selected a card!");
+            showError("You have not selected a card!");
             return;
         }
 
@@ -42,10 +43,10 @@ export const showCascadeCards = (tier) => {
         performAction(tier, dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

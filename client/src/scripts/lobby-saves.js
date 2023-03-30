@@ -1,5 +1,7 @@
 import { SETTINGS, GAME_VERSION_TO_BOARD } from "./settings.js";
 import { createNewSession, showSessionTab, focusSession } from "./lobby.js";
+import { showError } from "./notify.js";
+
 /**
  * Initiate the calls to load/update game save information for the current user.
  */
@@ -84,7 +86,7 @@ const createNewSaveElement = (info) => {
                 // move to sessions screen
                 showSessionTab();
                 focusSession(sesId);
-            }).catch((err) => window.alert("Error while creating a new session: " + err))
+            }).catch((err) => showError(err))
             .finally(() => loadBtn.disabled = false);
     };
     delBtn.onclick = () => deleteGameSave(delBtn, saveId);
@@ -103,7 +105,7 @@ const deleteGameSave = (btn, saveId) => {
             method: "DELETE"
         }).then((resp) => {
             if(!resp.ok) {
-                resp.text().then((data) => { throw new Error(data); });
+                resp.text().then((data) => showError(data));
             } else {
                 // delete element
                 const elm = document.querySelector(`.saved-games-table tr[save-id="${saveId}"]`);
@@ -112,9 +114,9 @@ const deleteGameSave = (btn, saveId) => {
                 }
             }
         }).catch((err) => {
-            window.alert("Error while deleting save: " + err);
+            throw new Error(err);
         }).finally(() => btn.disabled = false);
-    });
+    }).catch((err) => showError(err));
 };
 
 const updateGameSaveInfo = async () => {

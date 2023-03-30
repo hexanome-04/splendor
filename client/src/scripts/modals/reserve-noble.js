@@ -1,5 +1,6 @@
 import { performAction } from "../actions";
 import { setupSelection } from "./modals.js";
+import { showError } from "../notify.js";
 
 export const initReserveNoble = () => {
 
@@ -22,7 +23,7 @@ export const initReserveNoble = () => {
 
         const selected = document.querySelector(`${selectionSelector}.selected`);
         if(!selected) {
-            window.alert("You have not selected a noble!");
+            showError("You have not selected a noble!");
             confirmBtn.disabled = false;
             return;
         }
@@ -34,10 +35,10 @@ export const initReserveNoble = () => {
         performAction("RESERVE_NOBLE", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

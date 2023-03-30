@@ -3,6 +3,7 @@ import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modal
 import { animateMoveToken } from "./animation/tokens";
 import { moveCardFromDeck, moveCard, moveCardReserved } from "./animation/cards";
 import { runDelayed } from "./animation/utils";
+import { showError } from "./notify.js";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
@@ -291,7 +292,7 @@ const attempUpdate = () => {
     let nextCallTime = 1;
     updateGameboard().catch((err) => {
         if(!err.toString().includes("Failed to fetch" )) {
-            window.alert(err);
+            showError(err);
             console.log("[AS] Error during check (retry 30s): " + err);
         }
         nextCallTime = 30000;

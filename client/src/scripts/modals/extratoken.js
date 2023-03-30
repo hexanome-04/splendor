@@ -1,5 +1,6 @@
 import { performAction } from "../actions";
 import { backButton, setupSelection, showNextModal } from "./modals.js";
+import { showError } from "../notify.js";
 
 export const showExtraTokens = () => {
 
@@ -39,10 +40,10 @@ export const showExtraTokens = () => {
         performAction("TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  putBackConfirmBtn.disabled = false);
     };
 };

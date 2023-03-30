@@ -22,6 +22,7 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
 <script>
     import { SETTINGS } from "../../scripts/settings.js";
     import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";
+    import { startToastLoad, updateToastLoad } from "../../scripts/notify.js";
 
     const modal = document.querySelector("#save-game-modal");
     const saveNameInput = modal.querySelector("input[name='game-file-name']") as HTMLInputElement;
@@ -36,6 +37,7 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
         confirmBtn.disabled = true;
         const gameSaveName = saveNameInput.value;
 
+        const notify = startToastLoad("Saving game...");
         SETTINGS.verifyCredentials().then(() => {
             const url = new URL(`${SETTINGS.getGS_API()}/api/saves`);
             url.search = new URLSearchParams({
@@ -48,15 +50,16 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
                 body: gameSaveName
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.json().then((data) => { window.alert("Error while saving: " + data["error"]); });
+                    resp.text().then((data) => updateToastLoad(notify, data, "error"));
                 } else {
+                    updateToastLoad(notify, "Successfully saved game!", "success");
                     closeDrawer();
                     saveNameInput.value = ""; // clear previous
                 }
                 showPreviousMenu();
             }).catch((err) => {
-                window.alert("Error: " + err);
+                throw new Error(err);
             }).finally(() => confirmBtn.disabled = false);
-        });
+        }).catch((err) => updateToastLoad(notify, err, "error"));
     });
 </script>

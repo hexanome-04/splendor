@@ -1,5 +1,6 @@
 import { SETTINGS } from "./settings.js";
 import { transition } from "./titleScreen.js";
+import { startToastLoad, updateToastLoad } from "./notify.js";
 
 var inputs = document.querySelectorAll(".center input, .center button");
 var enableInputs = () => inputs.forEach(e => e.disabled = false);
@@ -22,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = new URL(`${SETTINGS.getLS_API()}/oauth/token`);
         url.search = new URLSearchParams(params).toString();
 
+        const notify = startToastLoad("Logging in...");
+
         fetch(url, {
             method: "POST",
             headers: headers
@@ -31,14 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // console.log(reason);
                 // show user error message
-                window.alert(reason);
+                updateToastLoad(notify, reason, "error", 2000);
             })
             .then((resp) => resp.json())
             .then((data) => {
                 // console.log(data);
 
                 if(!("access_token" in data)) {
-                    window.alert(data.error_description);
+                    updateToastLoad(notify, data.error_description, "error", 2000);
                     return null;
                 }
 
@@ -50,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(!username) {
                     return;
                 }
-
+                updateToastLoad(notify, "Logged in!", "success");
                 SETTINGS.setUsername(username);
 
                 transition("/lobby/");

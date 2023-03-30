@@ -1,4 +1,7 @@
 ---
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
+
 import "../styles/gameboard.css";
 import "../styles/gameboard-otherplayers.css";
 import "../styles/modals.css";
@@ -32,6 +35,7 @@ import Animations from "../components/anime/Animations.astro";
     </head>
 
     <body>
+        <ToastContainer client:load />
         <Animations></Animations>
         <GameNavMenu title=" Splendor "></GameNavMenu>
         <div id="game-elements" class="game-elements">

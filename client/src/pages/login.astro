@@ -1,4 +1,7 @@
 ---
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
+
 import "../styles/loginstyle.css";
 import "../styles/transitions.css";
 ---
@@ -14,6 +17,7 @@ import "../styles/transitions.css";
     </head>
 
     <body>
+        <ToastContainer client:load />
         <!-- Page Transition -->
         <div class="transition transition1 is-active"></div>
 

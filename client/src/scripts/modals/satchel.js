@@ -1,6 +1,7 @@
 import { performAction } from "../actions";
 import { SETTINGS } from "../settings.js";
 import { setupSelection } from "./modals.js";
+import { showError } from "../notify.js";
 
 export const showSatchelBonuses = (data) => {
     const pUsername = SETTINGS.getUsername();
@@ -35,7 +36,7 @@ export const showSatchelBonuses = (data) => {
 
         if(!selectedBonus) {
             // no card has been selected, error
-            window.alert("You have not assigned this satchel card a bonus!");
+            showError("You have not assigned this satchel card a bonus!");
             confirmBtn.disabled = false;
             return;
         }
@@ -54,10 +55,10 @@ export const showSatchelBonuses = (data) => {
         performAction("CHOOSE_SATCHEL_TOKEN", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

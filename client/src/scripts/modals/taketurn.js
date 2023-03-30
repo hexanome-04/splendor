@@ -1,5 +1,6 @@
 import { showNextModal, setupSelection, backButton } from "./modals.js";
 import { performAction } from "../actions";
+import { showError } from "../notify.js";
 
 /**
  * Get the list of tokens when taking / putting back tokens or purchasing a development card
@@ -89,10 +90,10 @@ const putBackTokens = () => {
         performAction("TAKE_TOKEN", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };
@@ -147,7 +148,7 @@ const showPurchasableDevCards = () => {
         const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
-            window.alert("You have not selected a card to purchase!");
+            showError("You have not selected a card to purchase!");
             return;
         }
 
@@ -191,10 +192,10 @@ const showPayment = (cardNode) => {
         performAction("BUY_CARD", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 
@@ -237,7 +238,7 @@ const showReservableDevCards = () => {
         const selectedCard = document.querySelector(`${cardsSelectionSelector}.selected`);
         if(!selectedCard) {
             // no card has been selected, error
-            window.alert("You have not selected a card to reserve!");
+            showError("You have not selected a card to reserve!");
             return;
         }
 
@@ -248,10 +249,10 @@ const showReservableDevCards = () => {
         performAction("RESERVE_CARD", dataCallback)
             .then((resp) => {
                 if(resp.error) {
-                    window.alert("Error: " + resp.message);
+                    showError(resp.message);
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                showError(err);
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

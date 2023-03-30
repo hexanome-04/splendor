@@ -1,5 +1,7 @@
+import { toast } from "react-toastify";
 import { SETTINGS, GAME_VERSION_TO_BOARD } from "./settings.js";
 import { checkForGameSaves } from "./lobby-saves.js";
+import { showError } from "./notify.js";
 
 // perhaps we need a better build system
 // eslint-disable-next-line no-undef
@@ -101,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         createBtn.disabled = true;
 
         createNewSession(gameVersion)
-            .catch((err) => window.alert("Error while creating a new session: " + err))
+            .catch((err) => showError(err))
             .finally(() => createBtn.disabled = false);
     }
 
@@ -125,12 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "PUT"
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.text().then((data) => { throw new Error(data); });
+                    resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                throw new Error(err);
             }).finally(() => elm.disabled = false);
-        });
+        }).catch((err) => showError(err));
     };
 
     const leaveSession = (elm) => {
@@ -145,12 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "DELETE"
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.json().then((data) => { window.alert("Error: " + data["error"]); });
+                    resp.test().then((data) => showError(data));
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                throw new Error(err);
             }).finally(() => elm.disabled = false);
-        });
+        }).catch((err) => showError(err));
     };
 
     const deleteSession = (elm) => {
@@ -165,12 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "DELETE"
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.text().then((data) => { throw new Error(data); });
+                    resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                throw new Error(err);
             }).finally(() => elm.disabled = false);
-        });
+        }).catch((err) => showError(err));
     };
 
     const launchSession = (elm) => {
@@ -185,12 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST"
             }).then((resp) => {
                 if(!resp.ok) {
-                    resp.text().then((data) => { window.alert("Error while launching game session: " + data); });
+                    resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                window.alert("Error: " + err);
+                throw new Error(err);
             }).finally(() => elm.disabled = false);
-        });
+        }).catch((err) => showError(+ err));
     };
 
     const playSession = (elm, sesId, gameVer) => {

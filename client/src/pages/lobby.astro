@@ -1,4 +1,7 @@
 ---
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
+
 import LobbyNavMenu from "../components/LobbyNavMenu.astro";
 import "../styles/lobby.css";
 ---
@@ -13,6 +16,7 @@ import "../styles/lobby.css";
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
     </head>
     <body>
+        <ToastContainer client:load />
         <LobbyNavMenu title=" Lobby " hasAdminButton={true}></LobbyNavMenu>
         <main selected="sessions">
             <div class="select-section">
