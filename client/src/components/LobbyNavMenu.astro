@@ -1,12 +1,20 @@
 ---
 import "../styles/lobby.css";
-import { Icon } from 'astro-icon';
+import "../styles/transitions.css";
+import { Icon } from "astro-icon";
 
-const { title } = Astro.props;
+export interface Props {
+    hasAdminButton?: boolean;
+    hasHomeButton?: boolean;
+}
+
+const { hasAdminButton=false, hasHomeButton=false } = Astro.props;
 ---
+<div class="transition transition1 is-active"></div>
 <nav>
     <div class="nav-left">
-        <div class="admin-btn">Admin Zone</div>
+        {hasAdminButton && <div class="admin-btn">Admin Zone</div>}
+        {hasHomeButton && <Icon class="home-btn" name="ic:baseline-house"/>}
     </div>
     <div class="nav-middle">
         <div class="gametitle">Splendor</div>
@@ -18,3 +26,21 @@ const { title } = Astro.props;
         <Icon name="ic:outline-logout" class="logout-btn"/>
     </div>
 </nav>
+<script>
+    import { transition } from "../scripts/titleScreen.js";
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        // Page Transition to Admin Zone
+        document.querySelectorAll(".admin-btn").forEach(elm => {
+            elm.addEventListener("click", () => transition("/adminzone/"));
+        });
+        // Page Transition Back Home from Admin Zone
+        document.querySelectorAll(".home-btn").forEach(elm => {
+            elm.addEventListener("click", () => transition("/lobby/"));
+        });
+        // Page Transition to Logout
+        document.querySelectorAll(".logout-btn").forEach(elm => {
+            elm.addEventListener("click", () => transition("/"));
+        });
+    });
+</script>

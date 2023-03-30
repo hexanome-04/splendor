@@ -1,0 +1,163 @@
+
+h1 {
+  font-family: Judson, serif;
+  font-size: 2em;
+  font-weight: 800;
+  margin: 0.1rem;
+  letter-spacing: 0.1rem;
+  -webkit-text-stroke: 0.03rem rgb(82 55 24);
+  background:
+  linear-gradient(
+      to top,
+      rgb(110 81 7),
+      rgb(218 165 32),
+      rgb(245 204 101)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 10px black);
+}
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-zone-container {
+  background: rgba(85, 98, 133, 35%);
+  margin: 2em 1em 2em 1em;
+  width: fit-content;
+  padding: 3%;
+  border-radius: 1em;
+}
+
+.new-user-form {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  gap: 2em;
+}
+
+.user-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5em;
+}
+
+.user-field > label {
+  font-family: Judson, serif;
+  font-size: 1.5em;
+  font-weight: 800;
+  margin: 0.1rem;
+  letter-spacing: 0.1rem;
+  color:  goldenrod;
+}
+
+.user-field > input,
+.user-field > select  {
+  font-size: 1.1em;
+  font-family: Judson, serif;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  background: rgba(255, 255, 255, 0.091);
+  border: solid 1px goldenrod;
+  color: goldenrod;
+  letter-spacing: 0.05em;
+}
+
+tbody > tr > th {
+  font-size: 1.1em;
+  font-family: Judson, serif;
+  border: none;
+  background: none;
+}
+
+.user-field > select {
+  font-size: 1.1em;
+  padding: 0.65em;
+}
+
+.user-field > p {
+  font-family: Judson, serif;
+  font-size: 1em;
+  color: whitesmoke;
+}
+
+.user-field > .colour-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.user-field > .colour-container > input,
+tr > td > .user-colour-container > input {
+  width: 2.5em;
+  height: 2.53em;
+  aspect-ratio: 1 / 1;
+  border: solid 1.1px goldenrod;
+  border-radius: 5%;
+}
+
+tr > td > .user-colour-container > input {
+  border-radius: 5% 0 0 5%;
+}
+
+.user-field > .colour-container > button,
+tr > td > .user-pass-container > button,
+tr > td > .user-colour-container > button {
+  padding: 0.45em 1.2em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1em;
+  border-radius: 0.5em;
+  border: 0.098rem solid goldenrod;
+  background-image: var(--bluebackground-img);
+  color: rgb(227 178 56);
+  font-family: Charm, cursive;
+  text-shadow: 2px 10px 10px black;
+  transition: all 0.2s ease-in-out;
+  letter-spacing: 0.1rem;
+  white-space: nowrap;
+}
+
+/* Registered Users Section */
+.reg-user-name, .reg-user-type {
+  color: whitesmoke;
+  font-family: Judson, serif;
+}
+
+.registered-users-table > tbody > tr {
+  background: none;
+  border-bottom: solid 1px;
+  color: goldenrod;
+  font-weight: normal;
+  font-size: 1.1em;
+  letter-spacing: 0.1em;
+}
+
+tr > td > .user-pass-container > input {
+  border: solid 1px goldenrod;
+  background: rgba(255, 255, 255, 0.091);
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+  color: whitesmoke;
+  font-size: 1em;
+  padding: 0.5em;
+}
+
+tr > td > .user-pass-container > button,
+tr > td > .user-colour-container > button {
+  border-top-left-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-left: none;
+  padding: 0.48em 1.2em
+}
+
+tr > td > .user-colour-container > button {
+  padding: 0.44em 1.2em
+}

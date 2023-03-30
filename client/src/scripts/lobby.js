@@ -60,7 +60,6 @@ const showLoadGameTab = () => {
     checkForGameSaves();
 };
 
-
 // for focusing on a session
 const toFocusList = [];
 
@@ -82,11 +81,6 @@ export const focusSession = (sesId) => {
 document.addEventListener("DOMContentLoaded", () => {
     sessionTabBtn.onclick = () => showSessionTab();
     loadgameTabBtn.onclick = () => showLoadGameTab();
-
-    const logOutBtn = document.querySelector(".logout-btn");
-    logOutBtn.onclick = () => {
-        window.location.href = "/";
-    };
 
     // PLAYER GREETING
     document.getElementById("player-greeting").innerHTML = greetUser();

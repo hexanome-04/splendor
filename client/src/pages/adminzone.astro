@@ -1,0 +1,99 @@
+---
+import "../styles/lobby.css";
+import "../styles/adminzone.css"
+import LobbyNavMenu from "../components/LobbyNavMenu.astro";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+        <title>Admin Zone</title>
+
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
+    </head>
+    <body>
+        <LobbyNavMenu hasHomeButton={true}></LobbyNavMenu>
+        <div class="admin-page">
+            <div class="admin-zone-container">
+                <h1>Add User</h1>
+                <div class="new-user-form">
+                    <div class="user-field-container">
+                        <div class="user-field">
+                            <label>Name</label>
+                            <input id="name-field" type="text"/>
+                            <p>Only latin alphabet characters.</p>
+                        </div>
+                    </div>
+                    <div class="user-field-container">
+                        <div class="user-field">
+                            <label>Password</label>
+                            <input id="password-field" type="password"/>
+                            <p>8-32 characters long, with at least one uppercase, lowercase, digit and special character.</p>
+                        </div>
+                    </div>
+                    <div class="user-field-container">
+                        <div class="user-field">
+                            <label>Type</label>
+                            <select class="select-type" id="admin-field">
+                                <option value="PLAYER">Player</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="SERVICE">Service</option>
+                            </select>
+                            <p>Select the player's type.</p>
+                        </div>
+                    </div>
+                    <div class="user-field-container">
+                        <div class="user-field">
+                            <label>Colour</label>
+                            <div class="colour-container">
+                                <input id="colour-field" type="color"/>
+                                <button id="add-user" type="button">Add User</button>
+                            </div>
+                            <p>Preferred in-game colour.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <h1>Registered Users</h1>
+                <table class="registered-users-table">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Password (Salted, Peppered, Hashed)</th>
+                            <th>Type</th>
+                            <th>Colour</th>
+                            <th>Actions</th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Templates for reusable elements -->
+            <template id="registered-users-template">
+                <tr>
+                    <td><div class="reg-user-name"></div></td>
+                    <td>
+                        <div class="reg-user-pass">
+                            <input type="password">
+                            <button type="button">Update</button>
+                        </div>
+                    </td>
+                    <td><div class="reg-user-type"></div></td>
+                    <td>
+                        <div class="reg-user-colour">
+                            <input type="color">
+                            <button type="button">Update</button>
+                        </div>
+                    </td>
+                    <td><div class="user-delete-btn">Delete</div></td>
+                </tr>
+            </template>
+        </div>
+
+        <script src="../scripts/adminzone.js"></script>
+    </body>
+</html>

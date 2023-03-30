@@ -22,6 +22,10 @@ body {
   --btn-font-size: 0.8em;
   --btn-margin: 1.5em;
   --bluebackground-img: url("/images/bluebackground.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .gametitle {
@@ -77,17 +81,18 @@ nav {
   align-items: center;
 }
 
-.admin-btn {
+.admin-btn, .home-btn {
   margin-left: var(--btn-margin);
 }
 
 .admin-btn, 
 .session-btns .ses-btn,
-.saved-game-btns .sg-btn {
+.saved-game-btns .sg-btn,
+.user-delete-btn {
   padding: 0.8em 1.5em;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-size: 1.05em;
   border-radius: 0.5em;
@@ -98,26 +103,33 @@ nav {
       rgba(186, 29, 29, 50%)
     ), 
     var(--bluebackground-img);
-  color: rgb(227 178 56);
+  color: goldenrod;
   font-family: Charm, cursive;
   text-shadow: 2px 10px 10px black;
   transition: all 0.2s ease-in-out;
   letter-spacing: 0.1rem;
 }
 
-.session-btns .ses-btn:hover {
+.session-btns .ses-btn:hover,
+.user-delete-btn:hover {
   color: rgb(227 178 56);
 }
 
 /* Session and Load Save Game Buttons */
 .current-sessions-table .del-btn,
-.saved-games-table .del-btn {
+.saved-games-table .del-btn,
+.user-delete-btn {
   background-image: 
     linear-gradient(
       rgba(219, 54, 54, 60%),
       rgba(186, 29, 29, 50%)
     ), 
     var(--bluebackground-img);
+}
+
+.user-delete-btn {
+  padding: 0.5em 0.5em;
+  color: whitesmoke;
 }
 
 .current-sessions-table .join-btn {
@@ -363,34 +375,6 @@ tr > th {
   }
 }
 
-/* First col */
-.row-start {
-  background: var(--row-bg-color);
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-
-/* Other cols */
-.row-cell {
-  background: var(--row-bg-color);
-}
-
-/* Last col */
-.row-end {
-  background: var(--row-bg-color);
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
-}
-
-.loadjoin-btn {
-  background: #6dd28f;
-  justify-content: center;
-  margin: 0 0.5em 0 1em;
-  border-radius: var(--border-radius);
-}
-
-.loadjoin-btn:hover {
-  cursor: pointer;
-}
-
 .notification-icon {
   height: 0.7em;
   width: 0.7em;
@@ -429,9 +413,15 @@ tr > th {
   transition: all 0.2s ease-in-out;
 }
 
-.select:hover {
+.select:hover,
+#add-user:hover {
   color: #f2d675;
   border-color: #f2d675;
+}
+
+#update-colour:hover,
+#update-pass:hover {
+  color: #f2d675;
 }
 
 .game-selection-dropdown:hover .game-options {
