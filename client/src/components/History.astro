@@ -1,0 +1,101 @@
+---
+import "../styles/history.css";
+---
+<div id="history">
+    <div class="drawer-opener">
+        <p>History</p>
+    </div>
+    <div class="drawer"></div>
+
+    <template id="history-token-template">
+        <div class="token-change">
+            <div class="amount"></div>
+        </div>
+    </template>
+
+    <template id="history-card-template">
+        <div class="event card-event">
+            <div class="prefix"></div>
+            <div class="content"></div>
+            <div class="suffix"></div>
+        </div>
+    </template>
+
+    <template id="history-event-template">
+        <div class="event-container">
+            <div class="event-name"></div>
+            <div class="event-content"></div>
+        </div>
+    </template>
+</div>
+<style>
+    #history {
+        bottom: 0;
+        left: 1rem;
+        position: fixed;
+        z-index: 10;
+        width: 25%;
+        max-height: 60%;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s;
+        box-shadow: rgba(0,0,0,0.16) -1px -2px 6px, rgba(0,0,0,0.23) 0px -2px 6px;
+
+        --opener-height: 3rem;
+        --border-size: 0.15rem;
+        --border-style: var(--border-size) solid goldenrod;
+        border: var(--border-style);
+        border-bottom: none;
+        border-radius: var(--border-size) var(--border-size) 0 0;
+        transform: translateY(calc(100% - var(--opener-height) + var(--border-size)));
+    }
+
+    #history.opened {
+        transform: translateY(0);
+    }
+
+    .drawer-opener {
+        background: linear-gradient( to top, rgb(0 2 6), rgb(11 19 33), rgb(35 52 84) );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Judson, serif;
+        max-height: var(--opener-height);
+        min-height: var(--opener-height);
+        border-radius: var(--border-size) var(--border-size) 0 0;
+        cursor: pointer;
+    }
+
+    .drawer-opener p {
+        font-size: 1.5em;
+        font-weight: 800;
+        letter-spacing: 0.1rem;
+        -webkit-text-stroke: 0.03rem rgb(82 55 24);
+        background: linear-gradient( to top, rgb(110 81 7), rgb(218 165 32), rgb(245 204 101) );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(2px 2px 10px black);
+        margin-bottom: var(--border-size); /* offset border size */
+    }
+
+    .drawer {
+        background: rgb(240, 240, 240);
+        overflow: auto;
+        border-top: var(--border-style);
+        display: flex;
+        flex-direction: column;
+        padding: 2%;
+        gap: 1em;
+    }
+</style>
+<script>
+    const drawer = document.querySelector("#history");
+    document.querySelector("#history .drawer-opener").addEventListener("click", () => {
+        if(drawer.classList.contains("opened")) {
+            drawer.classList.remove("opened");
+        } else {
+            drawer.classList.add("opened");
+        }
+    });
+</script>
+<script src="../scripts/history.js"></script>

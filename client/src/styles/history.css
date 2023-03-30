@@ -1,0 +1,54 @@
+.event-content {
+  margin-left: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.event-content > * {
+  display: flex;
+  align-items: center;
+}
+
+.event-name {
+  font-weight: 500;
+}
+
+.event-content .token-event {
+  gap: 0.3em;
+}
+
+.event-content .token-change {
+  display: flex;
+  align-items: center;
+}
+
+.event-content .token-change > *:first-child {
+  margin-right: 0.3em;
+}
+
+.event-content .token-change > .board-token {
+  display: inline;
+  height: 1em;
+  width: 1em;
+}
+
+.event-content .card-event {
+  gap: 0.5em;
+}
+
+.event-content .card-event .suffix {
+  display: flex;
+}
+
+.event-content .card-event .suffix img {
+  display: inline;
+  height: 1em;
+  width: 1em;
+}
+
+.event-content .card-event .content img {
+  display: inline;
+  max-height: 2.5rem;
+  border-radius: var(--card-border-radius);
+}

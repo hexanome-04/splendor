@@ -2,6 +2,7 @@ import { SETTINGS } from "./settings.js";
 import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modals.js";
 import { animateMoveToken } from "./animation/tokens";
 import { moveCardFromDeck, moveCard, moveCardReserved } from "./animation/cards";
+import { writeUpdate } from "./history";
 import { runDelayed } from "./animation/utils";
 import { showError } from "./notify.js";
 
@@ -97,14 +98,6 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
 };
 
 /**
- * Callback for card ids.
- *
- * @callback idsCallback
- * @param {Array<string>} ids
- * @returns {void}
- */
-
-/**
  * Update a series of cards with the given array.
  * 
  * @param {Array} cards list of cards
@@ -113,11 +106,8 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
  * @param {string} cardSelector selector for single card
  * @param {string} imageFolder folder name for images
  * @param {string} cardTemplateSelector template for card (could become just an HTMLElement name todo)
- * @param {idsCallback} addedCallback callback for getting all added card ids
- * @param {idsCallback} removedCallback callback for getting all removed card ids
  */
-export const updateCards = (cards, baseElement, containerSelector, cardSelector, imageFolder, cardTemplateSelector,
-                    addedCallback = (ids) => {}, removedCallback = (ids) => {}) => {
+export const updateCards = (cards, baseElement, containerSelector, cardSelector, imageFolder, cardTemplateSelector) => {
 
     const cardContainer = baseElement.querySelector(containerSelector);
 
@@ -164,9 +154,6 @@ export const updateCards = (cards, baseElement, containerSelector, cardSelector,
             });
         }
     });
-
-    addedCallback(missingCardIds);
-    removedCallback(outdatedCardIds);
 };
 
 const updateMainPlayerInfo = (playerInfo) => {
@@ -287,6 +274,8 @@ const updateNoblesBoard = async (cards) => {
 };
 
 let gameStateHash = "-";
+let lastState = null;
+let currentState = null;
 
 const attempUpdate = () => {
     let nextCallTime = 1;
@@ -341,6 +330,9 @@ const updateGameboard = async () => {
     gameStateHash = newHash;
     console.log("[AS] Update available!");
     const data = JSON.parse(dataText);
+    lastState = currentState;
+    currentState = data;
+    writeUpdate(lastState, currentState);
 
     // tokens update
     const tokenMap = data.tokens;

@@ -1,5 +1,6 @@
 import { SETTINGS } from "./settings.js";
 import { addUpdater } from "./game.js";
+import { registerPlayerUpdater, writeBasicUpdate } from "./history";
 
 const coatOfArmsImages = [
     "RedCoatOfArms.png",
@@ -8,6 +9,14 @@ const coatOfArmsImages = [
     "BlueCoatOfArms.png"
 ];
 
+// now update the coa on the powers
+const allPowers = [
+    ["ExtraTokenAfterPurchasePower", "extraTokenAfterPurchase"],
+    ["ExtraTokenAfterTakingSameColorTokensPower", "extraTokenAfterTakingSameColor"],
+    ["GoldTokenWorthTwoTokensPower", "goldTokenWorthTwoTokens"],
+    ["AddFivePrestigePointsPower", "addFivePrestigePoints"],
+    ["AddPrestigePointsWithCoatOfArmsPower", "addPrestigePointsWithCoatsOfArms"],
+];
 
 const updatePowers = (data) => {
 
@@ -26,16 +35,6 @@ const updatePowers = (data) => {
         if(!coaElm.hasAttribute("src")) {
             coaElm.setAttribute("src", `/images/trading-posts/${coatOfArmsImages[index]}`);
         }
-
-
-        // now update the coa on the powers
-        const allPowers = [
-            ["ExtraTokenAfterPurchasePower", "extraTokenAfterPurchase"],
-            ["ExtraTokenAfterTakingSameColorTokensPower", "extraTokenAfterTakingSameColor"],
-            ["GoldTokenWorthTwoTokensPower", "goldTokenWorthTwoTokens"],
-            ["AddFivePrestigePointsPower", "addFivePrestigePoints"],
-            ["AddPrestigePointsWithCoatOfArmsPower", "addPrestigePointsWithCoatsOfArms"],
-        ];
 
         const powersContainer = document.querySelector(".powers-container");
         // loop through each power and check if unlocked
@@ -61,3 +60,24 @@ const updatePowers = (data) => {
 };
 
 addUpdater(updatePowers);
+
+// history updates
+const updatePlayerTPHistory = (oldState, newState) => {
+    let newPowersCount = 0;
+    allPowers.forEach((v) => {
+        const [enumName, varName] = v;
+
+        if(!oldState[varName] || !newState[varName]) {
+            return;
+        }
+
+        if(oldState[varName].unlocked !== newState[varName].unlocked) {
+            newPowersCount++;
+        }
+    });
+
+    if(newPowersCount > 0) {
+        writeBasicUpdate(`Unlocked ${newPowersCount} new power${newPowersCount > 1 ? "s" : ""}`);
+    }
+};
+registerPlayerUpdater(updatePlayerTPHistory);

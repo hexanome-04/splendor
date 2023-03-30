@@ -1,5 +1,6 @@
 import { SETTINGS } from "./settings.js";
 import { addUpdater, updateCards } from "./game.js";
+import { registerPlayerUpdater, writeCardUpdate, cardsDiff } from "./history";
 
 const updateCities = (data) => {
 
@@ -45,3 +46,9 @@ const updateCities = (data) => {
 
 
 addUpdater(updateCities);
+
+// history updates
+const updatePlayerCitiesHistory = (oldState, newState) => {
+    writeCardUpdate("Obtained", cardsDiff(oldState.cities, newState.cities)[0], "cities");
+};
+registerPlayerUpdater(updatePlayerCitiesHistory);
