@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
 import { SETTINGS, GAME_VERSION_TO_BOARD } from "./settings.js";
 import { checkForGameSaves } from "./lobby-saves.js";
+import { getUserDetail } from "./user-settings.js";
 import { showError } from "./notify.js";
 
 // perhaps we need a better build system
@@ -81,6 +81,20 @@ export const focusSession = (sesId) => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // set user color
+    getUserDetail().then((data) => {
+        if(data) {
+            document.querySelector(".profile-pic").style.background = `#${data.preferredColour}`;
+
+            // show service / admin stuff
+            if(data.role === "ROLE_ADMIN") {
+                document.querySelector("body").classList.add("is-admin");
+            } else if(data.role === "ROLE_SERVICE") {
+                document.querySelector("body").classList.add("is-service");
+            }
+        }
+    }).catch((err) => showError(err));
+
     sessionTabBtn.onclick = () => showSessionTab();
     loadgameTabBtn.onclick = () => showLoadGameTab();
 

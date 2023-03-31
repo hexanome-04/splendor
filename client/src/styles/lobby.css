@@ -202,8 +202,9 @@ nav {
   font-size: var(--btn-font-size);
   border-radius: 10px;
   border: 0.098rem solid goldenrod;
-  padding: 0.8em 1.2em;
-  height: 4.3em;
+  height: 2em;
+  width: 2em;
+  padding: 0;
   aspect-ratio: 1/1;
 }
 
@@ -420,7 +421,8 @@ tr > th {
 }
 
 #update-colour:hover,
-#update-pass:hover {
+.reg-user-pass > button:hover,
+.reg-user-colour > button:hover {
   color: #f2d675;
 }
 
@@ -562,7 +564,11 @@ tr > th {
   display: block;
 }
 
-/* Disable if creator */
+/* Enable if creator or admin/service */
+.is-admin .current-sessions-table tr .del-btn,
+.is-admin .saved-games-table tr .del-btn,
+.is-service .current-sessions-table tr .del-btn,
+.is-service .saved-games-table tr .del-btn,
 .current-sessions-table tr:not([started]):is([created]) .del-btn,
 .saved-games-table tr:not([started]):is([created]) .del-btn {
   display: block;
@@ -578,4 +584,26 @@ tr > th {
 .current-sessions-table tr:is([started]):not([joined]) .spectate-btn,
 .saved-games-table tr:is([started]):not([joined]) .spectate-btn {
   display: block;
+}
+
+.admin-btn {
+  display: none;
+}
+
+.is-admin .admin-btn {
+  display: block;
+}
+
+/* Disable buttons if you have service role */
+.is-service .saved-games-table tr .load-btn,
+.is-service .current-sessions-table tr .play-btn,
+.is-service .saved-games-table tr .play-btn,
+.is-service .current-sessions-table tr .join-btn,
+.is-service .saved-games-table tr .join-btn {
+  display: none;
+}
+
+.is-service .game-selection-dropdown {
+  visibility: hidden;
+  pointer-events: none;
 }

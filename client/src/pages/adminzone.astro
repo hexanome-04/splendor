@@ -1,4 +1,7 @@
 ---
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
+
 import "../styles/lobby.css";
 import "../styles/adminzone.css"
 import LobbyNavMenu from "../components/LobbyNavMenu.astro";
@@ -15,48 +18,46 @@ import LobbyNavMenu from "../components/LobbyNavMenu.astro";
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
     </head>
     <body>
+        <ToastContainer client:load />
         <LobbyNavMenu hasHomeButton={true}></LobbyNavMenu>
         <div class="admin-page">
             <div class="admin-zone-container">
                 <h1>Add User</h1>
-                <div class="new-user-form">
-                    <div class="user-field-container">
-                        <div class="user-field">
-                            <label>Name</label>
-                            <input id="name-field" type="text"/>
-                            <p>Only latin alphabet characters.</p>
-                        </div>
-                    </div>
-                    <div class="user-field-container">
-                        <div class="user-field">
-                            <label>Password</label>
-                            <input id="password-field" type="password"/>
-                            <p>8-32 characters long, with at least one uppercase, lowercase, digit and special character.</p>
-                        </div>
-                    </div>
-                    <div class="user-field-container">
-                        <div class="user-field">
-                            <label>Type</label>
-                            <select class="select-type" id="admin-field">
-                                <option value="PLAYER">Player</option>
-                                <option value="ADMIN">Admin</option>
-                                <option value="SERVICE">Service</option>
-                            </select>
-                            <p>Select the player's type.</p>
-                        </div>
-                    </div>
-                    <div class="user-field-container">
-                        <div class="user-field">
-                            <label>Colour</label>
-                            <div class="colour-container">
-                                <input id="colour-field" type="color"/>
-                                <button id="add-user" type="button">Add User</button>
-                            </div>
-                            <p>Preferred in-game colour.</p>
-                        </div>
-                    </div>
-                </div>
+                <table class="new-user-form">
+                    <tbody>
+                        <tr class="new-user-header">
+                            <th>Name</th>
+                            <th>Password</th>
+                            <th>Type</th>
+                            <th>Colour</th>
+                        </tr>
+                        <tr class="new-user-input">
+                            <td><input id="name-field" type="text"/></td>
+                            <td><input id="password-field" type="password"/></td>
+                            <td>
+                                <select class="select-type" id="admin-field">
+                                    <option value="PLAYER">Player</option>
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="SERVICE">Service</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="colour-container">
+                                    <input id="colour-field" type="color"/>
+                                    <button id="add-user" type="button">Add User</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="new-user-description">
+                            <td><p>Only latin alphabet characters.</p></td>
+                            <td><p>8-32 characters long, with at least one uppercase, lowercase, digit and special character.</p></td>
+                            <td><p>Select the user's type.</p></td>
+                            <td><p>Preferred in-game colour.</p></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                <br>
                 <br>
                 <h1>Registered Users</h1>
                 <table class="registered-users-table">
@@ -71,25 +72,55 @@ import LobbyNavMenu from "../components/LobbyNavMenu.astro";
                         </tr>
                     </tbody>
                 </table>
+
+                <br>
+                <br>
+                <h1>Registered Game Services</h1>
+                <table class="registered-services">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Display Name</th>
+                            <th>Location</th>
+                            <th>Player Min-Max</th>
+                            <th>Actions</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
             <!-- Templates for reusable elements -->
             <template id="registered-users-template">
                 <tr>
                     <td><div class="reg-user-name"></div></td>
                     <td>
                         <div class="reg-user-pass">
-                            <input type="password">
-                            <button type="button">Update</button>
+                            <div>
+                                <input type="password" placeholder="****************">
+                                <button type="button">Update</button>
+                            </div>
                         </div>
                     </td>
                     <td><div class="reg-user-type"></div></td>
                     <td>
                         <div class="reg-user-colour">
-                            <input type="color">
-                            <button type="button">Update</button>
+                            <div>
+                                <input type="color">
+                                <button type="button">Update</button>
+                            </div>
                         </div>
                     </td>
                     <td><div class="user-delete-btn">Delete</div></td>
+                </tr>
+            </template>
+
+            <template id="registered-service-template">
+                <tr>
+                    <td><div class="service-name"></div></td>
+                    <td><div class="service-display-name"></div></td>
+                    <td><div class="service-link"><a></a></div></td>
+                    <td><div class="service-player-count"></div></td>
+                    <td><div class="user-delete-btn">Force unregister</div></td>
                 </tr>
             </template>
         </div>

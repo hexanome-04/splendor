@@ -32,30 +32,32 @@ h1 {
   border-radius: 1em;
 }
 
-.new-user-form {
-  display: flex;
-  flex-direction: row;
-  justify-self: center;
-  gap: 2em;
+.new-user-form tr td:not(:last-child) {
+  padding-right: 2em;
 }
 
-.user-field {
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5em;
+.admin-page tbody > tr:first-child {
+  background: none;
 }
 
-.user-field > label {
+.new-user-form .new-user-header th {
   font-family: Judson, serif;
   font-size: 1.5em;
   font-weight: 800;
   margin: 0.1rem;
   letter-spacing: 0.1rem;
   color:  goldenrod;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
-.user-field > input,
-.user-field > select  {
+.new-user-form .new-user-input td {
+  vertical-align: center;
+}
+
+.new-user-form .new-user-input input,
+.new-user-form .new-user-input select {
   font-size: 1.1em;
   font-family: Judson, serif;
   padding: 0.5em;
@@ -64,6 +66,7 @@ h1 {
   border: solid 1px goldenrod;
   color: goldenrod;
   letter-spacing: 0.05em;
+  width: 100%;
 }
 
 tbody > tr > th {
@@ -73,18 +76,18 @@ tbody > tr > th {
   background: none;
 }
 
-.user-field > select {
+.new-user-form .new-user-header select {
   font-size: 1.1em;
   padding: 0.65em;
 }
 
-.user-field > p {
+.new-user-form .new-user-description p {
   font-family: Judson, serif;
   font-size: 1em;
   color: whitesmoke;
 }
 
-.user-field > .colour-container {
+.new-user-form .colour-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -92,8 +95,9 @@ tbody > tr > th {
   gap: 1em;
 }
 
-.user-field > .colour-container > input,
-tr > td > .user-colour-container > input {
+.new-user-form .colour-container input,
+tr > td > .reg-user-colour input {
+  padding: 0;
   width: 2.5em;
   height: 2.53em;
   aspect-ratio: 1 / 1;
@@ -101,13 +105,17 @@ tr > td > .user-colour-container > input {
   border-radius: 5%;
 }
 
-tr > td > .user-colour-container > input {
+.reg-user-pass input:focus {
+  outline: none;
+}
+
+tr > td > .reg-user-colour input {
   border-radius: 5% 0 0 5%;
 }
 
-.user-field > .colour-container > button,
-tr > td > .user-pass-container > button,
-tr > td > .user-colour-container > button {
+.new-user-form .colour-container button,
+tr > td > .reg-user-pass button,
+tr > td > .reg-user-colour button {
   padding: 0.45em 1.2em;
   cursor: pointer;
   display: flex;
@@ -126,12 +134,18 @@ tr > td > .user-colour-container > button {
 }
 
 /* Registered Users Section */
-.reg-user-name, .reg-user-type {
+.reg-user-name,
+.reg-user-type,
+.service-name,
+.service-link,
+.service-display-name,
+.service-player-count {
   color: whitesmoke;
   font-family: Judson, serif;
 }
 
-.registered-users-table > tbody > tr {
+.registered-users-table > tbody > tr,
+.registered-services > tbody > tr {
   background: none;
   border-bottom: solid 1px;
   color: goldenrod;
@@ -140,7 +154,7 @@ tr > td > .user-colour-container > button {
   letter-spacing: 0.1em;
 }
 
-tr > td > .user-pass-container > input {
+tr > td > .reg-user-pass input {
   border: solid 1px goldenrod;
   background: rgba(255, 255, 255, 0.091);
   border-top-left-radius: 0.5em;
@@ -150,14 +164,45 @@ tr > td > .user-pass-container > input {
   padding: 0.5em;
 }
 
-tr > td > .user-pass-container > button,
-tr > td > .user-colour-container > button {
+tr > td > .reg-user-pass button,
+tr > td > .reg-user-colour button {
   border-top-left-radius: 0em;
   border-bottom-left-radius: 0em;
   border-left: none;
   padding: 0.48em 1.2em
 }
 
-tr > td > .user-colour-container > button {
+tr > td > .reg-user-colour button {
   padding: 0.44em 1.2em
+}
+
+.registered-users-table tr > td > div {
+  height: auto;
+}
+
+.admin-page table tbody tr td {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+.reg-user-pass > div,
+.reg-user-colour > div {
+  display: flex;
+}
+
+/* Services */
+.registered-services tr td:last-child {
+  padding: 0.7em var(--padding-lr);
+}
+
+.registered-services .service-link a {
+  color: skyblue;
+  text-decoration: underline;
 }
