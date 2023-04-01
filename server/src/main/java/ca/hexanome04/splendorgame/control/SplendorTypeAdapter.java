@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.control.templates.GameServiceInfo;
 import ca.hexanome04.splendorgame.model.DevelopmentCard;
+import ca.hexanome04.splendorgame.model.HideFromClient;
 import ca.hexanome04.splendorgame.model.OrientDevelopmentCard;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.RegDevelopmentCard;
@@ -13,6 +14,8 @@ import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.gameversions.orient.OrientPlayer;
 import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsGame;
 import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsPlayer;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
@@ -60,6 +63,27 @@ public class SplendorTypeAdapter {
                 .registerTypeAdapterFactory(gameAdapterFactory)
                 .registerTypeAdapterFactory(cardAdapterFactory)
                 .create();
+    }
+
+    /**
+     * Initialize a Gson instance that hides unnecessary fields from the client.
+     *
+     * @return new gson instance
+     */
+    public static Gson newClientGson() {
+        ExclusionStrategy strategy = new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipField(FieldAttributes field) {
+                return field.getAnnotation(HideFromClient.class) != null;
+            }
+        };
+
+        return new GsonBuilder().addSerializationExclusionStrategy(strategy).create();
     }
 
     /**

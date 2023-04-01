@@ -171,7 +171,7 @@ public class SplendorRestController {
 
             ContentWatcher watcher = gameWatcher.get(sessionId);
             // serialize game
-            Fetcher fetcher = () -> new Gson().toJson(game.getGame());
+            Fetcher fetcher = () -> SplendorTypeAdapter.newClientGson().toJson(game.getGame());
 
             return ResultGenerator.getStringResult(watcher, fetcher, hash, this.longPollTimeout);
         } catch (Exception e) {
@@ -195,7 +195,8 @@ public class SplendorRestController {
                 throw new Exception("There is no session associated this session ID: " + sessionId + ".");
             }
 
-            String serializedPlayers = new Gson().toJson(sessionManager.getGameSession(sessionId).getGame().getPlayers());
+            String serializedPlayers = SplendorTypeAdapter.newClientGson()
+                    .toJson(sessionManager.getGameSession(sessionId).getGame().getPlayers());
             return ResponseEntity.status(HttpStatus.OK).body(serializedPlayers);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -230,7 +231,7 @@ public class SplendorRestController {
                 actions[i] = game.getCurValidActions().get(i).toString();
             }
 
-            String serializedActions = new Gson().toJson(actions);
+            String serializedActions = SplendorTypeAdapter.newClientGson().toJson(actions);
             return ResponseEntity.status(HttpStatus.OK).body(serializedActions);
         } catch (Exception e) {
             // Something went wrong. Send a http-400 and pass the exception message as body payload.

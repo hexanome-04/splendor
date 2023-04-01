@@ -13,6 +13,7 @@ import java.util.Stack;
  */
 public class Deck<T extends Card> {
 
+    @HideFromClient
     private final Stack<T> cards;
     private final List<T> visibleCards;
     /**

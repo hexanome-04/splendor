@@ -7,6 +7,8 @@ import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.action.*;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -287,4 +289,14 @@ public class SplendorRestControllerTest {
         }
     }
 
+    @Test
+    @DisplayName("Verify that the deck does not show non-visible cards to the client")
+    public void testDeckHidesFromClient() {
+        ResponseEntity result = (ResponseEntity) restController.getGameState(testGameSessionId, null).getResult();
+
+        JsonObject jsonObject = JsonParser.parseString((String) result.getBody()).getAsJsonObject();
+        JsonObject deckObject = jsonObject.getAsJsonObject("tier1Deck");
+        assertThat(deckObject.has("cards")).isFalse();
+        assertThat(deckObject.has("visibleCards")).isTrue();
+    }
 }
