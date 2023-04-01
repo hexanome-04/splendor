@@ -8,10 +8,6 @@
   color: white;
 }
 
-.your-pass-container {
-  vertical-align: top;
-}
-
 .user-account-table > tbody > tr > td > .row-title {
   font-size: 1.1em;
   font-family: Judson, serif;
@@ -36,4 +32,12 @@ tr > td > .your-password p {
   font-family: Judson, serif;
   color: whitesmoke;
   line-height: 1.2em;
+}
+
+input[type="password"] {
+  font-family: Judson, serif;
+}
+
+.is-admin #oldpassword {
+  display: none;
 }

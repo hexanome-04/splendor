@@ -91,6 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector("body").classList.add("is-admin");
             } else if(data.role === "ROLE_SERVICE") {
                 document.querySelector("body").classList.add("is-service");
+            } else {
+                document.querySelector("body").classList.remove("is-service");
+                document.querySelector("body").classList.remove("is-admin");
             }
         }
     }).catch((err) => showError(err));

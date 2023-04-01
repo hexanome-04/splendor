@@ -44,7 +44,8 @@ import LobbyNavMenu from "../components/LobbyNavMenu.astro";
                             <td><div class="row-title">Password:</div></td>
                             <td>
                                 <div class="your-password">
-                                    <input type="password" placeholder="****************">
+                                    <input type="password" placeholder="Old password" id="oldpassword">
+                                    <input type="password" placeholder="New password" id="newpassword">
                                     <p>8-32 characters long, with at least one uppercase, lowercase, digit and special character.</p>
                                 </div>
                             </td>
@@ -57,7 +58,7 @@ import LobbyNavMenu from "../components/LobbyNavMenu.astro";
                             <td></td>
                         </tr>
                         <!-- USER'S PREFERRED COLOUR -->
-                        <tr>
+                        <tr class="color-controls">
                             <td><div class="row-title">Preferred Colour:</div></td>
                             <td><div class="your-colour"><input type="color"></div></td>
                             <td><button type="button">Update Colour</button></td>
