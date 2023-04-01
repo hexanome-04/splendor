@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -313,7 +314,18 @@ public class SplendorRestController {
             }
 
             if (!actionResult.contains(ActionResult.VALID_ACTION)) {
-                throw new SplendorException("Invalid action performed: " + actionResult);
+                // This should technically only have the ones that are errors,
+                // not the ones that are because they need to do an extra action.
+                // (Since, the ones that require an additional action have VALID_ACTION)
+                Optional<ActionResult> result = actionResult.stream()
+                        .filter(ar -> ar != ActionResult.TURN_COMPLETED) // idk if necessary
+                        .findFirst();
+                if (result.isPresent() && !result.get().getDescription().isEmpty()) {
+                    String desc = result.get().getDescription();
+                    throw new SplendorException(desc);
+                } else {
+                    throw new SplendorException("Invalid action performed.");
+                }
             }
 
             logger.info("Valid actions AFTER turn:  " + game.getCurValidActions() + "\n");

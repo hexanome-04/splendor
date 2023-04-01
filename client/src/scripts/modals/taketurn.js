@@ -239,6 +239,7 @@ const showReservableDevCards = () => {
         if(!selectedCard) {
             // no card has been selected, error
             showError("You have not selected a card to reserve!");
+            confirmBtn.disabled = false;
             return;
         }
 
