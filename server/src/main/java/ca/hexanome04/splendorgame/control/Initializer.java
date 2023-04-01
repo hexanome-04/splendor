@@ -204,4 +204,29 @@ public class Initializer {
         );
     }
 
+    /**
+     * Attempt to register our game with the lobby service.
+     *
+     * @param sessionId game session id
+     * @return response from server
+     */
+    public ResponseEntity deleteGameSession(String sessionId) {
+        String token = auth.getToken();
+
+        HttpEntity<String> httpEntity = new HttpEntity<>("");
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(lsLocation)
+                .path("/api/sessions/" + sessionId)
+                .queryParam("access_token", URLEncoder.encode(token, StandardCharsets.UTF_8))
+                .build(true).toUri();
+
+        return restTemplate.exchange(
+                uri,
+                HttpMethod.DELETE,
+                httpEntity,
+                String.class // Response type.
+        );
+
+    }
+
 }

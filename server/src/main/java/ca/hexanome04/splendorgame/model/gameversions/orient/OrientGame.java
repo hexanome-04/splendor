@@ -408,7 +408,10 @@ public class OrientGame implements Game {
         if (canPlayerWin(p)) {
             addPlayersWhoCanWin(p);
         }
-        checkForWin();
+        if (checkForWin() != null) {
+            turnCounter = -10000;
+            curValidActions.clear();
+        }
 
         return results;
     }

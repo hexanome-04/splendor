@@ -10,7 +10,6 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
 import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.dacbiet.simpoll.ContentWatcher;
@@ -45,6 +44,9 @@ public class SplendorRestController {
     private final GameSavesManager gameSavesManager;
     private final long longPollTimeout;
     private final Map<String, ContentWatcher> gameWatcher;
+
+    @Autowired
+    Initializer initializer;
 
     /**
      * Create an instance of Splendor's REST controller.
@@ -305,6 +307,11 @@ public class SplendorRestController {
 
             ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
+
+            if (game.isGameOver()) {
+                initializer.deleteGameSession(sessionId);
+            }
+
             if (!actionResult.contains(ActionResult.VALID_ACTION)) {
                 throw new SplendorException("Invalid action performed: " + actionResult);
             }

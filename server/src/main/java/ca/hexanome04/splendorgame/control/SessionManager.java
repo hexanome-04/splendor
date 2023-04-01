@@ -6,13 +6,11 @@ import ca.hexanome04.splendorgame.model.gameversions.*;
 import ca.hexanome04.splendorgame.model.gameversions.cities.CitiesGame;
 import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import ca.hexanome04.splendorgame.model.gameversions.tradingposts.TradingPostsGame;
-import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 /**
  * Hold all the game sessions available.
