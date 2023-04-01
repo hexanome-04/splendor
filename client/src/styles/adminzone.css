@@ -18,13 +18,13 @@ h1 {
   filter: drop-shadow(2px 2px 10px black);
 }
 
-.admin-page {
+.admin-page, .settings-page {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.admin-zone-container {
+.admin-zone-container, .settings-container {
   background: rgba(85, 98, 133, 35%);
   margin: 2em 1em 2em 1em;
   width: fit-content;
@@ -36,7 +36,8 @@ h1 {
   padding-right: 2em;
 }
 
-.admin-page tbody > tr:first-child {
+.admin-page tbody > tr:first-child,
+.settings-page tbody > tr:first-child {
   background: none;
 }
 
@@ -96,7 +97,8 @@ tbody > tr > th {
 }
 
 .new-user-form .colour-container input,
-tr > td > .reg-user-colour input {
+tr > td > .reg-user-colour input,
+tr > td > .your-colour input {
   padding: 0;
   width: 2.5em;
   height: 2.53em;
@@ -115,7 +117,8 @@ tr > td > .reg-user-colour input {
 
 .new-user-form .colour-container button,
 tr > td > .reg-user-pass button,
-tr > td > .reg-user-colour button {
+tr > td > .reg-user-colour button,
+.user-account-table > tbody > tr > td > button {
   padding: 0.45em 1.2em;
   cursor: pointer;
   display: flex;
@@ -139,13 +142,16 @@ tr > td > .reg-user-colour button {
 .service-name,
 .service-link,
 .service-display-name,
-.service-player-count {
+.service-player-count,
+.your-username,
+.your-role {
   color: whitesmoke;
   font-family: Judson, serif;
 }
 
 .registered-users-table > tbody > tr,
-.registered-services > tbody > tr {
+.registered-services > tbody > tr,
+.user-account-table > tbody > tr {
   background: none;
   border-bottom: solid 1px;
   color: goldenrod;
@@ -154,7 +160,8 @@ tr > td > .reg-user-colour button {
   letter-spacing: 0.1em;
 }
 
-tr > td > .reg-user-pass input {
+tr > td > .reg-user-pass input,
+tr > td > .your-password input {
   border: solid 1px goldenrod;
   background: rgba(255, 255, 255, 0.091);
   border-top-left-radius: 0.5em;
@@ -180,7 +187,8 @@ tr > td > .reg-user-colour button {
   height: auto;
 }
 
-.admin-page table tbody tr td {
+.admin-page table tbody tr td,
+.settings-page table tbody tr td {
   padding: 0;
 }
 
@@ -198,7 +206,8 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 /* Services */
-.registered-services tr td:last-child {
+.registered-services tr td:last-child,
+.user-account-table tr td:last-child {
   padding: 0.7em var(--padding-lr);
 }
 

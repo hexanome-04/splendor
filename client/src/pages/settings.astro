@@ -1,0 +1,77 @@
+---
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
+
+import "../styles/lobby.css";
+import "../styles/adminzone.css";
+import "../styles/settings.css";
+import LobbyNavMenu from "../components/LobbyNavMenu.astro";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+        <title>Settings</title>
+
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
+    </head>
+    <body>
+        <ToastContainer client:load />
+        <LobbyNavMenu hasHomeButton={true}></LobbyNavMenu>
+        <div class="settings-page">
+            <div class="settings-container">
+                
+                <h1>Account Settings</h1>
+                <table class="user-account-table">
+                    <tbody>
+                        <tr>
+                            <th>Property</th>
+                            <th>Current Value</th>
+                            <th>Actions</th>
+                        </tr>
+                        <!-- USER'S NAME -->
+                        <tr>
+                            <td><div class="row-title">Name:</div></td>
+                            <td><div class="your-username"></div></td>
+                            <td></td>
+                        </tr>
+                        <!-- USER'S PASSWORD -->
+                        <tr class="your-pass-container">
+                            <td><div class="row-title">Password:</div></td>
+                            <td>
+                                <div class="your-password">
+                                    <input type="password" placeholder="****************">
+                                    <p>8-32 characters long, with at least one uppercase, lowercase, digit and special character.</p>
+                                </div>
+                            </td>
+                            <td><button type="button">Update Password</button></td>
+                        </tr>
+                        <!-- USER'S ROLE -->
+                        <tr>
+                            <td><div class="row-title">Role:</div></td>
+                            <td><div class="your-role"></div></td>
+                            <td></td>
+                        </tr>
+                        <!-- USER'S PREFERRED COLOUR -->
+                        <tr>
+                            <td><div class="row-title">Preferred Colour:</div></td>
+                            <td><div class="your-colour"><input type="color"></div></td>
+                            <td><button type="button">Update Colour</button></td>
+                        </tr>
+                        <!-- DANGER ZONE -->
+                        <tr>
+                            <td><div class="row-title">Danger Zone:</div></td>
+                            <td></td>
+                            <td><button type="button" class="delete-account-btn">Delete Account</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="../scripts/settings-page.js"></script>
+    </body>
+</html>

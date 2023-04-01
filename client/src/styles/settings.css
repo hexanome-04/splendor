@@ -1,0 +1,39 @@
+
+.user-account-table > tbody > tr > td > .delete-account-btn {
+  background-image: 
+    linear-gradient(
+      rgba(219, 54, 54, 60%),
+      rgba(186, 29, 29, 50%)
+    );
+  color: white;
+}
+
+.your-pass-container {
+  vertical-align: top;
+}
+
+.user-account-table > tbody > tr > td > .row-title {
+  font-size: 1.1em;
+  font-family: Judson, serif;
+  font-weight: 800;
+  color: goldenrod;
+}
+
+tr > td > .your-password {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  gap: 0.5em;
+}
+
+tr > td > .your-password input {
+  border-radius: 0.5em;
+  width: 20em;
+}
+
+tr > td > .your-password p {
+  font-size: 0.8em;
+  font-family: Judson, serif;
+  color: whitesmoke;
+  line-height: 1.2em;
+}

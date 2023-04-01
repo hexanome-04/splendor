@@ -22,7 +22,7 @@ const { hasAdminButton=false, hasHomeButton=false } = Astro.props;
     <div class="nav-right">
         <p id="player-greeting"></p>
         <div class="profile-pic"></div>
-        <Icon name="ic:baseline-settings"/>
+        <Icon class="settings-btn" name="ic:baseline-settings"/>
         <Icon name="ic:outline-logout" class="logout-btn"/>
     </div>
 </nav>
@@ -37,6 +37,10 @@ const { hasAdminButton=false, hasHomeButton=false } = Astro.props;
         // Page Transition Back Home from Admin Zone
         document.querySelectorAll(".home-btn").forEach(elm => {
             elm.addEventListener("click", () => transition("/lobby/"));
+        });
+        // Page Transition to Settings
+        document.querySelectorAll(".settings-btn").forEach(elm => {
+            elm.addEventListener("click", () => transition("/settings/"));
         });
         // Page Transition to Logout
         document.querySelectorAll(".logout-btn").forEach(elm => {

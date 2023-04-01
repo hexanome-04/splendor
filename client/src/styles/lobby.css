@@ -111,7 +111,8 @@ nav {
 }
 
 .session-btns .ses-btn:hover,
-.user-delete-btn:hover {
+.user-delete-btn:hover,
+.user-account-table > tbody > tr > td > button:hover {
   color: rgb(227 178 56);
 }
 
@@ -422,7 +423,8 @@ tr > th {
 
 #update-colour:hover,
 .reg-user-pass > button:hover,
-.reg-user-colour > button:hover {
+.reg-user-colour > button:hover,
+.user-account-table > tbody > tr > td > button:hover {
   color: #f2d675;
 }
 
