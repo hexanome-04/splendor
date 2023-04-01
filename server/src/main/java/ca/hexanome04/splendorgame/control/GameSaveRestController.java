@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class GameSaveRestController {
     private final GameSaveInitializer gameSaveInitializer;
     private final SessionManager sessionManager;
     private final Authentication authentication;
+    @Value("${LS.server.username}")
+    private String registerUsername;
 
     /**
      * Constructs a REST controller for game saving.
@@ -123,10 +126,12 @@ public class GameSaveRestController {
             }
             GameSaveData gameSaveData = gameSaveInfo.gameSaveData();
 
-            // if we want to allow other players to save the game,
-            // what happens here?
-            if (!this.authentication.getNameFromToken(token).equals(gameSaveInfo.creator())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token does not match creators name.");
+            String tokenUsername = this.authentication.getNameFromToken(token);
+            if (!tokenUsername.equals(gameSaveInfo.creator())
+                    && !this.authentication.isAdminToken(token)
+                    && !tokenUsername.equals(registerUsername)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Save games can only be deleted by creator, "
+                        + "admin or service who registered the game service.");
             }
 
             // should be ok
