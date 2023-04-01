@@ -1,6 +1,6 @@
 import { showCascadeCards } from "./cascade.js";
 import { showExtraTokens } from "./extratoken.js";
-import { initReserveNoble } from "./reserve-noble.js";
+import { initReserveNoble, initChooseNoble } from "./nobles.js";
 import { showSatchelBonuses } from "./satchel.js";
 
 /**
@@ -62,6 +62,10 @@ export function performFollowUpAction(data) {
         case "RESERVE_NOBLE":
             initReserveNoble();
             modalSelector = "#reserve-noble-modal";
+            break;
+        case "CHOOSE_NOBLE":
+            initChooseNoble(data);
+            modalSelector = "#choose-noble-modal";
             break;
         default:
             // its fine

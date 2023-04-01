@@ -1,11 +1,13 @@
 package ca.hexanome04.splendorgame.model.action.actions;
 
+import ca.hexanome04.splendorgame.model.Card;
 import ca.hexanome04.splendorgame.model.NobleCard;
 import ca.hexanome04.splendorgame.model.Player;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +41,26 @@ public class ChooseNobleAction extends Action {
 
         ArrayList<ActionResult> result = new ArrayList<>();
 
-        NobleCard nc = (NobleCard) game.getCardFromId(nobleId);
+        // get list of noble card ids that player can actually get
+        List<NobleCard> qualifyingNobles = ((OrientGame) game).qualifiesForNoble(p);
+
+        NobleCard nc = null;
+        for (NobleCard nobleCard : qualifyingNobles) {
+            if (nobleCard.getId().equals(nobleId)) {
+                nc = nobleCard;
+                break;
+            }
+        }
+
+        // check if reserved by looking if card id exists inside reserved noble list
+        boolean wasReserved = p.getReservedNobles().stream().filter(c -> c.getId().equals(nobleId)).toList().size() != 0;
+
         if (nc == null) {
-            throw new RuntimeException("Noble card with id '" + this.nobleId + "' does not exist.");
+            throw new RuntimeException("Noble card with id '" + this.nobleId + "' does not exist or you do not qualify for it.");
+        }
+
+        if (wasReserved) {
+            p.removeReservedNoble(nc);
         }
 
         // no error handling
@@ -62,7 +81,7 @@ public class ChooseNobleAction extends Action {
     public Action decodeAction(JsonObject jobj) {
 
         // if missing data, throw exception
-        this.nobleId = jobj.get("nobleId").getAsString();
+        this.nobleId = jobj.get("cardId").getAsString();
 
         return this;
     }

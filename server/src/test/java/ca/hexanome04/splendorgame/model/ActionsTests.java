@@ -430,9 +430,9 @@ public class ActionsTests {
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
 
-        p1.addBonus(TokenType.Blue, 1);
+        p1.addBonus(TokenType.Blue, 2);
         p1.addBonus(TokenType.Green, 2);
-        p1.addBonus(TokenType.Red, 2);
+        p1.addBonus(TokenType.Red, 1);
         p1.addBonus(TokenType.Brown, 1);
 
         HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();

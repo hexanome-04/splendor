@@ -6,6 +6,7 @@ import ca.hexanome04.splendorgame.model.*;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
+import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
 import ca.hexanome04.splendorgame.model.gameversions.*;
 import java.io.*;
 import java.nio.charset.Charset;
@@ -363,11 +364,13 @@ public class OrientGame implements Game {
         Player p = this.getPlayerFromName(playerName);
 
         List<ActionResult> ar = action.execute(this, p);
+        results.addAll(ar);
 
         // Check if player qualifies for noble card at end of turn
         ArrayList<NobleCard> nobleCards = qualifiesForNoble(p);
-        if (nobleCards.size() != 0) {
-            if (nobleCards.size() == 1) {
+        if (nobleCards.size() != 0 && results.contains(ActionResult.TURN_COMPLETED)) {
+            // only when player did not do choose noble
+            if (nobleCards.size() == 1 && !(action instanceof ChooseNobleAction)) {
                 NobleCard noble = nobleCards.get(0);
                 takeCard(noble);
                 p.addNoble(noble);
@@ -375,13 +378,12 @@ public class OrientGame implements Game {
                 if (p.getReservedNobles().contains(noble)) {
                     p.removeReservedNoble(noble);
                 }
-            } else {
-                // don't increment turn if player must choose noble
+            } else if (!(action instanceof ChooseNobleAction)) {
+                // only make player choose noble if they didn't just choose one
                 results.add(ActionResult.MUST_CHOOSE_NOBLE);
             }
         }
 
-        results.addAll(ar);
         if (results.contains(ActionResult.TURN_COMPLETED) && results.contains(ActionResult.VALID_ACTION)
                 && results.size() == 2 && this.getCurValidActions().size() == 0) {
             // increment action also resets current valid actions list
