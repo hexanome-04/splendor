@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.control;
 
 import ca.hexanome04.splendorgame.SplendorGameApplication;
 import ca.hexanome04.splendorgame.control.templates.GameServiceInfo;
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import com.google.gson.Gson;
 import java.net.URI;
@@ -122,7 +123,7 @@ public class Initializer {
         if (!registered) {
             logger.error("Failed to register game with lobby service.");
             SplendorGameApplication.shutdown(1);
-            throw new RuntimeException("Unable to register game service!");
+            throw new SplendorException("Unable to register game service!");
         }
 
         logger.info("Registered game on lobby service!");

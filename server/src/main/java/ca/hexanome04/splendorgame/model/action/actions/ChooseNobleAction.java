@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model.action.actions;
 import ca.hexanome04.splendorgame.model.Card;
 import ca.hexanome04.splendorgame.model.NobleCard;
 import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
@@ -56,7 +57,7 @@ public class ChooseNobleAction extends Action {
         boolean wasReserved = p.getReservedNobles().stream().filter(c -> c.getId().equals(nobleId)).toList().size() != 0;
 
         if (nc == null) {
-            throw new RuntimeException("Noble card with id '" + this.nobleId + "' does not exist or you do not qualify for it.");
+            throw new SplendorException("Noble card with id '" + this.nobleId + "' does not exist or you do not qualify for it.");
         }
 
         if (wasReserved) {

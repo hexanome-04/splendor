@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.model.action.actions;
 import ca.hexanome04.splendorgame.model.DevelopmentCard;
 import ca.hexanome04.splendorgame.model.OrientDevelopmentCard;
 import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
@@ -49,11 +50,11 @@ public class ChooseTokenTypeAction extends Action {
 
         DevelopmentCard devCard = p.getPurchasedDevelopmentCard(this.cardId);
         if (!(devCard instanceof OrientDevelopmentCard orientDevCard)) {
-            throw new RuntimeException("Card with id '" + this.cardId + "' does not exist is not of type Satchel.");
+            throw new SplendorException("Card with id '" + this.cardId + "' does not exist is not of type Satchel.");
         }
 
         if (orientDevCard.getTokenType() != TokenType.Satchel) {
-            throw new RuntimeException("Card with id '" + this.cardId + "' is not of type Satchel.");
+            throw new SplendorException("Card with id '" + this.cardId + "' is not of type Satchel.");
         }
 
         // player can only set satchel token type to another bonus they already have
@@ -67,7 +68,7 @@ public class ChooseTokenTypeAction extends Action {
             }
         }
         if (!valid) {
-            throw new RuntimeException("You must pair the satchel's token type to a card you already own.");
+            throw new SplendorException("You must pair the satchel's token type to a card you already own.");
         }
 
         // The act of choosing a bonus type could make a player eligible for a noble/win condition... is this checked?

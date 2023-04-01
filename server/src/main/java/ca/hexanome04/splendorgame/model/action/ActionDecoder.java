@@ -1,5 +1,6 @@
 package ca.hexanome04.splendorgame.model.action;
 
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.action.actions.*;
 import com.google.gson.JsonObject;
 
@@ -38,8 +39,8 @@ public class ActionDecoder {
                 case TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER -> new TakeExtraTokenAfterPurchasePowerAction().decodeAction(gson);
             };
 
-        } catch (IllegalArgumentException e) {
-            return null;
+        } catch (Exception e) {
+            throw new SplendorException("Invalid data given for action.");
         }
     }
 

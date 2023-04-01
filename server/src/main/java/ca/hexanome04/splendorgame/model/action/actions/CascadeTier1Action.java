@@ -42,7 +42,7 @@ public class CascadeTier1Action extends CascadeAction {
         // should be a development card (hopefully)
         DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.cascadeCardId);
         if (dc == null) {
-            throw new RuntimeException("Card with id '" + this.cascadeCardId + "' does not exist.");
+            throw new SplendorException("Card with id '" + this.cascadeCardId + "' does not exist.");
         }
 
         player.addCard(dc);

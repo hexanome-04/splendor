@@ -53,7 +53,7 @@ public class BuyCardAction extends Action {
         }
 
         if (dc == null) {
-            throw new RuntimeException("Card with id '" + this.buyCardId + "' does not exist.");
+            throw new SplendorException("Card with id '" + this.buyCardId + "' does not exist.");
         }
 
         // for orient, can only buy satchel if you own another card with a bonus
@@ -68,7 +68,7 @@ public class BuyCardAction extends Action {
                 }
             }
             if (!hasAnotherBonusCard) {
-                throw new RuntimeException("Cannot purchase card with satchel bonus "
+                throw new SplendorException("Cannot purchase card with satchel bonus "
                         + "without having another purchased card with a bonus.");
             }
         }

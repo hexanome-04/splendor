@@ -2,6 +2,7 @@ package ca.hexanome04.splendorgame.model.action.actions;
 
 import ca.hexanome04.splendorgame.model.DevelopmentCard;
 import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.TokenType;
 import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
@@ -45,7 +46,7 @@ public class ReserveCardAction extends Action {
         // get card from board
         DevelopmentCard dc = (DevelopmentCard) game.getCardFromId(this.reserveCardId);
         if (dc == null) {
-            throw new RuntimeException("Card with id '" + this.reserveCardId + "' does not exist.");
+            throw new SplendorException("Card with id '" + this.reserveCardId + "' does not exist.");
         }
 
         if (player.getReservedCards().size() >= 3) {

@@ -4,6 +4,7 @@ import ca.hexanome04.splendorgame.control.templates.LaunchSessionInfo;
 import ca.hexanome04.splendorgame.control.templates.PlayerInfo;
 import ca.hexanome04.splendorgame.model.GameSession;
 import ca.hexanome04.splendorgame.model.Player;
+import ca.hexanome04.splendorgame.model.SplendorException;
 import ca.hexanome04.splendorgame.model.action.ActionDecoder;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
@@ -91,10 +92,10 @@ public class SplendorRestController {
 
         try {
             if (launchSessionInfo == null) {
-                throw new Exception("Missing launch session info.");
+                throw new SplendorException("Missing launch session info.");
             }
             if (launchSessionInfo.gameServer() == null) {
-                throw new Exception("Missing service name in launch session info.");
+                throw new SplendorException("Missing service name in launch session info.");
             }
 
             // verify if game service name is valid.
@@ -108,21 +109,24 @@ public class SplendorRestController {
                 }
             }
             if (!validGameServiceName) {
-                throw new Exception("Lobby Service did not specify a matching Service name.");
+                throw new SplendorException("Lobby Service did not specify a matching Service name.");
             }
 
             if (sessionManager.getGameSession(sessionId) != null) {
-                throw new Exception("Game can not be launched. Id is already in use.");
+                throw new SplendorException("Game can not be launched. Id is already in use.");
             }
 
             // Looks good, lets create the game
             this.addSession(sessionId, launchSessionInfo, gameVersion);
 
             return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception e) {
-            logger.error("Unable to launch game session: " + e.getMessage());
-            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+        } catch (SplendorException e) {
+            logger.warn("Splendor issue while launching session: ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Unable to launch game session: ", e);
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server ran into an issue.");
         }
     }
 
@@ -140,7 +144,7 @@ public class SplendorRestController {
             Game game = gameSavesManager.getGameSaveData(launchSessionInfo.savegame());
             if (game == null) {
                 logger.warn("Error while launching session: Retrieved game save state is null!");
-                throw new RuntimeException("Unable to load previous game save state!");
+                throw new SplendorException("Unable to load previous game save state!");
             }
             sessionManager.createSession(sessionId, game, launchSessionInfo);
         } else {
@@ -166,7 +170,7 @@ public class SplendorRestController {
             // Check if session exists
             GameSession game = sessionManager.getGameSession(sessionId);
             if (game == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+                throw new SplendorException("There is no session associated this session ID: " + sessionId + ".");
             }
 
             ContentWatcher watcher = gameWatcher.get(sessionId);
@@ -174,10 +178,16 @@ public class SplendorRestController {
             Fetcher fetcher = () -> SplendorTypeAdapter.newClientGson().toJson(game.getGame());
 
             return ResultGenerator.getStringResult(watcher, fetcher, hash, this.longPollTimeout);
-        } catch (Exception e) {
-            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+        } catch (SplendorException e) {
             DeferredResult result = new DeferredResult();
             result.setResult(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()));
+            return result;
+        } catch (Exception e) {
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            logger.warn("Issue while getting game state: ", e);
+            DeferredResult result = new DeferredResult();
+            result.setResult(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Server could not retrieve game state."));
             return result;
         }
     }
@@ -192,14 +202,18 @@ public class SplendorRestController {
     public ResponseEntity getPlayers(@PathVariable String sessionId) {
         try {
             if (sessionManager.getGameSession(sessionId) == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+                throw new SplendorException("There is no session associated this session ID: " + sessionId + ".");
             }
 
             String serializedPlayers = SplendorTypeAdapter.newClientGson()
                     .toJson(sessionManager.getGameSession(sessionId).getGame().getPlayers());
             return ResponseEntity.status(HttpStatus.OK).body(serializedPlayers);
-        } catch (Exception e) {
+        } catch (SplendorException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Issue while retrieving player data: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Server ran into an issue while retrieving player data.");
         }
     }
 
@@ -216,13 +230,17 @@ public class SplendorRestController {
         try {
             // Check if session exists
             if (sessionManager.getGameSession(sessionId) == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+                throw new SplendorException("There is no session associated this session ID: " + sessionId + ".");
             }
             // Check if player exists
             Game game = sessionManager.getGameSession(sessionId).getGame();
             Player player = game.getPlayerFromName(playerName);
             if (player == null) {
-                throw new Exception("There is no player in this session associated with this playerID: " + sessionId + ".");
+                throw new SplendorException("The specified player does not exist in this session.");
+            }
+
+            if (!player.getName().equals(game.getTurnCurrentPlayer().getName())) {
+                throw new SplendorException("This player has no valid actions because it is not their turn.");
             }
 
             // If so, serialize actions and place it as body in a ResponseEntity
@@ -233,9 +251,12 @@ public class SplendorRestController {
 
             String serializedActions = SplendorTypeAdapter.newClientGson().toJson(actions);
             return ResponseEntity.status(HttpStatus.OK).body(serializedActions);
-        } catch (Exception e) {
-            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+        } catch (SplendorException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Issue while retrieving all possible actions: ", e);
+            // Something went wrong. Send a http-400 and pass the exception message as body payload.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -259,13 +280,13 @@ public class SplendorRestController {
 
         try {
             if (sessionManager.getGameSession(sessionId) == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+                throw new SplendorException("There is no session associated this session ID: " + sessionId + ".");
             }
             Game game = sessionManager.getGameSession(sessionId).getGame();
             Player player = game.getPlayerFromName(playerName);
 
             if (player == null) {
-                throw new Exception("There is no player in this session associated with this playerID: " + sessionId + ".");
+                throw new SplendorException("The specified player does not exist in this session.");
             }
 
             if (!auth.getNameFromToken(token).equals(playerName)) {
@@ -275,7 +296,7 @@ public class SplendorRestController {
             List<Actions> validActions = game.getCurValidActions();
 
             if (!validActions.contains(actionIdentifier)) {
-                throw new Exception("Given action is not valid: " + actionIdentifier);
+                throw new SplendorException("Given action is not valid: " + actionIdentifier);
             }
 
             JsonObject jobj = JsonParser.parseString(bodyData).getAsJsonObject();
@@ -285,7 +306,7 @@ public class SplendorRestController {
             ArrayList<ActionResult> actionResult =
                     game.takeAction(playerName, ActionDecoder.createAction(actionIdentifier.toString(), jobj));
             if (!actionResult.contains(ActionResult.VALID_ACTION)) {
-                throw new RuntimeException("Invalid action performed: " + actionResult);
+                throw new SplendorException("Invalid action performed: " + actionResult);
             }
 
             logger.info("Valid actions AFTER turn:  " + game.getCurValidActions() + "\n");
@@ -294,8 +315,12 @@ public class SplendorRestController {
             // mark that the game state has changed
             gameWatcher.get(sessionId).markDirty();
             return ResponseEntity.status(HttpStatus.OK).body("");
-        } catch (Exception e) {
+        } catch (SplendorException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Issue while executing action: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Server ran into an issue while executing an action.");
         }
     }
 
@@ -314,7 +339,7 @@ public class SplendorRestController {
                                               @RequestBody(required = false) String bodyData) {
         try {
             if (sessionManager.getGameSession(sessionId) == null) {
-                throw new Exception("There is no session associated this session ID: " + sessionId + ".");
+                throw new SplendorException("There is no session associated this session ID: " + sessionId + ".");
             }
             GameSession gameSession = sessionManager.getGameSession(sessionId);
             String creatorName = gameSession.getCreatorUsername();
@@ -342,8 +367,11 @@ public class SplendorRestController {
             gameWatcher.get(sessionId).markDirty();
 
             return ResponseEntity.status(HttpStatus.OK).body("");
-        } catch (Exception e) {
+        } catch (SplendorException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Issue while restarting game: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Issue while trying to restart game.");
         }
     }
 

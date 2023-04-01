@@ -61,17 +61,19 @@ public class SessionManager {
      * @param sessionName session name
      * @param version version of the game (which expansions)
      * @return game session instance
-     * @throws Exception if issue occurred
+     * @throws SplendorException if issue occurred
      */
     public GameSession createNewSession(String sessionId, List<PlayerInfo> players,
-                                        String creatorName, String sessionName, GameVersions version) throws Exception {
+                                        String creatorName, String sessionName,
+                                        GameVersions version) throws SplendorException {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionId)) {
-            throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
+            throw new SplendorException("Game can not be created, the requested ID " + sessionId
+                    + " is already in use.");
         }
         // Refuse creation if incorrect number of players in session
         if (players.size() < 2 || players.size() > 4) {
-            throw new Exception("Game can not be created, 2-4 players required");
+            throw new SplendorException("Game can not be created, 2-4 players required");
         }
 
         GameSession session = new GameSession(sessionId, creatorName, sessionName);
@@ -88,24 +90,26 @@ public class SessionManager {
      * @param game existing game instance
      * @param launchSessionInfo info to launch the session
      * @return new game session
-     * @throws Exception if issue occurred
+     * @throws SplendorException if issue occurred
      */
     public GameSession createSession(String sessionId, Game game,
-                                     LaunchSessionInfo launchSessionInfo) throws Exception {
+                                     LaunchSessionInfo launchSessionInfo) throws SplendorException {
         // Refuse creation if session with this ID already exists
         if (gameSessions.containsKey(sessionId)) {
-            throw new Exception("Game can not be created, the requested ID " + sessionId + " is already in use.");
+            throw new SplendorException("Game can not be created, the requested ID " + sessionId
+                    + " is already in use.");
         }
         // Refuse creation if incorrect number of players in session
         if (launchSessionInfo.players().size() < 2 || launchSessionInfo.players().size() > 4) {
-            throw new Exception("Game can not be created, 2-4 players required");
+            throw new SplendorException("Game can not be created, 2-4 players required");
         }
 
         List<Player> curPlayers = game.getPlayers();
 
         // have to reassign players in the order they appear
         if (launchSessionInfo.players().size() != curPlayers.size()) {
-            throw new Exception("Game can not be created, launch players count does not match pre-existing count");
+            throw new SplendorException("Game can not be created, launch players count "
+                    + "does not match pre-existing count");
         }
         Map<String, Player> playerMap = curPlayers.stream()
                 .collect(Collectors.toMap(Player::getName, item -> item));
@@ -129,7 +133,8 @@ public class SessionManager {
                 curPlayers.stream().filter(p -> playerMap.containsKey(p.getName())).toList()
         );
         if (inactivePlayers.size() != playerInfoMap.keySet().size()) {
-            throw new Exception("Game can not be created, inactive player list size does not match remaining player info list");
+            throw new SplendorException("Game can not be created, inactive player list "
+                    + "size does not match remaining player info list");
         }
 
         // pop an inactive player out of list and assign it to a player who's not been set
@@ -152,15 +157,13 @@ public class SessionManager {
      * @param version game version
      * @param players list of player infos
      * @return newly created game
-     * @throws Exception thrown if issue occurred
      */
-    public Game launchNewGame(GameVersions version, List<PlayerInfo> players) throws Exception {
+    public Game launchNewGame(GameVersions version, List<PlayerInfo> players) {
 
         Game game = switch (version) {
             case BASE_ORIENT -> new OrientGame(15, 0);
             case BASE_ORIENT_CITIES -> new CitiesGame(0);
             case BASE_ORIENT_TRADE_ROUTES -> new TradingPostsGame(15, 0);
-            default -> throw new RuntimeException("Invalid game version selected!");
         };
 
         List<Player> playerList = new ArrayList<>();

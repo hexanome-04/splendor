@@ -41,7 +41,7 @@ public class ReserveNobleAction extends Action {
         // get card from board
         NobleCard noble = (NobleCard) game.getCardFromId(this.reserveNobleId);
         if (noble == null) {
-            throw new RuntimeException("Noble with id '" + this.reserveNobleId + "' does not exist.");
+            throw new SplendorException("Noble with id '" + this.reserveNobleId + "' does not exist.");
         }
 
         // no error handling
