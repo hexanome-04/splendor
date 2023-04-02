@@ -5,6 +5,7 @@ import ca.hexanome04.splendorgame.model.action.Action;
 import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.Game;
+import ca.hexanome04.splendorgame.model.gameversions.orient.OrientGame;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,9 @@ public class CascadeTier2Action extends CascadeAction {
             if (orientCard.getReserveNoble()) {
                 result.add(ActionResult.MUST_RESERVE_NOBLE);
             }
-            if (orientCard.getCascadeType() == CascadeType.Tier1) {
+            if (orientCard.getCascadeType() == CascadeType.Tier1 && game instanceof OrientGame og
+                    && (og.getTier1PurchasableDevelopmentCards().size() > 0
+                    || og.getTier1PurchasableOrientCards().size() > 0)) {
                 result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1);
             }
 

@@ -104,11 +104,15 @@ public class BuyCardAction extends Action {
             if (orientCard.getReserveNoble() && game instanceof OrientGame og && og.getNobles().size() > 0) {
                 result.add(ActionResult.MUST_RESERVE_NOBLE);
             }
-            if (orientCard.getCascadeType() == CascadeType.Tier1) {
+            if (orientCard.getCascadeType() == CascadeType.Tier1 && game instanceof OrientGame og
+                    && (og.getTier1PurchasableDevelopmentCards().size() > 0
+                    || og.getTier1PurchasableOrientCards().size() > 0)) {
                 result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_1);
 
                 // Differentiation between up and down needed? Unclear
-            } else if (orientCard.getCascadeType() == CascadeType.Tier2) {
+            } else if (orientCard.getCascadeType() == CascadeType.Tier2 && game instanceof OrientGame og
+                    && (og.getTier2PurchasableDevelopmentCards().size() > 0
+                    || og.getTier2PurchasableOrientCards().size() > 0)) {
                 result.add(ActionResult.MUST_CHOOSE_CASCADE_CARD_TIER_2);
 
             }

@@ -49,6 +49,20 @@ public interface Game {
     List<RegDevelopmentCard> getTier3PurchasableDevelopmentCards();
 
     /**
+     * Get the current two visible tier 1 orient cards.
+     *
+     * @return list of visible tier 1 orient cards
+     */
+    List<OrientDevelopmentCard> getTier1PurchasableOrientCards();
+
+    /**
+     * Get the current two visible tier 2 orient cards.
+     *
+     * @return list of visible tier 2 orient cards
+     */
+    List<OrientDevelopmentCard> getTier2PurchasableOrientCards();
+
+    /**
      * Retrieve a card from the decks within the board.
      *
      * @param id card id

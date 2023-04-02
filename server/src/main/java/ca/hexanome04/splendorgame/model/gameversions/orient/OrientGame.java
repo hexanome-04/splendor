@@ -441,6 +441,16 @@ public class OrientGame implements Game {
     }
 
     @Override
+    public List<OrientDevelopmentCard> getTier1PurchasableOrientCards() {
+        return this.tier1OrientDeck.getVisibleCards();
+    }
+
+    @Override
+    public List<OrientDevelopmentCard> getTier2PurchasableOrientCards() {
+        return this.tier2OrientDeck.getVisibleCards();
+    }
+
+    @Override
     public Player createPlayer(String name, String colour) {
         return new OrientPlayer(name, colour);
     }
