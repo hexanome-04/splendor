@@ -36,9 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 // show user error message
                 updateToastLoad(notify, reason, "error", 2000);
             })
-            .then((resp) => resp.json())
+            .then((resp) => !resp ? null : resp.json())
             .then((data) => {
                 // console.log(data);
+                if(!data) {
+                    updateToastLoad(notify, "Failed to connect to LS.", "error", 2000);
+                    return null;
+                }
 
                 if(!("access_token" in data)) {
                     updateToastLoad(notify, data.error_description, "error", 2000);

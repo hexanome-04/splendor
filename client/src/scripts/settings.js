@@ -216,14 +216,19 @@ export const SETTINGS = {
      */
     verifyCredentials: async () => {
         // no token
-        var username = await SETTINGS.fetchUsername();
-        if(!username && !(await SETTINGS.refreshAccessToken())) {
+        try {
+            const username = await SETTINGS.fetchUsername();
+            if(!username && !(await SETTINGS.refreshAccessToken())) {
+                SETTINGS.goToLogin();
+                return;
+            }
+        } catch(err) {
             SETTINGS.goToLogin();
             return;
         }
 
         // now set username again
-        username = await SETTINGS.fetchUsername();
+        const username = await SETTINGS.fetchUsername();
         SETTINGS.setUsername(username);
     },
 };

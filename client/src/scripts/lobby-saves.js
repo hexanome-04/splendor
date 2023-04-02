@@ -11,7 +11,7 @@ export const checkForGameSaves = () => {
     try {
         updateGameSaveInfo().then(() => {
             console.log("Completed update for game saves");
-        });
+        }).catch((err) => showError(err.toString()));
     } catch(e) {
         console.log("Something went wrong while retrieving info for game saves.");
         console.log(e);
@@ -86,7 +86,7 @@ const createNewSaveElement = (info) => {
                 // move to sessions screen
                 showSessionTab();
                 focusSession(sesId);
-            }).catch((err) => showError(err))
+            }).catch((err) => showError(err.toString()))
             .finally(() => loadBtn.disabled = false);
     };
     delBtn.onclick = () => deleteGameSave(delBtn, saveId);
@@ -114,9 +114,9 @@ const deleteGameSave = (btn, saveId) => {
                 }
             }
         }).catch((err) => {
-            throw new Error(err);
+            showError(err.toString());
         }).finally(() => btn.disabled = false);
-    }).catch((err) => showError(err));
+    }).catch((err) => showError(err.toString()));
 };
 
 const updateGameSaveInfo = async () => {

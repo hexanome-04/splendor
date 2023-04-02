@@ -22,7 +22,7 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
 <script>
     import { SETTINGS } from "../../scripts/settings.js";
     import { closeDrawer, showPreviousMenu, getSessionId } from "../../scripts/game-navmenu.js";
-    import { startToastLoad, updateToastLoad } from "../../scripts/notify.js";
+    import { showError, startToastLoad, updateToastLoad } from "../../scripts/notify.js";
 
     const modal = document.querySelector("#save-game-modal");
     const saveNameInput = modal.querySelector("input[name='game-file-name']") as HTMLInputElement;
@@ -36,6 +36,11 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
     confirmBtn.addEventListener("click", () => {
         confirmBtn.disabled = true;
         const gameSaveName = saveNameInput.value;
+        if(gameSaveName === "") {
+            showError("You must name your game save!");
+            confirmBtn.disabled = false;
+            return;
+        }
 
         const notify = startToastLoad("Saving game...");
         SETTINGS.verifyCredentials().then(() => {
@@ -58,8 +63,8 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
                 }
                 showPreviousMenu();
             }).catch((err) => {
-                throw new Error(err);
+                updateToastLoad(notify, err.toString(), "error")
             }).finally(() => confirmBtn.disabled = false);
-        }).catch((err) => updateToastLoad(notify, err, "error"));
+        }).catch((err) => updateToastLoad(notify, err.toString(), "error"));
     });
 </script>

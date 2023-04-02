@@ -43,7 +43,7 @@ export const showExtraTokens = () => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  putBackConfirmBtn.disabled = false);
     };
 };

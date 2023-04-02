@@ -285,9 +285,9 @@ const attempUpdate = () => {
     let nextCallTime = 1;
     updateGameboard().catch((err) => {
         if(!err.toString().includes("Failed to fetch" )) {
-            showError(err);
             console.log("[AS] Error during check (retry 30s): " + err);
         }
+        showError(err.toString());
         nextCallTime = 30000;
     }).finally(() => {
         setTimeout(attempUpdate, nextCallTime);

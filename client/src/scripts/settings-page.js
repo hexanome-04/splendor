@@ -91,6 +91,6 @@ const updateUserInfo = async () => {
 document.addEventListener("DOMContentLoaded", () => {
     SETTINGS.verifyCredentials()
             .then(updateUserInfo)
-            .catch((err) => showError(err));
+            .catch((err) => showError(err.toString()));
 
 });

@@ -86,7 +86,7 @@ export const initChooseNoble = (data) => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };
@@ -127,7 +127,7 @@ export const initReserveNoble = () => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

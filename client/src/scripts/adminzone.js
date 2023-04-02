@@ -152,7 +152,7 @@ const showAllRegisteredServices = async () => {
             allServicesTable.appendChild(tNode);
         }
     } catch(err) {
-        showError(err);
+        showError(err.toString());
     }
 
 };
@@ -214,5 +214,5 @@ document.addEventListener("DOMContentLoaded", () => {
         if(data) {
             document.querySelector(".profile-pic").style.background = `#${data.preferredColour}`;
         }
-    }).catch((err) => showError(err));
+    }).catch((err) => showError(err.toString()));
 });

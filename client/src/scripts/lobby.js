@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector("body").classList.remove("is-admin");
             }
         }
-    }).catch((err) => showError(err));
+    }).catch((err) => showError(err.toString()));
 
     sessionTabBtn.onclick = () => showSessionTab();
     loadgameTabBtn.onclick = () => showLoadGameTab();
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         createBtn.disabled = true;
 
         createNewSession(gameVersion)
-            .catch((err) => showError(err))
+            .catch((err) => showError(err.toString()))
             .finally(() => createBtn.disabled = false);
     }
 
@@ -147,9 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                throw new Error(err);
+                showError(err.toString());
             }).finally(() => elm.disabled = false);
-        }).catch((err) => showError(err));
+        }).catch((err) => console.log("Error while joining: " + err));
     };
 
     const leaveSession = (elm) => {
@@ -167,9 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     resp.test().then((data) => showError(data));
                 }
             }).catch((err) => {
-                throw new Error(err);
+                showError(err.toString());
             }).finally(() => elm.disabled = false);
-        }).catch((err) => showError(err));
+        }).catch((err) => console.log("Error while leaving: " + err));
     };
 
     const deleteSession = (elm) => {
@@ -187,9 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                throw new Error(err);
+                showError(err.toString());
             }).finally(() => elm.disabled = false);
-        }).catch((err) => showError(err));
+        }).catch((err) => console.log("Error while deleting: " + err));
     };
 
     const launchSession = (elm) => {
@@ -207,9 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     resp.text().then((data) => showError(data));
                 }
             }).catch((err) => {
-                throw new Error(err);
+                showError(err.toString());
             }).finally(() => elm.disabled = false);
-        }).catch((err) => showError(+ err));
+        }).catch((err) => console.log("Error while launching: " + err));
     };
 
     const playSession = (elm, sesId, gameVer) => {
@@ -396,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }).catch((err) => {
             if(!err.toString().includes("Failed to fetch" )) {
                 console.log("[AS] Error during check (retry 30s): " + err);
+                // showError(err.toString());
             }
             nextCallTime = 30000;
         }).finally(() => {

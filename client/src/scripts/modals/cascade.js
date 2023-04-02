@@ -46,7 +46,7 @@ export const showCascadeCards = (tier) => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

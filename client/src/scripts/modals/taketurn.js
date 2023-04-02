@@ -93,7 +93,7 @@ const putBackTokens = () => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };
@@ -195,7 +195,7 @@ const showPayment = (cardNode) => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 
@@ -253,7 +253,7 @@ const showReservableDevCards = () => {
                     showError(resp.message);
                 }
             }).catch((err) => {
-                showError(err);
+                showError(err.toString());
             }).finally(() =>  confirmBtn.disabled = false);
     };
 };

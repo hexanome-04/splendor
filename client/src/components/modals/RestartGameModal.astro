@@ -45,8 +45,8 @@ import ModalLayout from "../../layouts/ModalLayout.astro";
                 }
                 showPreviousMenu();
             }).catch((err) => {
-                throw new Error(err);
+                updateToastLoad(notify, err.toString(), "error");
             }).finally(() => confirmBtn.disabled = false);
-        }).catch((err) => updateToastLoad(notify, err, "error"));
+        }).catch((err) => updateToastLoad(notify, err.toString(), "error"));
     });
 </script>
