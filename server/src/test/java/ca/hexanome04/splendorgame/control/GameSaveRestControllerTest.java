@@ -3,6 +3,7 @@ package ca.hexanome04.splendorgame.control;
 import ca.hexanome04.splendorgame.control.templates.GameSaveData;
 import ca.hexanome04.splendorgame.control.templates.GameSaveInfo;
 import ca.hexanome04.splendorgame.model.GameSession;
+import ca.hexanome04.splendorgame.model.gameversions.Game;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -39,6 +42,8 @@ public class GameSaveRestControllerTest {
 
     private AutoCloseable closeable;
 
+    @Mock
+    Game game;
     @MockBean
     GameSavesManager gameSavesManager;
     @MockBean
@@ -77,6 +82,10 @@ public class GameSaveRestControllerTest {
     @DisplayName("Verify that you anyone can create a game save they're not a part of.")
     void testAnyPlayerRequestSave() {
         GameSession ses = new GameSession("", "user", "");
+        ses.setGame(game);
+        Mockito.when(game.isGameOver())
+                .thenReturn(false);
+
         Mockito.when(sessionManager.getGameSession(Mockito.any()))
                 .thenReturn(ses);
 
@@ -113,6 +122,10 @@ public class GameSaveRestControllerTest {
     @DisplayName("Verify that failing to create a game save (for whatever reason) throws correct exception.")
     void testFailsToCreateGameSave() {
         GameSession ses = new GameSession("", "", "");
+        ses.setGame(game);
+        Mockito.when(game.isGameOver())
+                .thenReturn(false);
+
         Mockito.when(sessionManager.getGameSession(Mockito.any()))
                 .thenReturn(ses);
 
@@ -127,9 +140,40 @@ public class GameSaveRestControllerTest {
     }
 
     @Test
+    @DisplayName("Verify no ended games can be saved.")
+    void testNoEndedGameSaves() {
+        GameSession ses = new GameSession("", "", "");
+        ses.setGame(game);
+        Mockito.when(game.isGameOver())
+                .thenReturn(true);
+
+        Mockito.when(sessionManager.getGameSession(Mockito.any()))
+                .thenReturn(ses);
+
+        Mockito.when(authentication.getNameFromToken(Mockito.any()))
+                .thenReturn("not empty");
+
+        Mockito.when(gameSavesManager.createGameSave(Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenReturn("not empty");
+
+        GameSaveData gameSaveData = new GameSaveData("", new ArrayList<>(), "");
+        GameSaveInfo gameSaveInfo = new GameSaveInfo("", "", 0, gameSaveData);
+        Mockito.when(this.gameSavesManager.getGameSave(Mockito.any()))
+                .thenReturn(gameSaveInfo);
+
+        ResponseEntity<String> resp = controller.createNewGameSave("", "", "");
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(resp.getBody()).contains("ended");
+    }
+
+    @Test
     @DisplayName("Verify that requesting to create a game save works.")
     void testSuccessCreateGameSave() {
         GameSession ses = new GameSession("", "", "");
+        ses.setGame(game);
+        Mockito.when(game.isGameOver())
+                .thenReturn(false);
+
         Mockito.when(sessionManager.getGameSession(Mockito.any()))
                 .thenReturn(ses);
 

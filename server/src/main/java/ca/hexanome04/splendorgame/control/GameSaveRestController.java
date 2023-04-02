@@ -73,6 +73,10 @@ public class GameSaveRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in.");
             }
 
+            if (gameSession.getGame().isGameOver()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You cannot save a game that has ended.");
+            }
+
             // should be ok
             String gameSaveId = this.gameSavesManager.createGameSave(bodyData.trim(), username, gameSession.getGame());
             if (gameSaveId.isEmpty()) {
