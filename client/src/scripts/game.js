@@ -58,7 +58,9 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
         freeCardElm.setAttribute("cost", JSON.stringify(cost));
 
         // slight timeout to ensure no content shift
-        runDelayed(() => moveCardFromDeck(`${selector} ${deckSelector}`, `${selector} ${cardSelector}[card-id="${cardId}"]`));
+        // only delay if deck is not invisible
+        const shouldDelay = document.querySelector(`${selector} ${deckSelector}`).getAttribute("empty") !== null;
+        moveCardFromDeck(`${selector} ${deckSelector}`, `${selector} ${cardSelector}[card-id="${cardId}"]`, shouldDelay);
     };
 
     // clear images first
@@ -73,7 +75,7 @@ const updateTierRow = (selector, devCardsDeck, orientCardsDeck) => {
             const oldElm = row.querySelector(`${selector} ${cardSelector}[card-id="${cid}"]`);
             oldElm.removeAttribute("card-id");
             oldElm.removeAttribute("cost");
-            oldElm.querySelector("img").removeAttribute("src")
+            oldElm.querySelector("img").removeAttribute("src");
         });
 
         const missingCards = cards.filter(c => !currentCardIds.includes(c.id));
@@ -145,13 +147,11 @@ export const updateCards = (cards, baseElement, containerSelector, cardSelector,
             imgElm.classList.add("invisible");
 
             // slight delay so that the player inventory will be correct size
-            runDelayed(() => {
-                if(containerSelector.includes("reserve")) {
-                    moveCardReserved(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
-                } else {
-                    moveCard(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`);
-                }
-            });
+            if(containerSelector.includes("reserve")) {
+                moveCardReserved(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`, true);
+            } else {
+                moveCard(boardCardSel, cardContainer.querySelector(`*[card-id="${cid}"]`), `${imageFolder}/${cid}.jpg`, true);
+            }
         }
     });
 };
@@ -254,22 +254,26 @@ const updateOtherPlayerInfo = (pInfo) => {
 };
 
 const updateNoblesBoard = async (cards) => {
-    const noblesDiv = document.querySelectorAll(".board-nobles .noble-card img");
+    const selector = ".board-nobles .noble-card";
 
-    // should be changed prolly
-    noblesDiv.forEach((elm, index) => {
-        const curSrc = elm.getAttribute("src");
+    const serverCardIds = cards.map(c => c.id);
+    const currentCardIds = [...document.querySelectorAll(`${selector}[card-id]`)].map(elm => elm.getAttribute("card-id"));
 
-        if(index < cards.length) {
-            if(curSrc !== cards[index]) {
-                const imgSrc = `/images/nobles/${cards[index].id}.jpg`;
-                elm.parentElement.setAttribute("card-id", cards[index].id);
-                elm.setAttribute("src", imgSrc);
-            }
-        } else {
-            elm.parentElement.removeAttribute("card-id");
-            elm.removeAttribute("src");
-        }
+    // cards that exist on board but not server side, must remove
+    const outdatedCardIds = currentCardIds.filter(x => !serverCardIds.includes(x));
+    outdatedCardIds.forEach(cid => {
+        const oldElm = document.querySelector(`${selector}[card-id="${cid}"]`);
+        oldElm.removeAttribute("card-id");
+        oldElm.querySelector("img").removeAttribute("src");
+    });
+
+    const missingCards = cards.filter(c => !currentCardIds.includes(c.id));
+    missingCards.forEach(card => {
+        // select empty ones to fill
+        const emptyCardElm = document.querySelector(`${selector}:not([card-id])`);
+        emptyCardElm.setAttribute("card-id", card.id);
+        emptyCardElm.querySelector("img").setAttribute("src", `/images/nobles/${card.id}.jpg`);
+        emptyCardElm.setAttribute("had-card", "true");
     });
 };
 

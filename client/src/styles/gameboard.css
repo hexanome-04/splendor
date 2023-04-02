@@ -150,7 +150,8 @@ body {
   max-height: 100%;
   font-size: 2.5vmin;
   z-index: 3;
-  transition: font-size 0.01s;
+  /* this would make the transition to a smaller inventory smoother, but breaks card moving animations... */
+  /* transition: font-size 0.01s; */
 }
 
 .player-inventory.shrink {
@@ -570,11 +571,15 @@ body {
 
 .board-cards-row .board-cards-dev-deck[empty],
 .board-cards-row .board-cards-dev-deck-orient[empty] {
-  display: none;
+  visibility: hidden;
 }
 
-/* .board-cards-row .board-card-dev img:not([src]), */
-.board-nobles .noble-card img:not([src]) {
+.board-cards-row .board-card-dev:not([card-id]),
+.board-nobles .noble-card:not([card-id])[had-card] {
+  visibility: hidden;
+}
+
+.board-nobles .noble-card:not([card-id]):not([had-card]) {
   display: none;
 }
 

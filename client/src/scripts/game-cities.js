@@ -29,18 +29,27 @@ const updateCities = (data) => {
         }
     });
 
-    citiesDiv.forEach((elm, index) => {
-        const curSrc = elm.getAttribute("src");
-        if(index < cards.length) {
-            if(curSrc !== cards[index]) {
-                const imgSrc = `/images/cities/${cards[index].id}.jpg`;
-                elm.parentElement.setAttribute("card-id", cards[index].id);
-                elm.setAttribute("src", imgSrc);
-            }
-        } else {
-            elm.parentElement.removeAttribute("card-id");
-            elm.removeAttribute("src");
-        }
+    // update cities
+    const selector = ".board-container .cities-container .city-card";
+
+    const serverCardIds = cards.map(c => c.id);
+    const currentCardIds = [...document.querySelectorAll(`${selector}[card-id]`)].map(elm => elm.getAttribute("card-id"));
+
+    // cards that exist on board but not server side, must remove
+    const outdatedCardIds = currentCardIds.filter(x => !serverCardIds.includes(x));
+    outdatedCardIds.forEach(cid => {
+        const oldElm = document.querySelector(`${selector}[card-id="${cid}"]`);
+        oldElm.removeAttribute("card-id");
+        oldElm.querySelector("img").removeAttribute("src");
+    });
+
+    const missingCards = cards.filter(c => !currentCardIds.includes(c.id));
+    missingCards.forEach(card => {
+        // select empty ones to fill
+        const emptyCardElm = document.querySelector(`${selector}:not([card-id])`);
+        emptyCardElm.setAttribute("card-id", card.id);
+        emptyCardElm.querySelector("img").setAttribute("src", `/images/cities/${card.id}.jpg`);
+        emptyCardElm.setAttribute("had-card", "true");
     });
 };
 
