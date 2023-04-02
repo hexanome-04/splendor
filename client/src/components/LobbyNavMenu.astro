@@ -27,6 +27,7 @@ const { hasAdminButton=false, hasHomeButton=false } = Astro.props;
     </div>
 </nav>
 <script>
+    import { SETTINGS } from "../scripts/settings.js";
     import { transition } from "../scripts/titleScreen.js";
     
     document.addEventListener("DOMContentLoaded", () => {
@@ -44,7 +45,10 @@ const { hasAdminButton=false, hasHomeButton=false } = Astro.props;
         });
         // Page Transition to Logout
         document.querySelectorAll(".logout-btn").forEach(elm => {
-            elm.addEventListener("click", () => transition("/"));
+            elm.addEventListener("click", () => {
+                SETTINGS.logout();
+                transition("/");
+            });
         });
     });
 </script>

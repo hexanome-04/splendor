@@ -231,6 +231,15 @@ export const SETTINGS = {
         const username = await SETTINGS.fetchUsername();
         SETTINGS.setUsername(username);
     },
+
+    /**
+     * Removes all saved tokens and credentials.
+     */
+    logout: () => {
+        localStorage.removeItem("username");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("accessToken");
+    },
 };
 
 /**
