@@ -48,7 +48,9 @@ public class CascadeTier1Action extends CascadeAction {
         player.addCard(dc);
         game.takeCard(dc);
 
-        player.addBonus(dc.getTokenType(), dc.getBonus());
+        if (dc.getTokenType() != TokenType.Satchel) {
+            player.addBonus(dc.getTokenType(), dc.getBonus());
+        }
         player.addPrestigePoints(dc.getPrestigePoints());
 
         if (dc.getClass().equals(OrientDevelopmentCard.class)) {

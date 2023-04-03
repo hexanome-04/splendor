@@ -138,7 +138,7 @@ public class OrientPlayer implements Player {
 
     @Override
     public void removeBonuses(HashMap<TokenType, Integer> bonuses) {
-
+        bonuses.forEach((key, value) -> this.bonuses.put(key, this.bonuses.get(key) - value));
     }
 
     /**

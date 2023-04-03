@@ -68,23 +68,15 @@ public class ChooseTokenTypeAction extends Action {
             }
         }
         if (!valid) {
-            throw new SplendorException("You must pair the satchel's token type to a card you already own.");
-        }
-
-        // The act of choosing a bonus type could make a player eligible for a noble/win condition... is this checked?
-        if (p.getBonuses().get(assignedTokenType) > 0
-                && assignedTokenType != TokenType.Gold && assignedTokenType != TokenType.Satchel) {
-            orientDevCard.setTokenType(assignedTokenType);
-
-            // i think the checks in this if are what i do above, whoops
-            // add bonus to player
-            p.addBonus(assignedTokenType, 1);
-            result.add(ActionResult.TURN_COMPLETED);
-
-        } else {
             result.add(ActionResult.INVALID_TOKEN_CHOSEN);
             return result;
         }
+
+        // add bonus to player
+        orientDevCard.setTokenType(assignedTokenType);
+        p.addBonus(assignedTokenType, 1);
+        result.add(ActionResult.TURN_COMPLETED);
+
 
         if (game.getCurValidActions().contains(Actions.CHOOSE_SATCHEL_TOKEN)) {
             result.add(ActionResult.VALID_ACTION);

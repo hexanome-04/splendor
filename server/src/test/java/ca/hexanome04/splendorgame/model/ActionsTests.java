@@ -36,6 +36,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // should be no more tier 1 cards available to be purchased
+        assertThat(p1.getDevCards().isEmpty()).isTrue();
         assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
@@ -52,9 +53,11 @@ public class ActionsTests {
 
         p1.addTokens(tokensToUse);
 
+        Card expected = game.getCardFromId("01");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -77,9 +80,11 @@ public class ActionsTests {
         tokensToUse.put(TokenType.Gold, 1);
         tokensToUse.put(TokenType.Red, 2);
 
+        Card expected = game.getCardFromId("02");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -100,9 +105,11 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Red, 1);
 
+        Card expected = game.getCardFromId("01");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -123,9 +130,12 @@ public class ActionsTests {
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Gold, 1);
 
+        Card expected = game.getCardFromId("01");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(game.getCardFromId(expected.getId())).isNull();
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -142,9 +152,12 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
 
+        Card expected = game.getCardFromId("01");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(game.getCardFromId(expected.getId())).isNull();
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -160,9 +173,12 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
 
+        Card expected = game.getCardFromId("01");
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(game.getCardFromId(expected.getId())).isNull();
+        assertThat(expected).isIn(p1.getDevCards());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -179,6 +195,7 @@ public class ActionsTests {
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
 
         // make sure action is valid since player can afford it
+        assertThat(p1.getDevCards().isEmpty()).isTrue();
         assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
@@ -199,8 +216,16 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for(TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 4);
+        expected.put(TokenType.Blue, 2);
+
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -223,8 +248,18 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 4);
+        expected.put(TokenType.Green, 1);
+        expected.put(TokenType.Blue, 1);
+        expected.put(TokenType.Brown, 1);
+
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -251,9 +286,19 @@ public class ActionsTests {
         tokensToPutBack.put(TokenType.White, 1);
         tokensToPutBack.put(TokenType.Red, 1);
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 3);
+        expected.put(TokenType.Green, 3);
+        expected.put(TokenType.White, 2);
+        expected.put(TokenType.Brown, 1);
+        expected.put(TokenType.Blue, 1);
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
@@ -278,8 +323,17 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 4);
+        expected.put(TokenType.Green, 2);
+        expected.put(TokenType.White, 3);
+
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.MAXIMUM_TOKENS_IN_INVENTORY).isIn(result);
     }
 
@@ -302,8 +356,17 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 1);
+        expected.put(TokenType.Green, 2);
+        expected.put(TokenType.White, 1);
+
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
@@ -330,8 +393,17 @@ public class ActionsTests {
 
         HashMap<TokenType, Integer> tokensToPutBack = new HashMap<>();
 
+        HashMap<TokenType, Integer> expected = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expected.put(type, 0);
+        }
+        expected.put(TokenType.Red, 1);
+        expected.put(TokenType.Green, 2);
+        expected.put(TokenType.White, 1);
+
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new TakeTokenAction(tokensToTake, tokensToPutBack));
 
+        assertThat(expected).isEqualTo(p1.getTokens());
         assertThat(ActionResult.INVALID_TOKENS_GIVEN).isIn(result);
     }
 
@@ -345,7 +417,6 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
 
-        // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(1);
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
@@ -364,7 +435,6 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("01"));
 
-        // make sure action is valid since player can afford it
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
@@ -387,7 +457,7 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveCardAction("04"));
 
-        // make sure action is valid since player can afford it
+        assertThat(p1.getReservedCards().size()).isEqualTo(3);
         assertThat(p1.getTokens().get(TokenType.Gold)).isEqualTo(0);
         assertThat(ActionResult.MAXIMUM_CARDS_RESERVED).isIn(result);
     }
@@ -418,7 +488,6 @@ public class ActionsTests {
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("02", tokensToTake));
 
-        // make sure action is valid since player can afford it
         assertThat(ActionResult.MUST_CHOOSE_NOBLE).isIn(result);
     }
 
@@ -485,6 +554,7 @@ public class ActionsTests {
         expectedBonuses.put(TokenType.Brown, 1);
 
         // make sure action is valid since player can afford it
+        assertThat(game.getCardFromId(expectedCard.getId())).isNull();
         assertThat(p1.getDevCards().size()).isEqualTo(1);
         assertThat(p1.getDevCards().get(0)).isEqualTo(expectedCard);
         assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
@@ -538,6 +608,8 @@ public class ActionsTests {
         expectedBonuses.put(TokenType.Red, 2);
         expectedBonuses.put(TokenType.Brown, 1);
 
+        assertThat(game.getCardFromId(expectedCard1.getId())).isNull();
+        assertThat(game.getCardFromId(expectedCard2.getId())).isNull();
         assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
         assertThat(expectedCard1).isIn(p1.getDevCards());
         assertThat(expectedCard2).isIn(p1.getDevCards());
@@ -577,6 +649,7 @@ public class ActionsTests {
         game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
 
         game.takeAction(p1.getName(), new BuyCardAction("13", add));
+        game.takeAction(p1.getName(), new ReserveNobleAction("99"));
 
         game.takeAction(p2.getName(), new TakeTokenAction(p2Tokens, new HashMap<>()));
 
@@ -590,10 +663,134 @@ public class ActionsTests {
         expectedBonuses.put(TokenType.Red, 1);
         expectedBonuses.put(TokenType.Brown, 1);
 
+        assertThat(game.getCardFromId(expectedCard1.getId())).isNull();
+        assertThat(game.getCardFromId(expectedCard2.getId())).isNull();
         assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
         assertThat(p1.getPrestigePoints()).isEqualTo(3);
         assertThat(expectedCard1).isIn(p1.getDevCards());
         assertThat(expectedCard2).isIn(p1.getDevCards());
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure a player can properly use a cascade tier 2 card.")
+    @Test
+    void testCascadeTier2() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 1);
+        p1.addTokens(tokensToAdd);
+
+        Card expectedCard1 = game.getCardFromId("14");
+        game.takeAction(p1.getName(), new BuyCardAction("14", tokensToAdd));
+
+        Card expectedCard2 = game.getCardFromId("10");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new CascadeTier2Action("10"));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Blue, 1);
+        expectedBonuses.put(TokenType.Brown, 1);
+
+        assertThat(game.getCardFromId(expectedCard1.getId())).isNull();
+        assertThat(game.getCardFromId(expectedCard2.getId())).isNull();
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(expectedCard1).isIn(p1.getDevCards());
+        assertThat(expectedCard2).isIn(p1.getDevCards());
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure a player can properly use a cascade tier 1 card.")
+    @Test
+    void testCascadeTier1() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 1);
+        p1.addTokens(tokensToAdd);
+
+        Card expectedCard1 = game.getCardFromId("15");
+        game.takeAction(p1.getName(), new BuyCardAction("15", tokensToAdd));
+
+        Card expectedCard2 = game.getCardFromId("12");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new CascadeTier1Action("12"));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Red, 2);
+
+        assertThat(game.getCardFromId(expectedCard1.getId())).isNull();
+        assertThat(game.getCardFromId(expectedCard2.getId())).isNull();
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(expectedCard1).isIn(p1.getDevCards());
+        assertThat(expectedCard2).isIn(p1.getDevCards());
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Ensure a player can properly use a cascade tier 1 card to pick a satchel" +
+            " and then choose the color of the satchel.")
+    @Test
+    void testCascadeTier1ToSatchel() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 1);
+        p1.addTokens(tokensToAdd);
+
+        Card expectedCard1 = game.getCardFromId("15");
+        game.takeAction(p1.getName(), new BuyCardAction("15", tokensToAdd));
+
+        Card expectedCard2 = game.getCardFromId("11");
+        game.takeAction(p1.getName(), new CascadeTier2Action("11"));
+
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ChooseTokenTypeAction("11", TokenType.Red));
+
+        HashMap<TokenType, Integer> expectedBonuses = new HashMap<>();
+        for (TokenType type : TokenType.values()) {
+            expectedBonuses.put(type, 0);
+        }
+        expectedBonuses.put(TokenType.Red, 2);
+
+        assertThat(game.getCardFromId(expectedCard1.getId())).isNull();
+        assertThat(game.getCardFromId(expectedCard2.getId())).isNull();
+        assertThat(p1.getBonuses()).isEqualTo(expectedBonuses);
+        assertThat(expectedCard1).isIn(p1.getDevCards());
+        assertThat(expectedCard2).isIn(p1.getDevCards());
+        assertThat(ActionResult.TURN_COMPLETED).isIn(result);
+    }
+
+    @DisplayName("Test reserve noble action")
+    @Test
+    void testReserveNoble() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+
+        HashMap<TokenType, Integer> tokensToAdd = new HashMap<>();
+        tokensToAdd.put(TokenType.Green, 1);
+        p1.addTokens(tokensToAdd);
+
+        game.takeAction(p1.getName(), new CascadeTier2Action("13"));
+
+        Card expected = game.getCardFromId("99");
+        ArrayList<ActionResult> result = game.takeAction(p1.getName(), new ReserveNobleAction("99"));
+
+        assertThat(game.getCardFromId(expected.getId())).isNull();
+        assertThat(expected).isIn(p1.getReservedNobles());
         assertThat(ActionResult.TURN_COMPLETED).isIn(result);
     }
 
