@@ -8,6 +8,7 @@ import ca.hexanome04.splendorgame.model.action.ActionResult;
 import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.action.actions.ChooseNobleAction;
 import ca.hexanome04.splendorgame.model.gameversions.*;
+import ca.hexanome04.splendorgame.model.gameversions.cities.CitiesGame;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class OrientGame implements Game {
 
     /** End of game info. */
     private List<Player> playersWhoCanWin = new ArrayList<>();
-    private Player winner;
+    private List<Player> winners = new ArrayList<>();
     private boolean gameOver = false;
 
 
@@ -384,10 +385,25 @@ public class OrientGame implements Game {
             }
         }
 
+
+        // check for winners
+        if (!results.contains(ActionResult.MUST_CHOOSE_CITY) && canPlayerWin(p) && !playersWhoCanWin.contains(p)) {
+            addPlayersWhoCanWin(p);
+            if (this instanceof CitiesGame) {
+                results = ((CitiesGame) this).addCityToPlayer(playerName, results);
+            }
+        }
+
         if (results.contains(ActionResult.TURN_COMPLETED) && results.contains(ActionResult.VALID_ACTION)
                 && results.size() == 2 && this.getCurValidActions().size() == 0) {
-            // increment action also resets current valid actions list
-            this.incrementTurn();
+            if (checkForWin() != null) {
+                winners = checkForWin();
+                turnCounter = -10000;
+                curValidActions.clear();
+            } else {
+                // increment action also resets current valid actions list
+                this.incrementTurn();
+            }
         } else {
 
             for (ActionResult ares : results) {
@@ -403,16 +419,6 @@ public class OrientGame implements Game {
                 }
             }
         }
-
-        // check for winners
-        if (canPlayerWin(p)) {
-            addPlayersWhoCanWin(p);
-        }
-        if (checkForWin() != null) {
-            turnCounter = -10000;
-            curValidActions.clear();
-        }
-
         return results;
     }
 
@@ -423,6 +429,15 @@ public class OrientGame implements Game {
      */
     public List<NobleCard> getNobles() {
         return new ArrayList<>(this.nobleDeck.getVisibleCards());
+    }
+
+    /**
+     * Get the list of players who can win this round.
+     *
+     * @return list of players who can win
+     */
+    public List<Player> getPlayersWhoCanWin() {
+        return new ArrayList<>(playersWhoCanWin);
     }
 
     @Override
@@ -573,16 +588,27 @@ public class OrientGame implements Game {
     }
 
     @Override
-    public Player checkForWin() {
-        if (playersWhoCanWin.size() > 0 && turnCounter % players.size() == 0) {
-            winner = playersWhoCanWin.get(0);
+    public List<Player> checkForWin() {
+        if (playersWhoCanWin.size() > 0 && turnCounter != 0 && turnCounter % (players.size() - 1) == 0) {
+            List<Player> tmpWinners = new ArrayList<>(winners);
+            tmpWinners.add(playersWhoCanWin.get(0));
+
             for (Player p : playersWhoCanWin) {
-                if (p.getDevCards().size() < winner.getDevCards().size()) {
-                    winner = p;
+                Player currentWinner = tmpWinners.get(0);
+                if (p.getDevCards().size() < currentWinner.getDevCards().size()) {
+                    tmpWinners.clear();
+                    tmpWinners.add(p);
+                } else if (p != currentWinner && p.getDevCards().size() == currentWinner.getDevCards().size()) {
+                    if (!tmpWinners.contains(currentWinner)) {
+                        tmpWinners.add(currentWinner);
+                    }
+                    if (!tmpWinners.contains(p)) {
+                        tmpWinners.add(p);
+                    }
                 }
             }
             gameOver = true;
-            return winner;
+            return tmpWinners;
         }
         return null;
     }
@@ -598,13 +624,18 @@ public class OrientGame implements Game {
     }
 
     @Override
-    public Player getWinner() {
-        return winner;
+    public List<Player> getWinner() {
+        return winners;
     }
 
     @Override
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    @Override
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
 }

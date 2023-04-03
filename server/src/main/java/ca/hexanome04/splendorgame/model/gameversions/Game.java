@@ -207,7 +207,7 @@ public interface Game {
      *
      * @return Player who is a winner (null if there are no winners at this moment)
      */
-    Player checkForWin();
+    List<Player> checkForWin();
 
     /**
      * Check if a given player qualifies to win the game.
@@ -229,7 +229,7 @@ public interface Game {
      *
      * @return Player who won the game
      */
-    Player getWinner();
+    List<Player> getWinner();
 
     /**
      * Returns true if the game is over and a winner is decided.
@@ -237,6 +237,13 @@ public interface Game {
      * @return if game is over
      */
     boolean isGameOver();
+
+    /**
+     * Set whether the game is over.
+     *
+     * @param gameOver if game over
+     */
+    void setGameOver(boolean gameOver);
 
 
 }

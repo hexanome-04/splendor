@@ -3,6 +3,8 @@ package ca.hexanome04.splendorgame.model.gameversions.cities;
 import static ca.hexanome04.splendorgame.model.TokenType.*;
 
 import ca.hexanome04.splendorgame.model.*;
+import ca.hexanome04.splendorgame.model.action.ActionResult;
+import ca.hexanome04.splendorgame.model.action.Actions;
 import ca.hexanome04.splendorgame.model.gameversions.GameVersions;
 import ca.hexanome04.splendorgame.model.gameversions.orient.*;
 import java.io.*;
@@ -29,7 +31,7 @@ public class CitiesGame extends OrientGame {
     /**
      * Creates a Splendor Cities game with the board state, number of prestige points to win and ordered player list.
      *
-     * @param turnCounter         The turn id associated with the player.
+     * @param turnCounter The turn id associated with the player.
      */
     public CitiesGame(int turnCounter) {
         super(GameVersions.BASE_ORIENT_CITIES, -1, turnCounter);
@@ -118,12 +120,17 @@ public class CitiesGame extends OrientGame {
         return card;
     }
 
-    @Override
-    public boolean canPlayerWin(Player player) {
-        List<CityCard> cities = new ArrayList<>(citiesDeck.getVisibleCards());
+    /**
+     * Check if player has the right bonuses to qualify for any cities.
+     *
+     * @param player Player to check
+     * @return List of cities player qualifies for
+     */
+    public ArrayList<CityCard> qualifiesCities(Player player) {
+        ArrayList<CityCard> cities = new ArrayList<>(citiesDeck.getVisibleCards());
+        CitiesPlayer p = ((CitiesPlayer) player);
 
-        // TODO: Make player choose city if they qualify for more than one
-
+        ArrayList<CityCard> qualifyCities = new ArrayList<>();
         for (CityCard city : cities) {
 
             boolean qualifiesForCity = true;
@@ -156,15 +163,82 @@ public class CitiesGame extends OrientGame {
 
             // if nothing disqualifies city, return true
             if (qualifiesForCity) {
-                CitiesPlayer p = (CitiesPlayer) player;
-                p.addCity(city);
-                citiesDeck.take(city);
-                return true;
+                qualifyCities.add(city);
+                if (!p.getCitiesQualifiedFor().contains(city)) {
+                    p.addCityQualifiedFor(city);
+                }
             }
+        }
+        return qualifyCities;
+    }
 
+    /**
+     * Adds a city to a player's list of cities they qualified for.
+     *
+     * @param playerName name of the player getting the city
+     * @param results action result list before adding the city
+     * @return action result list after adding the city
+     */
+    public ArrayList<ActionResult> addCityToPlayer(String playerName, ArrayList<ActionResult> results) {
+        CitiesPlayer player = (CitiesPlayer) this.getPlayerFromName(playerName);
+        ArrayList<CityCard> citiesQualifiedFor = qualifiesCities(player);
+
+        if (citiesQualifiedFor.size() == 1) {
+            player.addCity(citiesQualifiedFor.get(0));
+            citiesDeck.take(citiesQualifiedFor.get(0));
+        } else if (citiesQualifiedFor.size() > 1) {
+            this.clearMainValidActions();
+            results.add(ActionResult.MUST_CHOOSE_CITY);
+            this.addValidAction(Actions.CHOOSE_CITY);
         }
 
-        return false;
+        return results;
+    }
+
+    @Override
+    public List<Player> checkForWin() {
+        if (getPlayersWhoCanWin().size() > 0 && this.getTurnCounter() != 0
+                && this.getTurnCounter() % (this.getPlayers().size() - 1) == 0) {
+
+            List<Player> tmpWinners = new ArrayList<>(this.getWinner());
+            tmpWinners.add(getPlayersWhoCanWin().get(0));
+
+            for (Player p : getPlayersWhoCanWin()) {
+                Player currentWinner = tmpWinners.get(0);
+                if (p == currentWinner) {
+                    continue;
+                }
+                if (p.getPrestigePoints() > currentWinner.getPrestigePoints()) {
+                    tmpWinners.clear();
+                    tmpWinners.add(p);
+                } else if (p.getPrestigePoints() == currentWinner.getPrestigePoints()) {
+                    if (!tmpWinners.contains(currentWinner)) {
+                        tmpWinners.add(currentWinner);
+                    }
+                    if (!tmpWinners.contains(p)) {
+                        tmpWinners.add(p);
+                    }
+                }
+            }
+            this.setGameOver(true);
+            return tmpWinners;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canPlayerWin(Player player) {
+        CitiesPlayer p = (CitiesPlayer) player;
+        return qualifiesCities(p).size() > 0;
+    }
+
+    @Override
+    public boolean takeCard(Card card) {
+        if (card instanceof CityCard cityCard) {
+            return (this.citiesDeck.take(cityCard)) != null;
+        } else {
+            return super.takeCard(card);
+        }
     }
 
     /**
@@ -178,6 +252,4 @@ public class CitiesGame extends OrientGame {
     public Player createPlayer(String name, String colour) {
         return new CitiesPlayer(name, colour);
     }
-
-
 }

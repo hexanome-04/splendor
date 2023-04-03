@@ -78,7 +78,12 @@ public enum ActionResult {
     /**
      * Player has purchased a development card, so they can take an extra token using power 1.
      */
-    MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE;
+    MUST_TAKE_EXTRA_TOKEN_AFTER_PURCHASE,
+
+    /**
+     * Player has qualified for 2+ cities and must choose city.
+     */
+    MUST_CHOOSE_CITY;
 
 
     private final String description;

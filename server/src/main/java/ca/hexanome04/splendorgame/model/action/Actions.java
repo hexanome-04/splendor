@@ -48,5 +48,10 @@ public enum Actions {
     /**
      * Take token from power 1.
      */
-    TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER
+    TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER,
+
+    /**
+     * Choose city action.
+     */
+    CHOOSE_CITY,
 }

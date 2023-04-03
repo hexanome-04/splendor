@@ -37,6 +37,7 @@ public class ActionDecoder {
                 case RESERVE_NOBLE -> new ReserveNobleAction().decodeAction(gson);
                 case CHOOSE_SATCHEL_TOKEN -> new ChooseTokenTypeAction().decodeAction(gson);
                 case TAKE_EXTRA_TOKEN_AFTER_PURCHASE_POWER -> new TakeExtraTokenAfterPurchasePowerAction().decodeAction(gson);
+                case CHOOSE_CITY -> new ChooseCityAction().decodeAction(gson);
             };
 
         } catch (Exception e) {

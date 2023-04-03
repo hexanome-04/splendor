@@ -10,6 +10,7 @@ import java.util.List;
 public class CitiesPlayer extends OrientPlayer {
 
     List<CityCard> cities = new ArrayList<>();
+    List<CityCard> citiesQualifiedFor = new ArrayList<>();
 
     /**
      * Creates a Player object with a given name and colour.
@@ -37,6 +38,24 @@ public class CitiesPlayer extends OrientPlayer {
      */
     public List<CityCard> getCities() {
         return new ArrayList<>(cities);
+    }
+
+    /**
+     * Adds a city qualified for to the player.
+     *
+     * @param city being added to player
+     */
+    public void addCityQualifiedFor(CityCard city) {
+        citiesQualifiedFor.add(city);
+    }
+
+    /**
+     * Return list of cities qualified for by player.
+     *
+     * @return cities qualified for by player
+     */
+    public List<CityCard> getCitiesQualifiedFor() {
+        return new ArrayList<>(citiesQualifiedFor);
     }
 
 }

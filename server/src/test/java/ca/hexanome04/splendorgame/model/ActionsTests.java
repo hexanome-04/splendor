@@ -600,10 +600,11 @@ public class ActionsTests {
     @DisplayName("Ensure end of game is marked at end of round when player reaches 15 prestige points.")
     @Test
     void testEndOfRound_OneWinner() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGame(15, 1);
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
+        Player p2 = game.getPlayerFromName("Player2");
         p1.addPrestigePoints(14);
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
@@ -611,16 +612,19 @@ public class ActionsTests {
         p1.addTokens(tokensToUse);
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
 
         // make sure action is valid since player can afford it
         assertThat(ActionResult.VALID_ACTION).isIn(result);
-        assertThat(game.getWinner()).isEqualTo(p1);
+        assertThat(ActionResult.VALID_ACTION).isIn(result2);
+        assertThat(game.getWinner().size()).isEqualTo(1);
+        assertThat(game.getWinner().get(0)).isEqualTo(p1);
         assertThat(game.isGameOver()).isTrue();
     }
 
     @DisplayName("Ensure end of game is marked at end of round when >1 player reaches 15 prestige points.")
     @Test
-    void testEndOfRound_TwoWinners() throws FileNotFoundException {
+    void testEndOfRound_TwoPotentialWinners() throws FileNotFoundException {
         OrientGame game = GameUtils.createNewOrientGame(15, 2);
 
         // get first player (name = "Player1")
@@ -631,7 +635,7 @@ public class ActionsTests {
         p1.addTokens(tokensToUse);
 
         Player p2 = game.getPlayerFromName("Player2");
-        p2.addPrestigePoints(15);
+        p2.addPrestigePoints(17);
 
         ArrayList<ActionResult> result1 = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
         ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
@@ -639,27 +643,85 @@ public class ActionsTests {
         // make sure action is valid since player can afford it
         assertThat(ActionResult.VALID_ACTION).isIn(result1);
         assertThat(ActionResult.VALID_ACTION).isIn(result2);
-        assertThat(game.getWinner()).isEqualTo(p2);
+        assertThat(game.getWinner().size()).isEqualTo(1);
+        assertThat(game.getWinner().get(0)).isEqualTo(p2);
+        assertThat(game.isGameOver()).isTrue();
+    }
+
+    @DisplayName("Ensure end of game is marked at end of round when a tie occurs.")
+    @Test
+    void testEndOfRound_Tie() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addPrestigePoints(15);
+
+        Player p2 = game.getPlayerFromName("Player2");
+        p2.addPrestigePoints(15);
+
+        ArrayList<ActionResult> result1 = game.takeAction(p1.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+        ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+
+        // make sure action is valid since player can afford it
+        assertThat(ActionResult.VALID_ACTION).isIn(result1);
+        assertThat(ActionResult.VALID_ACTION).isIn(result2);
+        assertThat(game.getWinner().contains(p1)).isTrue();
+        assertThat(game.getWinner().contains(p2)).isTrue();
+        assertThat(game.getWinner().size()).isEqualTo(2);
+        assertThat(game.isGameOver()).isTrue();
+    }
+
+    @DisplayName("Ensure end of game is marked at end of round when a tie occurs.")
+    @Test
+    void testEndOfRound_ThreeWayTie() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewOrientGame(15, 3);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addPrestigePoints(15);
+
+        Player p2 = game.getPlayerFromName("Player2");
+        p2.addPrestigePoints(15);
+
+        Player p3 = game.getPlayerFromName("Player3");
+        p3.addPrestigePoints(15);
+
+        ArrayList<ActionResult> result1 = game.takeAction(p1.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+        ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+        ArrayList<ActionResult> result3 = game.takeAction(p3.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
+
+        // make sure action is valid since player can afford it
+        assertThat(ActionResult.VALID_ACTION).isIn(result1);
+        assertThat(ActionResult.VALID_ACTION).isIn(result2);
+        assertThat(ActionResult.VALID_ACTION).isIn(result3);
+        assertThat(game.getWinner().contains(p1)).isTrue();
+        assertThat(game.getWinner().contains(p2)).isTrue();
+        assertThat(game.getWinner().contains(p3)).isTrue();
+        assertThat(game.getWinner().size()).isEqualTo(3);
         assertThat(game.isGameOver()).isTrue();
     }
 
     @DisplayName("Ensure end of game is NOT marked at end of round where no player has 15 prestige points.")
     @Test
     void testEndOfRound_NoWinner() throws FileNotFoundException {
-        OrientGame game = GameUtils.createNewOrientGame(15, 1);
+        OrientGame game = GameUtils.createNewOrientGame(15, 2);
 
         // get first player (name = "Player1")
         Player p1 = game.getPlayerFromName("Player1");
+        Player p2 = game.getPlayerFromName("Player2");
 
         HashMap<TokenType, Integer> tokensToUse = new HashMap<>();
         tokensToUse.put(TokenType.Red, 4);
         p1.addTokens(tokensToUse);
 
         ArrayList<ActionResult> result = game.takeAction(p1.getName(), new BuyCardAction("01", tokensToUse));
+        ArrayList<ActionResult> result2 = game.takeAction(p2.getName(), new TakeTokenAction(new HashMap<>(), new HashMap<>()));
 
         // make sure action is valid since player can afford it
         assertThat(ActionResult.VALID_ACTION).isIn(result);
-        assertThat(game.getWinner()).isNull();
+        assertThat(ActionResult.VALID_ACTION).isIn(result2);
+        assertThat(game.getWinner().size()).isEqualTo(0);
         assertThat(game.isGameOver()).isFalse();
     }
 
