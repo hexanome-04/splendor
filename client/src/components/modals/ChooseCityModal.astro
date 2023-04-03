@@ -1,0 +1,17 @@
+---
+import "../../styles/modals.css";
+import "../../styles/gameboard.css";
+import "../../styles/cities/cities-gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
+---
+
+<ModalLayout id="choose-city-modal">
+    <h1>CHOOSE CITY</h1>
+    <p>You have qualified for more than one city. Please choose one.</p>
+
+    <div class="choose-city-board">
+    </div>
+    <div class="button-container">
+        <button class="reserve-card-confirm-btn">CONFIRM</button>
+    </div>
+</ModalLayout>

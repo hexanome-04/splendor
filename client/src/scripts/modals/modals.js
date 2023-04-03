@@ -2,6 +2,7 @@ import { showCascadeCards } from "./cascade.js";
 import { showExtraTokens } from "./extratoken.js";
 import { initReserveNoble, initChooseNoble } from "./nobles.js";
 import { showSatchelBonuses } from "./satchel.js";
+import { initChooseCity } from "./cities.js";
 
 /**
  * Setup a selection for selectable items.
@@ -67,6 +68,9 @@ export function performFollowUpAction(data) {
             initChooseNoble(data);
             modalSelector = "#choose-noble-modal";
             break;
+        case "CHOOSE_CITY":
+            initChooseCity(data);
+            modalSelector = "#choose-city-modal";
         default:
             // its fine
     }
