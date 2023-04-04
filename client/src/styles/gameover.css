@@ -1,0 +1,72 @@
+#gameover-modal {
+  background-color: rgba(0 0 0 / 70%);
+  overflow: hidden;
+}
+
+#gameover-modal .modal-container {
+  width: unset;
+  min-height: unset;
+  font-size: 1.1em;
+}
+
+#gameover-modal .modal-content h1 {
+  margin: 0 1em;
+  white-space: nowrap;
+}
+
+#gameover-modal .modal-content .winners-text {
+  font-size: 1.5em;
+  margin: 0.5em 1em;
+  padding: 0;
+  text-align: center;
+}
+
+#gameover-modal .modal-content .button-container {
+  margin-bottom: 1em;
+}
+
+
+
+@keyframes fall {
+  0% {
+    transform: translateY(0vh);
+  }
+  100% {
+    transform: translateY(calc(100vh + var(--size)));
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.particle-container {
+  position: fixed;
+  pointer-events: none;
+}
+
+.particle-container .carrier {
+  --size: 5vmin;
+
+  top: calc(-1 * var(--size));
+  left: calc(100% * var(--i) / 100);
+  position: fixed;
+  animation: max(calc(20s * var(--j) / 100), 5s) fall calc(10s * var(--j) / 100) infinite linear;
+}
+
+.particle {
+  animation: calc(30s * (var(--k) + var(--i)) / 200) spin infinite linear;
+  width: var(--size);
+  aspect-ratio: 1;
+  filter: hue-rotate(calc(1deg * var(--i) * var(--k)));
+}
+
+#gameover-modal:not(.win) .particle:after {
+  content: "☠️";
+}
+
+.win .particle {
+  background: url(/images/sus.svg);
+}

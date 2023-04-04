@@ -1,10 +1,11 @@
 import { SETTINGS } from "./settings.js";
-import { startTurn, verifyNoModals, performFollowUpAction } from "./modals/modals.js";
+import { startTurn, verifyNoModals, performFollowUpAction, showNextModal } from "./modals/modals.js";
 import { animateMoveToken } from "./animation/tokens";
 import { moveCardFromDeck, moveCard, moveCardReserved } from "./animation/cards";
 import { writeUpdate } from "./history";
 import { runDelayed } from "./animation/utils";
 import { showError } from "./notify.js";
+import { initGameOver } from "./modals/gameover.js";
 
 // eslint-disable-next-line no-undef
 var MD5 = CryptoJS.MD5;
@@ -369,13 +370,19 @@ const updateGameboard = async () => {
 
     furtherUpdates.forEach((func) => func(data));
 
-    // check if it's your turn
-    if(data.players[data.turnCounter].name === curUsername) {
-        if(!performFollowUpAction(data)) {
-            startTurn();
-        }
-    } else {
+    if(data.gameOver) {
         verifyNoModals();
+        initGameOver(data);
+        showNextModal("#gameover-modal");
+    } else {
+        // check if it's your turn
+        if(data.players[data.turnCounter].name === curUsername) {
+            if(!performFollowUpAction(data)) {
+                startTurn();
+            }
+        } else {
+            verifyNoModals();
+        }
     }
 };
 

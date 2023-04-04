@@ -181,11 +181,39 @@ const appendHistory = (htmlText: string, ...classes: string[]): void => {
  * @param current 
  */
 const writeCurrentTurn = (last: any, current: any): void => {
+    if(current.gameOver) {
+        return;
+    }
+
     if(!last || current.players[current.turnCounter].name !== last.players[last.turnCounter].name) {
         const name = current.players[current.turnCounter].name;
         console.log(`${name}'s turn`);
         startEvent(name);
     }
+};
+
+const writeGameOver = (data: any): void => {
+    const tNode = (document.querySelector("#history-event-template") as HTMLTemplateElement)
+                   .content.cloneNode(true) as HTMLDivElement;
+
+    const overNode = (document.querySelector("#history-event-template") as HTMLTemplateElement)
+                   .content.cloneNode(true) as HTMLDivElement;
+    overNode.querySelector(".event-name").textContent = "The game has ended.";
+
+    const winners = data.winners;
+
+    if(winners.length > 1) {
+        const names = winners.map(p => p.name);
+        const text = names.length == 2 ? names.join(" and ") : names.join(", ");
+        tNode.querySelector(".event-name").textContent = `🎉 ${text} are the winners! 🎉`;
+    } else {
+        // one person won
+        tNode.querySelector(".event-name").textContent = `🎉 ${winners[0].name} is the winner! 🎉`;
+    }
+
+    historyContainer.appendChild(overNode);
+    historyContainer.appendChild(tNode);
+    focusLastEvent();
 };
 
 const playerUpdaters = [];
@@ -199,6 +227,10 @@ export const registerGameUpdater = (func: (oldState: any, newState: any) => {}):
 };
 
 export const writeUpdate = (last: any, current: any): void => {
+    if(current.gameOver && !last) {
+        writeGameOver(current);
+    }
+
     if(!last) {
         writeCurrentTurn(last, current);
         return;
@@ -234,6 +266,9 @@ export const writeUpdate = (last: any, current: any): void => {
     gameUpdaters.forEach(func => func(last, current));
 
     writeCurrentTurn(last, current);
+    if(current.gameOver) {
+        writeGameOver(current);
+    }
 };
 
 export const writeBasicUpdate = (text: string): void => {

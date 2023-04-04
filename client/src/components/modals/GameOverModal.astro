@@ -1,0 +1,22 @@
+---
+import "../../styles/gameover.css";
+import "../../styles/modals.css";
+import "../../styles/gameboard.css";
+import ModalLayout from "../../layouts/ModalLayout.astro";
+---
+
+<ModalLayout id="gameover-modal">
+    <h1>GAME OVER</h1>
+    <p class="winners-text"></p>
+
+    <div class="button-container">
+        <button class="cascade-confirm-btn">QUIT</button>
+    </div>
+
+    <div class="particle-container"></div>
+</ModalLayout>
+<script>
+    document.querySelector("#gameover-modal .cascade-confirm-btn").addEventListener("click", () => {
+        window.location.href = "/lobby/";
+    })
+</script>

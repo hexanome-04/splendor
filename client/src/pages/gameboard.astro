@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "../styles/gameboard.css";
 import "../styles/gameboard-otherplayers.css";
 import "../styles/modals.css";
+import GameOverModal from "../components/modals/GameOverModal.astro";
 import TakeTurnModal from "../components/modals/TakeTurnModal.astro";
 import TakeTokenModal from "../components/modals/TakeTokenModal.astro";
 import PutBackTokenModal from "../components/modals/PutBackTokenModal.astro";
@@ -232,6 +233,7 @@ import History from "../components/History.astro";
         </div>
 
         <!-- MODALS -->
+        <GameOverModal></GameOverModal>
         <TakeTurnModal></TakeTurnModal>
         <TakeTokenModal></TakeTokenModal>
         <PutBackTokenModal></PutBackTokenModal>
