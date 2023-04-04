@@ -13,3 +13,4 @@ tokenType (TokenType),bonus (Int),prestigePoints (int),costType (costType),"Toke
 ,,15,,0;0;0;0;0;5,C,40012
 ,,13,,0;3;4;0;0;0,C,40013
 ,,13,,2;2;2;2;2;0,C,40014
+,,12,,3;0;1;6;0;0,C,40015
