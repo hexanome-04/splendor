@@ -105,61 +105,81 @@ public abstract class Card {
                 cost.put(t, costAmt - tokens.get(t));
             }
 
-            int missingTokenCount = 0;
-            // final check to ensure that we fulfilled the cost for the card accounting for gold tokens
-            for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
-                if (entry.getValue() > 0) {
-                    missingTokenCount += entry.getValue();
-                }
-            }
 
             if (tokens.get(TokenType.Gold) != null) {
                 if (player instanceof TradingPostsPlayer p && p.goldTokenWorthTwoTokens.isUnlocked()) {
-                    // keep track of the total amount of gold tokens left
-                    int goldTokenTotal = tokens.get(TokenType.Gold);
-                    for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {
-                        if (goldTokenTotal > 0) {
-                            int currCost = entry.getValue();
-                            if (currCost > 0) {
-                                int missing = (int) Math.ceil((double) currCost / 2);
-                                if (missing <= goldTokenTotal) {
-                                    goldTokenTotal -= missing;
-                                    missingTokenCount -= currCost;
-                                } else {
-                                    // not enough gold tokens to cover costs
-                                    // but subtract as much as possible from missing token count
-                                    missingTokenCount -= goldTokenTotal * 2;
-                                    goldTokenTotal = 0;
-                                    break;
-                                }
+
+                    for (int i = 0; i < tokens.get(TokenType.Gold); i++) {
+                        for (TokenType type : cost.keySet()) {
+                            if (cost.get(type) > 0) {
+                                cost.put(type, cost.get(type) - 2);
+                                break;
                             }
-                        } else {
-                            break;
                         }
                     }
+
+
                 } else {
-                    missingTokenCount -= tokens.get(TokenType.Gold);
+                    for (int i = 0; i < tokens.get(TokenType.Gold); i++) {
+                        for (TokenType type : cost.keySet()) {
+                            if (cost.get(type) > 0) {
+                                cost.put(type, cost.get(type) - 1);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
-            if (bonuses.get(TokenType.Gold) < missingTokenCount) {
-                purchasable = false;
-
-            } else {
-                HashMap<TokenType, Integer> toRemove = new HashMap<>();
-
-                if (missingTokenCount % 2 == 0) {
-                    toRemove.put(TokenType.Gold, missingTokenCount);
-
-                } else {
-                    // This is when a player wastes a double gold token by only using one of them
-                    toRemove.put(TokenType.Gold, missingTokenCount + 1);
+            int doubleGoldTokenAmt = player.getBonuses().get(TokenType.Gold);
+            int doubleGoldTokensUsed = 0;
+            // If a player is not a trading post player, or if he is, doesn't have it unlocked, enter if true branch
+            if (!(player instanceof TradingPostsPlayer) || !((TradingPostsPlayer) player).goldTokenWorthTwoTokens.isUnlocked()) {
+                for (int i = 0; i < doubleGoldTokenAmt; i++) {
+                    for (TokenType type : cost.keySet()) {
+                        if (cost.get(type) > 0) {
+                            cost.put(type, cost.get(type) - 1);
+                            doubleGoldTokensUsed++;
+                            break;
+                        }
+                    }
                 }
 
-                player.removeBonuses(toRemove);
 
-                // Remove double gold bonus cards from player's inventory if used
-                for (int i = 0; i < Math.round((double) missingTokenCount / 2); i++) {
+
+            // Otherwise, he is a trading post player AND he has it unlocked
+            } else {
+                // My logic is, for each individual gold bonus, remove 2 of a random color until it's zero or less
+                for (int i = 0; i < doubleGoldTokenAmt; i++) {
+                    for (TokenType type : cost.keySet()) {
+                        if (cost.get(type) > 0) {
+                            cost.put(type, cost.get(type) - 2);
+                            doubleGoldTokensUsed++;
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            if (doubleGoldTokenAmt > 0) {
+                for (TokenType type : cost.keySet()) {
+                    if (cost.get(type) > 0) {
+                        purchasable = false;
+                    }
+                }
+
+                HashMap<TokenType, Integer> toRemove = new HashMap<>();
+
+                // Getting the amount of double gold token cards to remove, rounding up if you wasted one by using half
+                if (doubleGoldTokensUsed % 2 == 1) {
+                    doubleGoldTokensUsed++;
+                }
+                toRemove.put(TokenType.Gold, doubleGoldTokensUsed);
+                player.removeBonuses(toRemove);
+                doubleGoldTokensUsed = doubleGoldTokensUsed / 2;
+
+                for (int i = 0; i < doubleGoldTokensUsed; i++) {
                     for (DevelopmentCard c : player.getDevCards()) {
                         if (c.getTokenType() == TokenType.Gold) {
                             player.removeCard(c);
@@ -169,11 +189,18 @@ public abstract class Card {
                 }
             }
 
+            // Final check for any remaining tokens in cost, if there are, then it's not purchasable
+            for (Integer value : cost.values()) {
+                if (value > 0) {
+                    purchasable = false;
+                    break;
+                }
+            }
+
+
         } else if (this.costType == CostType.Bonus) {
             HashMap<TokenType, Integer> cost = new HashMap<>(this.tokenCost);
-            cost.forEach((key, value) -> {
-                cost.put(key, value - bonuses.get(key));
-            });
+            cost.forEach((key, value) -> cost.put(key, value - bonuses.get(key)));
 
             // final check to ensure that we fulfilled the cost for the card, if passed then can purchase
             for (HashMap.Entry<TokenType, Integer> entry : cost.entrySet()) {

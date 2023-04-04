@@ -178,6 +178,7 @@ public class CardTest {
 
         // Make sure tokens added to player are successfully retrieved by getter
         assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
+        assertThat(p1.getBonuses().get(TokenType.Gold)).isEqualTo(0);
     }
 
 
@@ -201,6 +202,30 @@ public class CardTest {
 
         // Make sure tokens added to player are successfully retrieved by getter
         assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
+        assertThat(p1.getBonuses().get(TokenType.Gold)).isEqualTo(0);
+    }
+
+    /**
+     * Ensure isPurchasable correctly checks if a player can purchase a card using their double gold bonuses.
+     *
+     * @throws FileNotFoundException Throws exception if loading from file fails
+     */
+    @DisplayName("Ensure that a player can waste a double gold token by using only 1 of the bonus gold tokens")
+    @Test
+    public void testIsPurchasableDoubleGoldTokensOddAmtByTradingPostPlayer() throws FileNotFoundException {
+        OrientGame game = GameUtils.createNewTradingPostGame(15, 4);
+
+        // get first player (name = "Player1")
+        Player p1 = game.getPlayerFromName("Player1");
+        p1.addBonus(TokenType.Gold, 2);
+
+        HashMap<TokenType, Integer> tokens = new HashMap<>();
+        tokens.put(TokenType.Gold, 3);
+        p1.addTokens(tokens);
+
+        // Make sure tokens added to player are successfully retrieved by getter
+        assertThat(dummyReg.isPurchasable(p1, tokens)).isEqualTo(true);
+        assertThat(p1.getBonuses().get(TokenType.Gold)).isEqualTo(0);
     }
 
 }
