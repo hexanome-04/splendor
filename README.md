@@ -1,66 +1,90 @@
+# Splendor
+An online multiplayer web-based implementation of the strategy game Splendor.
+
 [![Frontend Tests](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml/badge.svg?branch=master)](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml)
 ![Build with Maven](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/build-backend.yml/badge.svg?branch=master)
 
-# COMP 361 Project
+## Features
+ * Splendor with Orient Expansion
+ * Splendor with Orient Expansion + Trading Routes
+ * Splendor with Orient Expansion + Cities
+ * Custom Noble and Custom City
+ * Online multiplayer experience
+ * Game spectator feature
+ * Exciting animations
 
- > See also [my video instuctions](https://www.cs.mcgill.ca/~mschie3/COMP361/Repository-Best-Practices.mp4) in the screencasts section on MyCourses.
+## Getting Started
 
-## The Rules
+If you wish to only set up the game so that you may play it, see the instructions for setting up [here](#setup).
 
- * Feel free to edit/replace this file.
- * Do not delete or rename the [reports](reports), [client](client), [server](server) or [docs](docs) directories.  
-See [Static Content](#static-content)
- * Don't clutter your repo, update your [```.gitignore```](.gitignore) file, depending on your client language / technology.
-    * Don't commit binaries. (Images, jar files, class files, etc...)
-    * Don't commit buffer files. (Vim buffer files, IDE meta files etc...)
- * Place your documentation in [```docs```](docs) on [master](branch).
- * Commit frequently, commit fine grained.
- * Use branches
- * **Don't push on master!**
-    * Create a new branch for your feature.
-    * Work until stable / tested.
-    * Merge / rebase your temporary branch back to master.
-    * Delete your temporary branch.
+See [here](setup/readme.md) if you wish to develop the frontend/backend.
 
-## Static content
+## Setup
 
- * [```.gitignore```](.gitignore): Preliminary git exclusion instructions. Visit [Toptal's generator](https://www.toptal.com/developers/gitignore) to update.
- * [```reports```](reports): Base directory for automatic report collection. Your weekly reports go here. Must be uploaded every monday noon **to master** and follow correct date string ```YYYY-MM-DD.md```. Use [template](reports/YYYY-MM-DD.md) for your own reports. Do not resubmit same report / copy paste.
- * [```docs```](docs): source directory for your [enabled GitHub Pages](https://comp361.github.io/f2022-hexanome-00/). (Update number in link). Configure IDE to generate API docs into this directory or build your own webpage (optional).
- *  [```client```](client): Place your client sources into this directory. Do not use a separate repository for your work.
- * [```server```](server): Place your Spring Boot Game Server sources in this directory. Do not use a separate repository for your work.
+### Prerequisites
 
-## Useful Links
+Ensure that you have all the necessary dependencies installed:
+  * [Docker](https://www.docker.com/)
+  * Git
 
-### Code Style and Tools
+Ensure that the docker engine is up and running.
 
- * [Chrome MarkDown Plugin](https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=en).
-    * Don't forget to enable ```file://``` in ```advanced settings```.
- * [IntelliJ Checkstyle Plugin](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea).
-    * Don't forget to enable [Google's Checkstyle Configuration](https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml).
- * [Git CheatSheet](git-cheatsheet.md).
- * [Advanced Rest Client (Rest Call Code Generator)](https://docs.advancedrestclient.com/installation).
+The LobbyService submodule must be initialized.
+Execute the following commands in the root of the project.
 
-### Requirements
+```bash
+git submodule init
+git submodule update
+```
 
- * [Lobby Service](https://github.com/kartoffelquadrat/LobbyService)
-    * [Install Guide](https://github.com/kartoffelquadrat/LobbyService/blob/master/markdown/build-deploy.md)  
-Recommended: Startup in ```dev``` profile (default).
-    * [API Doc and ARC Configurations](https://github.com/kartoffelquadrat/LobbyService/blob/master/markdown/api.md)
-    * [Game Developer Instructions](https://github.com/kartoffelquadrat/LobbyService/blob/master/markdown/game-dev.md)
- * [BGP sample deployment configuration](https://github.com/kartoffelquadrat/BoardGamePlatform) (This one is meant for testing / understanding the interaction between LS, UI and sample game)  
-Board Game Platform (BGP) = Lobby Service + Lobby Service Web UI + Sample Game, all as docker containers.
-    * Sample [Lobby Service Web UI](https://github.com/kartoffelquadrat/LobbyServiceWebInterface)
-    * Sample Lobby Service compatible [Game (Tic Tac Toe, backend + frontend)](https://github.com/kartoffelquadrat/BgpXox)
+From the root of the project, navigate to the `has-server-client` directory.
+```bash
+cd setup/has-server-client
+```
 
- > Be careful not to confuse *Lobby Service* and *Board Game Platform*.
+Start up the services using docker compose.
+```bash
+docker compose up --build
+```
+Note: The “--build” argument is necessary to ensure that the docker containers are up to date.
+Optionally, you may add the “-d” argument to launch all the services detached.
+
+### Playing
+
+Once all the services are up and running, you can then navigate to [localhost:36104](http://localhost:36104) to start playing.
+
+## Gameplay
+
+![splendor](https://user-images.githubusercontent.com/17598972/229967618-cb24d268-fe54-40e8-bd1d-9526f44069ca.gif)
+
+Upon startup, you will be greeted by the Splendor title page. Simply click to log in.
+
+You may now log in to one of the preconfigured Lobby Service accounts made by an administrative user.
+
+This will now take you to the lobby screen. You can either start up a brand new game or load a previously saved game. All previously saved games can be loaded by any player and only require the same number of players to launch. The upper righthand corner features the settings and logout buttons.
+
+All players have access to the settings page and will be able to change their colors and passwords here.
+
+Admin accounts will also notice an admin zone button in the upper lefthand corner. The admin zone allows admin accounts to add, delete, or modify user accounts and force unregister game services.
+
+Hovering over the "Create Session" button allows you to choose the game version to play. You will see the newly created game appear once you click on one of the three versions.
+
+The game requires at least two players. Players can click on “Join” to join a game. Notice that only the creator has the permission to delete an unlaunched game.
+
+The creator can launch the game once enough players have gathered.
+
+Every player should click on "Play" to show the game board.
+
+![taketurn](https://user-images.githubusercontent.com/17598972/229967691-fcfe0cb8-6931-40de-8de5-df8660833f57.gif)
+
+During your turn, you may either take tokens according to game rules, purchase a card, or reserve a card. As the game progresses, additional actions may be unlocked and automatically added to your turn.
 
 ## Authors
 
  * [Alex Lai](https://github.com/sandpipes)
  * [Alexa Vasilakos](https://github.com/itsAlexa)
  * [Chen Jun Chi](https://github.com/MosinLover)
- * [Jia Lin Sun](https://github.com/LoboJL)
+ * [Jia Lin Sun](https://github.com/Lobo808)
  * [Richard Rassokhine](https://github.com/richardrxn)
  * [Sarah Youinou](https://github.com/syouinou)
 

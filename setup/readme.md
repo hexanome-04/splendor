@@ -1,10 +1,8 @@
-# Running Splendor
-
+# Developing Splendor
 
 ## Install Docker
 
 Go to [docker](https://www.docker.com/) and install docker desktop (will install docker compose with it).
-
 
 ## Initialize submodules
 
@@ -43,6 +41,27 @@ docker compose up --build
 #### no-server
 - The client needs to successfully build for this to work.
 - Used for testing/debugging the server.
+
+## Client development (ones with no client included)
+
+You will need to install the dependencies to build/debug the client.
+
+From the root directory:
+```bash
+cd client
+npm install --save-dev
+```
+
+Then start the development server for live updates:
+```bash
+npm run dev
+```
+
+Now, you may access the live debug client [here](http://localhost:3000).
+
+## Server development (ones with no server included)
+
+Open the server folder using Intellij, it should set up everything for you.
 
 ## Connecting to the client (if it has)
 
