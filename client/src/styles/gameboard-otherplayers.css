@@ -77,9 +77,20 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: stretch;
   color: white;
   min-width: var(--other-player-preview-size);
+  max-width: var(--other-player-preview-size);
+}
+
+.other-player-profile .other-player-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 0 1em;
+  text-align: center;
 }
 
 .other-player-profile img {

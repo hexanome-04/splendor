@@ -1,18 +1,15 @@
 /* OTHER PLAYER COAT OF ARMS INDICATOR */
 .op-name-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 0.3em;
-}
-
-.op-coa-image-container {
-  padding-top: 1em;
-  font-size: 0.8vmin;
+  max-height: calc(var(--other-player-card-size) + var(--other-player-container-padding) * 2);
 }
 
 .op-coa-image-container img {
-  height: 3.3em;
+  height: 2.3em;
   aspect-ratio: 27 / 31;
+  width: unset;
 }
