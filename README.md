@@ -1,8 +1,8 @@
 # Splendor
 An online multiplayer web-based implementation of the strategy game Splendor.
 
-[![Frontend Tests](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml/badge.svg?branch=master)](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/playwright.yml)
-![Build with Maven](https://github.com/COMP361/f2022-hexanome-04/actions/workflows/build-backend.yml/badge.svg?branch=master)
+[![Frontend Tests](https://github.com/hexanome-04/splendor/actions/workflows/playwright.yml/badge.svg?branch=master)](https://github.com/hexanome-04/splendor/actions/workflows/playwright.yml)
+![Build with Maven](https://github.com/hexanome-04/splendor/actions/workflows/build-backend.yml/badge.svg?branch=master)
 
 ## Features
  * Splendor with Orient Expansion
